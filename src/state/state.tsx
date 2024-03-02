@@ -1,8 +1,14 @@
 import { computed, effect, signal } from '@preact/signals';
+import Ajv from 'ajv';
 import defaultTheme from './defaultTheme.json';
 import { ThemeContent, ThemeFamilyContent } from './themeFamily';
+import themeFamilySchema from './themeFamily.json';
 
 export type ColorHex = `#${string}`;
+
+export const themeValidator = new Ajv().compile<ThemeFamilyContent>(
+  themeFamilySchema
+);
 
 export const theme = signal<ThemeContent | null>(
   (defaultTheme.themes as unknown as ThemeContent[])[0]

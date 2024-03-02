@@ -12,6 +12,7 @@
   "dependencies": {
     "@preact/signals": "^1.2.2",
     "ajv": "^8.12.0",
+    "jsoncrush": "^1.1.8",
     "preact": "^10.19.6",
     "react-colorful": "^5.6.1",
     "react-file-drop": "^3.1.6"

@@ -11,6 +11,9 @@ dependencies:
   ajv:
     specifier: ^8.12.0
     version: 8.12.0
+  jsoncrush:
+    specifier: ^1.1.8
+    version: 1.1.8
   preact:
     specifier: ^10.19.6
     version: 10.19.6
@@ -1699,6 +1702,10 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
     dev: true
+
+  /jsoncrush@1.1.8:
+    resolution: {integrity: sha512-lvIMGzMUA0fjuqwNcxlTNRq2bibPZ9auqT/LyGdlR5hvydJtA/BasSgkx4qclqTKVeTidrJvsS/oVjlTCPQ4Nw==}
+    dev: false
 
   /kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
