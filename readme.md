@@ -1,6 +1,20 @@
 ## Zed Themes
 
+Welcome to zed themes, a place to create, share and explore themes for the zed code editor.
+
+It's still very early days for this project, but I'm excited to see where it goes. If you have any ideas or suggestions, please feel free to open an issue or pull request.
+
+So of the tokens are still a work in progress, zed seems to have more tokens than currently used in the theme file. I will be adding more tokens as I find out what they are used for.
+
 #### Todo
+
+- [ ] Theme explorer/viewer
+- [ ] Share theme via url (maybe use a hash of the theme json)
+- [ ] Add social links?
+- [ ] Highlight each part of the IDE as you hover over token?
+- [ ] Fully support theme groups??
+
+##### Completed
 
 - [x] Buy domaon (zed-themes.com)
 - [x] Host on cloudlfare pages
@@ -15,5 +29,3 @@
 - [x] Use light/dark toggle icon
 - [x] Syntax setting font family & weight
 - [x] Set player colours
-
-- [ ] Theme explorer/viewer
