@@ -2,9 +2,11 @@ import themeSchema from '../state/themeFamily.json';
 import {
   StyleTokens,
   borderTokens,
+  colorTokens,
   editorTokens,
   elementTokens,
   ghostElementTokens,
+  gitTokens,
   iconTokens,
   miscTokens,
   scrollbarTokens,
@@ -66,6 +68,16 @@ const sectionGroups: Record<
     tokenKeys: terminalTokens,
     tokens: [],
   },
+  color: {
+    name: 'Color',
+    tokenKeys: colorTokens,
+    tokens: [],
+  },
+  git: {
+    name: 'Git',
+    tokenKeys: gitTokens,
+    tokens: [],
+  },
   misc: {
     name: 'Misc',
     tokenKeys: miscTokens,
@@ -101,6 +113,12 @@ for (const [token, info] of tokens) {
   }
   if (sectionGroups.terminal.tokenKeys.includes(token)) {
     target = sectionGroups.terminal;
+  }
+  if (sectionGroups.color.tokenKeys.includes(token)) {
+    target = sectionGroups.color;
+  }
+  if (sectionGroups.git.tokenKeys.includes(token)) {
+    target = sectionGroups.git;
   }
   target.tokens.push({
     token: token as StyleTokens,

@@ -1,5 +1,10 @@
 import { useSignal } from '@preact/signals';
-import { CSSProperties, PropsWithChildren, ReactNode } from 'preact/compat';
+import {
+  CSSProperties,
+  PropsWithChildren,
+  ReactNode,
+  useLayoutEffect,
+} from 'preact/compat';
 import { SyntaxTokens } from '../../state/tokens.ts';
 import {
   cssVarStyleToken,
@@ -7,6 +12,8 @@ import {
   cssVarSyntaxStyleToken,
   cssVarSyntaxWeightToken,
 } from '../../utils/cssVarTokens.ts';
+
+const EXTRA_LINES = 10;
 
 type SNProps = PropsWithChildren<{ s: SyntaxTokens }>;
 
@@ -40,7 +47,7 @@ const Popup = (
       {show.value && (
         <div
           style={props.style}
-          class="absolute top-[-36px] left-0 rounded border p-1 text-nowrap"
+          class="absolute left-0 top-[-36px] text-nowrap rounded border p-1"
         >
           {props.content}
         </div>
@@ -52,8 +59,6 @@ const Popup = (
 const SP = () => <span>&nbsp;</span>;
 const Indent = () => (
   <>
-    <SP />
-    <SP />
     <SP />
     <SP />
   </>
@@ -503,42 +508,105 @@ export function Code() {
     >
       <div
         id="editor-code-scroll"
-        class="flex flex-1 flex-col overflow-y-scroll scrollbar-hide"
+        class="scrollbar-hide flex flex-1 flex-col overflow-y-scroll"
         onScroll={onScroll}
       >
+        <ScrollbarDiffs />
         <div id="scrollbar" />
-        {lines.map((code, i) => (
+        {lines.map((code, line) => (
           <div
-            class="flex items-start"
+            class="relative mr-[14px] flex items-start"
             style={{
               backgroundColor:
-                i === ACTIVE_ROW
+                line === ACTIVE_ROW
                   ? cssVarStyleToken('editor.active_line.background')
                   : undefined,
             }}
           >
-            <div class="git w-[5px]"></div>
-            <div class="gutter w-[10px]"></div>
+            <div class="git min-w-[6px]">
+              <GutterGitDiffs line={line} />
+            </div>
+            <div class="gutter min-w-[10px]"></div>
             <div
-              class="line-number w-[25px] text-right"
+              class="line-number min-w-[25px] text-right"
               style={{
                 color: cssVarStyleToken(
-                  i === ACTIVE_ROW
+                  line === ACTIVE_ROW
                     ? 'editor.active_line_number'
                     : 'editor.line_number'
                 ),
               }}
             >
-              {i <= lines.length ? i + 1 : ''}
+              {line <= lines.length ? line + 1 : ''}
             </div>
             <div class="code flex flex-1 pl-2">{code}</div>
-            <div class="diff w-[20px]">&nbsp;</div>
           </div>
         ))}
-        {new Array(10).fill(1).map(() => (
+        {new Array(EXTRA_LINES).fill(1).map(() => (
           <div>&nbsp;</div>
         ))}
       </div>
     </code>
+  );
+}
+
+const GIT_CREATED = [4, 5, 6];
+const GIT_DELETED = [10];
+const GIT_MODIFIED = [2, 12, 13, 14, 15];
+
+function GutterGitDiffs({ line }: { line: number }) {
+  let backgroundColor;
+  if (GIT_CREATED.includes(line)) {
+    backgroundColor = cssVarStyleToken('created');
+  } else if (GIT_MODIFIED.includes(line)) {
+    backgroundColor = cssVarStyleToken('modified');
+  } else if (GIT_DELETED.includes(line)) {
+    backgroundColor = cssVarStyleToken('deleted');
+  }
+
+  return (
+    <div class="block h-full w-[6px]" style={{ backgroundColor }}>
+      &nbsp;
+    </div>
+  );
+}
+
+function ScrollbarDiffs() {
+  return (
+    <div class="z-2 absolute bottom-0 right-0 top-0">
+      {new Array(lines.length + EXTRA_LINES).fill(1).map((_, line) => (
+        <ScrollbarDiffLine line={line} />
+      ))}
+    </div>
+  );
+}
+
+function ScrollbarDiffLine({ line }: { line: number }) {
+  const scrollbarDiffHeight = useSignal('16px');
+
+  useLayoutEffect(() => {
+    const el = document.getElementById('editor-code-scroll');
+    if (el) {
+      const height = el.clientHeight / (lines.length + EXTRA_LINES);
+      scrollbarDiffHeight.value = height + 'px';
+    }
+  }, []);
+
+  let backgroundColor;
+  if (GIT_CREATED.includes(line)) {
+    backgroundColor = cssVarStyleToken('created');
+  } else if (GIT_MODIFIED.includes(line)) {
+    backgroundColor = cssVarStyleToken('modified');
+  } else if (GIT_DELETED.includes(line)) {
+    backgroundColor = cssVarStyleToken('deleted');
+  }
+
+  return (
+    <div
+      class="block w-[10px]"
+      style={{ height: scrollbarDiffHeight.value, backgroundColor }}
+    >
+      &nbsp;
+    </div>
   );
 }

@@ -36,7 +36,7 @@ export function Preview() {
   return (
     <div
       id="preview-container"
-      class="flex w-screen flex-1 select-none overflow-hidden p-8"
+      class="flex w-screen flex-1 select-none p-8 overflow-auto"
       style={cssStyleVars}
     >
       <div
@@ -45,8 +45,10 @@ export function Preview() {
         style={{
           borderColor: cssVarStyleToken('border'),
           backgroundColor: cssVarStyleToken('background'),
-          maxWidth: 900,
-          maxHeight: 700,
+          minWidth: 800,
+          maxWidth: 1000,
+          minHeight: 600,
+          maxHeight: 800,
         }}
       >
         <Header />

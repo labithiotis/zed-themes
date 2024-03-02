@@ -113,35 +113,16 @@ export const editorTokens: StyleTokens[] = [
   'pane.focused_border',
 ];
 
-export const miscTokens: StyleTokens[] = [
-  'link_text.hover',
-  'conflict',
-  'conflict.background',
-  'conflict.border',
-  'created',
-  'created.background',
-  'created.border',
-  'deleted',
-  'deleted.background',
-  'deleted.border',
+export const colorTokens: StyleTokens[] = [
   'error',
   'error.background',
   'error.border',
-  'hidden',
-  'hidden.background',
-  'hidden.border',
   'hint',
   'hint.background',
   'hint.border',
-  'ignored',
-  'ignored.background',
-  'ignored.border',
   'info',
   'info.background',
   'info.border',
-  'modified',
-  'modified.background',
-  'modified.border',
   'predictive',
   'predictive.background',
   'predictive.border',
@@ -157,7 +138,31 @@ export const miscTokens: StyleTokens[] = [
   'warning',
   'warning.background',
   'warning.border',
+  'link_text.hover',
 ];
+
+export const gitTokens: StyleTokens[] = [
+  'created',
+  'created.background',
+  'created.border',
+  'conflict',
+  'conflict.background',
+  'conflict.border',
+  'deleted',
+  'deleted.background',
+  'deleted.border',
+  'hidden',
+  'hidden.background',
+  'hidden.border',
+  'ignored',
+  'ignored.background',
+  'ignored.border',
+  'modified',
+  'modified.background',
+  'modified.border',
+];
+
+export const miscTokens: StyleTokens[] = [];
 
 export const syntaxTokens = [
   'attribute',

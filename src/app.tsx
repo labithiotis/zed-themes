@@ -22,7 +22,7 @@ effect(() => {
 
 export function App() {
   return (
-    <div class="flex h-full overflow-hidden bg-stone-300 dark:bg-stone-900">
+    <div class="flex h-full overflow-hidden bg-stone-300 dark:bg-stone-900 min-w-[1024]">
       <Side />
       <Preview />
     </div>

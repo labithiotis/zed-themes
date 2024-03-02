@@ -102,7 +102,7 @@ export function Side() {
         multiple={false}
         onChange={onFileInput}
       />
-      <div class="flex h-full w-96 flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
+      <div class="flex h-full w-96 flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800 min-w-[250px]">
         <div class="flex items-center p-2 text-zed-900">
           <span class="flex-1 select-none pl-1 text-lg font-semibold text-zed-800 dark:text-zed-600">
             Zed Themes
@@ -126,18 +126,20 @@ export function Side() {
           />
         </div>
         <div class="flex-1 divide-y divide-neutral-300 overflow-scroll dark:divide-neutral-700">
-          {sections.map((section) => (
-            <Section name={section.name} tokens={section.tokens}>
-              {(token) => (
-                <Token
-                  name={token.name}
-                  color={theme.value?.style[token.token]}
-                  description={token.description}
-                  onChange={(color) => setStyleToken(token.token, color)}
-                />
-              )}
-            </Section>
-          ))}
+          {sections.map((section) =>
+            section.tokens.length ? (
+              <Section name={section.name} tokens={section.tokens}>
+                {(token) => (
+                  <Token
+                    name={token.name}
+                    color={theme.value?.style[token.token]}
+                    description={token.description}
+                    onChange={(color) => setStyleToken(token.token, color)}
+                  />
+                )}
+              </Section>
+            ) : null
+          )}
           <Section name="Syntax" tokens={syntaxTokens as any as SyntaxTokens[]}>
             {(token) => (
               <Token
