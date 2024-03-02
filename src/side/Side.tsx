@@ -12,6 +12,7 @@ import { sections } from './sections.ts';
 import { Section } from './Section.tsx';
 import { setStyleToken, setSyntaxToken, Token } from './Token.tsx';
 import { UIThemeToggle } from './UIThemeToggle.tsx';
+import { Player } from './Player.tsx';
 
 const ajv = new Ajv();
 const validate = ajv.compile<ThemeFamilyContent>(themeFamilySchema);
@@ -128,7 +129,7 @@ export function Side() {
         <div class="flex-1 divide-y divide-neutral-300 overflow-scroll dark:divide-neutral-700">
           {sections.map((section) =>
             section.tokens.length ? (
-              <Section name={section.name} tokens={section.tokens}>
+              <Section name={section.name} items={section.tokens}>
                 {(token) => (
                   <Token
                     name={token.name}
@@ -140,7 +141,10 @@ export function Side() {
               </Section>
             ) : null
           )}
-          <Section name="Syntax" tokens={syntaxTokens as any as SyntaxTokens[]}>
+          <Section
+            name="Syntax"
+            items={syntaxTokens as unknown as SyntaxTokens[]}
+          >
             {(token) => (
               <Token
                 name={token}
@@ -150,6 +154,12 @@ export function Side() {
                 syntax={token}
               />
             )}
+          </Section>
+          <Section
+            name="Players"
+            items={theme.value?.style.players ?? new Array(8).fill({})}
+          >
+            {(player, index) => <Player player={player} index={index} />}
           </Section>
         </div>
         <div class="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
@@ -170,19 +180,27 @@ export function Side() {
           <div class="flex flex-col justify-center bg-neutral-200 p-3 dark:bg-neutral-900">
             <a
               class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
-              href="https://www.buymeacoffee.com/labithiotis"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ♥︎ Support me
-            </a>
-            <a
-              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
               href="https://zed.dev"
               target="_blank"
               rel="noopener noreferrer"
             >
               zed.dev
+            </a>
+            <a
+              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              href="https://github.com/labithiotis/zed-themes/discussions"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              suggestion
+            </a>
+            <a
+              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              href="https://www.buymeacoffee.com/labithiotis"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              support ♥︎
             </a>
           </div>
         </div>

@@ -14,4 +14,6 @@
 - [x] Link to buy me a coffee https://www.buymeacoffee.com/labithiotis
 - [x] Use light/dark toggle icon
 - [x] Syntax setting font family & weight
-- [ ] Set player colours
+- [x] Set player colours
+
+- [ ] Theme explorer/viewer

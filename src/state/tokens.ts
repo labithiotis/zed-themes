@@ -1,4 +1,4 @@
-import { ThemeStyleContent } from './themeFamily';
+import { PlayerColorContent, ThemeStyleContent } from './themeFamily';
 
 export type StyleTokens = keyof Omit<ThemeStyleContent, 'syntax' | 'players'>;
 export type SyntaxTokens = (typeof syntaxTokens)[number];
@@ -207,3 +207,9 @@ export const syntaxTokens = [
   'variable.special',
   'variant',
 ] as const;
+
+export const playerTokens = [
+  'background',
+  'cursor',
+  'selection',
+] as (keyof PlayerColorContent)[];

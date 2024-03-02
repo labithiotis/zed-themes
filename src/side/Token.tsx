@@ -7,7 +7,7 @@ import { debounce } from '../utils/debounce.ts';
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;
 
-const isValidColor = (color: unknown): color is ColorHex =>
+export const isValidColor = (color: unknown): color is ColorHex =>
   typeof color === 'string' ? validateColor.test(color) : false;
 
 export const setStyleToken = debounce((token: StyleTokens, color: unknown) => {
@@ -67,7 +67,7 @@ export function Token({
         title={!showColor.value && !!description ? description : undefined}
       >
         <div
-          class="shad h-10 min-h-10 w-10 min-w-10 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
+          class="shad h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
           style={{
             backgroundColor: color,
             borderColor: `color-mix(in xyz, ${color} 70%, black)`,
