@@ -1,10 +1,5 @@
 import { useSignal } from '@preact/signals';
-import {
-  CSSProperties,
-  PropsWithChildren,
-  ReactNode,
-  useLayoutEffect,
-} from 'preact/compat';
+import { CSSProperties, PropsWithChildren, ReactNode } from 'preact/compat';
 import { SyntaxTokens } from '../../state/tokens.ts';
 import {
   cssVarStyleToken,
@@ -12,6 +7,8 @@ import {
   cssVarSyntaxStyleToken,
   cssVarSyntaxWeightToken,
 } from '../../utils/cssVarTokens.ts';
+import { GutterMarkers } from './GutterMarkers.tsx';
+import { ScrollbarMakers } from './ScrollbarMarkers.tsx';
 
 const EXTRA_LINES = 10;
 
@@ -511,7 +508,7 @@ export function Code() {
         class="scrollbar-hide flex flex-1 flex-col overflow-y-scroll"
         onScroll={onScroll}
       >
-        <ScrollbarDiffs />
+        <ScrollbarMakers lineCount={lines.length + EXTRA_LINES} />
         <div id="scrollbar" />
         {lines.map((code, line) => (
           <div
@@ -524,7 +521,7 @@ export function Code() {
             }}
           >
             <div class="git min-w-[6px]">
-              <GutterGitDiffs line={line} />
+              <GutterMarkers line={line} />
             </div>
             <div class="gutter min-w-[10px]"></div>
             <div
@@ -547,66 +544,5 @@ export function Code() {
         ))}
       </div>
     </code>
-  );
-}
-
-const GIT_CREATED = [4, 5, 6];
-const GIT_DELETED = [10];
-const GIT_MODIFIED = [2, 12, 13, 14, 15];
-
-function GutterGitDiffs({ line }: { line: number }) {
-  let backgroundColor;
-  if (GIT_CREATED.includes(line)) {
-    backgroundColor = cssVarStyleToken('created');
-  } else if (GIT_MODIFIED.includes(line)) {
-    backgroundColor = cssVarStyleToken('modified');
-  } else if (GIT_DELETED.includes(line)) {
-    backgroundColor = cssVarStyleToken('deleted');
-  }
-
-  return (
-    <div class="block h-full w-[6px]" style={{ backgroundColor }}>
-      &nbsp;
-    </div>
-  );
-}
-
-function ScrollbarDiffs() {
-  return (
-    <div class="z-2 absolute bottom-0 right-0 top-0">
-      {new Array(lines.length + EXTRA_LINES).fill(1).map((_, line) => (
-        <ScrollbarDiffLine line={line} />
-      ))}
-    </div>
-  );
-}
-
-function ScrollbarDiffLine({ line }: { line: number }) {
-  const scrollbarDiffHeight = useSignal('16px');
-
-  useLayoutEffect(() => {
-    const el = document.getElementById('editor-code-scroll');
-    if (el) {
-      const height = el.clientHeight / (lines.length + EXTRA_LINES);
-      scrollbarDiffHeight.value = height + 'px';
-    }
-  }, []);
-
-  let backgroundColor;
-  if (GIT_CREATED.includes(line)) {
-    backgroundColor = cssVarStyleToken('created');
-  } else if (GIT_MODIFIED.includes(line)) {
-    backgroundColor = cssVarStyleToken('modified');
-  } else if (GIT_DELETED.includes(line)) {
-    backgroundColor = cssVarStyleToken('deleted');
-  }
-
-  return (
-    <div
-      class="block w-[10px]"
-      style={{ height: scrollbarDiffHeight.value, backgroundColor }}
-    >
-      &nbsp;
-    </div>
   );
 }
