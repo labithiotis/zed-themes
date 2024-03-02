@@ -102,9 +102,9 @@ export function Side() {
         multiple={false}
         onChange={onFileInput}
       />
-      <div class="flex h-full w-96 flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800 min-w-[250px]">
-        <div class="flex items-center p-2 text-zed-900">
-          <span class="flex-1 select-none pl-1 text-lg font-semibold text-zed-800 dark:text-zed-600">
+      <div class="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
+        <div class="text-zed-900 flex items-center p-2">
+          <span class="text-zed-800 dark:text-zed-600 flex-1 select-none pl-1 text-lg font-semibold">
             Zed Themes
           </span>
           <UIThemeToggle />
@@ -113,7 +113,7 @@ export function Side() {
           <input
             value={theme.value?.name}
             type="text"
-            class="border-1 w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
+            class="border-1 text-zed-800 w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
             placeholder="name"
             onChange={(e) => {
               if (theme.value) {
@@ -152,21 +152,39 @@ export function Side() {
             )}
           </Section>
         </div>
-        <div class="flex select-none flex-col items-stretch divide-y divide-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:shadow-white/75">
+        <div class="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
           <button
             onClick={() => fileInputRef.current?.click()}
-            class="flex items-center justify-center gap-2 py-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
+            class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200 flex items-center gap-2 p-3 text-lg font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700"
           >
             <ExternalIcon width={16} height={16} />
-            <span class="w-[150px] text-left">Upload Theme</span>
+            Upload Theme
           </button>
           <button
             onClick={saveTheme}
-            class="flex items-center justify-center gap-2 py-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
+            class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200 flex items-center gap-2 p-3 text-lg font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700"
           >
             <ExitIcon width={16} height={16} />
-            <span class="w-[150px] text-left">Save Theme</span>
+            Save Theme
           </button>
+          <div class="flex flex-col justify-center bg-neutral-200 p-3 dark:bg-neutral-900">
+            <a
+              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              href="https://www.buymeacoffee.com/labithiotis"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ♥︎ Support me
+            </a>
+            <a
+              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              href="https://zed.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              zed.dev
+            </a>
+          </div>
         </div>
       </div>
     </>

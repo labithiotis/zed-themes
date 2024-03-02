@@ -10,9 +10,8 @@
 - [x] Error popup tooltip example
 - [x] Warn popup tooltip example
 - [x] Git changes in gutter
-- [ ] Highlights in scrollbar track (git,errors,warnings etc...)
-- [ ] Link to buy me a coffee https://www.buymeacoffee.com/labithiotis
+- [x] Highlights in scrollbar track (git,errors,warnings etc...)
+- [x] Link to buy me a coffee https://www.buymeacoffee.com/labithiotis
 - [x] Use light/dark toggle icon
-- [ ] Google Adds?
 - [x] Syntax setting font family & weight
 - [ ] Set player colours
