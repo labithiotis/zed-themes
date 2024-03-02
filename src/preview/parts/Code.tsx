@@ -1,5 +1,5 @@
 import { useSignal } from '@preact/signals';
-import { PropsWithChildren } from 'preact/compat';
+import { CSSProperties, PropsWithChildren, ReactNode } from 'preact/compat';
 import { SyntaxTokens } from '../../state/tokens.ts';
 import {
   cssVarStyleToken,
@@ -21,6 +21,30 @@ const SN = (props: SNProps) => {
       }}
     >
       {props.children}
+    </span>
+  );
+};
+
+const Popup = (
+  props: PropsWithChildren<{ style: CSSProperties; content: ReactNode }>
+) => {
+  const show = useSignal(false);
+  return (
+    <span class="relative">
+      <span
+        onMouseEnter={() => (show.value = true)}
+        onMouseLeave={() => (show.value = false)}
+      >
+        {props.children}
+      </span>
+      {show.value && (
+        <div
+          style={props.style}
+          class="absolute top-[-36px] left-0 rounded border p-1 text-nowrap"
+        >
+          {props.content}
+        </div>
+      )}
     </span>
   );
 };
@@ -108,15 +132,24 @@ const lines = [
     <SN s="keyword">enum</SN>
     <SP />
     <SN s="type">
-      <span
+      <Popup
         style={{
-          textDecorationLine: 'underline',
-          textDecorationStyle: 'wavy',
-          textDecorationColor: cssVarStyleToken('warning'),
+          color: cssVarStyleToken('error'),
+          backgroundColor: cssVarStyleToken('error.background'),
+          borderColor: cssVarStyleToken('error.border'),
         }}
+        content="'Enum' is declared but never used."
       >
-        Enum
-      </span>
+        <span
+          style={{
+            textDecorationLine: 'underline',
+            textDecorationStyle: 'wavy',
+            textDecorationColor: cssVarStyleToken('error'),
+          }}
+        >
+          Enum
+        </span>
+      </Popup>
     </SN>
     <SP />
     <LB />
@@ -146,7 +179,25 @@ const lines = [
     <SP />
     <SN s="operator">=</SN>
     <SP />
-    <SN s="string">"string"</SN>
+    <Popup
+      style={{
+        color: cssVarStyleToken('warning'),
+        backgroundColor: cssVarStyleToken('warning.background'),
+        borderColor: cssVarStyleToken('warning.border'),
+      }}
+      content={'Typo in the word "strig"'}
+    >
+      <span
+        style={{
+          textDecorationLine: 'underline',
+          textDecorationStyle: 'wavy',
+          textDecorationColor: cssVarStyleToken('warning'),
+        }}
+      >
+        <SN s="string">"strig"</SN>
+      </span>
+    </Popup>
+
     <SN s="punctuation.delimiter">;</SN>
   </span>,
   <span>
@@ -315,15 +366,24 @@ const lines = [
     <SN s="keyword">class</SN>
     <SP />
     <SN s="type">
-      <span
+      <Popup
         style={{
-          textDecorationLine: 'underline',
-          textDecorationStyle: 'wavy',
-          textDecorationColor: cssVarStyleToken('warning'),
+          color: cssVarStyleToken('error'),
+          backgroundColor: cssVarStyleToken('error.background'),
+          borderColor: cssVarStyleToken('error.border'),
         }}
+        content="'Test' is declared but never used."
       >
-        Test
-      </span>
+        <span
+          style={{
+            textDecorationLine: 'underline',
+            textDecorationStyle: 'wavy',
+            textDecorationColor: cssVarStyleToken('error'),
+          }}
+        >
+          Test
+        </span>
+      </Popup>
     </SN>
     <SP />
     <LB />
