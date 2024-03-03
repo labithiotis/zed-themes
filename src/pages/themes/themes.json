@@ -1,0 +1,53 @@
+[
+  {
+    "id": "dracula",
+    "name": "Dracula",
+    "author": "Ben Hamment",
+    "file": "dracula.json",
+    "colors": {
+      "editor.background": "#282a36ff",
+      "text": "#f8f8f2ff",
+      "text.muted": "#838994ff",
+      "status_bar.background": "#0d1117",
+      "title_bar.background": "#0d1117",
+      "toolbar.background": "#0d1117",
+      "tab_bar.background": "#010409",
+      "tab.inactive_background": "#010409",
+      "tab.active_background": "#0d1117"
+    }
+  },
+  {
+    "id": "graphene",
+    "name": "Graphene",
+    "author": "AdinAck <adinackerman@gmail.com>",
+    "file": "graphene.json",
+    "colors": {
+      "editor.background": "#282a36ff",
+      "text": "#f8f8f2ff",
+      "text.muted": "#838994ff",
+      "status_bar.background": "#0d1117",
+      "title_bar.background": "#0d1117",
+      "toolbar.background": "#0d1117",
+      "tab_bar.background": "#010409",
+      "tab.inactive_background": "#010409",
+      "tab.active_background": "green"
+    }
+  },
+  {
+    "id": "dark-default",
+    "name": "Dark",
+    "author": "GitHub: Zed Theme Importer/MordFustang21",
+    "file": "dark-default.json",
+    "colors": {
+      "editor.background": "#282a36ff",
+      "text": "#f8f8f2ff",
+      "text.muted": "#838994ff",
+      "status_bar.background": "#0d1117",
+      "title_bar.background": "#0d1117",
+      "toolbar.background": "#0d1117",
+      "tab_bar.background": "#010409",
+      "tab.inactive_background": "#010409",
+      "tab.active_background": "blue"
+    }
+  }
+]

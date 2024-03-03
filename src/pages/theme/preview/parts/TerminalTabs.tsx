@@ -1,6 +1,6 @@
-import TerminalIcon from '../../assets/icons/terminal.svg?react';
-import XIcon from '../../assets/icons/x.svg?react';
-import { cssVarStyleToken } from '../../utils/cssVarTokens.ts';
+import TerminalIcon from '~/assets/icons/terminal.svg?react';
+import XIcon from '~/assets/icons/x.svg?react';
+import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
 import { GhostButton } from '../components/GhostButton.tsx';
 
 export function TerminalTabs() {

@@ -1,9 +1,9 @@
 import { useSignal } from '@preact/signals';
 import { HexAlphaColorPicker } from 'react-colorful';
-import { ColorHex, theme } from '../state/state.tsx';
-import { FontStyleContent, HighlightStyleContent } from '../state/themeFamily';
-import { StyleTokens, SyntaxTokens } from '../state/tokens.ts';
-import { debounce } from '../utils/debounce.ts';
+import { ColorHex, theme } from '~/state/state.tsx';
+import { FontStyleContent, HighlightStyleContent } from '~/state/themeFamily';
+import { StyleTokens, SyntaxTokens } from '~/state/tokens.ts';
+import { debounce } from '~/utils/debounce.ts';
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;
 

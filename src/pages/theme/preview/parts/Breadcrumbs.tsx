@@ -1,16 +1,16 @@
-import CaseInsensitiveIcon from '../../assets/icons/case_insensitive.svg?react';
-import ChevronLeftIcon from '../../assets/icons/chevron_left.svg?react';
-import ChevronRightIcon from '../../assets/icons/chevron_right.svg?react';
-import InlayHintIcon from '../../assets/icons/inlay_hint.svg?react';
-import MagicWandIcon from '../../assets/icons/magic_wand.svg?react';
-import MagnifyingGlassIcon from '../../assets/icons/magnifying_glass.svg?react';
-import ReplaceIcon from '../../assets/icons/replace.svg?react';
-import SelectAllIcon from '../../assets/icons/select_all.svg?react';
-import WordSearchIcon from '../../assets/icons/word_search.svg?react';
+import CaseInsensitiveIcon from '~/assets/icons/case_insensitive.svg?react';
+import ChevronLeftIcon from '~/assets/icons/chevron_left.svg?react';
+import ChevronRightIcon from '~/assets/icons/chevron_right.svg?react';
+import InlayHintIcon from '~/assets/icons/inlay_hint.svg?react';
+import MagicWandIcon from '~/assets/icons/magic_wand.svg?react';
+import MagnifyingGlassIcon from '~/assets/icons/magnifying_glass.svg?react';
+import ReplaceIcon from '~/assets/icons/replace.svg?react';
+import SelectAllIcon from '~/assets/icons/select_all.svg?react';
+import WordSearchIcon from '~/assets/icons/word_search.svg?react';
 import {
   cssVarStyleToken,
   cssVarSyntaxColorToken,
-} from '../../utils/cssVarTokens.ts';
+} from '~/utils/cssVarTokens.ts';
 import { GhostButton } from '../components/GhostButton.tsx';
 
 export function Breadcrumbs() {

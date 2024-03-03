@@ -4,7 +4,6 @@
   "title": "ThemeFamilyContent",
   "description": "The content of a serialized theme family.",
   "type": "object",
-  "additionalProperties": false,
   "required": ["author", "name", "themes"],
   "properties": {
     "author": {

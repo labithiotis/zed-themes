@@ -1,13 +1,13 @@
-import AIIcon from '../../assets/icons/ai.svg?react';
-import BellIcon from '../../assets/icons/bell.svg?react';
-import ConversationsIcon from '../../assets/icons/conversations.svg?react';
-import CopilotIcon from '../../assets/icons/copilot.svg?react';
-import ErrorIcon from '../../assets/icons/error.svg?react';
-import MailIcon from '../../assets/icons/mail_open.svg?react';
-import ProjectIcon from '../../assets/icons/project.svg?react';
-import TerminalIcon from '../../assets/icons/terminal.svg?react';
-import UserIcon from '../../assets/icons/user_group_16.svg?react';
-import { cssVarStyleToken } from '../../utils/cssVarTokens.ts';
+import AIIcon from '~/assets/icons/ai.svg?react';
+import BellIcon from '~/assets/icons/bell.svg?react';
+import ConversationsIcon from '~/assets/icons/conversations.svg?react';
+import CopilotIcon from '~/assets/icons/copilot.svg?react';
+import ErrorIcon from '~/assets/icons/error.svg?react';
+import MailIcon from '~/assets/icons/mail_open.svg?react';
+import ProjectIcon from '~/assets/icons/project.svg?react';
+import TerminalIcon from '~/assets/icons/terminal.svg?react';
+import UserIcon from '~/assets/icons/user_group_16.svg?react';
+import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
 
 export function Status() {
   return (

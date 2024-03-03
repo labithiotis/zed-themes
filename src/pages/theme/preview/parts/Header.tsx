@@ -1,4 +1,4 @@
-import { cssVarStyleToken } from '../../utils/cssVarTokens.ts';
+import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
 
 export function Header() {
   return (

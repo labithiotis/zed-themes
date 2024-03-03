@@ -1,10 +1,10 @@
 import { useSignal } from '@preact/signals';
 import { HexAlphaColorPicker } from 'react-colorful';
-import { theme } from '../state/state.tsx';
-import { PlayerColorContent } from '../state/themeFamily';
-import { debounce } from '../utils/debounce.ts';
+import { theme } from '~/state/state.tsx';
+import { PlayerColorContent } from '~/state/themeFamily';
+import { debounce } from '~/utils/debounce.ts';
 import { isValidColor } from './Token.tsx';
-import { playerTokens } from '../state/tokens.ts';
+import { playerTokens } from '~/state/tokens.ts';
 
 const setPlayerToken = debounce(
   (playerIndex: number, token: keyof PlayerColorContent, color: unknown) => {

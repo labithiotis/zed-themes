@@ -1,12 +1,12 @@
 import { useSignal } from '@preact/signals';
 import { CSSProperties, PropsWithChildren, ReactNode } from 'preact/compat';
-import { SyntaxTokens } from '../../state/tokens.ts';
+import { SyntaxTokens } from '~/state/tokens.ts';
 import {
   cssVarStyleToken,
   cssVarSyntaxColorToken,
   cssVarSyntaxStyleToken,
   cssVarSyntaxWeightToken,
-} from '../../utils/cssVarTokens.ts';
+} from '~/utils/cssVarTokens.ts';
 import { GutterMarkers } from './GutterMarkers.tsx';
 import { ScrollbarMakers } from './ScrollbarMarkers.tsx';
 

@@ -1,10 +1,10 @@
-import ArrowLeftIcon from '../../assets/icons/arrow_left.svg?react';
-import ArrowRightIcon from '../../assets/icons/arrow_right.svg?react';
-import MaximizeIcon from '../../assets/icons/maximize.svg?react';
-import PlusIcon from '../../assets/icons/plus.svg?react';
-import SplitIcon from '../../assets/icons/split.svg?react';
-import XIcon from '../../assets/icons/x.svg?react';
-import { cssVarStyleToken } from '../../utils/cssVarTokens.ts';
+import ArrowLeftIcon from '~/assets/icons/arrow_left.svg?react';
+import ArrowRightIcon from '~/assets/icons/arrow_right.svg?react';
+import MaximizeIcon from '~/assets/icons/maximize.svg?react';
+import PlusIcon from '~/assets/icons/plus.svg?react';
+import SplitIcon from '~/assets/icons/split.svg?react';
+import XIcon from '~/assets/icons/x.svg?react';
+import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
 import { GhostButton } from '../components/GhostButton.tsx';
 
 export function Tabs() {

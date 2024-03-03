@@ -1,6 +1,6 @@
 import { useSignal } from '@preact/signals';
 import { useLayoutEffect } from 'preact/hooks';
-import { cssVarStyleToken } from '../../utils/cssVarTokens';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
 import { GIT_CREATED, GIT_DELETED, GIT_MODIFIED } from './GutterMarkers';
 
 export function ScrollbarMakers({ lineCount }: { lineCount: number }) {

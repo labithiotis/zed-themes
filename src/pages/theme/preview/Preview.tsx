@@ -1,5 +1,5 @@
 import { CSSProperties } from 'preact/compat';
-import { theme } from '../state/state';
+import { theme } from '~/state/state';
 import './preview.css';
 import { Breadcrumbs } from './parts/Breadcrumbs.tsx';
 import { Code } from './parts/Code.tsx';
@@ -14,7 +14,7 @@ import {
   cssStyleToken,
   cssSyntaxStyleToken,
   cssSyntaxWeightToken,
-} from '../utils/cssVarTokens.ts';
+} from '~/utils/cssVarTokens.ts';
 
 export function Preview() {
   const style = theme.value?.style;
@@ -36,7 +36,7 @@ export function Preview() {
   return (
     <div
       id="preview-container"
-      class="flex w-screen flex-1 select-none p-8 overflow-auto"
+      class="flex w-screen flex-1 select-none overflow-auto p-8"
       style={cssStyleVars}
     >
       <div

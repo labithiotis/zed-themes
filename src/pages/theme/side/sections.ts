@@ -1,4 +1,4 @@
-import themeSchema from '../state/themeFamily.json';
+import themeSchema from '~/state/themeFamily.json';
 import {
   StyleTokens,
   borderTokens,
@@ -12,7 +12,7 @@ import {
   scrollbarTokens,
   terminalTokens,
   textTokens,
-} from '../state/tokens.ts';
+} from '~/state/tokens.ts';
 
 const tokens = Object.entries(
   themeSchema.definitions.ThemeStyleContent.properties

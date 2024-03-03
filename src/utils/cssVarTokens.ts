@@ -1,4 +1,4 @@
-import { StyleTokens, SyntaxTokens } from '../state/tokens';
+import { StyleTokens, SyntaxTokens } from '~/state/tokens';
 
 export const cssStyleToken = (s: StyleTokens | string) =>
   `--st-${s.replace(/\./g, '-')}`;

@@ -1,4 +1,4 @@
-import { uiTheme } from '../main.tsx';
+import { uiTheme } from '~/main.tsx';
 
 export function UIThemeToggle() {
   return (

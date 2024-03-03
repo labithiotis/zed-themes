@@ -1,12 +1,12 @@
-import CssIcon from '../../assets/icons/file_icons/css.svg?react';
-import FileIcon from '../../assets/icons/file_icons/file.svg?react';
-import FolderIcon from '../../assets/icons/file_icons/folder.svg?react';
-import FolderOpenIcon from '../../assets/icons/file_icons/folder_open.svg?react';
-import HtmlIcon from '../../assets/icons/file_icons/html.svg?react';
-import PackageIcon from '../../assets/icons/file_icons/package.svg?react';
-import PrettierIcon from '../../assets/icons/file_icons/prettier.svg?react';
-import TypescriptIcon from '../../assets/icons/file_icons/typescript.svg?react';
-import { cssVarStyleToken } from '../../utils/cssVarTokens.ts';
+import CssIcon from '~/assets/icons/file_icons/css.svg?react';
+import FileIcon from '~/assets/icons/file_icons/file.svg?react';
+import FolderIcon from '~/assets/icons/file_icons/folder.svg?react';
+import FolderOpenIcon from '~/assets/icons/file_icons/folder_open.svg?react';
+import HtmlIcon from '~/assets/icons/file_icons/html.svg?react';
+import PackageIcon from '~/assets/icons/file_icons/package.svg?react';
+import PrettierIcon from '~/assets/icons/file_icons/prettier.svg?react';
+import TypescriptIcon from '~/assets/icons/file_icons/typescript.svg?react';
+import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
 
 const files = [
   { Icon: FolderOpenIcon, name: 'zed', indent: 0 },

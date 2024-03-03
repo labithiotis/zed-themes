@@ -1,16 +1,17 @@
 import { useRef } from 'preact/hooks';
 import { ChangeEvent } from 'react';
 import { FileDrop } from 'react-file-drop';
-import ExitIcon from '../assets/icons/exit.svg?react';
-import ExternalIcon from '../assets/icons/external_link.svg?react';
-import { theme, themeFamily, themeValidator } from '../state/state.tsx';
-import { SyntaxTokens, syntaxTokens } from '../state/tokens.ts';
-import { createShareThemeUrl } from '../themeLoader.tsx';
+import ExitIcon from '~/assets/icons/exit.svg?react';
+import ExternalIcon from '~/assets/icons/external_link.svg?react';
+import { theme, themeFamily, themeValidator } from '~/state/state.tsx';
+import { SyntaxTokens, syntaxTokens } from '~/state/tokens.ts';
+import { createShareThemeUrl } from '~/utils/themeLoader.tsx';
 import { sections } from './sections.ts';
 import { Section } from './Section.tsx';
 import { setStyleToken, setSyntaxToken, Token } from './Token.tsx';
 import { UIThemeToggle } from './UIThemeToggle.tsx';
 import { Player } from './Player.tsx';
+import { navigateTo } from '~/utils/navigateTo.ts';
 
 export function Side() {
   const fileDropRef = useRef<HTMLDivElement>(null);
@@ -37,7 +38,7 @@ export function Side() {
       const isThemeFamily = 'author' in data;
       const themeFamily = isThemeFamily
         ? data
-        : { author: 'zed', name: 'zed', themes: [data] };
+        : { name: 'zed', author: 'zed', themes: [data] };
 
       if (themeValidator(themeFamily)) {
         theme.value = themeFamily.themes[0];
@@ -99,8 +100,11 @@ export function Side() {
         onChange={onFileInput}
       />
       <div class="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
-        <div class="flex items-center p-2 text-zed-900">
-          <span class="flex-1 select-none pl-1 text-lg font-semibold text-zed-800 dark:text-zed-600">
+        <div class="text-zed-900 flex items-center p-2">
+          <span
+            class="text-zed-800 dark:text-zed-600 flex-1 select-none pl-1 text-lg font-semibold"
+            onClick={() => navigateTo('/themes')}
+          >
             Zed Themes
           </span>
           <UIThemeToggle />
@@ -109,7 +113,7 @@ export function Side() {
           <input
             value={theme.value?.name}
             type="text"
-            class="border-1 w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
+            class="border-1 text-zed-800 w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
             placeholder="name"
             onChange={(e) => {
               if (theme.value) {
@@ -160,7 +164,7 @@ export function Side() {
         <div class="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
           <div class="flex ">
             <button
-              className="flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
+              className="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200 flex flex-1 items-center gap-2 p-3 text-lg font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700"
               onClick={() => {
                 navigator.clipboard.writeText(createShareThemeUrl());
                 alert('A shareable url has been copied to your clipboard.');
@@ -171,7 +175,7 @@ export function Side() {
             </button>
             <button
               onClick={saveTheme}
-              className="flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
+              className="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200 flex flex-1 items-center gap-2 p-3 text-lg font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700"
             >
               <ExitIcon width={16} height={16} />
               Save Theme
@@ -179,7 +183,7 @@ export function Side() {
           </div>
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
+            className="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200 flex items-center justify-center gap-2 p-3 text-lg font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700"
           >
             <ExternalIcon width={15} height={15} style={{ marginTop: -2 }} />
             Upload existing theme
