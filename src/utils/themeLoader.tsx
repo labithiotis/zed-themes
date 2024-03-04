@@ -3,14 +3,14 @@ import JSONCrush from 'jsoncrush';
 import { useLayoutEffect } from 'preact/hooks';
 import { theme, themeValidator } from '~/state/state.tsx';
 
-export const THEME_LOADER_PARAM = 'theme';
+export const THEME_LOADER_PARAM = 'share';
 
 export function createShareThemeUrl() {
   const url = new URL(location.origin);
   url.pathname = 'theme';
   url.searchParams.set(
     THEME_LOADER_PARAM,
-    encodeURI(JSONCrush.crush(JSON.stringify(theme.value)))
+    encodeURIComponent(JSONCrush.crush(JSON.stringify(theme.value)))
   );
   return url.toString();
 }
@@ -28,7 +28,7 @@ export function useShareThemeLoader() {
     if (themeLoaderParam) {
       themeLoadingState.value = { loading: true, error: undefined };
       const loadedTheme = JSON.parse(
-        JSONCrush.uncrush(decodeURI(themeLoaderParam))
+        JSONCrush.uncrush(decodeURIComponent(themeLoaderParam))
       );
       if (
         themeValidator({ name: 'zed', author: 'zed', themes: [loadedTheme] })
