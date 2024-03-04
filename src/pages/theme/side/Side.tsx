@@ -102,7 +102,7 @@ export function Side() {
       <div class="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
         <div class="text-zed-900 flex items-center p-2">
           <span
-            class="text-zed-800 dark:text-zed-600 flex-1 select-none pl-1 text-lg font-semibold"
+            class="text-zed-800 dark:text-zed-600 hover:text-zed-500 hover:dark:text-zed-400 flex-1 cursor-pointer select-none pl-1 text-lg font-semibold"
             onClick={() => navigateTo('/themes')}
           >
             Zed Themes
@@ -190,7 +190,7 @@ export function Side() {
           </button>
           <div class="flex flex-col justify-center bg-neutral-200 p-3 dark:bg-neutral-900">
             <a
-              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              class="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
               href="https://zed.dev"
               target="_blank"
               rel="noopener noreferrer"
@@ -198,7 +198,7 @@ export function Side() {
               zed.dev
             </a>
             <a
-              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              class="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
               href="https://github.com/labithiotis/zed-themes/discussions"
               target="_blank"
               rel="noopener noreferrer"
@@ -206,7 +206,7 @@ export function Side() {
               suggestion
             </a>
             <a
-              class="text-zed-800 hover:text-zed-900 dark:text-zed-600 dark:hover:text-zed-200"
+              class="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
               href="https://www.buymeacoffee.com/labithiotis"
               target="_blank"
               rel="noopener noreferrer"

@@ -67,10 +67,12 @@ export function Token({
         title={!showColor.value && !!description ? description : undefined}
       >
         <div
-          class="shad h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
+          class="color-preview h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
           style={{
-            backgroundColor: color,
-            borderColor: `color-mix(in xyz, ${color} 70%, black)`,
+            color: color ? color : 'transparent',
+            borderColor: color
+              ? `color-mix(in xyz, ${color} 70%, black)`
+              : '#808080',
           }}
           onClick={() => (showColor.value = !showColor.value)}
         />

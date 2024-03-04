@@ -38,10 +38,12 @@ export function Player({
         <div class="flex flex-col px-2 py-1">
           <div class="flex flex-row items-center gap-2">
             <div
-              class="shad h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
+              class="color-preview h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
               style={{
-                backgroundColor: player[token],
-                borderColor: `color-mix(in xyz, ${player[token]} 70%, black)`,
+                color: player[token] ? player[token] : 'transparent',
+                borderColor: player[token]
+                  ? `color-mix(in xyz, ${player[token]} 70%, black)`
+                  : '#808080',
               }}
               onClick={() => (showColor.value = !showColor.value)}
             />
