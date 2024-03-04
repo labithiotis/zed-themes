@@ -1,4 +1,3 @@
-import { CSSProperties } from 'preact/compat';
 import { theme } from '~/state/state';
 import './preview.css';
 import { Breadcrumbs } from './parts/Breadcrumbs.tsx';
@@ -8,30 +7,10 @@ import { Header } from './parts/Header.tsx';
 import { Status } from './parts/Status.tsx';
 import { Tabs } from './parts/Tabs.tsx';
 import { Terminal } from './parts/Terminal.tsx';
-import {
-  cssSyntaxColorToken,
-  cssVarStyleToken,
-  cssStyleToken,
-  cssSyntaxStyleToken,
-  cssSyntaxWeightToken,
-} from '~/utils/cssVarTokens.ts';
+import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens.ts';
 
 export function Preview() {
-  const style = theme.value?.style;
-  const cssStyleVars: CSSProperties = {};
-
-  if (style) {
-    for (const [key, value] of Object.entries(style)) {
-      if (key === 'players' || key === 'syntax') continue;
-      cssStyleVars[cssStyleToken(key)] = `${value}`;
-    }
-
-    for (const [key, a] of Object.entries(style.syntax)) {
-      cssStyleVars[cssSyntaxColorToken(key)] = a?.color;
-      cssStyleVars[cssSyntaxStyleToken(key)] = a?.font_style;
-      cssStyleVars[cssSyntaxWeightToken(key)] = a?.font_weight;
-    }
-  }
+  const cssStyleVars = themeStyleToCssVars(theme.value?.style);
 
   return (
     <div

@@ -11,7 +11,6 @@ import { Section } from './Section.tsx';
 import { setStyleToken, setSyntaxToken, Token } from './Token.tsx';
 import { UIThemeToggle } from './UIThemeToggle.tsx';
 import { Player } from './Player.tsx';
-import { navigateTo } from '~/utils/navigateTo.ts';
 
 export function Side() {
   const fileDropRef = useRef<HTMLDivElement>(null);
@@ -101,12 +100,12 @@ export function Side() {
       />
       <div class="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
         <div class="text-zed-900 flex items-center p-2">
-          <span
+          <a
             class="text-zed-800 dark:text-zed-600 hover:text-zed-500 hover:dark:text-zed-400 flex-1 cursor-pointer select-none pl-1 text-lg font-semibold"
-            onClick={() => navigateTo('/themes')}
+            href={'/themes'}
           >
             Zed Themes
-          </span>
+          </a>
           <UIThemeToggle />
         </div>
         <div class="px-2">

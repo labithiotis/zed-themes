@@ -3,7 +3,7 @@
 }
 
 .ghost-element-hover:hover {
-  background-color: var(--st-ghost_element-hover) !important;
+  background-color: var(--style-ghost_element-hover) !important;
 }
 
 .placeholder-color::placeholder {
@@ -19,7 +19,7 @@
 }
 
 .ghost-button:hover {
-  background-color: var(--st-ghost_element-hover);
+  background-color: var(--style-ghost_element-hover);
 }
 
 .ghost-button-hidden svg {

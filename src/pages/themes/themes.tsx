@@ -1,7 +1,8 @@
 import themes from './themes.json';
 import PreviewSVG from './preview.svg?react';
-import { navigateTo } from '~/utils/navigateTo';
 import { UIThemeToggle } from '../theme/side/UIThemeToggle';
+import { ThemeStyleContent } from '~/state/themeFamily';
+import { themeStyleToCssVars } from '~/utils/cssVarTokens';
 
 export function Themes() {
   return (
@@ -14,15 +15,11 @@ export function Themes() {
         <div class="flex flex-wrap content-start justify-center ">
           <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
             {themes.map((theme) => (
-              <div
+              <a
                 class="items flex flex-col gap-2"
-                style={{
-                  '--style-editor-background':
-                    theme.colors?.['editor.background'],
-                  '--style-tab-active-background':
-                    theme.colors?.['tab.active_background'],
-                }}
-                onClick={() => navigateTo('/theme?id=' + theme.file)}
+                style={themeStyleToCssVars(theme.style as ThemeStyleContent)}
+                href={'/theme?id=' + theme.file}
+                alt={theme.name}
               >
                 <div class="flex flex-col overflow-hidden">
                   <h4 class="text-lg">{theme.name}</h4>
@@ -33,7 +30,7 @@ export function Themes() {
                 <div class="hover:outline-zed-800 flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all dark:hover:outline-neutral-600">
                   <PreviewSVG width="100%" height="auto" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

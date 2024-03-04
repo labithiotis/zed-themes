@@ -3,6 +3,7 @@ import BellIcon from '~/assets/icons/bell.svg?react';
 import ConversationsIcon from '~/assets/icons/conversations.svg?react';
 import CopilotIcon from '~/assets/icons/copilot.svg?react';
 import ErrorIcon from '~/assets/icons/error.svg?react';
+import WarningIcon from '~/assets/icons/warning.svg?react';
 import MailIcon from '~/assets/icons/mail_open.svg?react';
 import ProjectIcon from '~/assets/icons/project.svg?react';
 import TerminalIcon from '~/assets/icons/terminal.svg?react';
@@ -22,6 +23,15 @@ export function Status() {
         </span>
         <span class="flex items-center gap-1 p-1">
           <ErrorIcon style={{ color: cssVarStyleToken('error') }} width={14} />
+          <span class="text-xs" style={{ color: cssVarStyleToken('text') }}>
+            2
+          </span>
+        </span>
+        <span class="flex items-center gap-1 p-1">
+          <WarningIcon
+            style={{ color: cssVarStyleToken('warning') }}
+            width={14}
+          />
           <span class="text-xs" style={{ color: cssVarStyleToken('text') }}>
             2
           </span>

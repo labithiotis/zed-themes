@@ -1,7 +1,11 @@
 import { StyleTokens, SyntaxTokens } from '~/state/tokens';
+import { CSSProperties } from 'preact/compat';
+import { ThemeStyleContent } from '~/state/themeFamily';
+
+const PATTERN = /[._]/g;
 
 export const cssStyleToken = (s: StyleTokens | string) =>
-  `--st-${s.replace(/\./g, '-')}`;
+  `--style-${s.replace(PATTERN, '-')}`;
 
 export const cssVarStyleToken = (s: StyleTokens) => {
   const fallback = s.split('.').shift();
@@ -12,13 +16,13 @@ export const cssVarStyleToken = (s: StyleTokens) => {
 };
 
 export const cssSyntaxColorToken = (s: SyntaxTokens | string) =>
-  `--snc-${s.replace(/\./g, '-')}`;
+  `--style-syntax-${s.replace(PATTERN, '-')}-color`;
 
 export const cssSyntaxStyleToken = (s: SyntaxTokens | string) =>
-  `--sns-${s.replace(/\./g, '-')}`;
+  `--style-syntax-${s.replace(PATTERN, '-')}-style`;
 
 export const cssSyntaxWeightToken = (s: SyntaxTokens | string) =>
-  `--snw-${s.replace(/\./g, '-')}`;
+  `--style-syntax-${s.replace(PATTERN, '-')}-weight`;
 
 export const cssVarSyntaxToken = (
   s: SyntaxTokens,
@@ -39,3 +43,24 @@ export const cssVarSyntaxStyleToken = (s: SyntaxTokens) =>
 
 export const cssVarSyntaxWeightToken = (s: SyntaxTokens) =>
   cssVarSyntaxToken(s, cssSyntaxWeightToken);
+
+export function themeStyleToCssVars(style?: ThemeStyleContent): CSSProperties {
+  const cssStyleVars: CSSProperties = {};
+
+  if (style) {
+    for (const [key, value] of Object.entries(style)) {
+      if (key === 'players' || key === 'syntax') continue;
+      cssStyleVars[cssStyleToken(key)] = `${value}`;
+    }
+
+    if (style.syntax) {
+      for (const [key, syntax] of Object.entries(style.syntax)) {
+        cssStyleVars[cssSyntaxColorToken(key)] = syntax?.color;
+        cssStyleVars[cssSyntaxStyleToken(key)] = syntax?.font_style;
+        cssStyleVars[cssSyntaxWeightToken(key)] = syntax?.font_weight;
+      }
+    }
+  }
+
+  return cssStyleVars;
+}
