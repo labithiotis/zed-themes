@@ -3,13 +3,14 @@ import JSONCrush from 'jsoncrush';
 import { useLayoutEffect } from 'preact/hooks';
 import { theme, themeValidator } from '~/state/state.tsx';
 
-export const THEME_LOADER_PARAM = 'share';
+export const THEME_ID_PARAM = 'id';
+export const THEME_SHARE_PARAM = 'share';
 
 export function createShareThemeUrl() {
   const url = new URL(location.origin);
   url.pathname = 'theme';
   url.searchParams.set(
-    THEME_LOADER_PARAM,
+    THEME_SHARE_PARAM,
     encodeURIComponent(JSONCrush.crush(JSON.stringify(theme.value)))
   );
   return url.toString();
@@ -21,7 +22,7 @@ export function useShareThemeLoader() {
     error: undefined,
   });
   const themeLoaderParam = new URLSearchParams(location.search).get(
-    THEME_LOADER_PARAM
+    THEME_SHARE_PARAM
   );
 
   useLayoutEffect(() => {
@@ -34,9 +35,6 @@ export function useShareThemeLoader() {
         themeValidator({ name: 'zed', author: 'zed', themes: [loadedTheme] })
       ) {
         theme.value = loadedTheme;
-        const url = new URL(location.href);
-        url.searchParams.delete(THEME_LOADER_PARAM);
-        history.replaceState({}, '', url.toString());
         themeLoadingState.value = { loading: false, error: undefined };
       } else {
         console.warn(themeValidator.errors);
@@ -70,6 +68,9 @@ export function useThemeByIdLoader() {
 
           if (firstTheme) {
             theme.value = firstTheme;
+            const url = new URL(location.href);
+            url.searchParams.delete('id');
+            history.replaceState({}, '', url.toString());
             themeLoadingState.value = { loading: false, error: undefined };
           } else {
             themeLoadingState.value = { loading: false, error: 'No themes' };
@@ -86,4 +87,13 @@ export function useThemeByIdLoader() {
   }, [themeId]);
 
   return themeLoadingState.value;
+}
+
+export function removeThemeIDInUrl() {
+  // If user edits theme and there's and ID in url clear it
+  const url = new URL(location.href);
+  if (url.searchParams.has(THEME_ID_PARAM)) {
+    url.searchParams.delete(THEME_ID_PARAM);
+    history.replaceState({}, '', url.toString());
+  }
 }
