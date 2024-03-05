@@ -4,8 +4,10 @@ import { ThemeStyleContent } from '~/state/themeFamily';
 
 const PATTERN = /[._]/g;
 
+export const sanitizeToken = (s: string) => s.replace(PATTERN, '-');
+
 export const cssStyleToken = (s: StyleTokens | string) =>
-  `--style-${s.replace(PATTERN, '-')}`;
+  `--style-${sanitizeToken(s)}`;
 
 export const cssVarStyleToken = (s: StyleTokens) => {
   const fallback = s.split('.').shift();
@@ -16,13 +18,13 @@ export const cssVarStyleToken = (s: StyleTokens) => {
 };
 
 export const cssSyntaxColorToken = (s: SyntaxTokens | string) =>
-  `--style-syntax-${s.replace(PATTERN, '-')}-color`;
+  `--style-syntax-${sanitizeToken(s)}-color`;
 
 export const cssSyntaxStyleToken = (s: SyntaxTokens | string) =>
-  `--style-syntax-${s.replace(PATTERN, '-')}-style`;
+  `--style-syntax-${sanitizeToken(s)}-style`;
 
 export const cssSyntaxWeightToken = (s: SyntaxTokens | string) =>
-  `--style-syntax-${s.replace(PATTERN, '-')}-weight`;
+  `--style-syntax-${sanitizeToken(s)}-weight`;
 
 export const cssVarSyntaxToken = (
   s: SyntaxTokens,
