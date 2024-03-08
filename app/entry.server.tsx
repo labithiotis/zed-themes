@@ -1,0 +1,37 @@
+import { EntryContext } from '@remix-run/node';
+import { RemixServer } from '@remix-run/react';
+import { isbot } from 'isbot';
+
+// force "browser" export on node (typing is from env.d.ts)
+import { renderToReadableStream } from 'react-dom/server.browser';
+
+// initialize miniflare to mimic cloudflare workers runtime on vite server
+// if (import.meta.env.DEV) {
+//   await import('./miniflare');
+// }
+
+export default async function handleRequest(
+  request: Request,
+  responseStatusCode: number,
+  responseHeaders: Headers,
+  remixContext: EntryContext
+) {
+  const body = await renderToReadableStream(<RemixServer context={remixContext} url={request.url} />, {
+    signal: request.signal,
+    onError(error: unknown) {
+      // Log streaming rendering errors from inside the shell
+      console.error(error);
+      responseStatusCode = 500;
+    },
+  });
+
+  if (isbot(request.headers.get('user-agent') ?? '')) {
+    await body.allReady;
+  }
+
+  responseHeaders.set('Content-Type', 'text/html');
+  return new Response(body, {
+    headers: responseHeaders,
+    status: responseStatusCode,
+  });
+}

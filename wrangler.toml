@@ -1,0 +1,14 @@
+name = "zed-themes"
+compatibility_date = "2022-05-22"
+main = "./app/server.mjs"
+account_id = "x"
+workers_dev = true
+
+[site]
+bucket = "./public"
+
+# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
+# Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"

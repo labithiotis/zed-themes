@@ -1,24 +1,27 @@
 {
+  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "types": ["@remix-run/cloudflare", "vite/client"],
+    "baseUrl": ".",
     "paths": {
-      "react": ["./node_modules/preact/compat/"],
-      "react-dom": ["./node_modules/preact/compat/"],
-      "~/*": ["./src/*"]
+      "~/*": ["./app/*"]
     },
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "esModuleInterop": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
 
     /* Linting */
     "strict": true,
@@ -26,7 +29,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "files": ["./node_modules/vite-plugin-svgr/client.d.ts"],
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "files": ["./node_modules/vite-plugin-svgr/client.d.ts"]
 }
