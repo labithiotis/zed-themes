@@ -1,5 +1,5 @@
 import { createCookieSessionStorage } from '@remix-run/node';
-import { UITheme } from './UIThemeToggle.tsx';
+import { UiTheme } from './UiThemeToggle.tsx';
 
 const store = createCookieSessionStorage({
   cookie: {
@@ -15,8 +15,8 @@ const store = createCookieSessionStorage({
 export async function themeSession(request: Request) {
   const session = await store.getSession(request.headers.get('Cookie'));
   return {
-    setTheme: (theme: UITheme) => session.set('theme', theme),
-    getTheme: () => session.get('theme') as UITheme,
+    setTheme: (theme: UiTheme) => session.set('theme', theme),
+    getTheme: () => session.get('theme') as UiTheme | undefined,
     commit: () => store.commitSession(session),
   };
 }

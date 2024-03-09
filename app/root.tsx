@@ -1,8 +1,8 @@
 import { LinksFunction, MetaFunction } from '@remix-run/cloudflare';
-import { ActionFunction, LoaderFunction } from '@remix-run/node';
-import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import { LoaderFunction } from '@remix-run/node';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { themeSession } from './components/uiTheme.server.ts';
-import { UITheme, uiTheme } from './components/UIThemeToggle.tsx';
+import { UiTheme, UiThemeLoader } from './components/UiThemeToggle.tsx';
 
 import './root.css';
 import styles from './tailwind.css?url';
@@ -20,43 +20,30 @@ export const links: LinksFunction = () => [
 ];
 
 export type RootData = {
-  theme: UITheme;
+  theme?: UiTheme;
 };
 
 export const loader: LoaderFunction = async ({ request }): Promise<RootData> => {
   const session = await themeSession(request);
   return {
-    theme: session.getTheme() ?? 'light',
+    theme: session.getTheme(),
   };
 };
 
-export const action: ActionFunction = async ({ request }) => {
-  const session = await themeSession(request);
-  const requestText = await request.text();
-  const form = new URLSearchParams(requestText);
-  const theme = form.get('theme');
-
-  if (theme === 'dark' || theme === 'light') {
-    session.setTheme(theme);
-    return json({ success: true }, { headers: { 'Set-Cookie': await session.commit() } });
-  }
-};
-
 export default function App() {
-  const { theme } = useLoaderData<RootData>();
-
-  uiTheme.value = theme;
+  const loaderData = useLoaderData<RootData>();
 
   return (
-    <html lang="en">
+    <html lang="en" className={loaderData.theme}>
       <head>
         <Meta />
         <Links />
       </head>
-      <body className={`${theme} bg-stone-300 dark:bg-stone-900 `}>
+      <body className="bg-stone-300 dark:bg-stone-900">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <UiThemeLoader theme={loaderData.theme} />
       </body>
     </html>
   );

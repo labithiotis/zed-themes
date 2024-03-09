@@ -21,9 +21,7 @@ export const setStyleToken = debounce((token: StyleTokens, color: unknown) => {
 }, 25);
 
 export const setSyntaxToken = debounce((token: SyntaxTokens, syntaxStyle: Partial<HighlightStyleContent>) => {
-  console.log('ssss');
   if (theme.value && (syntaxStyle.color ? isValidColor(syntaxStyle.color) : true)) {
-    console.debug('Setting syntax token', token, syntaxStyle);
     theme.value = {
       ...theme.value,
       style: {
