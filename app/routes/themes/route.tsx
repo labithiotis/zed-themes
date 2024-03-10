@@ -10,7 +10,7 @@ export default function Themes() {
     <div className="flex h-screen w-screen bg-stone-300 dark:bg-stone-900 dark:text-zinc-200">
       <div className="flex flex-col px-6 py-4">
         <span className="text-zed-800 dark:text-zed-600 mb-2 flex text-xl font-semibold">
-          <span className="flex-1">Zed Themes 1</span>
+          <span className="flex-1">Zed Themes</span>
           <UiThemeToggle />
         </span>
         <div className="flex flex-wrap content-start justify-center ">
