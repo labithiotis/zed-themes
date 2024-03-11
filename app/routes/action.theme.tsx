@@ -1,4 +1,4 @@
-import { ActionFunction, json } from '@remix-run/node';
+import { ActionFunction, json } from '@remix-run/server-runtime';
 import { themeSession } from '~/components/uiTheme.server.ts';
 
 export const action: ActionFunction = async ({ request }) => {

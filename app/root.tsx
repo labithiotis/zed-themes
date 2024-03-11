@@ -1,5 +1,5 @@
 import { LinksFunction, MetaFunction } from '@remix-run/cloudflare';
-import { LoaderFunction } from '@remix-run/node';
+import { LoaderFunction } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { themeSession } from './components/uiTheme.server.ts';
 import { UiTheme, UiThemeLoader } from './components/UiThemeToggle.tsx';

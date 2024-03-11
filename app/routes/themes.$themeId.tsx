@@ -1,17 +1,18 @@
-import { useShareThemeLoader, useThemeByIdLoader } from '~/utils/themeLoader';
-import { Preview } from './components/preview/Preview.tsx';
-import { Side } from './components/side/Side';
+import { useThemeByIdLoader } from '~/utils/themeLoader';
+// import { Preview } from '~/components/preview/Preview.tsx';
+// import { Side } from '~/components/side/Side';
 
 export default function Theme() {
   const themeById = useThemeByIdLoader();
-  const shareTheme = useShareThemeLoader();
+  // const shareTheme = useShareThemeLoader();
 
-  if (themeById.loading || shareTheme.loading) return <Loader />;
+  if (themeById.loading) return <Loader />;
 
+  // fixme something in side or preview errors in CF/wrangler
   return (
     <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
-      <Side />
-      <Preview />
+      {/* <Side /> */}
+      {/* <Preview /> */}
     </div>
   );
 }

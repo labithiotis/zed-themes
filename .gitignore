@@ -14,6 +14,7 @@ dist-ssr
 .cache
 build
 .env
+.tmp
 
 .wrangler
 

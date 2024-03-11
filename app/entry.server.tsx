@@ -1,21 +1,22 @@
-import { EntryContext } from '@remix-run/node';
+import { EntryContext } from '@remix-run/cloudflare';
 import { RemixServer } from '@remix-run/react';
 import { isbot } from 'isbot';
+import { platformProxy } from './miniflare';
 
 // force "browser" export on node (typing is from env.d.ts)
 import { renderToReadableStream } from 'react-dom/server.browser';
-
-// initialize miniflare to mimic cloudflare workers runtime on vite server
-// if (import.meta.env.DEV) {
-//   await import('./miniflare');
-// }
 
 export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext & { env: any }
 ) {
+  // initialize miniflare to mimic cloudflare workers runtime on vite server
+  if (import.meta.env.DEV) {
+    remixContext.env = platformProxy.env;
+  }
+
   const body = await renderToReadableStream(<RemixServer context={remixContext} url={request.url} />, {
     signal: request.signal,
     onError(error: unknown) {

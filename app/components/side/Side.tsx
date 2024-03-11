@@ -2,7 +2,7 @@ import { ChangeEvent, useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
 import ExitIcon from '~/assets/icons/exit.svg?react';
 import ExternalIcon from '~/assets/icons/external_link.svg?react';
-import { UiThemeToggle } from '../../../../components/UiThemeToggle.tsx';
+import { UiThemeToggle } from '~/components/UiThemeToggle.tsx';
 import { theme, themeFamily, themeValidator } from '~/state/state.tsx';
 import { SyntaxTokens, syntaxTokens } from '~/state/tokens.ts';
 import { createShareThemeUrl } from '~/utils/themeLoader.tsx';

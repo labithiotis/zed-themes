@@ -6,11 +6,10 @@
     "module": "ESNext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "app",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./*"]
     },
-
     /* Bundler mode */
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
@@ -21,7 +20,6 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

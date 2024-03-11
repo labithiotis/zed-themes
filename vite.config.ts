@@ -17,7 +17,7 @@ export default defineConfig({
     remix({
       ssr: true,
       serverModuleFormat: 'esm',
-      ignoredRouteFiles: ['**/*.css', '**/*.{json,svg,png,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
+      ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
     }),
   ],
 });
