@@ -131,10 +131,10 @@ export function Side() {
               <Token
                 key={token}
                 name={token}
+                syntax={token}
                 color={theme.value?.style.syntax[token]?.color}
                 description=""
                 onChange={(color) => setSyntaxToken(token, { color })}
-                syntax={token}
               />
             )}
           </Section>

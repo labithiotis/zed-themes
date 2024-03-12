@@ -1,13 +1,13 @@
 import { computed, signal, useSignalEffect } from '@preact/signals-react';
-import Ajv from 'ajv';
 import { useEffect } from 'react';
 import defaultTheme from './defaultTheme.json';
 import { ThemeContent, ThemeFamilyContent } from './themeFamily';
-import themeFamilySchema from './themeFamily.json';
+import validator from './validator/themeFamilyValidator.mjs';
+import type { ValidateFunction } from 'ajv/dist/types';
 
 export type ColorHex = `#${string}`;
 
-export const themeValidator = new Ajv().compile<ThemeFamilyContent>(themeFamilySchema);
+export const themeValidator = validator as ValidateFunction<ThemeFamilyContent>;
 
 export const theme = signal<ThemeContent | null>((defaultTheme.themes as unknown as ThemeContent[])[0]);
 
