@@ -58,8 +58,8 @@ export function Token({
         className="flex flex-row items-center gap-2"
         title={!showColor.value && !!description ? description : undefined}
       >
-        <div
-          className="color-preview h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
+        <button
+          className="color-preview h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border outline-none hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
           style={{
             color: color ? color : 'transparent',
             borderColor: color ? `color-mix(in xyz, ${color} 70%, black)` : '#808080',
@@ -67,12 +67,12 @@ export function Token({
           onClick={() => (showColor.value = !showColor.value)}
         />
         <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
-          <p
-            className="hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200"
+          <button
             onClick={() => (showColor.value = !showColor.value)}
+            className="text-left outline-none hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200"
           >
             {name}
-          </p>
+          </button>
           <div className="flex items-center gap-2 pr-2">
             <div className="flex-1">
               <input

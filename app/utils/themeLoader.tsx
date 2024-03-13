@@ -1,5 +1,5 @@
 import { useSignal } from '@preact/signals-react';
-import { generatePath, useParams } from '@remix-run/react';
+import { generatePath } from '@remix-run/react';
 import JSONCrush from 'jsoncrush';
 import { useEffect } from 'react';
 import { theme, themeValidator } from '../state/state.tsx';
@@ -35,43 +35,6 @@ export function useShareThemeLoader() {
       }
     }
   }, [themeLoaderParam]);
-
-  return themeLoadingState.value;
-}
-
-export function useThemeByIdLoader() {
-  const params = useParams();
-  const themeId = params[THEME_ID_PARAM];
-  const themeLoadingState = useSignal<{ loading: boolean; error?: string }>({
-    loading: false,
-    error: undefined,
-  });
-
-  useEffect(() => {
-    // // if (themeId) {
-    // //   themeLoadingState.value = { loading: true, error: undefined };
-    // //   fetch(`/themes/${themeId}`).then(async (res) => {
-    // //     const data = await res.json();
-    // //     if (themeValidator(data)) {
-    // //       const firstTheme = data.themes.at(0);
-    // //
-    // //       if (firstTheme) {
-    // //         theme.value = firstTheme;
-    // //         const url = new URL(href);
-    // //         url.searchParams.delete('id');
-    // //         history.replaceState({}, '', url.toString());
-    // //         themeLoadingState.value = { loading: false, error: undefined };
-    // //       } else {
-    // //         themeLoadingState.value = { loading: false, error: 'No themes' };
-    // //       }
-    // //     } else {
-    // //       console.warn(themeValidator.errors);
-    // //       const message = themeValidator.errors?.map((e) => e.message).join('\n');
-    // //       themeLoadingState.value = { loading: false, error: message };
-    // //     }
-    // //   });
-    // }
-  }, [themeId]);
 
   return themeLoadingState.value;
 }
