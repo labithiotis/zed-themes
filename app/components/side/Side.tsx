@@ -1,92 +1,20 @@
-import { ChangeEvent, useRef } from 'react';
-import { FileDrop } from 'react-file-drop';
-import ExitIcon from '~/assets/icons/exit.svg?react';
-import ExternalIcon from '~/assets/icons/external_link.svg?react';
 import { UiThemeToggle } from '~/components/UiThemeToggle.tsx';
-import { theme, themeFamily, themeValidator } from '~/state/state.tsx';
+import { theme } from '~/state/state.tsx';
 import { SyntaxTokens, syntaxTokens } from '~/state/tokens.ts';
-import { createShareThemeUrl } from '~/utils/themeLoader.tsx';
 import { Player } from './Player.tsx';
 import { Section } from './Section.tsx';
 import { sections } from './sections.ts';
 import { setStyleToken, setSyntaxToken, Token } from './Token.tsx';
+import { SideShareButton } from './SideShareButton.tsx';
+import { SideSaveButton } from './SideSaveButton.tsx';
+import { SideUploadButton } from './SideUploadButton.tsx';
+
+export const btnStyles =
+  'flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
 export function Side() {
-  const fileDropRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const onFileInput = (event: ChangeEvent<HTMLInputElement>) => {
-    onFiles(event.currentTarget.files);
-  };
-
-  const onFiles = (files: FileList | null) => {
-    if (files === null || files.length > 1) {
-      alert('Please upload only 1 file');
-      return;
-    }
-
-    const file = files[0];
-    if (file.type !== 'application/json') {
-      alert('Please upload a JSON file');
-      return;
-    }
-
-    file.text().then((text) => {
-      const data = JSON.parse(text);
-      const isThemeFamily = 'author' in data;
-      const themeFamily = isThemeFamily ? data : { name: 'zed', author: 'zed', themes: [data] };
-
-      if (themeValidator(themeFamily)) {
-        theme.value = themeFamily.themes[0];
-      } else {
-        console.warn(themeValidator.errors);
-        const message = themeValidator.errors?.map((e) => e.message).join('\n');
-        alert(`File does not match Zed's theme schema!\n\nWe got the following errors:\n${message}`);
-      }
-    });
-
-    fileDropRef.current?.classList.add('hidden');
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const saveTheme = () => {
-    const fileName = 'schema';
-    const json = JSON.stringify(themeFamily.value, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const href = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = href;
-    link.download = fileName + '.json';
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
-  };
-
-  const getFrame = () => (typeof window === 'object' ? document : undefined);
-
   return (
     <>
-      <FileDrop
-        frame={getFrame()}
-        onDrop={onFiles}
-        onTargetClick={() => fileInputRef.current?.click()}
-        onFrameDragEnter={() => fileDropRef.current?.classList.remove('hidden')}
-        onFrameDragLeave={() => fileDropRef.current?.classList.add('hidden')}
-      >
-        <div
-          ref={fileDropRef}
-          className="absolute inset-0 isolate z-10 flex hidden select-none items-center justify-center bg-zinc-600/80"
-        >
-          <h4 className="text-2xl font-bold text-white shadow-black drop-shadow-lg">Drop your schema here</h4>
-        </div>
-      </FileDrop>
-      <input type="file" className="hidden" ref={fileInputRef} accept=".json" multiple={false} onChange={onFileInput} />
       <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
         <div className="flex items-center p-2 text-zed-900">
           <a
@@ -173,31 +101,10 @@ export function Side() {
             </a>
           </div>
           <div className="flex">
-            <button
-              className="flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
-              onClick={() => {
-                navigator.clipboard.writeText(createShareThemeUrl());
-                alert('A shareable url has been copied to your clipboard.');
-              }}
-            >
-              <ExitIcon width={16} height={16} />
-              Share Theme
-            </button>
-            <button
-              onClick={saveTheme}
-              className="flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
-            >
-              <ExitIcon width={16} height={16} />
-              Save Theme
-            </button>
+            <SideShareButton />
+            <SideSaveButton />
           </div>
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="flex items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200"
-          >
-            <ExternalIcon width={15} height={15} style={{ marginTop: -2 }} />
-            Upload existing theme
-          </button>
+          <SideUploadButton />
         </div>
       </div>
     </>

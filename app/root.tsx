@@ -1,11 +1,12 @@
 import { LinksFunction, MetaFunction } from '@remix-run/cloudflare';
-import { LoaderFunction } from '@remix-run/cloudflare';
+import { LoaderFunction, json } from '@remix-run/server-runtime';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
-import { themeSession } from './components/uiTheme.server.ts';
-import { UiTheme, UiThemeLoader } from './components/UiThemeToggle.tsx';
+import { uiThemeSession } from './components/uiTheme.server.ts';
+import { UiTheme, UiThemeLoader, uiTheme } from './components/UiThemeToggle.tsx';
 
 import './root.css';
 import styles from './tailwind.css?url';
+import { useEffect } from 'react';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -20,21 +21,24 @@ export const links: LinksFunction = () => [
 ];
 
 export type RootData = {
-  theme?: UiTheme;
+  uiTheme?: UiTheme;
+  shareUrl?: string;
 };
 
-export const loader: LoaderFunction = async ({ request }): Promise<RootData> => {
-  const session = await themeSession(request);
-  return {
-    theme: session.getTheme(),
-  };
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await uiThemeSession(request);
+  return json({ uiTheme: session.getUiTheme() });
 };
 
-export default function App() {
+export default function Root() {
+  console.debug('Render root');
+
   const loaderData = useLoaderData<RootData>();
 
+  uiTheme.value = loaderData.uiTheme;
+
   return (
-    <html lang="en" className={loaderData.theme}>
+    <html lang="en" className={uiTheme.value}>
       <head>
         <Meta />
         <Links />
@@ -43,7 +47,7 @@ export default function App() {
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <UiThemeLoader theme={loaderData.theme} />
+        <UiThemeLoader />
       </body>
     </html>
   );

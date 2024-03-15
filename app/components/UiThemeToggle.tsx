@@ -1,47 +1,51 @@
-import { signal, useSignalEffect } from '@preact/signals-react';
-import { useEffect, useRef, useState } from 'react';
-import { useSetUiTheme } from './useSetUiTheme';
+import { signal } from '@preact/signals-react';
+import { useEffect, useRef } from 'react';
+import { useFetcher } from '@remix-run/react';
 
 export type UiTheme = 'dark' | 'light';
 
-export const uiTheme = signal<UiTheme | null>(null);
+export const uiTheme = signal<UiTheme | undefined>(undefined);
 
-export function UiThemeLoader({ theme }: { theme?: UiTheme }) {
+function useSetUiTheme() {
+  const fetcher = useFetcher<{ uiTheme: UiTheme }>({ key: 'ui-theme' });
+
+  return (theme: UiTheme) => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      fetcher.submit({ theme: 'dark' }, { action: '/action/theme', method: 'post' });
+    } else {
+      document.documentElement.classList.remove('dark');
+      fetcher.submit({ theme: 'light' }, { action: '/action/theme', method: 'post' });
+    }
+  };
+}
+
+export function UiThemeLoader() {
   const called = useRef(false);
   const setUiTheme = useSetUiTheme();
 
   useEffect(() => {
-    if (called.current === false && !theme && typeof window === 'object') {
+    if (called.current === false && !uiTheme.value && typeof window === 'object') {
       const t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       uiTheme.value = t;
       called.current = true;
       setUiTheme(t);
-    } else if (theme) {
-      uiTheme.value = theme;
     }
-  }, [theme, setUiTheme]);
+  }, [setUiTheme]);
 
   return null;
 }
 
 export function UiThemeToggle() {
-  const [theme, setTheme] = useState<UiTheme | null>(uiTheme.value);
   const setUiTheme = useSetUiTheme();
-
-  // Using singal inside jsx doesn't refresh on change, so using reacts state
-  useSignalEffect(() => {
-    setTheme(uiTheme.value);
-  });
-
-  if (theme == null) return null;
 
   return (
     <button
       type="button"
       className="rounded-lg p-1 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-      onClick={() => setUiTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={() => setUiTheme(uiTheme.value === 'dark' ? 'light' : 'dark')}
     >
-      {theme === 'dark' ? (
+      {uiTheme.value === 'dark' ? (
         <svg
           data-theme="dark"
           className="h-3 w-3"

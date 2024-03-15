@@ -12,11 +12,11 @@ const store = createCookieSessionStorage({
   },
 });
 
-export async function themeSession(request: Request) {
+export async function uiThemeSession(request: Request) {
   const session = await store.getSession(request.headers.get('Cookie'));
   return {
-    setTheme: (theme: UiTheme) => session.set('theme', theme),
-    getTheme: () => session.get('theme') as UiTheme | undefined,
+    setUiTheme: (theme: UiTheme) => session.set('theme', theme),
+    getUiTheme: () => session.get('theme') as UiTheme | undefined,
     commit: () => store.commitSession(session),
   };
 }
