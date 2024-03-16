@@ -1,3 +1,5 @@
+#!/usr/bin/env zx
+
 import { $, cd, fs, within } from 'zx';
 
 $.verbose = false;
@@ -7,11 +9,13 @@ let folders: string[] = [];
 
 await within(async () => {
   // Fetch repo, pull latest summodules
-  if (!fs.existsSync(dir)) {
+  if (!(await fs.exists(dir))) {
+    console.log('Cloning extensions repo...');
     await $`git clone git@github.com:zed-industries/extensions.git ${dir}`;
   }
 
   cd(dir);
+  console.log('Pull latests submodules...');
   await $`git pull`;
   await $`git submodule update --init --recursive`;
 

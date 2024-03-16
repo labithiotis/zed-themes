@@ -5,7 +5,7 @@ import { LoaderFunction, json } from '@remix-run/server-runtime';
 import { useLoaderData } from '@remix-run/react';
 import { theme } from '~/state/state';
 import invariant from 'tiny-invariant';
-import { useSignalEffect } from '@preact/signals-react';
+import { useEffect } from 'react';
 
 type LoaderData = {
   theme?: ThemeFamilyContent;
@@ -28,20 +28,18 @@ export const loader: LoaderFunction = async ({ context, params }) => {
 
 export default function Theme() {
   const data = useLoaderData<LoaderData>();
-  // const navigate = useNavigate();
 
-  theme.value = data?.theme?.themes?.at(0) ?? null;
-
-  useSignalEffect(() => {
-    // todo when theme is edited change url
-    // console.log(theme.value);
-    // navigate('/themes/edit', { replace: true, preventScrollReset: true });
-  });
+  useEffect(() => {
+    const t = data?.theme?.themes?.at(0);
+    if (t && (!theme.value || theme.value.name !== t.name)) {
+      theme.value = t;
+    }
+  }, [data?.theme]);
 
   return (
     <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
       <Side />
-      {theme.value !== null && <Preview />}
+      {!!theme.value && <Preview />}
     </div>
   );
 }

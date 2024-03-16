@@ -11,7 +11,8 @@
     "dev:wrangler": "wrangler dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "schema2ts": "pnpm json2ts app/state/themeFamily.json src/state/themeFamily.d.ts --unknownAny=false --style.singleQuote --additionalProperties=false",
-    "build:validator": "npx tsx ./app/state/validator/buildValidator"
+    "build:validator": "npx tsx ./app/state/validator/buildValidator.ts",
+    "fetch:schemas": "npx tpx ./dev/fetchZedSchemas.ts"
   },
   "dependencies": {
     "@preact/signals-react": "2.0.0",
