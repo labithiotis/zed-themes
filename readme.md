@@ -8,7 +8,7 @@ So of the tokens are still a work in progress, zed seems to have more tokens tha
 
 #### Todo
 
-- [ ] Theme explorer/viewer
+- [x] Theme explorer/viewer
 - [x] Share theme via url (maybe use a hash of the theme json)
 - [ ] Add social links?
 - [ ] Highlight each part of the IDE as you hover over token?
