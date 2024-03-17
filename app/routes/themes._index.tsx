@@ -6,13 +6,13 @@ type LoaderData = {
   themes: { id: string; name?: string; author?: string }[];
 };
 
-async function fetchAllThemesFromKV(ns: KVNamespace) {
-  const nsList = await ns.list<{ name: string; author: string }>();
-  return nsList.keys.map((key) => ({ id: key.name, name: key.metadata?.name, author: key.metadata?.author }));
+async function fetchAllThemesFromKV(ns?: KVNamespace) {
+  const nsList = await ns?.list<{ name: string; author: string }>();
+  return nsList?.keys.map((key) => ({ id: key.name, name: key.metadata?.name, author: key.metadata?.author }));
 }
 
 export const loader: LoaderFunction = async ({ context }) => {
-  const themes = await fetchAllThemesFromKV(context.env.themes);
+  const themes = await fetchAllThemesFromKV(context.env?.THEMES);
   return json({ themes });
 };
 

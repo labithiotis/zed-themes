@@ -4,14 +4,14 @@ import { ThemeContent, ThemeFamilyContent } from '~/state/themeFamily.js';
 export const loader: LoaderFunction = async ({ request, context }) => {
   const themeId = new URL(request.url).searchParams.get('id');
   if (!themeId) throw new Error('No theme id');
-  const value = await context.env?.themes?.get(themeId);
-  const theme = value ? JSON.parse(value) as ThemeFamilyContent : undefined;
+  const value = await context.env?.THEMES?.get(themeId);
+  const theme = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
 
   return new Response(generatePreview(theme?.themes?.at(0)), {
     headers: {
       'Content-Type': 'image/svg+xml',
     },
-  })
+  });
 };
 
 function generatePreview(theme?: ThemeContent) {
@@ -103,7 +103,11 @@ function getStyleColor(theme: ThemeContent | undefined, style: keyof ThemeConten
 
 function getSyntaxStyles(theme: ThemeContent | undefined, syntax: string, fallback: string) {
   const color = `fill="${theme?.style?.syntax?.[syntax]?.color ?? fallback}"`;
-  const fontStyle = theme?.style?.syntax?.[syntax]?.font_style ? `font-style="${theme?.style?.syntax?.[syntax]?.font_style}"` : '';
-  const fontWeight = theme?.style?.syntax?.[syntax]?.font_weight ? `font-weight="${theme?.style?.syntax?.[syntax]?.font_weight}"` : '';
+  const fontStyle = theme?.style?.syntax?.[syntax]?.font_style
+    ? `font-style="${theme?.style?.syntax?.[syntax]?.font_style}"`
+    : '';
+  const fontWeight = theme?.style?.syntax?.[syntax]?.font_weight
+    ? `font-weight="${theme?.style?.syntax?.[syntax]?.font_weight}"`
+    : '';
   return [color, fontStyle, fontWeight].join(' ').trim();
 }
