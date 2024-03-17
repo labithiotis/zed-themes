@@ -1,6 +1,7 @@
 import { Outlet, useRouteError } from '@remix-run/react';
 
 export default function Themes() {
+  console.log('aaa');
   return <Outlet />;
 }
 

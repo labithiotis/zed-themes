@@ -6,7 +6,6 @@ import { UiTheme, UiThemeLoader, uiTheme } from './components/UiThemeToggle.tsx'
 
 import './root.css';
 import styles from './tailwind.css?url';
-import { useEffect } from 'react';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },

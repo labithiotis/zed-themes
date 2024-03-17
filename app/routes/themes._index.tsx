@@ -12,6 +12,7 @@ async function fetchAllThemesFromKV(ns?: KVNamespace) {
 }
 
 export const loader: LoaderFunction = async ({ context }) => {
+  console.log('env', context.env);
   const themes = await fetchAllThemesFromKV(context.env?.THEMES);
   return json({ themes });
 };
