@@ -1,7 +1,7 @@
 name = "zed-themes"
 compatibility_date = "2024-03-01"
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
-
+assets = "./build/client"
 kv_namespaces = [
     { binding = "themes", id = "5f415783fdf048cc8dfd74f6dd67317f", preview_id = "dfc3757bbcd54fa3839d742d25de2176" },
     { binding = "shares", id = "37c594b8926644dc9527f00a22982c52", preview_id = "f25a80ef0e534e66b9e2c728dd73d631" },
