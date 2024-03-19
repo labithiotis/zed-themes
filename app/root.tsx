@@ -1,8 +1,7 @@
-import { LinksFunction, MetaFunction } from '@remix-run/cloudflare';
-import { LoaderFunction, json } from '@remix-run/server-runtime';
+import { LinksFunction, MetaFunction, LoaderFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
-import { uiThemeSession } from './components/uiTheme.server.ts';
-import { UiTheme, UiThemeLoader, uiTheme } from './components/UiThemeToggle.tsx';
+import { uiThemeSession } from './components/uiTheme.server';
+import { UiTheme, UiThemeLoader, uiTheme } from './components/UiThemeToggle';
 
 import './root.css';
 import styles from './tailwind.css?url';

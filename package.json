@@ -2,46 +2,44 @@
   "name": "zed-themes",
   "private": true,
   "version": "0.0.1",
-  "sideEffects": false,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
-    "build": "vite build && vite build --ssr",
+    "build": "remix vite:build",
     "dev": "pnpm run --stream /^dev:/",
-    "dev:app": "vite",
-    "dev:wrangler": "wrangler dev",
+    "dev:app": "remix vite:dev",
+    "start": "wrangler pages dev ./build/client",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "typecheck": "wrangler types && tsc",
     "schema2ts": "pnpm json2ts app/state/themeFamily.json src/state/themeFamily.d.ts --unknownAny=false --style.singleQuote --additionalProperties=false",
     "build:validator": "npx tsx ./app/state/validator/buildValidator.ts",
     "sync:schemas": "npx tsx ./dev/fetchZedSchemas.ts"
   },
   "dependencies": {
     "@preact/signals-react": "2.0.0",
-    "@remix-run/cloudflare": "2.8.0",
-    "@remix-run/cloudflare-pages": "2.8.0",
-    "@remix-run/cloudflare-workers": "2.8.0",
-    "@remix-run/node": "2.8.0",
-    "@remix-run/react": "2.8.0",
-    "@remix-run/server-runtime": "^2.8.1",
+    "@remix-run/cloudflare": "2.8.1",
+    "@remix-run/cloudflare-pages": "2.8.1",
+    "@remix-run/react": "2.8.1",
     "isbot": "4.1.0",
-    "nanoid": "^5.0.6",
+    "nanoid": "5.0.6",
     "react": "18.2.0",
     "react-colorful": "5.6.1",
     "react-dom": "18.2.0",
     "react-file-drop": "3.1.6",
-    "tiny-invariant": "^1.3.3"
+    "tiny-invariant": "1.3.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20230518.0",
-    "@preact/signals-react-transform": "^0.3.0",
+    "@preact/signals-react-transform": "0.3.0",
     "@remix-run/dev": "2.8.0",
     "@remix-run/eslint-config": "1.7.0",
-    "@types/node": "^20.11.0",
+    "@types/node": "20",
     "@types/react": "18.2.64",
     "@types/react-dom": "18.2.21",
-    "@vitejs/plugin-react": "^4.2.1",
-    "ajv": "^8.12.0",
+    "@vitejs/plugin-react": "4.2.1",
+    "ajv": "8.12.0",
     "autoprefixer": "10.4.18",
-    "cloudflare-workers-kv-viewer": "^1.0.3",
+    "cloudflare-workers-kv-viewer": "1.0.3",
     "esbuild": "0.20.1",
     "eslint": "8.38.0",
     "json-schema-to-typescript": "13.1.2",
@@ -52,13 +50,13 @@
     "tailwind-scrollbar-hide": "1.1.7",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3",
-    "vite": "5.1.4",
+    "vite": "5.1.5",
     "vite-plugin-svgr": "4.2.0",
     "vite-tsconfig-paths": "4.3.1",
     "wrangler": "3.34.2",
-    "zx": "^7.2.3"
+    "zx": "7.2.3"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.11.0"
   }
 }

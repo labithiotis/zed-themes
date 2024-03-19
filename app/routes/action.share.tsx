@@ -1,4 +1,4 @@
-import { ActionFunction, json } from '@remix-run/server-runtime';
+import { ActionFunction, json } from '@remix-run/cloudflare';
 import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
 

@@ -1,11 +1,9 @@
-import { vitePlugin as remix } from '@remix-run/dev';
-import { installGlobals } from '@remix-run/node';
+import { vitePlugin as remix, cloudflareDevProxyVitePlugin as remixCloudflareDevProxy } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import svgrPlugin from 'vite-plugin-svgr';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
-
-installGlobals();
+import { getLoadContext } from './load-context';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +11,7 @@ export default defineConfig({
     port: 3005,
   },
   plugins: [
+    remixCloudflareDevProxy({ getLoadContext }),
     svgrPlugin({ svgrOptions: { icon: true } }),
     tsconfigPaths(),
     react({
@@ -21,7 +20,6 @@ export default defineConfig({
       },
     }),
     remix({
-      ssr: true,
       serverModuleFormat: 'esm',
       ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
     }),

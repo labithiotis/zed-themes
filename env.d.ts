@@ -1,14 +1,15 @@
-/// <reference types="vite/client" />
-/// <reference types="@remix-run/cloudflare" />
-/// <reference types="@cloudflare/workers-types" />
-import type { AppLoadContext as OriginalAppLoadContext } from '@remix-run/server-runtime';
+// <reference types="vite/client" />
+// <reference types="@remix-run/cloudflare" />
+// <reference types="@cloudflare/workers-types" />
+
+import type { AppLoadContext as OriginalAppLoadContext } from '@remix-run/cloudflare';
 
 export interface KVEnv {
   THEMES?: KVNamespace;
   SHARES?: KVNamespace;
 }
 
-declare module '@remix-run/server-runtime' {
+declare module '@remix-run/cloudflare' {
   export interface AppLoadContext extends OriginalAppLoadContext {
     // `env` is injected in global by
     // - "app/miniflare.ts" for development

@@ -1,5 +1,5 @@
-import { ActionFunction, json } from '@remix-run/server-runtime';
-import { uiThemeSession } from '~/components/uiTheme.server.ts';
+import { ActionFunction, json } from '@remix-run/cloudflare';
+import { uiThemeSession } from '~/components/uiTheme.server';
 
 export const action: ActionFunction = async ({ request }) => {
   const session = await uiThemeSession(request);

@@ -1,4 +1,4 @@
-import { StyleTokens, SyntaxTokens } from '../state/tokens.ts';
+import { StyleTokens, SyntaxTokens } from '../state/tokens';
 import { ThemeStyleContent } from '../state/themeFamily';
 
 const PATTERN = /[._]/g;

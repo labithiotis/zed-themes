@@ -1,4 +1,4 @@
-import { LoaderFunction } from '@remix-run/server-runtime';
+import { LoaderFunction } from '@remix-run/cloudflare';
 import { ThemeContent, ThemeFamilyContent } from '~/state/themeFamily.js';
 
 export const loader: LoaderFunction = async ({ request, context }) => {

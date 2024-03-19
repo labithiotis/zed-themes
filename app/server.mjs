@@ -1,4 +1,4 @@
-import { createRequestHandler } from '@remix-run/server-runtime';
+import { createRequestHandler } from '@remix-run/cloudflare';
 import * as remixBuild from '../build/server/index.js';
 
 // wrangler will bundle this file "app/server.mjs" with prebuilt remix build "build/server/index.js"

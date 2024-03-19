@@ -1,6 +1,6 @@
 import 'react';
 import { ThemeStyleContent } from '../state/themeFamily';
-import { sanitizeToken } from './cssVarTokens.ts';
+import { sanitizeToken } from './cssVarTokens';
 
 export function themeStyleClassNames(style: ThemeStyleContent) {
   const styleClasses = Object.keys(style)

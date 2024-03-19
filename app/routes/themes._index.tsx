@@ -1,5 +1,5 @@
-import { UiThemeToggle } from '~/components/UiThemeToggle.tsx';
-import { LoaderFunction, json } from '@remix-run/server-runtime';
+import { UiThemeToggle } from '~/components/UiThemeToggle';
+import { LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 
 type LoaderData = {

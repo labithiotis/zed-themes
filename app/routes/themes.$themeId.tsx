@@ -1,7 +1,7 @@
-import { Preview } from '~/components/preview/Preview.tsx';
+import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { ThemeFamilyContent } from '~/state/themeFamily';
-import { LoaderFunction, json } from '@remix-run/server-runtime';
+import { LoaderFunctionArgs, TypedResponse, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import { theme } from '~/state/state';
 import invariant from 'tiny-invariant';
@@ -11,7 +11,7 @@ type LoaderData = {
   theme?: ThemeFamilyContent;
 };
 
-export const loader: LoaderFunction = async ({ context, params }) => {
+export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> => {
   const themesKv = context.env?.THEMES;
   const sharesKv = context.env?.SHARES;
 
@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ context, params }) => {
 };
 
 export default function Theme() {
-  const data = useLoaderData<LoaderData>();
+  const data = useLoaderData<typeof loader>();
 
   useEffect(() => {
     const t = data?.theme?.themes?.at(0);
