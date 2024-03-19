@@ -4,7 +4,7 @@ import { ThemeContent, ThemeFamilyContent } from '~/state/themeFamily.js';
 export const loader: LoaderFunction = async ({ request, context }) => {
   const themeId = new URL(request.url).searchParams.get('id');
   if (!themeId) throw new Error('No theme id');
-  const value = await context.env?.THEMES?.get(themeId);
+  const value = await context.env?.themes?.get(themeId);
   const theme = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
 
   return new Response(generatePreview(theme?.themes?.at(0)), {

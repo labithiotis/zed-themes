@@ -1,6 +1,6 @@
 import { UiThemeToggle } from '~/components/UiThemeToggle';
 import { LoaderFunction, json } from '@remix-run/cloudflare';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useRouteError } from '@remix-run/react';
 
 type LoaderData = {
   themes: { id: string; name?: string; author?: string }[];
@@ -13,7 +13,7 @@ async function fetchAllThemesFromKV(ns?: KVNamespace) {
 
 export const loader: LoaderFunction = async ({ context }) => {
   console.log('env', context.env);
-  const themes = await fetchAllThemesFromKV(context.env?.THEMES);
+  const themes = await fetchAllThemesFromKV(context.env?.themes);
   return json({ themes });
 };
 
@@ -48,6 +48,18 @@ export default function Themes() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return (
+    <div>
+      <h1>Themes Error</h1>
+      <p>{error instanceof Error ? error?.message : 'Something went wrong'}</p>
+      <pre>{error instanceof Error ? error?.stack : ''}</pre>
     </div>
   );
 }

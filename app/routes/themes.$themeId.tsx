@@ -12,8 +12,8 @@ type LoaderData = {
 };
 
 export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> => {
-  const themesKv = context.env?.THEMES;
-  const sharesKv = context.env?.SHARES;
+  const themesKv = context.env?.themes;
+  const sharesKv = context.env?.shares;
 
   invariant(params.themeId);
 
