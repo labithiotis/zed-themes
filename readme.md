@@ -13,6 +13,7 @@ So of the tokens are still a work in progress, zed seems to have more tokens tha
 - [ ] Add social links?
 - [ ] Highlight each part of the IDE as you hover over token?
 - [ ] Fully support theme groups??
+- [ ] Share on twitter/linkedin
 
 ##### Completed
 
