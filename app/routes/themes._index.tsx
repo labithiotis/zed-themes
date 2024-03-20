@@ -34,13 +34,13 @@ export default function Themes() {
                   <h4 className="text-lg">{theme.name}</h4>
                   <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">By {theme.author}</p>
                 </div>
-                <div className="flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600">
+                <div className="h-full w-full flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600">
                   <img
+                    className="h-full w-full"
                     src={`/themes/preview.svg?id=${theme.id}`}
                     width="100%"
                     height="100%"
                     alt={`${theme.name} preview`}
-                    style={{ minWidth: '30%', minHeight: '30%' }}
                   />
                 </div>
               </a>
