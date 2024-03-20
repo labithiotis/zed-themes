@@ -18,7 +18,12 @@ export const meta: MetaFunction = () => [
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
-  { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/firacode@latest/distr/fira_code.min.css' },
+  {
+    rel: 'stylesheet',
+    href: 'https://cdn.jsdelivr.net/npm/firacode@latest/distr/fira_code.min.css',
+    media: 'none',
+    onload: "if(media!='all')media='all'", // this allows the font to load without blocking the page
+  },
 ];
 
 export type RootData = {
