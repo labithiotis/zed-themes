@@ -40,6 +40,7 @@ export default function Themes() {
                     width="100%"
                     height="100%"
                     alt={`${theme.name} preview`}
+                    style={{ minWidth: '30%', minHeight: '30%' }}
                   />
                 </div>
               </a>
