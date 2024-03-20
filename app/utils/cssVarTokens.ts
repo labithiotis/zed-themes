@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { StyleTokens, SyntaxTokens } from '../providers/tokens';
 import { ThemeStyleContent } from '../themeFamily';
 
@@ -5,7 +6,7 @@ const PATTERN = /[._]/g;
 
 export const sanitizeToken = (s: string) => s.replace(PATTERN, '-');
 
-export const cssStyleToken = (s: StyleTokens | string) => `--style-${sanitizeToken(s)}`;
+export const cssStyleToken = (s: StyleTokens | string) => `--style-${sanitizeToken(s)}` as const;
 
 export const cssVarStyleToken = (s: StyleTokens) => {
   const fallback = s.split('.').shift();
@@ -15,11 +16,14 @@ export const cssVarStyleToken = (s: StyleTokens) => {
   return `var(${cssStyleToken(s)})`;
 };
 
-export const cssSyntaxColorToken = (s: SyntaxTokens | string) => `--style-syntax-${sanitizeToken(s)}-color`;
+export const cssSyntaxColorToken = (s: SyntaxTokens | string): `--${string}` =>
+  `--style-syntax-${sanitizeToken(s)}-color` as const;
 
-export const cssSyntaxStyleToken = (s: SyntaxTokens | string) => `--style-syntax-${sanitizeToken(s)}-style`;
+export const cssSyntaxStyleToken = (s: SyntaxTokens | string): `--${string}` =>
+  `--style-syntax-${sanitizeToken(s)}-style` as const;
 
-export const cssSyntaxWeightToken = (s: SyntaxTokens | string) => `--style-syntax-${sanitizeToken(s)}-weight`;
+export const cssSyntaxWeightToken = (s: SyntaxTokens | string): `--${string}` =>
+  `--style-syntax-${sanitizeToken(s)}-weight` as const;
 
 export const cssVarSyntaxToken = (s: SyntaxTokens, fn: (s: SyntaxTokens | string) => string) => {
   const fallback = s.split('.').shift();
@@ -35,8 +39,8 @@ export const cssVarSyntaxStyleToken = (s: SyntaxTokens) => cssVarSyntaxToken(s, 
 
 export const cssVarSyntaxWeightToken = (s: SyntaxTokens) => cssVarSyntaxToken(s, cssSyntaxWeightToken);
 
-export function themeStyleToCssVars(style?: ThemeStyleContent): Record<string, string | number | undefined | null> {
-  const cssStyleVars: Record<string, string | number | undefined | null> = {};
+export function themeStyleToCssVars(style?: ThemeStyleContent): CSSProperties {
+  const cssStyleVars: CSSProperties = {};
 
   if (style) {
     for (const [key, value] of Object.entries(style)) {
@@ -46,9 +50,15 @@ export function themeStyleToCssVars(style?: ThemeStyleContent): Record<string, s
 
     if (style.syntax) {
       for (const [key, syntax] of Object.entries(style.syntax)) {
-        cssStyleVars[cssSyntaxColorToken(key)] = syntax?.color;
-        cssStyleVars[cssSyntaxStyleToken(key)] = syntax?.font_style;
-        cssStyleVars[cssSyntaxWeightToken(key)] = syntax?.font_weight;
+        if (syntax?.color) {
+          cssStyleVars[cssSyntaxColorToken(key)] = syntax.color;
+        }
+        if (syntax?.font_style) {
+          cssStyleVars[cssSyntaxStyleToken(key)] = syntax.font_style;
+        }
+        if (syntax?.font_weight) {
+          cssStyleVars[cssSyntaxWeightToken(key)] = syntax.font_weight;
+        }
       }
     }
   }

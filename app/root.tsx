@@ -33,8 +33,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Root() {
   const loaderData = useLoaderData<RootData>();
 
-  console.debug('Render root');
-
   return (
     <html lang="en" className={loaderData.uiTheme}>
       <head>

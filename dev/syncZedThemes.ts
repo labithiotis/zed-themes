@@ -8,14 +8,14 @@ const dir = '/tmp/zed-extensions';
 let folders: string[] = [];
 
 await within(async () => {
-  // Fetch repo, pull latest summodules
+  // Fetch repo, pull latest submodules
   if (!(await fs.exists(dir))) {
     console.log('Cloning extensions repo...');
     await $`git clone git@github.com:zed-industries/extensions.git ${dir}`;
   }
 
   cd(dir);
-  console.log('Pull latests submodules...');
+  console.log("Pull latest's submodules...");
   await $`git pull`;
   await $`git submodule update --init --recursive`;
 
