@@ -1,10 +1,12 @@
 import { LinksFunction, MetaFunction, LoaderFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { uiThemeSession } from './components/uiTheme.server';
-import { UiTheme, UiThemeLoader, uiTheme } from './components/UiThemeToggle';
+import { UiThemeLoader } from './components/UiThemeToggle';
+import { UiTheme, UiThemeProvider } from './providers/uiTheme';
 
 import './root.css';
 import styles from './tailwind.css?url';
+import { ThemeProvider } from './providers/theme';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -29,20 +31,22 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Root() {
-  console.debug('Render root');
-
   const loaderData = useLoaderData<RootData>();
 
-  uiTheme.value = loaderData.uiTheme;
+  console.debug('Render root');
 
   return (
-    <html lang="en" className={uiTheme.value}>
+    <html lang="en" className={loaderData.uiTheme}>
       <head>
         <Meta />
         <Links />
       </head>
       <body className="bg-stone-300 dark:bg-stone-900">
-        <Outlet />
+        <UiThemeProvider uiTheme={loaderData.uiTheme}>
+          <ThemeProvider>
+            <Outlet />
+          </ThemeProvider>
+        </UiThemeProvider>
         <ScrollRestoration />
         <Scripts />
         <UiThemeLoader />

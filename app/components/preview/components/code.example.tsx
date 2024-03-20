@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck This is a test file for previewing syntaxt theme
 import fs from 'fs';
 // simple comment

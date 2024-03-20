@@ -1,11 +1,12 @@
 import ExitIcon from '~/assets/icons/exit.svg?react';
 import { btnStyles } from './Side';
-import { themeFamily } from '~/state/state';
+import { useTheme } from '~/providers/theme';
 
 export function SideSaveButton() {
+  const { themeFamily } = useTheme();
   const saveTheme = () => {
     const fileName = 'schema';
-    const json = JSON.stringify(themeFamily.value, null, 2);
+    const json = JSON.stringify(themeFamily, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const href = URL.createObjectURL(blob);
 

@@ -1,10 +1,12 @@
 import { ChangeEvent, useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
 import ExternalIcon from '~/assets/icons/external_link.svg?react';
-import { theme, themeValidator } from '~/state/state.tsx';
 import { btnStyles } from './Side';
+import { themeValidator } from '~/utils/validator/themeValidator';
+import { useThemeDispatch } from '~/providers/theme';
 
 export function SideUploadButton() {
+  const dispatch = useThemeDispatch();
   const fileDropRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -30,7 +32,7 @@ export function SideUploadButton() {
       const themeFamily = isThemeFamily ? data : { name: 'zed', author: 'zed', themes: [data] };
 
       if (themeValidator(themeFamily)) {
-        theme.value = themeFamily.themes[0];
+        dispatch({ type: 'set', themeFamily });
       } else {
         console.warn(themeValidator.errors);
         const message = themeValidator.errors?.map((e) => e.message).join('\n');

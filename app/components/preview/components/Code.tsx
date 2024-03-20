@@ -1,14 +1,13 @@
-import { useSignal } from '@preact/signals-react';
-import { CSSProperties, PropsWithChildren, ReactNode, UIEvent } from 'react';
-import { SyntaxTokens } from '~/state/tokens.ts';
+import { CSSProperties, PropsWithChildren, ReactNode, UIEvent, useState } from 'react';
+import { SyntaxTokens } from '~/state/tokens';
 import {
   cssVarStyleToken,
   cssVarSyntaxColorToken,
   cssVarSyntaxStyleToken,
   cssVarSyntaxWeightToken,
-} from '~/utils/cssVarTokens.ts';
-import { GutterMarkers } from './GutterMarkers.tsx';
-import { ScrollbarMakers } from './ScrollbarMarkers.tsx';
+} from '~/utils/cssVarTokens';
+import { GutterMarkers } from './GutterMarkers';
+import { ScrollbarMakers } from './ScrollbarMarkers';
 
 const EXTRA_LINES = 10;
 
@@ -30,13 +29,13 @@ const SN = (props: SNProps) => {
 };
 
 const Popup = (props: PropsWithChildren<{ style: CSSProperties; content: ReactNode }>) => {
-  const show = useSignal(false);
+  const [show, setShow] = useState(false);
   return (
     <span className="relative">
-      <span onMouseEnter={() => (show.value = true)} onMouseLeave={() => (show.value = false)}>
+      <span onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
         {props.children}
       </span>
-      {show.value && (
+      {show && (
         <div style={props.style} className="absolute left-0 top-[-36px] text-nowrap rounded border p-1">
           {props.content}
         </div>
@@ -63,7 +62,7 @@ const RP = () => <SN s="punctuation.bracket">&#41;</SN>;
 const ACTIVE_ROW = 10;
 
 const lines = [
-  <div>
+  <div key="line1">
     <span
       style={{
         textDecorationLine: 'underline',
@@ -89,9 +88,13 @@ const lines = [
       'fs' is declared but its value is never read.
     </span>
   </div>,
-  <SN s="comment">&#47;&#47; simple comment</SN>,
-  <SN s="comment.doc">&#47;** @param &#123;string&#125; a block comment **&#47;</SN>,
-  <span>
+  <SN key="line2" s="comment">
+    &#47;&#47; simple comment
+  </SN>,
+  <SN key="line3" s="comment.doc">
+    &#47;** @param &#123;string&#125; a block comment **&#47;
+  </SN>,
+  <span key="line4">
     <SN s="keyword">type</SN>
     <SP />
     <SN s="type">Prop</SN>
@@ -120,7 +123,7 @@ const lines = [
     <RB />
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line5">
     <SN s="keyword">enum</SN>
     <SP />
     <SN s="type">
@@ -154,7 +157,7 @@ const lines = [
     <SP />
     <RB />
   </span>,
-  <span>
+  <span key="line6">
     <SN s="keyword">const</SN>
     <SP />
     <SN s="variable">number</SN>
@@ -164,7 +167,7 @@ const lines = [
     <SN s="number">1</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line7">
     <SN s="keyword">const</SN>
     <SP />
     <SN s="variable">string</SN>
@@ -192,7 +195,7 @@ const lines = [
 
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line8">
     <SN s="keyword">const</SN>
     <SP />
     <SN s="variable">boolean</SN>
@@ -202,7 +205,7 @@ const lines = [
     <SN s="boolean">true</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line9">
     <SN s="keyword">const</SN>
     <SP />
     <SN s="variable">object</SN>
@@ -224,7 +227,7 @@ const lines = [
     <SP />
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line10">
     <SN s="keyword">const</SN>
     <SP />
     <SN s="variable">regex</SN>
@@ -237,7 +240,7 @@ const lines = [
     <SN s="string.regex">i</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span className="flex">
+  <span key="line11" className="flex">
     <SN s="keyword">export</SN>
     <SP />
     <SN s="keyword">default</SN>
@@ -280,7 +283,7 @@ const lines = [
       }}
     />
   </span>,
-  <span>
+  <span key="line12">
     <Indent />
     <SN s="keyword">if</SN>
     <SP />
@@ -297,13 +300,13 @@ const lines = [
     <SN s="constant">null</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line13">
     <Indent />
     <SN s="keyword">return</SN>
     <SP />
     <LP />
   </span>,
-  <span>
+  <span key="line14">
     <Indent />
     <Indent />
     <LA />
@@ -327,7 +330,7 @@ const lines = [
     <RB />
     <RA />
   </span>,
-  <span>
+  <span key="line15">
     <Indent />
     <Indent />
     <Indent />
@@ -339,22 +342,22 @@ const lines = [
     <SN s="property">name</SN>
     <RB />!
   </span>,
-  <span>
+  <span key="line16">
     <Indent />
     <Indent />
     <LAF />
     <SN s="tag">div</SN>
     <RA />
   </span>,
-  <span>
+  <span key="line17">
     <Indent />
     <RP />
   </span>,
-  <span>
+  <span key="line18">
     <RB />
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line19">
     <SN s="keyword">class</SN>
     <SP />
     <SN s="type">
@@ -380,7 +383,7 @@ const lines = [
     <SP />
     <LB />
   </span>,
-  <span>
+  <span key="line20">
     <Indent />
     <SN s="keyword">private</SN>
     <SP />
@@ -392,7 +395,7 @@ const lines = [
     <SN s="type">string</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line21">
     <Indent />
     <SN s="function.method">constructor</SN>
     <LP />
@@ -406,7 +409,7 @@ const lines = [
     <SP />
     <LB />
   </span>,
-  <span>
+  <span key="line22">
     <Indent />
     <Indent />
     <SN s="variable.special">this</SN>
@@ -414,12 +417,12 @@ const lines = [
     <SN s="variable">name</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line23">
     <Indent />
     <RB />
   </span>,
   '',
-  <span>
+  <span key="line24">
     <Indent />
     <SN s="constructor">@guard</SN>
     <LP />
@@ -432,7 +435,7 @@ const lines = [
     <RB />
     <RP />
   </span>,
-  <span>
+  <span key="line25">
     <Indent />
     <SN s="keyword">public</SN>
     <SP />
@@ -442,7 +445,7 @@ const lines = [
     <SP />
     <LB />
   </span>,
-  <span>
+  <span key="line26">
     <Indent />
     <Indent />
     <SN s="keyword">return</SN>
@@ -452,22 +455,22 @@ const lines = [
     <SN s="variable">name</SN>
     <SN s="punctuation.delimiter">;</SN>
   </span>,
-  <span>
+  <span key="line27">
     <Indent />
     <RB />
   </span>,
-  <span>
+  <span key="line28">
     <RB />
   </span>,
   '',
 ];
 
 export function Code() {
-  const top = useSignal(0);
+  const [top, setTop] = useState(0);
 
   const onScroll = (e: UIEvent) => {
     const el = e.target as HTMLDivElement;
-    top.value = Math.ceil((el.scrollTop / el.scrollHeight) * el.clientHeight);
+    setTop(Math.ceil((el.scrollTop / el.scrollHeight) * el.clientHeight));
   };
 
   return (
@@ -476,7 +479,7 @@ export function Code() {
       className="flex overflow-hidden"
       style={{
         fontFamily: '"Fira Code", "Roboto Mono", "Source Code Pro", "monospace"',
-        '--scrollbar-top': top.value + 'px',
+        '--scrollbar-top': top + 'px',
         '--scrollbar-thumb-background': cssVarStyleToken('scrollbar_thumb.background'),
         '--scrollbar-thumb-hover-background': cssVarStyleToken('scrollbar.thumb.hover_background'),
         '--scrollbar-thumb-border': cssVarStyleToken('scrollbar.thumb.border'),

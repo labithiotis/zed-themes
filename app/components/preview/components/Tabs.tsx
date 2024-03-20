@@ -4,8 +4,8 @@ import MaximizeIcon from '~/assets/icons/maximize.svg?react';
 import PlusIcon from '~/assets/icons/plus.svg?react';
 import SplitIcon from '~/assets/icons/split.svg?react';
 import XIcon from '~/assets/icons/x.svg?react';
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
-import { GhostButton } from './GhostButton.tsx';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
+import { GhostButton } from './GhostButton';
 
 export function Tabs() {
   return (

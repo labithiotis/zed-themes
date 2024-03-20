@@ -1,4 +1,4 @@
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
 
 export const GIT_CREATED = [4, 5, 6];
 export const GIT_DELETED = [10];

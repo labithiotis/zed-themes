@@ -8,7 +8,7 @@ import ProjectIcon from '~/assets/icons/project.svg?react';
 import TerminalIcon from '~/assets/icons/terminal.svg?react';
 import UserIcon from '~/assets/icons/user_group_16.svg?react';
 import WarningIcon from '~/assets/icons/warning.svg?react';
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
 
 export function Status() {
   return (

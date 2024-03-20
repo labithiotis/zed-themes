@@ -6,7 +6,7 @@ import HtmlIcon from '~/assets/icons/file_icons/html.svg?react';
 import PackageIcon from '~/assets/icons/file_icons/package.svg?react';
 import PrettierIcon from '~/assets/icons/file_icons/prettier.svg?react';
 import TypescriptIcon from '~/assets/icons/file_icons/typescript.svg?react';
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
 
 const files = [
   { Icon: FolderOpenIcon, name: 'zed', indent: 0 },

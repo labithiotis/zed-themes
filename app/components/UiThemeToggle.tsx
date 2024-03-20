@@ -1,10 +1,6 @@
-import { signal } from '@preact/signals-react';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useFetcher } from '@remix-run/react';
-
-export type UiTheme = 'dark' | 'light';
-
-export const uiTheme = signal<UiTheme | undefined>(undefined);
+import { UiTheme, useUiTheme } from '~/providers/uiTheme';
 
 function useSetUiTheme() {
   const fetcher = useFetcher<{ uiTheme: UiTheme }>({ key: 'ui-theme' });
@@ -22,30 +18,38 @@ function useSetUiTheme() {
 
 export function UiThemeLoader() {
   const called = useRef(false);
+  const uiTheme = useUiTheme();
   const setUiTheme = useSetUiTheme();
 
   useEffect(() => {
-    if (called.current === false && !uiTheme.value && typeof window === 'object') {
+    if (called.current === false && !uiTheme.uiTheme && typeof window === 'object') {
       const t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      uiTheme.value = t;
+      uiTheme.setUiTheme(t);
       called.current = true;
       setUiTheme(t);
     }
-  }, [setUiTheme]);
+  }, [uiTheme, setUiTheme]);
 
   return null;
 }
 
 export function UiThemeToggle() {
+  const uiTheme = useUiTheme();
   const setUiTheme = useSetUiTheme();
+
+  const toggle = useCallback(() => {
+    const nextUiTheme = uiTheme.uiTheme === 'dark' ? 'light' : 'dark';
+    uiTheme.setUiTheme(nextUiTheme);
+    setUiTheme(nextUiTheme);
+  }, [uiTheme, setUiTheme]);
 
   return (
     <button
       type="button"
       className="rounded-lg p-1 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-      onClick={() => setUiTheme(uiTheme.value === 'dark' ? 'light' : 'dark')}
+      onClick={toggle}
     >
-      {uiTheme.value === 'dark' ? (
+      {uiTheme.uiTheme === 'dark' ? (
         <svg
           data-theme="dark"
           className="h-3 w-3"

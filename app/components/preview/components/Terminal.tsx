@@ -1,6 +1,6 @@
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
-import { TerminalShell } from './TerminalShell.tsx';
-import { TerminalTabs } from './TerminalTabs.tsx';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
+import { TerminalShell } from './TerminalShell';
+import { TerminalTabs } from './TerminalTabs';
 
 export function Terminal() {
   return (

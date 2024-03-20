@@ -1,5 +1,5 @@
 import { createCookieSessionStorage } from '@remix-run/cloudflare';
-import { UiTheme } from './UiThemeToggle';
+import { UiTheme } from '~/providers/uiTheme';
 
 const store = createCookieSessionStorage({
   cookie: {

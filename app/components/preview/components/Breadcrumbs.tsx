@@ -7,8 +7,8 @@ import MagnifyingGlassIcon from '~/assets/icons/magnifying_glass.svg?react';
 import ReplaceIcon from '~/assets/icons/replace.svg?react';
 import SelectAllIcon from '~/assets/icons/select_all.svg?react';
 import WordSearchIcon from '~/assets/icons/word_search.svg?react';
-import { cssVarStyleToken, cssVarSyntaxColorToken } from '~/utils/cssVarTokens.ts';
-import { GhostButton } from './GhostButton.tsx';
+import { cssVarStyleToken, cssVarSyntaxColorToken } from '~/utils/cssVarTokens';
+import { GhostButton } from './GhostButton';
 
 export function Breadcrumbs() {
   return (

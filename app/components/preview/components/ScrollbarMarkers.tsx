@@ -1,23 +1,22 @@
-import { useSignal } from '@preact/signals-react';
-import { useEffect } from 'react';
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
-import { GIT_CREATED, GIT_DELETED, GIT_MODIFIED } from './GutterMarkers.tsx';
+import { useEffect, useState } from 'react';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
+import { GIT_CREATED, GIT_DELETED, GIT_MODIFIED } from './GutterMarkers';
 
 export function ScrollbarMakers({ lineCount }: { lineCount: number }) {
-  const scrollbarDiffHeight = useSignal('16px');
+  const [scrollbarDiffHeight, setScrollbarDiffHeight] = useState('16px');
 
   useEffect(() => {
     const el = document.getElementById('editor-code-scroll');
     if (el) {
       const height = el.clientHeight / lineCount;
-      scrollbarDiffHeight.value = height + 'px';
+      setScrollbarDiffHeight(height + 'px');
     }
-  }, []);
+  }, [lineCount]);
 
   return (
     <>
-      <ScrollbarDiffs height={scrollbarDiffHeight.value} lineCount={lineCount} />
-      <ScrollbarInfo height={scrollbarDiffHeight.value} lineCount={lineCount} />
+      <ScrollbarDiffs height={scrollbarDiffHeight} lineCount={lineCount} />
+      <ScrollbarInfo height={scrollbarDiffHeight} lineCount={lineCount} />
     </>
   );
 }

@@ -1,5 +1,5 @@
-import { StyleTokens } from '~/state/tokens.ts';
-import { cssVarStyleToken } from '~/utils/cssVarTokens.ts';
+import { StyleTokens } from '~/state/tokens';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
 
 const ansiColors = ['black', 'blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow'];
 

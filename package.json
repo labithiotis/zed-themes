@@ -15,10 +15,10 @@
     "sync:schemas": "npx tsx ./dev/fetchZedSchemas.ts"
   },
   "dependencies": {
-    "@preact/signals-react": "2.0.0",
     "@remix-run/cloudflare": "2.8.1",
     "@remix-run/cloudflare-pages": "2.8.1",
     "@remix-run/react": "2.8.1",
+    "immutability-helper": "^3.1.1",
     "isbot": "4.1.0",
     "nanoid": "5.0.6",
     "react": "18.2.0",

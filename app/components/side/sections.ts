@@ -12,11 +12,9 @@ import {
   scrollbarTokens,
   terminalTokens,
   textTokens,
-} from '~/state/tokens.ts';
+} from '~/state/tokens';
 
-const tokens = Object.entries(
-  themeSchema.definitions.ThemeStyleContent.properties
-).sort();
+const tokens = Object.entries(themeSchema.definitions.ThemeStyleContent.properties).sort();
 
 type TokenInfo = {
   name: string;
@@ -24,10 +22,7 @@ type TokenInfo = {
   description: string | null;
 };
 
-const sectionGroups: Record<
-  string,
-  { name: string; tokenKeys: string[]; tokens: TokenInfo[] }
-> = {
+const sectionGroups: Record<string, { name: string; tokenKeys: string[]; tokens: TokenInfo[] }> = {
   editor: {
     name: 'Editor',
     tokenKeys: editorTokens,

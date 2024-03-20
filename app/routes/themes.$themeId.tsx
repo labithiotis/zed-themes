@@ -3,9 +3,9 @@ import { Side } from '~/components/side/Side';
 import { ThemeFamilyContent } from '~/state/themeFamily';
 import { LoaderFunctionArgs, TypedResponse, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
-import { theme } from '~/state/state';
 import invariant from 'tiny-invariant';
 import { useEffect } from 'react';
+import { useTheme } from '~/providers/theme';
 
 type LoaderData = {
   theme?: ThemeFamilyContent;
@@ -28,18 +28,19 @@ export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<T
 
 export default function Theme() {
   const data = useLoaderData<typeof loader>();
+  const { theme, themeFamily, dispatch } = useTheme();
 
   useEffect(() => {
-    const t = data?.theme?.themes?.at(0);
-    if (t && (!theme.value || theme.value.name !== t.name)) {
-      theme.value = t;
+    const dataTheme = data?.theme;
+    if (dataTheme && dataTheme?.name !== themeFamily?.name) {
+      dispatch({ type: 'set', themeFamily: dataTheme });
     }
-  }, [data?.theme]);
+  }, [data, themeFamily, dispatch]);
 
   return (
     <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
       <Side />
-      {!!theme.value && <Preview />}
+      {!!theme && <Preview />}
     </div>
   );
 }
