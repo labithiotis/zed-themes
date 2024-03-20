@@ -11,9 +11,9 @@ import { ThemeProvider } from './providers/theme';
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
   { title: 'Zed themes' },
-  { property: 'viewport', content: 'width=device-width,initial-scale=1' },
+  { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+  { name: 'description', content: 'Preview & edit zed themes in your browser' },
   { property: 'og:title', content: 'Zed themes' },
-  { property: 'description', content: 'Preview & edit zed themes in your browser' },
 ];
 
 export const links: LinksFunction = () => [
