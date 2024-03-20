@@ -45,11 +45,13 @@ function PlayerToken({
             borderColor: player[token] ? `color-mix(in xyz, ${player[token]} 70%, black)` : '#808080',
           }}
           onClick={() => setShowColor(!showColor)}
+          aria-label="Player token color preivew toggle color picker"
         />
         <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
           <button
             className="hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200"
             onClick={() => setShowColor(!showColor)}
+            aria-label="Player token name toggle color picker"
           >
             {token}
           </button>

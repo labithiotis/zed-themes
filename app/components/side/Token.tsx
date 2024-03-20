@@ -2,33 +2,8 @@ import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { ColorHex, useTheme, useThemeDispatch } from '~/providers/theme';
 import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
-import { StyleTokens, SyntaxTokens } from '../../providers/tokens';
+import { SyntaxTokens } from '../../providers/tokens';
 import { debounce } from '~/utils/debounce';
-
-// export const setStyleToken = debounce((token: StyleTokens, color: unknown) => {
-//   const isValid = isValidColor(color);
-//   if (theme.value && isValid) {
-//     theme.value = {
-//       ...theme.value,
-//       style: { ...theme.value?.style, [token]: color },
-//     };
-//   }
-// }, 25);
-
-// export const setSyntaxToken = debounce((token: SyntaxTokens, syntaxStyle: Partial<HighlightStyleContent>) => {
-//   if (theme.value && (syntaxStyle.color ? isValidColor(syntaxStyle.color) : true)) {
-//     theme.value = {
-//       ...theme.value,
-//       style: {
-//         ...theme.value?.style,
-//         syntax: {
-//           ...theme.value?.style?.syntax,
-//           [token]: { ...theme.value?.style?.syntax?.[token], ...syntaxStyle },
-//         },
-//       },
-//     };
-//   }
-// }, 25);
 
 export function Token({
   name,
@@ -63,11 +38,13 @@ export function Token({
             borderColor: color ? `color-mix(in xyz, ${color} 70%, black)` : '#808080',
           }}
           onClick={() => setShowColor(!showColor)}
+          aria-label="Token color preivew toggle color picker"
         />
         <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
           <button
             onClick={() => setShowColor(!showColor)}
             className="text-left outline-none hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200"
+            aria-label="Token color name toggle color picker"
           >
             {name}
           </button>

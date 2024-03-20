@@ -48,6 +48,7 @@ export function UiThemeToggle() {
       type="button"
       className="rounded-lg p-1 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       onClick={toggle}
+      aria-label="Toggle theme"
     >
       {uiTheme.uiTheme === 'dark' ? (
         <svg

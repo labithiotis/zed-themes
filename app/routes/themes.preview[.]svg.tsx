@@ -10,6 +10,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
   return new Response(generatePreview(theme?.themes?.at(0)), {
     headers: {
       'Content-Type': 'image/svg+xml',
+      'Cache-Control': 'public, max-age=604800, s-maxage=604800, stale-while-revalidate=604800',
     },
   });
 };
