@@ -27,7 +27,7 @@ export default function Themes() {
           <span className="flex-1">Zed Themes</span>
           <UiThemeToggle />
         </span>
-        <div className="flex w-full justify-center">
+        <div className="flex w-full justify-center pb-6">
           <div className="grid w-full max-w-[1600px] gap-6 sm:grid-cols-2 md:grid-cols-3">
             {themes?.map((theme) => (
               <a key={theme.id} className="items flex min-h-6 flex-col gap-2" href={'/themes/' + theme.id}>
