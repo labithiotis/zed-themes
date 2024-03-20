@@ -1,5 +1,5 @@
 import { UiThemeToggle } from '~/components/UiThemeToggle';
-import { StyleTokens, SyntaxTokens, syntaxTokens } from '~/state/tokens';
+import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens';
 import { Player } from './Player';
 import { Section } from './Section';
 import { sections } from './sections';
@@ -9,7 +9,7 @@ import { SideSaveButton } from './SideSaveButton';
 import { SideUploadButton } from './SideUploadButton';
 import { useTheme, useThemeDispatch } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
-import { HighlightStyleContent } from '~/state/themeFamily';
+import { HighlightStyleContent } from '../../themeFamily';
 
 export const btnStyles =
   'flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';

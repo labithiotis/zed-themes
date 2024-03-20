@@ -1,6 +1,6 @@
 import { Dispatch, PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
-import { HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '~/state/themeFamily';
-import { StyleTokens, SyntaxTokens } from '~/state/tokens';
+import { HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
+import { StyleTokens, SyntaxTokens } from './tokens';
 import update from 'immutability-helper';
 
 const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';

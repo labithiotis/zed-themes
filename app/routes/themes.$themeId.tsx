@@ -1,6 +1,6 @@
 import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
-import { ThemeFamilyContent } from '~/state/themeFamily';
+import { ThemeFamilyContent } from '../themeFamily';
 import { LoaderFunctionArgs, TypedResponse, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';

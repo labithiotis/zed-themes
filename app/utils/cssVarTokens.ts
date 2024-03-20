@@ -1,5 +1,5 @@
-import { StyleTokens, SyntaxTokens } from '../state/tokens';
-import { ThemeStyleContent } from '../state/themeFamily';
+import { StyleTokens, SyntaxTokens } from '../providers/tokens';
+import { ThemeStyleContent } from '../themeFamily';
 
 const PATTERN = /[._]/g;
 

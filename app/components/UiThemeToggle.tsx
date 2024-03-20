@@ -22,7 +22,7 @@ export function UiThemeLoader() {
   const setUiTheme = useSetUiTheme();
 
   useEffect(() => {
-    if (called.current === false && !uiTheme.uiTheme && typeof window === 'object') {
+    if (!called.current && !uiTheme.uiTheme && typeof window === 'object') {
       const t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       uiTheme.setUiTheme(t);
       called.current = true;

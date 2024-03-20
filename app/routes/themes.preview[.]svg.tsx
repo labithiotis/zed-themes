@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/cloudflare';
-import { ThemeContent, ThemeFamilyContent } from '~/state/themeFamily.js';
+import { ThemeContent, ThemeFamilyContent } from '../themeFamily.js';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const themeId = new URL(request.url).searchParams.get('id');

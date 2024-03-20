@@ -2,7 +2,7 @@ import { ChangeEvent, useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
 import ExternalIcon from '~/assets/icons/external_link.svg?react';
 import { btnStyles } from './Side';
-import { themeValidator } from '~/utils/validator/themeValidator';
+import { themeValidator } from '../../utils/themeValidator';
 import { useThemeDispatch } from '~/providers/theme';
 
 export function SideUploadButton() {

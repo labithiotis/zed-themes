@@ -1,5 +1,5 @@
 import { CSSProperties, PropsWithChildren, ReactNode, UIEvent, useState } from 'react';
-import { SyntaxTokens } from '~/state/tokens';
+import { SyntaxTokens } from '../../../providers/tokens';
 import {
   cssVarStyleToken,
   cssVarSyntaxColorToken,

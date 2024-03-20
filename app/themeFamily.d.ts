@@ -301,7 +301,7 @@ export interface ThemeStyleContent {
    * The styles for syntax nodes.
    */
   syntax: {
-    [k: string]: HighlightStyleContent | undefined;
+    [k: string]: HighlightStyleContent;
   };
   'tab.active_background'?: string | null;
   'tab.inactive_background'?: string | null;
@@ -459,7 +459,7 @@ export interface PlayerColorContent {
   selection?: string | null;
 }
 export interface HighlightStyleContent {
-  color?: string | null;
-  font_style?: FontStyleContent | null;
-  font_weight?: (100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900) | null;
+  color: string | null;
+  font_style: FontStyleContent | null;
+  font_weight: (100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900) | null;
 }

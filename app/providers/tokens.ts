@@ -1,4 +1,4 @@
-import { PlayerColorContent, ThemeStyleContent } from './themeFamily';
+import { PlayerColorContent, ThemeStyleContent } from '../themeFamily';
 
 export type StyleTokens = keyof Omit<ThemeStyleContent, 'syntax' | 'players'>;
 export type SyntaxTokens = (typeof syntaxTokens)[number];
@@ -28,21 +28,9 @@ export const ghostElementTokens: StyleTokens[] = [
   'ghost_element.disabled',
 ];
 
-export const textTokens: StyleTokens[] = [
-  'text',
-  'text.muted',
-  'text.placeholder',
-  'text.disabled',
-  'text.accent',
-];
+export const textTokens: StyleTokens[] = ['text', 'text.muted', 'text.placeholder', 'text.disabled', 'text.accent'];
 
-export const iconTokens: StyleTokens[] = [
-  'icon',
-  'icon.muted',
-  'icon.disabled',
-  'icon.placeholder',
-  'icon.accent',
-];
+export const iconTokens: StyleTokens[] = ['icon', 'icon.muted', 'icon.disabled', 'icon.placeholder', 'icon.accent'];
 
 export const scrollbarTokens: StyleTokens[] = [
   'scrollbar_thumb.background',
@@ -208,8 +196,4 @@ export const syntaxTokens = [
   'variant',
 ] as const;
 
-export const playerTokens = [
-  'background',
-  'cursor',
-  'selection',
-] as (keyof PlayerColorContent)[];
+export const playerTokens = ['background', 'cursor', 'selection'] as (keyof PlayerColorContent)[];

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { ColorHex, useTheme, useThemeDispatch } from '~/providers/theme';
-import { FontStyleContent, HighlightStyleContent } from '~/state/themeFamily';
-import { StyleTokens, SyntaxTokens } from '~/state/tokens';
+import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
+import { StyleTokens, SyntaxTokens } from '../../providers/tokens';
 import { debounce } from '~/utils/debounce';
 
 // export const setStyleToken = debounce((token: StyleTokens, color: unknown) => {

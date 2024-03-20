@@ -1,4 +1,4 @@
-import { StyleTokens } from '~/state/tokens';
+import { StyleTokens } from '../../../providers/tokens';
 import { cssVarStyleToken } from '~/utils/cssVarTokens';
 
 const ansiColors = ['black', 'blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow'];

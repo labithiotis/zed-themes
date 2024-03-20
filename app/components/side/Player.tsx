@@ -1,7 +1,7 @@
 import { HexAlphaColorPicker } from 'react-colorful';
-import { PlayerColorContent } from '~/state/themeFamily';
+import { PlayerColorContent } from '../../themeFamily';
 import { debounce } from '~/utils/debounce';
-import { playerTokens } from '~/state/tokens';
+import { playerTokens } from '../../providers/tokens';
 import { useState } from 'react';
 import { useThemeDispatch } from '~/providers/theme';
 

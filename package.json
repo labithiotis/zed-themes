@@ -6,8 +6,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix vite:build",
-    "build:validator": "npx tsx ./app/utils/validator/buildValidator.ts",
-    "build:schema": "pnpm json2ts app/utils/themeFamily.json src/themeFamily.d.ts --unknownAny=false --style.singleQuote --additionalProperties=false",
+    "build:validator": "npx -f tsx ./dev/buildValidator.ts",
+    "build:schema": "pnpm json2ts ./dev/themeFamily.json ./app/themeFamily.d.ts --unknownAny=false --style.singleQuote --additionalProperties=false",
     "dev": "remix vite:dev",
     "dev:wrangler": "wrangler pages dev ./build/client",
     "test:lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
