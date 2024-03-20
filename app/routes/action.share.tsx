@@ -12,7 +12,7 @@ export const action: ActionFunction = async ({ context, request }) => {
 
     const shareId = nanoid();
     // expires in 1 week as UNIX second timestamp
-    const expiration = new Date(Date.now() + 1000 * 60 * 60 * 24 * 1).getTime() / 1000;
+    const expiration = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).getTime() / 1000;
     await context.env?.shares?.put(shareId, theme, { expiration });
     const shareUrl = new URL(request.url);
     shareUrl.pathname = `/themes/${shareId}`;

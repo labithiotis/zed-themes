@@ -35,9 +35,9 @@ for (const folder of folders) {
     console.log(`Adding ${id} theme...`);
 
     // local/dev
-    await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --ttl=500 --binding=themes --preview=true`;
+    await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --binding=themes --preview=true`;
     // production
-    await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --ttl=500 --binding=themes --preview=false`;
+    await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --binding=themes --preview=false`;
   } catch (e) {
     // ignore
   }

@@ -99,7 +99,7 @@ const reducer = (state: State, action: Actions): State => {
             [state.themeIndex]: {
               style: {
                 syntax: {
-                  [action.token]: { $merge: action.content },
+                  [action.token]: { $merge: action.content ?? {} },
                 },
               },
             },
