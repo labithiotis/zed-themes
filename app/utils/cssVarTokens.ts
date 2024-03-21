@@ -8,12 +8,12 @@ export const sanitizeToken = (s: string) => s.replace(PATTERN, '-');
 
 export const cssStyleToken = (s: StyleTokens | string) => `--style-${sanitizeToken(s)}` as const;
 
-export const cssVarStyleToken = (s: StyleTokens) => {
+export const cssVarStyleToken = (s: StyleTokens, c?: string) => {
   const fallback = s.split('.').shift();
   if (fallback) {
-    return `var(${cssStyleToken(s)}, var(${cssStyleToken(fallback)}))`;
+    return `var(${cssStyleToken(s)}, var(${cssStyleToken(fallback)}${c ? `,${c}` : ''}))`;
   }
-  return `var(${cssStyleToken(s)})`;
+  return `var(${cssStyleToken(s)}${c ? `,${c}` : ''})`;
 };
 
 export const cssSyntaxColorToken = (s: SyntaxTokens | string): `--${string}` =>

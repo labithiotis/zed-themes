@@ -31,3 +31,5 @@ class Test {
     return this.name;
   }
 }
+
+document.getElementById('app').innerHTML = App({ a: true, b: null, c: 'string' });

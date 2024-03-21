@@ -19,6 +19,7 @@ export function Preview() {
         id="editor"
         className="flex flex-1 flex-col overflow-hidden rounded-lg border"
         style={{
+          color: cssVarStyleToken('text', 'white'),
           borderColor: cssVarStyleToken('border'),
           backgroundColor: cssVarStyleToken('background'),
           minWidth: 800,

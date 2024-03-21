@@ -76,7 +76,7 @@ const lines = [
       <SP />
       <SN s="keyword">from</SN>
       <SP />
-      <SN s="string">"fs"</SN>
+      <SN s="string">&#34;fs&#34;</SN>
       <SN s="punctuation.delimiter">;</SN>
     </span>
     <br />
@@ -85,7 +85,7 @@ const lines = [
         color: cssVarStyleToken('error'),
       }}
     >
-      'fs' is declared but its value is never read.
+      &#39;fs&#39; is declared but its value is never read.
     </span>
   </div>,
   <SN key="line2" s="comment">
@@ -153,7 +153,7 @@ const lines = [
     <SP />
     <SN s="operator">=</SN>
     <SP />
-    <SN s="string">'zed'</SN>
+    <SN s="string">&#39;zed&#39;</SN>
     <SP />
     <RB />
   </span>,
@@ -189,7 +189,7 @@ const lines = [
           textDecorationColor: cssVarStyleToken('warning'),
         }}
       >
-        <SN s="string">"strig"</SN>
+        <SN s="string">&#34;strig&#34;</SN>
       </span>
     </Popup>
 
@@ -314,7 +314,7 @@ const lines = [
     <SP />
     <SN s="attribute">className</SN>
     <SN s="keyword">=</SN>
-    <SN s="string">"class1"</SN>
+    <SN s="string">&#34;class1&#34;</SN>
     <SP />
     <SN s="attribute">style</SN>
     <SN s="keyword">=</SN>
@@ -427,10 +427,11 @@ const lines = [
     <SN s="constructor">@guard</SN>
     <LP />
     <LB />
+    <SP />
     <SN s="property">description</SN>
     <SN s="punctuation.delimiter">:</SN>
     <SP />
-    <SN s="string">'Gets name'</SN>
+    <SN s="string">&#39;Gets name&#39;</SN>
     <SP />
     <RB />
     <RP />
@@ -485,7 +486,7 @@ export function Code() {
         '--scrollbar-thumb-border': cssVarStyleToken('scrollbar.thumb.border'),
         '--scrollbar-track-background': cssVarStyleToken('scrollbar.track.background'),
         '--scrollbar-track-border': cssVarStyleToken('scrollbar.track.border'),
-        color: cssVarStyleToken('text'),
+        color: cssVarStyleToken('text', 'white'),
         backgroundColor: cssVarStyleToken('editor.background'),
       }}
     >

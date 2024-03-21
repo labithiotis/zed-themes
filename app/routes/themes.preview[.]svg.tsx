@@ -1,5 +1,6 @@
 import { LoaderFunction } from '@remix-run/cloudflare';
 import { ThemeContent, ThemeFamilyContent } from '../themeFamily.js';
+import { SyntaxTokens } from '~/providers/tokens.js';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const themeId = new URL(request.url).searchParams.get('id');
@@ -102,13 +103,16 @@ function getStyleColor(theme: ThemeContent | undefined, style: keyof ThemeConten
   return theme?.style?.[style] ?? fallback;
 }
 
-function getSyntaxStyles(theme: ThemeContent | undefined, syntax: string, fallback: string) {
-  const color = `fill="${theme?.style?.syntax?.[syntax]?.color ?? fallback}"`;
-  const fontStyle = theme?.style?.syntax?.[syntax]?.font_style
-    ? `font-style="${theme?.style?.syntax?.[syntax]?.font_style}"`
-    : '';
-  const fontWeight = theme?.style?.syntax?.[syntax]?.font_weight
-    ? `font-weight="${theme?.style?.syntax?.[syntax]?.font_weight}"`
-    : '';
-  return [color, fontStyle, fontWeight].join(' ').trim();
+function getSyntaxStyles(theme: ThemeContent | undefined, syntax: SyntaxTokens, d: string) {
+  const styles = theme?.style?.syntax;
+  const fallback = syntax.split('.').shift() as SyntaxTokens;
+  const color = styles?.[syntax]?.color ?? styles?.[fallback]?.color ?? d;
+  const style = styles?.[syntax]?.font_style ?? styles?.[fallback]?.font_style;
+  const weight = styles?.[syntax]?.font_weight ?? styles?.[fallback]?.font_weight;
+
+  // need to fallback if the token is function.method use function and all esle use fllback
+  const fill = `fill="${color}"`;
+  const fontStyle = style ? `font-style="${style}"` : '';
+  const fontWeight = weight ? `font-weight="${weight}"` : '';
+  return [fill, fontStyle, fontWeight].join(' ').trim();
 }
