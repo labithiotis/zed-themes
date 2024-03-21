@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
-import { ColorHex, useTheme, useThemeDispatch } from '~/providers/theme';
+import { ColorHex, useTheme } from '~/providers/theme';
 import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
 import { SyntaxTokens } from '../../providers/tokens';
 import { debounce } from '~/utils/debounce';
@@ -21,8 +21,7 @@ export function Token({
   onSyntaxFontChange?(fontStyle: number): void;
 }) {
   const [showColor, setShowColor] = useState(false);
-  const { theme } = useTheme();
-  const dispatch = useThemeDispatch();
+  const { theme, dispatch } = useTheme();
 
   const setSyntaxToken = debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
     dispatch({ type: 'setSyntaxToken', token, content });

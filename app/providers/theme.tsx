@@ -2,13 +2,14 @@ import { Dispatch, PropsWithChildren, createContext, useContext, useEffect, useR
 import { HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
 import { StyleTokens, SyntaxTokens } from './tokens';
 import update from 'immutability-helper';
+import { themeValidator } from '~/utils/themeValidator';
+import { useNavigate } from '@remix-run/react';
 
 const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
 
 export type ColorHex = `#${string}`;
 
 type State = {
-  loading: boolean;
   themeIndex: number | null;
   themeFamily: ThemeFamilyContent | null;
 };
@@ -52,7 +53,7 @@ function activeTheme(state: State) {
 const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
     case 'set': {
-      return { loading: false, themeIndex: 0, themeFamily: action.themeFamily };
+      return { themeIndex: 0, themeFamily: action.themeFamily };
     }
     case 'setThemeName': {
       if (state.themeIndex == null || state.themeFamily === null) {
@@ -133,10 +134,25 @@ const reducer = (state: State, action: Actions): State => {
 };
 
 const initialState: State = {
-  loading: true,
   themeIndex: null,
   themeFamily: null,
 };
+
+function getInitialState(): State {
+  // Think about a nice way to sync theme locally and work nicely with remix ssr
+  // try {
+  //   const themeFamily = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '');
+  //   if (themeValidator(themeFamily)) {
+  //     return { themeIndex: 0, themeFamily };
+  //   } else {
+  //     localStorage.removeItem(LOCAL_STORAGE_THEME_SYNC_KEY);
+  //     return initialState;
+  //   }
+  // } catch (e) {
+  //   console.warn(e);
+  // }
+  return initialState;
+}
 
 const ThemeCtx = createContext<{ state: State; dispatch: Dispatch<Actions> }>({
   state: initialState,
@@ -144,36 +160,28 @@ const ThemeCtx = createContext<{ state: State; dispatch: Dispatch<Actions> }>({
 });
 
 export const ThemeProvider = (props: PropsWithChildren) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, getInitialState());
 
-  // TODO Fix loading/sync edited theme in localStorage as it clashing with loading from server
-  // useEffect(() => {
-  //   try {
-  //     const theme = localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY);
-  //     if (theme) {
-  //       dispatch({ type: 'set', themeFamily: JSON.parse(theme) });
-  //     }
-  //   } catch (e) {
-  //     /* */
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
-  // }, [state]);
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
+  }, [state]);
 
   return <ThemeCtx.Provider value={{ state, dispatch }}>{props.children}</ThemeCtx.Provider>;
 };
 
 export const useTheme = () => {
-  const { state, dispatch } = useContext(ThemeCtx);
-  const theme = activeTheme(state);
-  return { theme, dispatch, themeFamily: state.themeFamily, loading: state.loading };
-};
+  const ctx = useContext(ThemeCtx);
+  const navigate = useNavigate();
+  const theme = activeTheme(ctx.state);
+  const dispatch: typeof ctx.dispatch = (...args) => {
+    // If we edit theme change the route to /edit
+    if (args[0].type !== 'set') {
+      navigate('/themes/edit', { replace: true, preventScrollReset: true });
+    }
+    return ctx.dispatch(...args);
+  };
 
-export const useThemeDispatch = () => {
-  const { dispatch } = useContext(ThemeCtx);
-  return dispatch;
+  return { theme, dispatch, themeFamily: ctx.state.themeFamily };
 };
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;

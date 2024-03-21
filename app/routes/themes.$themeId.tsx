@@ -26,7 +26,7 @@ export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<T
   return json({ theme: theme ? JSON.parse(theme) : undefined });
 };
 
-export default function Theme() {
+export default function ThemeById() {
   const data = useLoaderData<typeof loader>();
   const { theme, themeFamily, dispatch } = useTheme();
 

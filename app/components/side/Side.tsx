@@ -7,16 +7,15 @@ import { Token } from './Token';
 import { SideShareButton } from './SideShareButton';
 import { SideSaveButton } from './SideSaveButton';
 import { SideUploadButton } from './SideUploadButton';
-import { useTheme, useThemeDispatch } from '~/providers/theme';
+import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { HighlightStyleContent } from '../../themeFamily';
 
 export const btnStyles =
-  'flex flex-1 items-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
+  'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
 export function Side() {
-  const { theme, loading } = useTheme();
-  const dispatch = useThemeDispatch();
+  const { theme, dispatch } = useTheme();
   const setName = (name: string) => {
     dispatch({ type: 'setThemeName', name });
   };
@@ -81,6 +80,11 @@ export function Side() {
           </Section>
         </div>
         <div className="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
+          <SideUploadButton />
+          <div className="flex">
+            <SideShareButton />
+            <SideSaveButton />
+          </div>
           <div className="flex justify-center gap-2 bg-neutral-200 p-3 dark:bg-neutral-900">
             <a
               className="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
@@ -107,11 +111,6 @@ export function Side() {
               support ♥︎
             </a>
           </div>
-          <div className="flex">
-            <SideShareButton />
-            <SideSaveButton />
-          </div>
-          <SideUploadButton />
         </div>
       </div>
     </>

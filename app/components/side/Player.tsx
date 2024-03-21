@@ -3,7 +3,7 @@ import { PlayerColorContent } from '../../themeFamily';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
 import { useState } from 'react';
-import { useThemeDispatch } from '~/providers/theme';
+import { useTheme } from '~/providers/theme';
 
 type PlayerProps = {
   index: number;
@@ -28,7 +28,7 @@ function PlayerToken({
 }: PlayerProps & {
   token: keyof PlayerColorContent;
 }) {
-  const disptach = useThemeDispatch();
+  const { disptach } = useTheme();
   const [showColor, setShowColor] = useState(false);
 
   const setPlayerToken = debounce((index: number, token: keyof PlayerColorContent, color: unknown) => {
