@@ -27,16 +27,20 @@ await within(async () => {
 for (const folder of folders) {
   try {
     const cmd = await $`cat ${dir}/extensions/${folder}/themes/${folder}.json`.quiet();
+    const hash = await $`(cd ${dir}/extensions/${folder} && git rev-parse --short HEAD)`.quiet();
     const theme = JSON.parse(await cmd.stdout);
     const id = folder.toLowerCase();
     const value = JSON.stringify({ id, ...theme });
-    const metaData = JSON.stringify({ name: theme.name, author: theme.author, versionHash: '' });
+    const metaData = JSON.stringify({
+      name: theme.name,
+      author: theme.author,
+      updatedDate: new Date().toISOString(),
+      versionHash: hash.stdout.trim(),
+    });
 
     console.log(`Adding ${id} theme...`);
 
-    // local/dev
     await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --binding=themes --preview=true`;
-    // production
     await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --binding=themes --preview=false`;
   } catch (e) {
     // ignore

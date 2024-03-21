@@ -1,13 +1,14 @@
 import { UiThemeToggle } from '~/components/UiThemeToggle';
 import { LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData, useRouteError } from '@remix-run/react';
+import { ThemesMetaData } from '../types';
 
 type LoaderData = {
   themes: { id: string; name?: string; author?: string }[];
 };
 
 async function fetchAllThemesFromKV(ns?: KVNamespace) {
-  const nsList = await ns?.list<{ name: string; author: string }>();
+  const nsList = await ns?.list<ThemesMetaData>();
   return nsList?.keys.map((key) => ({ id: key.name, name: key.metadata?.name, author: key.metadata?.author }));
 }
 

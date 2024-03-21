@@ -5,3 +5,10 @@ declare module 'react' {
     [key: `--${string}`]: string | number;
   }
 }
+
+export type ThemesMetaData = {
+  name: string;
+  author: string;
+  updatedDate: string;
+  versionHash: string;
+};
