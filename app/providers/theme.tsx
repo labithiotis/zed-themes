@@ -1,9 +1,8 @@
+import { useNavigate } from '@remix-run/react';
+import update from 'immutability-helper';
 import { Dispatch, PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
 import { HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
 import { StyleTokens, SyntaxTokens } from './tokens';
-import update from 'immutability-helper';
-import { themeValidator } from '~/utils/themeValidator';
-import { useNavigate } from '@remix-run/react';
 
 const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
 

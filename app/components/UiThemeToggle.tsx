@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
 import { useFetcher } from '@remix-run/react';
+import { useCallback, useEffect, useRef } from 'react';
 import { UiTheme, useUiTheme } from '~/providers/uiTheme';
 
 function useSetUiTheme() {
@@ -46,7 +46,7 @@ export function UiThemeToggle() {
   return (
     <button
       type="button"
-      className="rounded-lg p-1 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+      className="flex h-5 w-5 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       onClick={toggle}
       aria-label="Toggle theme"
     >

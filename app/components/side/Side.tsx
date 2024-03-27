@@ -1,15 +1,15 @@
 import { UiThemeToggle } from '~/components/UiThemeToggle';
-import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens';
-import { Player } from './Player';
-import { Section } from './Section';
-import { sections } from './sections';
-import { Token } from './Token';
-import { SideShareButton } from './SideShareButton';
-import { SideSaveButton } from './SideSaveButton';
-import { SideUploadButton } from './SideUploadButton';
 import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
+import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens';
 import { HighlightStyleContent } from '../../themeFamily';
+import { Player } from './Player';
+import { Section } from './Section';
+import { SideShareButton } from './SideShareButton';
+import { SideUploadButton } from './SideUploadButton';
+import { SideUseButton } from './SideUseButton';
+import { Token } from './Token';
+import { sections } from './sections';
 
 export const btnStyles =
   'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
@@ -29,9 +29,9 @@ export function Side() {
   return (
     <>
       <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
-        <div className="flex items-center p-2 text-zed-900">
+        <div className="flex items-center pb-2 pl-6 pr-2 pt-4 text-zed-900">
           <a
-            className="flex-1 cursor-pointer select-none pl-1 text-lg font-semibold text-zed-800 hover:text-zed-500 dark:text-zed-600 hover:dark:text-zed-400"
+            className="flex-1 cursor-pointer select-none text-xl font-semibold text-zed-800 hover:text-zed-500 dark:text-zed-600 hover:dark:text-zed-400"
             href={'/themes'}
           >
             Zed Themes
@@ -83,7 +83,7 @@ export function Side() {
           <SideUploadButton />
           <div className="flex">
             <SideShareButton />
-            <SideSaveButton />
+            <SideUseButton />
           </div>
           <div className="flex justify-center gap-2 bg-neutral-200 p-3 dark:bg-neutral-900">
             <a

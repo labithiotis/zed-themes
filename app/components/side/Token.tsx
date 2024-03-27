@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { ColorHex, useTheme } from '~/providers/theme';
-import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
-import { SyntaxTokens } from '../../providers/tokens';
 import { debounce } from '~/utils/debounce';
+import { SyntaxTokens } from '../../providers/tokens';
+import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
 
 export function Token({
   name,

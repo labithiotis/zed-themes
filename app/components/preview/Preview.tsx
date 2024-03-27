@@ -1,4 +1,5 @@
-import './preview.css';
+import { useTheme } from '~/providers/theme';
+import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
 import { Breadcrumbs } from './components/Breadcrumbs';
 import { Code } from './components/Code';
 import { Dock } from './components/Dock';
@@ -6,8 +7,7 @@ import { Header } from './components/Header';
 import { Status } from './components/Status';
 import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
-import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
-import { useTheme } from '~/providers/theme';
+import './preview.css';
 
 export function Preview() {
   const { theme } = useTheme();
@@ -19,7 +19,7 @@ export function Preview() {
         id="editor"
         className="flex flex-1 flex-col overflow-hidden rounded-lg border"
         style={{
-          color: cssVarStyleToken('text', 'white'),
+          color: cssVarStyleToken('text', theme?.appearance === 'dark' ? '#CCCCCC' : '#21201C'),
           borderColor: cssVarStyleToken('border'),
           backgroundColor: cssVarStyleToken('background'),
           minWidth: 800,

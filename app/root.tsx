@@ -1,12 +1,12 @@
-import { LinksFunction, MetaFunction, LoaderFunction, json } from '@remix-run/cloudflare';
+import { LinksFunction, LoaderFunction, MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
-import { uiThemeSession } from './components/uiTheme.server';
 import { UiThemeLoader } from './components/UiThemeToggle';
+import { uiThemeSession } from './components/uiTheme.server';
 import { UiTheme, UiThemeProvider } from './providers/uiTheme';
 
+import { ThemeProvider } from './providers/theme';
 import './root.css';
 import styles from './tailwind.css?url';
-import { ThemeProvider } from './providers/theme';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -16,13 +16,7 @@ export const meta: MetaFunction = () => [
   { property: 'og:title', content: 'Zed themes' },
 ];
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: styles },
-  {
-    rel: 'stylesheet',
-    href: 'https://cdn.jsdelivr.net/npm/firacode@latest/distr/fira_code.min.css',
-  },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export type RootData = {
   uiTheme?: UiTheme;

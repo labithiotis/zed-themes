@@ -2,11 +2,11 @@
 // https://github.com/ajv-validator/ajv/issues/2318
 // So we build a standalone validator that does work on edge
 
+import Ajv from 'ajv';
+import standaloneCode from 'ajv/dist/standalone';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import Ajv from 'ajv';
-import standaloneCode from 'ajv/dist/standalone';
 import themeFamilySchema from './themeFamily.json';
 
 const __dirname = import.meta.dirname ?? path.dirname(fileURLToPath(import.meta.url));

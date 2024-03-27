@@ -1,9 +1,8 @@
 import { ChangeEvent, useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
-import ExternalIcon from '~/assets/icons/external_link.svg?react';
-import { btnStyles } from './Side';
-import { themeValidator } from '../../utils/themeValidator';
 import { useTheme } from '~/providers/theme';
+import { themeValidator } from '../../utils/themeValidator';
+import { btnStyles } from './Side';
 
 export function SideUploadButton() {
   const { dispatch } = useTheme();

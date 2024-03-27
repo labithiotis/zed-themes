@@ -1,8 +1,7 @@
-import ExitIcon from '~/assets/icons/exit.svg?react';
-import { btnStyles } from './Side';
 import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
 import { useTheme } from '~/providers/theme';
+import { btnStyles } from './Side';
 
 export function SideShareButton() {
   const { themeFamily } = useTheme();

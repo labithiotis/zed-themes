@@ -1,6 +1,5 @@
 /* eslint-disable */
 // @ts-nocheck This is a test file for previewing syntaxt theme
-import fs from 'fs';
 // simple comment
 /** {string} a block comment **/
 type Prop = { a: boolean; b: null; c: string };

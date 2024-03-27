@@ -1,11 +1,11 @@
 import { CSSProperties, PropsWithChildren, ReactNode, UIEvent, useState } from 'react';
-import { SyntaxTokens } from '../../../providers/tokens';
 import {
   cssVarStyleToken,
   cssVarSyntaxColorToken,
   cssVarSyntaxStyleToken,
   cssVarSyntaxWeightToken,
 } from '~/utils/cssVarTokens';
+import { SyntaxTokens } from '../../../providers/tokens';
 import { GutterMarkers } from './GutterMarkers';
 import { ScrollbarMakers } from './ScrollbarMarkers';
 
@@ -479,7 +479,7 @@ export function Code() {
       id="editor-code"
       className="flex overflow-hidden"
       style={{
-        fontFamily: '"Fira Code", "Roboto Mono", "Source Code Pro", "monospace"',
+        fontFamily: '"Roboto Mono", "Source Code Pro", monospace',
         '--scrollbar-top': top + 'px',
         '--scrollbar-thumb-background': cssVarStyleToken('scrollbar_thumb.background'),
         '--scrollbar-thumb-hover-background': cssVarStyleToken('scrollbar.thumb.hover_background'),

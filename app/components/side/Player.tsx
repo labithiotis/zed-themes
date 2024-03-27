@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
-import { PlayerColorContent } from '../../themeFamily';
+import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
-import { useState } from 'react';
-import { useTheme } from '~/providers/theme';
+import { PlayerColorContent } from '../../themeFamily';
 
 type PlayerProps = {
   index: number;
@@ -28,11 +28,11 @@ function PlayerToken({
 }: PlayerProps & {
   token: keyof PlayerColorContent;
 }) {
-  const { disptach } = useTheme();
+  const { dispatch } = useTheme();
   const [showColor, setShowColor] = useState(false);
 
   const setPlayerToken = debounce((index: number, token: keyof PlayerColorContent, color: unknown) => {
-    disptach({ type: 'setPlayerToken', index, token, color });
+    dispatch({ type: 'setPlayerToken', index, token, color });
   }, 25);
 
   return (
