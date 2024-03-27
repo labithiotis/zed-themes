@@ -11,6 +11,12 @@ node_modules
 dist
 dist-ssr
 *.local
+.cache
+build
+.env
+.tmp
+
+.wrangler
 
 # Editor directories and files
 .vscode/*
