@@ -31,7 +31,7 @@
     "tiny-invariant": "1.3.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20230518.0",
+    "@cloudflare/workers-types": "4.20240320.1",
     "@preact/signals-react-transform": "0.3.0",
     "@remix-run/dev": "2.8.0",
     "@types/node": "20",
