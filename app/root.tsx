@@ -2,9 +2,9 @@ import { LinksFunction, LoaderFunction, MetaFunction, json } from '@remix-run/cl
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { UiThemeLoader } from './components/UiThemeToggle';
 import { uiThemeSession } from './components/uiTheme.server';
+import { ThemeProvider } from './providers/theme';
 import { UiTheme, UiThemeProvider } from './providers/uiTheme';
 
-import { ThemeProvider } from './providers/theme';
 import './root.css';
 import styles from './tailwind.css?url';
 

@@ -13,7 +13,7 @@ module.exports = {
     commonjs: true,
     es6: true,
   },
-  ignorePatterns: ['themeValidatorAjv.mjs'],
+  ignorePatterns: ['!**/.server', '!**/.client', 'themeValidatorAjv.mjs'],
 
   // Base config
   extends: ['eslint:recommended'],
