@@ -33,10 +33,15 @@ jobs:
       - name: Type Check
         run: pnpm run test:tsc
 
+      - name: Build
+        run: pnpm build
+
       - name: Install E2E Browsers
         run: pnpm exec playwright install --with-deps
+
       - name: E2E tests
         run: pnpm exec playwright test
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
