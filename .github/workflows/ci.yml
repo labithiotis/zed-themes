@@ -36,6 +36,13 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Sync KV themes
+        run: pnpm sync:themes:local
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_EMAIL: ${{ secrets.CLOUDFLARE_ACCOUNT_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Install E2E Browsers
         run: pnpm exec playwright install --with-deps
 
