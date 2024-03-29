@@ -27,8 +27,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    timeout: 60000,
-    command: 'pnpm dev',
+    timeout: 30000,
+    command: 'pnpm dev --port 3000 --host',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
     stdout: 'pipe',
