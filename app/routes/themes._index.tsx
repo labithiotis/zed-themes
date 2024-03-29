@@ -35,9 +35,10 @@ export default function Themes() {
                   <div className="flex">
                     <h4 className="flex-1 text-lg">{theme.name}</h4>
                     <a
+                      role="button"
                       href={'/download/themes/' + theme.id}
                       className="flex h-6 w-6 items-center justify-center rounded hover:bg-neutral-200 dark:hover:bg-neutral-800"
-                      aria-label={`Download ${theme.name} zed theme`}
+                      aria-label={`Download ${theme.name} theme`}
                     >
                       <svg
                         width="16px"
@@ -67,8 +68,13 @@ export default function Themes() {
                   <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">By {theme.author}</p>
                 </div>
                 <a
+                  role="button"
                   href={'/themes/' + theme.id}
                   className="h-full w-full flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
+                  aria-label={`Preview ${theme.name} theme`}
+                  data-testid="preview-theme"
+                  data-theme-id={theme.id}
+                  data-theme-name={theme.name}
                 >
                   <img
                     className="h-full w-full"
