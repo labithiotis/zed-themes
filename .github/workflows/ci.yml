@@ -40,9 +40,7 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: E2E tests
-        run: pnpm exec playwright test
-        with:
-          DEBUG: pw:browser,pw:api,pw:webserver
+        run: DEBUG=pw:browser,pw:api,pw:webserver pnpm exec playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()
