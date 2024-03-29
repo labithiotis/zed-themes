@@ -7,7 +7,7 @@ import { getLoadContext } from './load-context';
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 3005,
+    port: 3000,
   },
   plugins: [
     remixCloudflareDevProxy({ getLoadContext }),

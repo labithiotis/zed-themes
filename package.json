@@ -14,6 +14,7 @@
     "test:lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "test:tsc": "wrangler types && tsc",
     "test:fmt": "prettier . --check",
+    "test:e2e": "pnpm exec playwright test",
     "sync:themes": "npx tsx ./dev/syncZedThemes.ts",
     "sync:themes:local": "npx tsx ./dev/syncZedThemesLocal.ts"
   },
@@ -32,8 +33,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20240320.1",
+    "@playwright/test": "^1.42.1",
     "@preact/signals-react-transform": "0.3.0",
     "@remix-run/dev": "2.8.0",
+    "@remix-run/node": "^2.8.1",
     "@types/node": "20",
     "@types/react": "18.2.64",
     "@types/react-dom": "18.2.22",
