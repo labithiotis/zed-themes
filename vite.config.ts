@@ -17,4 +17,7 @@ export default defineConfig({
       ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
     }),
   ],
+  optimizeDeps: {
+    include: ['@remix-run/react'],
+  },
 });
