@@ -9,7 +9,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://127.0.0.1:3005',
+    baseURL: 'http://127.0.0.1:3000',
     trace: 'on-first-retry',
   },
   projects: [
@@ -29,7 +29,7 @@ export default defineConfig({
   webServer: {
     timeout: 10000,
     command: 'pnpm dev',
-    url: 'http://127.0.0.1:3005',
+    url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
   },
 });
