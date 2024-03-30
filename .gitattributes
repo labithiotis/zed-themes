@@ -1,1 +1,4 @@
+*.sh linguist-vendored
+*.cjs linguist-vendored
+*.config.js linguist-vendored
 themeValidatorAjv.mjs linguist-vendored
