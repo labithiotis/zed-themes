@@ -1,6 +1,8 @@
 #!/usr/bin/env zx
 
 import { $, cd, fs, within } from 'zx';
+import { ThemeContent } from '~/themeFamily';
+import { ThemesMetaData } from '~/types';
 
 $.verbose = false;
 
@@ -15,7 +17,9 @@ await within(async () => {
   }
 
   cd(dir);
+
   console.log("Pull latest's submodules...");
+
   await $`git pull`;
   await $`git submodule update --init --recursive`;
 
@@ -36,7 +40,8 @@ for (const folder of folders) {
       author: theme.author,
       updatedDate: new Date().toISOString(),
       versionHash: hash.stdout.trim(),
-    });
+      themes: theme.themes.map(({ name, appearance }: ThemeContent) => ({ name, appearance })),
+    } satisfies ThemesMetaData);
 
     console.log(`Adding ${id} theme...`);
 

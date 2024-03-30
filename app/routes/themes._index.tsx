@@ -4,12 +4,12 @@ import { UiThemeToggle } from '~/components/UiThemeToggle';
 import { ThemesMetaData } from '../types';
 
 type LoaderData = {
-  themes: { id: string; name?: string; author?: string }[];
+  themes: ({ id: string } & ThemesMetaData)[];
 };
 
 async function fetchAllThemesFromKV(ns?: KVNamespace) {
   const nsList = await ns?.list<ThemesMetaData>();
-  return nsList?.keys.map((key) => ({ id: key.name, name: key.metadata?.name, author: key.metadata?.author }));
+  return nsList?.keys.map((key) => ({ ...key.metadata, id: key.name }));
 }
 
 export const loader: LoaderFunction = async ({ context }) => {
@@ -66,6 +66,10 @@ export default function Themes() {
                   </div>
 
                   <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">By {theme.author}</p>
+
+                  <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">
+                    {theme?.themes?.length} {theme?.themes?.length === 1 ? 'theme' : 'themes'}
+                  </p>
                 </div>
                 <a
                   role="button"
