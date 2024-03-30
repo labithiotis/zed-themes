@@ -1,7 +1,7 @@
 import { useTheme } from '~/providers/theme';
 import { btnStyles } from './Side';
 
-export function SideUseButton() {
+export function SideDownloadButton() {
   const { themeFamily } = useTheme();
   const saveTheme = () => {
     const fileName = `${themeFamily?.name ?? 'schema'}.json`;
@@ -37,7 +37,7 @@ export function SideUseButton() {
           strokeLinejoin="round"
         />
       </svg>
-      <span>Use Theme</span>
+      <span>Download</span>
     </button>
   );
 }

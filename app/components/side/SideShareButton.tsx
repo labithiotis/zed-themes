@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useTheme } from '~/providers/theme';
 import { btnStyles } from './Side';
 
-export function SideShareButton() {
+export function SideShareButton({ edit }: { edit: boolean }) {
   const { themeFamily } = useTheme();
   const fetcher = useFetcher<{ shareUrl: string }>({ key: 'share-theme' });
 
@@ -15,10 +15,15 @@ export function SideShareButton() {
   }, [fetcher.data]);
 
   const shareTheme = () => {
-    fetcher.submit(
-      { id: 'share-theme', theme: JSON.stringify(themeFamily) },
-      { action: '/action/share', method: 'post' }
-    );
+    if (edit) {
+      fetcher.submit(
+        { id: 'share-theme', theme: JSON.stringify(themeFamily) },
+        { action: '/action/share', method: 'post' }
+      );
+    } else {
+      navigator.clipboard.writeText(document.location.href);
+      alert('Link has been copied to your clipboard.');
+    }
   };
 
   return (
@@ -45,7 +50,7 @@ export function SideShareButton() {
           strokeLinecap="round"
         />
       </svg>
-      Share Theme
+      Share
     </button>
   );
 }

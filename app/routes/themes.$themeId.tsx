@@ -17,10 +17,6 @@ export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<T
 
   invariant(params.themeId);
 
-  if (params.themeId === 'edit') {
-    return json({ theme: undefined });
-  }
-
   const theme = (await themesKv?.get(params.themeId)) ?? (await sharesKv?.get(params.themeId));
 
   return json({ theme: theme ? JSON.parse(theme) : undefined });
@@ -39,7 +35,7 @@ export default function ThemeById() {
 
   return (
     <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
-      <Side />
+      <Side edit={false} />
       {!!theme && <Preview />}
     </div>
   );

@@ -5,16 +5,17 @@ import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens'
 import { HighlightStyleContent } from '../../themeFamily';
 import { Player } from './Player';
 import { Section } from './Section';
+import { SideDownloadButton } from './SideDownloadButton';
+import { SideEditButton } from './SideEditButton';
 import { SideShareButton } from './SideShareButton';
 import { SideUploadButton } from './SideUploadButton';
-import { SideUseButton } from './SideUseButton';
 import { Token } from './Token';
 import { sections } from './sections';
 
 export const btnStyles =
   'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
-export function Side() {
+export function Side({ edit }: { edit: boolean }) {
   const { theme, dispatch } = useTheme();
   const setName = (name: string) => {
     dispatch({ type: 'setThemeName', name });
@@ -80,11 +81,23 @@ export function Side() {
           </Section>
         </div>
         <div className="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
-          <SideUploadButton />
-          <div className="flex">
-            <SideShareButton />
-            <SideUseButton />
-          </div>
+          {edit ? (
+            <>
+              <SideUploadButton />
+              <div className="flex">
+                <SideShareButton edit={true} />
+                <SideDownloadButton />
+              </div>
+            </>
+          ) : (
+            <>
+              <SideEditButton />
+              <div className="flex">
+                <SideShareButton edit={false} />
+                <SideDownloadButton />
+              </div>
+            </>
+          )}
           <div className="flex justify-center gap-2 bg-neutral-200 p-3 dark:bg-neutral-900">
             <a
               className="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
