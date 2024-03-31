@@ -1,6 +1,14 @@
 import { LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import { UiThemeToggle } from '~/components/UiThemeToggle';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '~/components/ui/carousel';
 import { ThemesMetaData } from '../types';
 
 type LoaderData = {
@@ -30,7 +38,7 @@ export default function Themes() {
         <div className="flex w-full justify-center pb-6">
           <div className="grid w-full max-w-[1600px] gap-6 sm:grid-cols-2 md:grid-cols-3">
             {themes?.map((theme) => (
-              <div key={theme.id} className="items flex min-h-6 flex-col gap-2">
+              <div key={theme.id} className="items flex flex-col gap-2">
                 <div className="flex flex-col overflow-hidden">
                   <div className="flex">
                     <h4 className="flex-1 text-lg">{theme.name}</h4>
@@ -71,23 +79,36 @@ export default function Themes() {
                     {theme?.themes?.length} {theme?.themes?.length === 1 ? 'theme' : 'themes'}
                   </p>
                 </div>
-                <a
-                  role="button"
-                  href={'/themes/' + theme.id}
-                  className="h-full w-full flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
-                  aria-label={`Preview ${theme.name} theme`}
-                  data-testid="preview-theme"
-                  data-theme-id={theme.id}
-                  data-theme-name={theme.name}
-                >
-                  <img
-                    className="h-full w-full"
-                    src={`/themes/preview.svg?id=${theme.id}`}
-                    width="100%"
-                    height="100%"
-                    alt={`${theme.name} preview`}
-                  />
-                </a>
+                <Carousel className="flex flex-col isolate min-h-[20vw]">
+                  <CarouselContent className="w-full">
+                    {theme?.themes?.map(({ name }) => (
+                      <CarouselItem key={`${theme.id}-${name}`}>
+                        <a
+                          role="button"
+                          href={encodeURI(`/themes/${theme.id}?name=${name}`)}
+                          className="h-full w-full flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
+                          aria-label={`Preview ${theme.name} theme`}
+                          data-testid="preview-theme"
+                          data-theme-id={theme.id}
+                          data-theme-name={theme.name}
+                        >
+                          <img
+                            className="h-full w-full"
+                            src={encodeURI(`/themes/preview.svg?id=${theme.id}&name=${name}`)}
+                            width="100%"
+                            height="100%"
+                            alt={`${theme.name} preview`}
+                          />
+                        </a>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="z-10" />
+                  <CarouselNext className="z-10" />
+                  <div className="flex w-full justify-center items-center gap-3 h-5">
+                    <CarouselDots />
+                  </div>
+                </Carousel>
               </div>
             ))}
           </div>

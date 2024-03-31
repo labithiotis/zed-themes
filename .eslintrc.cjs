@@ -15,8 +15,13 @@ module.exports = {
   },
   ignorePatterns: ['!**/.server', '!**/.client', 'themeValidatorAjv.mjs', 'build/*'],
 
+  rules: {
+    // Disable prop-types for React as we are using TypeScript
+    'react/prop-types': 'off',
+  },
+
   // Base config
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', '@remix-run/eslint-config'],
 
   overrides: [
     // React

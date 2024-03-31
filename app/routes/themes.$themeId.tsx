@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, TypedResponse, json } from '@remix-run/cloudflare';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 import invariant from 'tiny-invariant';
 import { Preview } from '~/components/preview/Preview';
@@ -23,13 +23,14 @@ export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<T
 };
 
 export default function ThemeById() {
+  const [searchParams] = useSearchParams();
   const data = useLoaderData<typeof loader>();
   const { theme, themeFamily, dispatch } = useTheme();
 
   useEffect(() => {
     const dataTheme = data?.theme;
     if (dataTheme && dataTheme?.name !== themeFamily?.name) {
-      dispatch({ type: 'set', themeFamily: dataTheme });
+      dispatch({ type: 'set', themeFamily: dataTheme, themeName: searchParams.get('name') });
     }
   }, [data, themeFamily, dispatch]);
 

@@ -3,12 +3,20 @@ import { SyntaxTokens } from '~/providers/tokens.js';
 import { ThemeContent, ThemeFamilyContent } from '../themeFamily.js';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  const themeId = new URL(request.url).searchParams.get('id');
-  if (!themeId) throw new Error('No theme id');
-  const value = await context.env?.themes?.get(themeId);
-  const theme = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
+  const url = new URL(request.url);
+  const themeId = url.searchParams.get('id');
+  const themeName = url.searchParams.get('name');
 
-  return new Response(generatePreview(theme?.themes?.at(0)), {
+  if (!themeId) throw new Response('Missing theme id', { status: 400 });
+
+  const value = await context.env?.themes?.get(themeId);
+  const themeFamily = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
+
+  const theme = themeFamily?.themes?.find((t) => t.name === themeName) ?? themeFamily?.themes?.at(0);
+
+  if (!theme) throw new Response('Unable to find a theme', { status: 400 });
+
+  return new Response(generatePreview(theme), {
     headers: {
       'Content-Type': 'image/svg+xml',
       'Cache-Control': 'public, max-age=604800, s-maxage=604800, stale-while-revalidate=604800',

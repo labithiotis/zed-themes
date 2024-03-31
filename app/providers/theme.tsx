@@ -16,6 +16,7 @@ type State = {
 type SetTheme = {
   type: 'set';
   themeFamily: ThemeFamilyContent;
+  themeName?: string | null;
 };
 
 type SetThemeName = {
@@ -52,7 +53,11 @@ function activeTheme(state: State) {
 const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
     case 'set': {
-      return { themeIndex: 0, themeFamily: action.themeFamily };
+      const themeIndex = action.themeFamily.themes.findIndex((t) => t.name === action.themeName);
+      return {
+        themeIndex: themeIndex ?? 0,
+        themeFamily: action.themeFamily,
+      };
     }
     case 'setThemeName': {
       if (state.themeIndex == null || state.themeFamily === null) {
