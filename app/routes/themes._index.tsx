@@ -86,14 +86,13 @@ export default function Themes() {
                         <a
                           role="button"
                           href={encodeURI(`/themes/${theme.id}?name=${name}`)}
-                          className="h-full w-full flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
+                          className="flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
                           aria-label={`Preview ${theme.name} theme`}
                           data-testid="preview-theme"
                           data-theme-id={theme.id}
                           data-theme-name={theme.name}
                         >
                           <img
-                            className="h-full w-full"
                             src={encodeURI(`/themes/preview.svg?id=${theme.id}&name=${name}`)}
                             width="100%"
                             height="100%"

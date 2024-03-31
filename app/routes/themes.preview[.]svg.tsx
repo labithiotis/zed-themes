@@ -42,7 +42,7 @@ function generatePreview(theme?: ThemeContent) {
   <circle cx="11" cy="10" r="4" fill="grey" />
   <circle cx="27" cy="10" r="4" fill="grey" />
   <circle cx="44" cy="10" r="4" fill="grey" />
-  <text id="project-name" x="70px" y="14" text-anchor="middle" fill="${getStyleColor(theme, 'text')}" font-size="11">zed</text>
+  <text id="project-name" x="70px" y="14" fill="${getStyleColor(theme, 'text')}" font-size="11">${theme?.name ?? 'zed'}</text>
 
   <path id="status" d="M0 311H460V323C460 327.418 456.418 331 452 331H8.00001C3.58173 331 0 327.418 0 323V311Z" fill="${getStyleColor(theme, 'status_bar.background')}" />
 
