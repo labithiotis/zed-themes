@@ -38,7 +38,7 @@ export default function Themes() {
         <div className="flex w-full justify-center pb-6">
           <div className="grid w-full max-w-[1600px] gap-6 sm:grid-cols-2 md:grid-cols-3">
             {themes?.map((theme, t1) => (
-              <div key={theme.id} className="items flex flex-col gap-2">
+              <Carousel key={theme.id} className="items flex flex-col gap-2">
                 <div className="flex flex-col overflow-hidden">
                   <div className="flex">
                     <h4 className="flex-1 text-lg">{theme.name}</h4>
@@ -72,14 +72,14 @@ export default function Themes() {
                       </svg>
                     </a>
                   </div>
-
-                  <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">By {theme.author}</p>
-
-                  <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">
-                    {theme?.themes?.length} {theme?.themes?.length === 1 ? 'theme' : 'themes'}
-                  </p>
+                  <div className="flex gap-2 items-center">
+                    <p className="flex-1 overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">
+                      By {theme.author}
+                    </p>
+                    <CarouselDots />
+                  </div>
                 </div>
-                <Carousel className="flex flex-col isolate min-h-[20vw]">
+                <div className="flex flex-col isolate min-h-[20vw]">
                   <CarouselContent className="w-full">
                     {theme?.themes?.map(({ name }, t2) => (
                       <CarouselItem key={`${theme.id}-${name}`}>
@@ -105,11 +105,8 @@ export default function Themes() {
                   </CarouselContent>
                   <CarouselPrevious className="z-10" />
                   <CarouselNext className="z-10" />
-                  <div className="flex w-full justify-center items-center gap-3 h-5">
-                    <CarouselDots />
-                  </div>
-                </Carousel>
-              </div>
+                </div>
+              </Carousel>
             ))}
           </div>
         </div>
