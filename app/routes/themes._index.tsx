@@ -47,6 +47,7 @@ export default function Themes() {
                       href={'/download/themes/' + theme.id}
                       className="flex h-6 w-6 items-center justify-center rounded hover:bg-neutral-200 dark:hover:bg-neutral-800"
                       aria-label={`Download ${theme.name} theme`}
+                      title="Download theme"
                     >
                       <svg
                         width="16px"
