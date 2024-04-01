@@ -15,13 +15,8 @@ module.exports = {
   },
   ignorePatterns: ['!**/.server', '!**/.client', 'themeValidatorAjv.mjs', 'build/*'],
 
-  rules: {
-    // Disable prop-types for React as we are using TypeScript
-    'react/prop-types': 'off',
-  },
-
   // Base config
-  extends: ['eslint:recommended', '@remix-run/eslint-config'],
+  extends: ['eslint:recommended'],
 
   overrides: [
     // React
@@ -34,6 +29,10 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:jsx-a11y/recommended',
       ],
+      rules: {
+        // Disable prop-types for React as we are using TypeScript
+        'react/prop-types': 'off',
+      },
       settings: {
         react: {
           version: 'detect',

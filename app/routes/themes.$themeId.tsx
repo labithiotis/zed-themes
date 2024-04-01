@@ -32,7 +32,7 @@ export default function ThemeById() {
     if (dataTheme && dataTheme?.name !== themeFamily?.name) {
       dispatch({ type: 'set', themeFamily: dataTheme, themeName: searchParams.get('name') });
     }
-  }, [data, themeFamily, dispatch]);
+  }, [data, themeFamily, dispatch, searchParams]);
 
   return (
     <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
