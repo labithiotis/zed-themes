@@ -39,7 +39,7 @@
     "@remix-run/node": "^2.8.1",
     "@types/node": "20",
     "@types/react": "18.2.64",
-    "@types/react-dom": "18.2.22",
+    "@types/react-dom": "18.2.23",
     "@typescript-eslint/eslint-plugin": "7.4.0",
     "@vitejs/plugin-react": "4.2.1",
     "ajv": "8.12.0",
