@@ -1,0 +1,61 @@
+{
+  "short_name": "Zed themes",
+  "name": "Explore, preview, and edit Zed themes",
+  "start_url": "/themes",
+  "display": "standalone",
+  "theme_color": "#1e93ff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "favicon144.svg",
+      "type": "image/svg",
+      "sizes": "144x144",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon512.svg",
+      "type": "image/svg",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "maskable_icon_x96.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "maskable_icon_x96.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "preview_wide.webp",
+      "sizes": "2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Zed themes"
+    },
+    {
+      "src": "preview_narrow.webp",
+      "sizes": "1440x2560",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Zed themes"
+    }
+  ]
+}

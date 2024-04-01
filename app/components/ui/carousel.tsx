@@ -297,6 +297,7 @@ const CarouselDots = React.forwardRef<HTMLDivElement, { dotProps?: React.Compone
               'h-2 w-2 rounded-full',
               index === selectedIndex ? 'bg-neutral-100' : 'bg-neutral-400 dark:bg-neutral-600'
             )}
+            aria-label={`Go to preview ${index + 1}`}
             aria-current={index === selectedIndex}
             {...dotProps}
           />

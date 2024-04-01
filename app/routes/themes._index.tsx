@@ -37,7 +37,7 @@ export default function Themes() {
         </span>
         <div className="flex w-full justify-center pb-6">
           <div className="grid w-full max-w-[1600px] gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {themes?.map((theme) => (
+            {themes?.map((theme, t1) => (
               <div key={theme.id} className="items flex flex-col gap-2">
                 <div className="flex flex-col overflow-hidden">
                   <div className="flex">
@@ -81,7 +81,7 @@ export default function Themes() {
                 </div>
                 <Carousel className="flex flex-col isolate min-h-[20vw]">
                   <CarouselContent className="w-full">
-                    {theme?.themes?.map(({ name }) => (
+                    {theme?.themes?.map(({ name }, t2) => (
                       <CarouselItem key={`${theme.id}-${name}`}>
                         <a
                           role="button"
@@ -93,10 +93,11 @@ export default function Themes() {
                           data-theme-name={theme.name}
                         >
                           <img
-                            src={encodeURI(`/themes/preview.svg?id=${theme.id}&name=${name}`)}
                             width="100%"
                             height="100%"
+                            src={encodeURI(`/themes/preview.svg?id=${theme.id}&name=${name}`)}
                             alt={`${theme.name} preview`}
+                            loading={t1 < 6 && t2 === 0 ? 'eager' : 'lazy'}
                           />
                         </a>
                       </CarouselItem>

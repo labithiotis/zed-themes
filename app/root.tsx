@@ -13,10 +13,14 @@ export const meta: MetaFunction = () => [
   { title: 'Zed themes' },
   { name: 'viewport', content: 'width=device-width,initial-scale=1' },
   { name: 'description', content: 'Preview & edit zed themes in your browser' },
+  { name: 'theme-color', content: '#1e93ff' },
   { property: 'og:title', content: 'Zed themes' },
 ];
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  { rel: 'manifest', href: '/manifest.json' },
+];
 
 export type RootData = {
   uiTheme?: UiTheme;
