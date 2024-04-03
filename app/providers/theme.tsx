@@ -1,10 +1,10 @@
-import { useNavigate } from '@remix-run/react';
+import { useLocation, useNavigate } from '@remix-run/react';
 import update from 'immutability-helper';
 import { Dispatch, PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
-import { HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
+import { AppearanceContent, HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
 import { StyleTokens, SyntaxTokens } from './tokens';
 
-const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
+export const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
 
 export type ColorHex = `#${string}`;
 
@@ -13,15 +13,25 @@ type State = {
   themeFamily: ThemeFamilyContent | null;
 };
 
-type SetTheme = {
+type Set = {
   type: 'set';
   themeFamily: ThemeFamilyContent;
   themeName?: string | null;
 };
 
+type SetIndex = {
+  type: 'setIndex';
+  index: number;
+};
+
 type SetThemeName = {
   type: 'setThemeName';
   name: string;
+};
+
+type SetThemeAppearance = {
+  type: 'SetThemeAppearance';
+  appearance: AppearanceContent;
 };
 
 type SetStyleToken = {
@@ -43,7 +53,7 @@ type SetPlayerToken = {
   color: unknown;
 };
 
-type Actions = SetTheme | SetThemeName | SetStyleToken | SetSyntaxToken | SetPlayerToken;
+type Actions = Set | SetIndex | SetThemeName | SetThemeAppearance | SetStyleToken | SetSyntaxToken | SetPlayerToken;
 
 function activeTheme(state: State) {
   if (state.themeIndex === null || state.themeFamily === null) return undefined;
@@ -53,11 +63,18 @@ function activeTheme(state: State) {
 const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
     case 'set': {
-      const themeIndex = action.themeFamily.themes.findIndex((t) => t.name === action.themeName);
-      return {
-        themeIndex: themeIndex ?? 0,
-        themeFamily: action.themeFamily,
-      };
+      const themeIndex = action.themeName ? action.themeFamily.themes.findIndex((t) => t.name === action.themeName) : 0;
+      return update(state, {
+        $set: {
+          themeIndex: themeIndex === -1 ? 0 : themeIndex,
+          themeFamily: action.themeFamily,
+        },
+      });
+    }
+    case 'setIndex': {
+      return update(state, {
+        themeIndex: { $set: action.index },
+      });
     }
     case 'setThemeName': {
       if (state.themeIndex == null || state.themeFamily === null) {
@@ -68,6 +85,19 @@ const reducer = (state: State, action: Actions): State => {
         themeFamily: {
           themes: {
             [state.themeIndex]: { name: { $set: action.name } },
+          },
+        },
+      });
+    }
+    case 'SetThemeAppearance': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          themes: {
+            [state.themeIndex]: { appearance: { $set: action.appearance } },
           },
         },
       });
@@ -142,29 +172,13 @@ const initialState: State = {
   themeFamily: null,
 };
 
-function getInitialState(): State {
-  // Think about a nice way to sync theme locally and work nicely with remix ssr
-  // try {
-  //   const themeFamily = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '');
-  //   if (themeValidator(themeFamily)) {
-  //     return { themeIndex: 0, themeFamily };
-  //   } else {
-  //     localStorage.removeItem(LOCAL_STORAGE_THEME_SYNC_KEY);
-  //     return initialState;
-  //   }
-  // } catch (e) {
-  //   console.warn(e);
-  // }
-  return initialState;
-}
-
 const ThemeCtx = createContext<{ state: State; dispatch: Dispatch<Actions> }>({
   state: initialState,
   dispatch: () => undefined,
 });
 
 export const ThemeProvider = (props: PropsWithChildren) => {
-  const [state, dispatch] = useReducer(reducer, getInitialState());
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
@@ -175,17 +189,19 @@ export const ThemeProvider = (props: PropsWithChildren) => {
 
 export const useTheme = () => {
   const ctx = useContext(ThemeCtx);
+  const location = useLocation();
   const navigate = useNavigate();
   const theme = activeTheme(ctx.state);
   const dispatch: typeof ctx.dispatch = (...args) => {
-    // If we edit theme change the route to /edit
-    if (args[0].type !== 'set') {
-      navigate('/themes/edit', { replace: true, preventScrollReset: true });
+    // If we edit theme change the route to /edit and delay navigate to allow
+    // reducer to sync state to localstorage.
+    if (!location.pathname.includes('/themes/edit') && args[0].type !== 'set') {
+      setTimeout(() => navigate('/themes/edit', { replace: true, preventScrollReset: true }), 1);
     }
     return ctx.dispatch(...args);
   };
 
-  return { theme, dispatch, themeFamily: ctx.state.themeFamily };
+  return { index: ctx.state.themeIndex, themeFamily: ctx.state.themeFamily, theme, dispatch };
 };
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;

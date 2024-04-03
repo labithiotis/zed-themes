@@ -1,3 +1,4 @@
+import { Toggle } from '@radix-ui/react-toggle';
 import { useFetcher } from '@remix-run/react';
 import { useCallback, useEffect, useRef } from 'react';
 import { UiTheme, useUiTheme } from '~/providers/uiTheme';
@@ -44,10 +45,9 @@ export function UiThemeToggle() {
   }, [uiTheme, setUiTheme]);
 
   return (
-    <button
-      type="button"
-      className="flex h-5 w-5 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+    <Toggle
       onClick={toggle}
+      className="flex h-5 w-5 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       aria-label="Toggle theme"
     >
       {uiTheme.uiTheme === 'dark' ? (
@@ -75,6 +75,6 @@ export function UiThemeToggle() {
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
       )}
-    </button>
+    </Toggle>
   );
 }

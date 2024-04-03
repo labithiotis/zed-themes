@@ -1,8 +1,10 @@
 import { UiThemeToggle } from '~/components/UiThemeToggle';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
 import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens';
-import { HighlightStyleContent } from '../../themeFamily';
+import { AppearanceContent, HighlightStyleContent } from '../../themeFamily';
+import { Input } from '../ui/input';
 import { Player } from './Player';
 import { Section } from './Section';
 import { SideDownloadButton } from './SideDownloadButton';
@@ -16,9 +18,15 @@ export const btnStyles =
   'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
 export function Side({ edit }: { edit: boolean }) {
-  const { theme, dispatch } = useTheme();
+  const { index, theme, themeFamily, dispatch } = useTheme();
   const setName = (name: string) => {
     dispatch({ type: 'setThemeName', name });
+  };
+  const setAppearance = (appearance: AppearanceContent) => {
+    dispatch({ type: 'SetThemeAppearance', appearance });
+  };
+  const setIndex = (index: string) => {
+    dispatch({ type: 'setIndex', index: Number(index) });
   };
   const setStyleToken = debounce((token: StyleTokens, color: unknown) => {
     dispatch({ type: 'setStyleToken', token, color });
@@ -39,14 +47,35 @@ export function Side({ edit }: { edit: boolean }) {
           </a>
           <UiThemeToggle />
         </div>
-        <div className="px-2">
-          <input
+        <div className="flex gap-2 px-2 mb-1">
+          <Input
             value={theme?.name ?? 'loading...'}
             type="text"
-            className="border-1 w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
+            className="border-1 cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
             placeholder="Theme name"
             onChange={(e) => setName(e.currentTarget.value ?? '')}
           />
+          <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
+            <SelectTrigger>
+              <span className="pr-2">{theme?.appearance ?? 'light'}</span>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={setIndex} value={index?.toString() ?? undefined}>
+            <SelectTrigger>
+              <span className="pr-2">Select</span>
+            </SelectTrigger>
+            <SelectContent>
+              {themeFamily?.themes.map(({ name }, i) => (
+                <SelectItem key={i} value={`${i}`}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex-1 divide-y divide-neutral-300 overflow-scroll dark:divide-neutral-700">
           {sections.map((section) =>

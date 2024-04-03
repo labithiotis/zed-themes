@@ -1,6 +1,7 @@
 import { LinksFunction, LoaderFunction, MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { UiThemeLoader } from './components/UiThemeToggle';
+import { Toaster } from './components/ui/toaster';
 import { uiThemeSession } from './components/uiTheme.server';
 import { ThemeProvider } from './providers/theme';
 import { UiTheme, UiThemeProvider } from './providers/uiTheme';
@@ -50,6 +51,7 @@ export default function Root() {
         <ScrollRestoration />
         <Scripts />
         <UiThemeLoader />
+        <Toaster />
       </body>
     </html>
   );

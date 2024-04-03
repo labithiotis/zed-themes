@@ -1,18 +1,20 @@
 import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
 import { useTheme } from '~/providers/theme';
+import { useToast } from '../ui/use-toast';
 import { btnStyles } from './Side';
 
 export function SideShareButton({ edit }: { edit: boolean }) {
+  const { toast } = useToast();
   const { themeFamily } = useTheme();
   const fetcher = useFetcher<{ shareUrl: string }>({ key: 'share-theme' });
 
   useEffect(() => {
     if (fetcher.data) {
       navigator.clipboard.writeText(fetcher.data.shareUrl);
-      alert('A shareable url has been copied to your clipboard.');
+      toast({ description: 'A shareable url has been copied to your clipboard.' });
     }
-  }, [fetcher.data]);
+  }, [fetcher.data, toast]);
 
   const shareTheme = () => {
     if (edit) {
@@ -22,7 +24,7 @@ export function SideShareButton({ edit }: { edit: boolean }) {
       );
     } else {
       navigator.clipboard.writeText(document.location.href);
-      alert('Link has been copied to your clipboard.');
+      toast({ description: 'Link has been copied to your clipboard.' });
     }
   };
 

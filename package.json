@@ -20,7 +20,10 @@
     "ui": "pnpm dlx shadcn-ui@latest"
   },
   "dependencies": {
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-toggle": "^1.0.3",
     "@remix-run/cloudflare": "2.8.1",
     "@remix-run/cloudflare-pages": "2.8.1",
     "@remix-run/react": "2.8.1",

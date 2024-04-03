@@ -3,9 +3,7 @@ import { btnStyles } from './Side';
 
 export function SideEditButton() {
   const navigate = useNavigate();
-  const editTheme = () => {
-    navigate('/themes/edit');
-  };
+  const editTheme = () => navigate('/themes/edit');
 
   return (
     <button onClick={editTheme} className={btnStyles}>
