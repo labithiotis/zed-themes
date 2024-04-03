@@ -1,4 +1,5 @@
 import 'react';
+import { ThemeContent } from './themeFamily';
 
 declare module 'react' {
   interface CSSProperties {
@@ -11,4 +12,5 @@ export type ThemesMetaData = {
   author: string;
   updatedDate: string;
   versionHash: string;
+  themes: Pick<ThemeContent, 'name' | 'appearance'>[];
 };

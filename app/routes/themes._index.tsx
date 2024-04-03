@@ -1,15 +1,23 @@
 import { LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import { UiThemeToggle } from '~/components/UiThemeToggle';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '~/components/ui/carousel';
 import { ThemesMetaData } from '../types';
 
 type LoaderData = {
-  themes: { id: string; name?: string; author?: string }[];
+  themes: ({ id: string } & ThemesMetaData)[];
 };
 
 async function fetchAllThemesFromKV(ns?: KVNamespace) {
   const nsList = await ns?.list<ThemesMetaData>();
-  return nsList?.keys.map((key) => ({ id: key.name, name: key.metadata?.name, author: key.metadata?.author }));
+  return nsList?.keys.map((key) => ({ ...key.metadata, id: key.name }));
 }
 
 export const loader: LoaderFunction = async ({ context }) => {
@@ -29,8 +37,8 @@ export default function Themes() {
         </span>
         <div className="flex w-full justify-center pb-6">
           <div className="grid w-full max-w-[1600px] gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {themes?.map((theme) => (
-              <div key={theme.id} className="items flex min-h-6 flex-col gap-2">
+            {themes?.map((theme, t1) => (
+              <Carousel key={theme.id} className="items flex flex-col gap-2">
                 <div className="flex flex-col overflow-hidden">
                   <div className="flex">
                     <h4 className="flex-1 text-lg">{theme.name}</h4>
@@ -39,6 +47,7 @@ export default function Themes() {
                       href={'/download/themes/' + theme.id}
                       className="flex h-6 w-6 items-center justify-center rounded hover:bg-neutral-200 dark:hover:bg-neutral-800"
                       aria-label={`Download ${theme.name} theme`}
+                      title="Download theme"
                     >
                       <svg
                         width="16px"
@@ -64,27 +73,41 @@ export default function Themes() {
                       </svg>
                     </a>
                   </div>
-
-                  <p className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">By {theme.author}</p>
+                  <div className="flex gap-2 items-center">
+                    <p className="flex-1 overflow-hidden text-ellipsis text-nowrap text-xs opacity-60">
+                      By {theme.author}
+                    </p>
+                    <CarouselDots />
+                  </div>
                 </div>
-                <a
-                  role="button"
-                  href={'/themes/' + theme.id}
-                  className="h-full w-full flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
-                  aria-label={`Preview ${theme.name} theme`}
-                  data-testid="preview-theme"
-                  data-theme-id={theme.id}
-                  data-theme-name={theme.name}
-                >
-                  <img
-                    className="h-full w-full"
-                    src={`/themes/preview.svg?id=${theme.id}`}
-                    width="100%"
-                    height="100%"
-                    alt={`${theme.name} preview`}
-                  />
-                </a>
-              </div>
+                <div className="flex flex-col isolate min-h-[20vw]">
+                  <CarouselContent className="w-full">
+                    {theme?.themes?.map(({ name }, t2) => (
+                      <CarouselItem key={`${theme.id}-${name}`}>
+                        <a
+                          role="button"
+                          href={encodeURI(`/themes/${theme.id}?name=${name}`)}
+                          className="flex-1 cursor-pointer rounded outline outline-2 outline-offset-4 outline-transparent transition-all hover:outline-zed-800 dark:hover:outline-neutral-600"
+                          aria-label={`Preview ${theme.name} theme`}
+                          data-testid="preview-theme"
+                          data-theme-id={theme.id}
+                          data-theme-name={theme.name}
+                        >
+                          <img
+                            width="100%"
+                            height="100%"
+                            src={encodeURI(`/themes/preview.svg?id=${theme.id}&name=${name}`)}
+                            alt={`${theme.name} preview`}
+                            loading={t1 < 6 && t2 === 0 ? 'eager' : 'lazy'}
+                          />
+                        </a>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="z-10" />
+                  <CarouselNext className="z-10" />
+                </div>
+              </Carousel>
             ))}
           </div>
         </div>

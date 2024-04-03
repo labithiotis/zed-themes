@@ -3,12 +3,20 @@ import { SyntaxTokens } from '~/providers/tokens.js';
 import { ThemeContent, ThemeFamilyContent } from '../themeFamily.js';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  const themeId = new URL(request.url).searchParams.get('id');
-  if (!themeId) throw new Error('No theme id');
-  const value = await context.env?.themes?.get(themeId);
-  const theme = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
+  const url = new URL(request.url);
+  const themeId = url.searchParams.get('id');
+  const themeName = url.searchParams.get('name');
 
-  return new Response(generatePreview(theme?.themes?.at(0)), {
+  if (!themeId) throw new Response('Missing theme id', { status: 400 });
+
+  const value = await context.env?.themes?.get(themeId);
+  const themeFamily = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
+
+  const theme = themeFamily?.themes?.find((t) => t.name === themeName) ?? themeFamily?.themes?.at(0);
+
+  if (!theme) throw new Response('Unable to find a theme', { status: 400 });
+
+  return new Response(generatePreview(theme), {
     headers: {
       'Content-Type': 'image/svg+xml',
       'Cache-Control': 'public, max-age=604800, s-maxage=604800, stale-while-revalidate=604800',
@@ -34,7 +42,7 @@ function generatePreview(theme?: ThemeContent) {
   <circle cx="11" cy="10" r="4" fill="grey" />
   <circle cx="27" cy="10" r="4" fill="grey" />
   <circle cx="44" cy="10" r="4" fill="grey" />
-  <text id="project-name" x="70px" y="14" text-anchor="middle" fill="${getStyleColor(theme, 'text')}" font-size="11">zed</text>
+  <text id="project-name" x="70px" y="14" fill="${getStyleColor(theme, 'text')}" font-size="11">${theme?.name ?? 'zed'}</text>
 
   <path id="status" d="M0 311H460V323C460 327.418 456.418 331 452 331H8.00001C3.58173 331 0 327.418 0 323V311Z" fill="${getStyleColor(theme, 'status_bar.background')}" />
 

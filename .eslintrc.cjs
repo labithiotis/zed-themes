@@ -29,6 +29,10 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:jsx-a11y/recommended',
       ],
+      rules: {
+        // Disable prop-types for React as we are using TypeScript
+        'react/prop-types': 'off',
+      },
       settings: {
         react: {
           version: 'detect',

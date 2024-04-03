@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, TypedResponse, json } from '@remix-run/cloudflare';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 import invariant from 'tiny-invariant';
 import { Preview } from '~/components/preview/Preview';
@@ -17,29 +17,26 @@ export const loader = async ({ context, params }: LoaderFunctionArgs): Promise<T
 
   invariant(params.themeId);
 
-  if (params.themeId === 'edit') {
-    return json({ theme: undefined });
-  }
-
   const theme = (await themesKv?.get(params.themeId)) ?? (await sharesKv?.get(params.themeId));
 
   return json({ theme: theme ? JSON.parse(theme) : undefined });
 };
 
 export default function ThemeById() {
+  const [searchParams] = useSearchParams();
   const data = useLoaderData<typeof loader>();
   const { theme, themeFamily, dispatch } = useTheme();
 
   useEffect(() => {
     const dataTheme = data?.theme;
     if (dataTheme && dataTheme?.name !== themeFamily?.name) {
-      dispatch({ type: 'set', themeFamily: dataTheme });
+      dispatch({ type: 'set', themeFamily: dataTheme, themeName: searchParams.get('name') });
     }
-  }, [data, themeFamily, dispatch]);
+  }, [data, themeFamily, dispatch, searchParams]);
 
   return (
     <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
-      <Side />
+      <Side edit={false} />
       {!!theme && <Preview />}
     </div>
   );

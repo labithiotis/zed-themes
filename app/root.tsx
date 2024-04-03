@@ -1,6 +1,7 @@
 import { LinksFunction, LoaderFunction, MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { UiThemeLoader } from './components/UiThemeToggle';
+import { Toaster } from './components/ui/toaster';
 import { uiThemeSession } from './components/uiTheme.server';
 import { ThemeProvider } from './providers/theme';
 import { UiTheme, UiThemeProvider } from './providers/uiTheme';
@@ -13,10 +14,14 @@ export const meta: MetaFunction = () => [
   { title: 'Zed themes' },
   { name: 'viewport', content: 'width=device-width,initial-scale=1' },
   { name: 'description', content: 'Preview & edit zed themes in your browser' },
+  { name: 'theme-color', content: '#1e93ff' },
   { property: 'og:title', content: 'Zed themes' },
 ];
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  { rel: 'manifest', href: '/manifest.json' },
+];
 
 export type RootData = {
   uiTheme?: UiTheme;
@@ -46,6 +51,7 @@ export default function Root() {
         <ScrollRestoration />
         <Scripts />
         <UiThemeLoader />
+        <Toaster />
       </body>
     </html>
   );
