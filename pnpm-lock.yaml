@@ -21,13 +21,13 @@ dependencies:
     specifier: ^1.0.3
     version: 1.0.3(@types/react-dom@18.2.23)(@types/react@18.2.73)(react-dom@18.2.0)(react@18.2.0)
   '@remix-run/cloudflare':
-    specifier: 2.8.1
+    specifier: ^2.8.1
     version: 2.8.1(@cloudflare/workers-types@4.20240329.0)(typescript@5.4.3)
   '@remix-run/cloudflare-pages':
-    specifier: 2.8.1
+    specifier: ^2.8.1
     version: 2.8.1(@cloudflare/workers-types@4.20240329.0)(typescript@5.4.3)
   '@remix-run/react':
-    specifier: 2.8.1
+    specifier: ^2.8.1
     version: 2.8.1(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
   class-variance-authority:
     specifier: ^0.7.0
@@ -39,7 +39,7 @@ dependencies:
     specifier: ^8.0.0
     version: 8.0.0(react@18.2.0)
   immutability-helper:
-    specifier: 3.1.1
+    specifier: ^3.1.1
     version: 3.1.1
   isbot:
     specifier: ^5.1.3
@@ -48,19 +48,19 @@ dependencies:
     specifier: ^0.364.0
     version: 0.364.0(react@18.2.0)
   nanoid:
-    specifier: 5.0.6
+    specifier: ^5.0.6
     version: 5.0.6
   react:
-    specifier: 18.2.0
+    specifier: ^18.2.0
     version: 18.2.0
   react-colorful:
-    specifier: 5.6.1
+    specifier: ^5.6.1
     version: 5.6.1(react-dom@18.2.0)(react@18.2.0)
   react-dom:
-    specifier: 18.2.0
+    specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   react-file-drop:
-    specifier: 3.1.6
+    specifier: ^3.1.6
     version: 3.1.6
   tailwind-merge:
     specifier: ^2.2.2
@@ -69,21 +69,21 @@ dependencies:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.3)
   tiny-invariant:
-    specifier: 1.3.3
+    specifier: ^1.3.3
     version: 1.3.3
 
 devDependencies:
   '@cloudflare/workers-types':
-    specifier: 4.20240329.0
+    specifier: ^4.20240329.0
     version: 4.20240329.0
   '@playwright/test':
     specifier: ^1.42.1
     version: 1.42.1
   '@preact/signals-react-transform':
-    specifier: 0.3.1
+    specifier: ^0.3.1
     version: 0.3.1(@babel/core@7.24.3)(react@18.2.0)
   '@remix-run/dev':
-    specifier: 2.8.1
+    specifier: ^2.8.1
     version: 2.8.1(@types/node@20.12.2)(typescript@5.4.3)(vite@5.2.7)(wrangler@3.41.0)
   '@remix-run/eslint-config':
     specifier: ^2.8.1
@@ -95,91 +95,91 @@ devDependencies:
     specifier: ^20.12.2
     version: 20.12.2
   '@types/react':
-    specifier: 18.2.73
+    specifier: ^18.2.73
     version: 18.2.73
   '@types/react-dom':
-    specifier: 18.2.23
+    specifier: ^18.2.23
     version: 18.2.23
   '@typescript-eslint/eslint-plugin':
-    specifier: 7.4.0
+    specifier: ^7.4.0
     version: 7.4.0(@typescript-eslint/parser@7.4.0)(eslint@8.57.0)(typescript@5.4.3)
   '@typescript-eslint/parser':
     specifier: ^7.4.0
     version: 7.4.0(eslint@8.57.0)(typescript@5.4.3)
   '@vitejs/plugin-react':
-    specifier: 4.2.1
+    specifier: ^4.2.1
     version: 4.2.1(vite@5.2.7)
   ajv:
-    specifier: 8.12.0
+    specifier: ^8.12.0
     version: 8.12.0
   autoprefixer:
-    specifier: 10.4.19
+    specifier: ^10.4.19
     version: 10.4.19(postcss@8.4.38)
   cloudflare-workers-kv-viewer:
-    specifier: 1.0.3
+    specifier: ^1.0.3
     version: 1.0.3
   esbuild:
-    specifier: 0.20.2
+    specifier: ^0.20.2
     version: 0.20.2
   eslint:
-    specifier: 8.57.0
+    specifier: ^8.57.0
     version: 8.57.0
   eslint-import-resolver-typescript:
-    specifier: 3.6.1
+    specifier: ^3.6.1
     version: 3.6.1(@typescript-eslint/parser@7.4.0)(eslint-plugin-import@2.29.1)(eslint@8.57.0)
   eslint-plugin-import:
-    specifier: 2.29.1
+    specifier: ^2.29.1
     version: 2.29.1(@typescript-eslint/parser@7.4.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
   eslint-plugin-jsx-a11y:
-    specifier: 6.8.0
+    specifier: ^6.8.0
     version: 6.8.0(eslint@8.57.0)
   eslint-plugin-react:
-    specifier: 7.34.1
+    specifier: ^7.34.1
     version: 7.34.1(eslint@8.57.0)
   eslint-plugin-react-hooks:
-    specifier: 4.6.0
+    specifier: ^4.6.0
     version: 4.6.0(eslint@8.57.0)
   json-schema-to-typescript:
-    specifier: 13.1.2
+    specifier: ^13.1.2
     version: 13.1.2
   miniflare:
-    specifier: 3.20240320.1
+    specifier: ^3.20240320.1
     version: 3.20240320.1
   postcss:
-    specifier: 8.4.38
+    specifier: ^8.4.38
     version: 8.4.38
   prettier:
-    specifier: 3.2.5
+    specifier: ^3.2.5
     version: 3.2.5
   prettier-plugin-organize-imports:
-    specifier: 3.2.4
+    specifier: ^3.2.4
     version: 3.2.4(prettier@3.2.5)(typescript@5.4.3)
   prettier-plugin-tailwindcss:
-    specifier: 0.5.13
+    specifier: ^0.5.13
     version: 0.5.13(prettier-plugin-organize-imports@3.2.4)(prettier@3.2.5)
   tailwind-scrollbar-hide:
-    specifier: 1.1.7
+    specifier: ^1.1.7
     version: 1.1.7
   tailwindcss:
-    specifier: 3.4.3
+    specifier: ^3.4.3
     version: 3.4.3
   typescript:
-    specifier: 5.4.3
+    specifier: ^5.4.3
     version: 5.4.3
   vite:
-    specifier: 5.2.7
+    specifier: ^5.2.7
     version: 5.2.7(@types/node@20.12.2)
   vite-plugin-svgr:
-    specifier: 4.2.0
+    specifier: ^4.2.0
     version: 4.2.0(typescript@5.4.3)(vite@5.2.7)
   vite-tsconfig-paths:
-    specifier: 4.3.2
+    specifier: ^4.3.2
     version: 4.3.2(typescript@5.4.3)(vite@5.2.7)
   wrangler:
-    specifier: 3.41.0
+    specifier: ^3.41.0
     version: 3.41.0(@cloudflare/workers-types@4.20240329.0)
   zx:
-    specifier: 7.2.3
+    specifier: ^7.2.3
     version: 7.2.3
 
 packages:
