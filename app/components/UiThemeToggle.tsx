@@ -6,14 +6,11 @@ import { UiTheme, useUiTheme } from '~/providers/uiTheme';
 function useSetUiTheme() {
   const fetcher = useFetcher<{ uiTheme: UiTheme }>({ key: 'ui-theme' });
 
-  return (theme: UiTheme) => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      fetcher.submit({ theme: 'dark' }, { action: '/action/theme', method: 'post' });
-    } else {
-      document.documentElement.classList.remove('dark');
-      fetcher.submit({ theme: 'light' }, { action: '/action/theme', method: 'post' });
-    }
+  return (uiTheme: UiTheme) => {
+    const el = document.documentElement.classList;
+    uiTheme === 'dark' ? el.add('dark') : el.remove('dark');
+    // FIX ME on load when theme is not set this is invoked but the network request is GET not POST! Invoking this fn via UI toggle works just fine
+    fetcher.submit({ uiTheme }, { action: '/action/theme', method: 'post' });
   };
 }
 
@@ -25,9 +22,9 @@ export function UiThemeLoader() {
   useEffect(() => {
     if (!called.current && !uiTheme.uiTheme && typeof window === 'object') {
       const t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      setUiTheme(t);
       uiTheme.setUiTheme(t);
       called.current = true;
-      setUiTheme(t);
     }
   }, [uiTheme, setUiTheme]);
 
