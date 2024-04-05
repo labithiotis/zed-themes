@@ -80,7 +80,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: Theme; index: number
           <CarouselDots />
         </div>
       </div>
-      <div className="flex flex-col isolate min-h-[20vw]">
+      <div className="relative flex flex-col isolate min-h-[20vw]">
         <CarouselContent className="w-full">
           {theme?.themes?.map(({ name }, index2) => (
             <ThemePreview
