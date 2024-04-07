@@ -53,7 +53,21 @@ type SetPlayerToken = {
   color: unknown;
 };
 
-type Actions = Set | SetIndex | SetThemeName | SetThemeAppearance | SetStyleToken | SetSyntaxToken | SetPlayerToken;
+type AddTheme = {
+  type: 'addTheme';
+};
+
+type Actions =
+  | Set
+  | SetIndex
+  | SetThemeName
+  | SetThemeAppearance
+  | SetStyleToken
+  | SetSyntaxToken
+  | SetPlayerToken
+  | AddTheme;
+
+const actionsIgnoreEdit = ['set', 'setIndex'] as const;
 
 function activeTheme(state: State) {
   if (state.themeIndex === null || state.themeFamily === null) return undefined;
@@ -161,6 +175,28 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
+    case 'addTheme': {
+      if (state.themeFamily === null || state.themeIndex === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeIndex: {
+          $set: state.themeFamily.themes.length,
+        },
+        themeFamily: {
+          themes: {
+            $push: [
+              {
+                name: 'New Theme',
+                appearance: state.themeFamily.themes[state.themeIndex].appearance,
+                style: state.themeFamily.themes[state.themeIndex].style,
+              },
+            ],
+          },
+        },
+      });
+    }
     default: {
       return state;
     }
@@ -195,7 +231,7 @@ export const useTheme = () => {
   const dispatch: typeof ctx.dispatch = (...args) => {
     // If we edit theme change the route to /edit and delay navigate to allow
     // reducer to sync state to localstorage.
-    if (!location.pathname.includes('/themes/edit') && args[0].type !== 'set') {
+    if (!location.pathname.includes('/themes/edit') && !actionsIgnoreEdit.includes(args[0].type)) {
       setTimeout(() => navigate('/themes/edit', { replace: true, preventScrollReset: true }), 1);
     }
     return ctx.dispatch(...args);

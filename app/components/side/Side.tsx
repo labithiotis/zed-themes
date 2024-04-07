@@ -4,6 +4,7 @@ import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens';
 import { AppearanceContent, HighlightStyleContent } from '../../themeFamily';
+import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Player } from './Player';
 import { Section } from './Section';
@@ -34,6 +35,9 @@ export function Side({ edit }: { edit: boolean }) {
   const setSyntaxToken = debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
     dispatch({ type: 'setSyntaxToken', token, content });
   }, 25);
+  const addTheme = () => {
+    dispatch({ type: 'addTheme' });
+  };
 
   return (
     <>
@@ -48,34 +52,58 @@ export function Side({ edit }: { edit: boolean }) {
           <UiThemeToggle />
         </div>
         <div className="flex gap-2 px-2 mb-1">
-          <Input
-            value={theme?.name ?? 'loading...'}
-            type="text"
-            className="border-1 cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
-            placeholder="Theme name"
-            onChange={(e) => setName(e.currentTarget.value ?? '')}
-          />
-          <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
-            <SelectTrigger>
-              <span className="pr-2">{theme?.appearance ?? 'light'}</span>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select onValueChange={setIndex} value={index?.toString() ?? undefined}>
-            <SelectTrigger>
-              <span className="pr-2">Select</span>
-            </SelectTrigger>
-            <SelectContent>
-              {themeFamily?.themes.map(({ name }, i) => (
-                <SelectItem key={i} value={`${i}`}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {edit ? (
+            <>
+              <Input
+                value={theme?.name ?? 'loading...'}
+                type="text"
+                className="border-1 cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
+                placeholder="Theme name"
+                onChange={(e) => setName(e.currentTarget.value ?? '')}
+              />
+              <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
+                <SelectTrigger>{theme?.appearance ?? 'light'}</SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">light</SelectItem>
+                  <SelectItem value="dark">dark</SelectItem>
+                </SelectContent>
+              </Select>
+              {themeFamily?.themes && themeFamily?.themes?.length > 1 ? (
+                <>
+                  <Select onValueChange={setIndex} value={index?.toString() ?? undefined}>
+                    <SelectTrigger>Select</SelectTrigger>
+                    <SelectContent>
+                      {themeFamily?.themes.map(({ name }, i) => (
+                        <SelectItem key={i} value={`${i}`}>
+                          {name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button size="xs" onClick={addTheme}>
+                    +
+                  </Button>
+                </>
+              ) : (
+                <Button size="xs" onClick={addTheme}>
+                  Add theme
+                </Button>
+              )}
+            </>
+          ) : (
+            <Select onValueChange={setIndex} value={index?.toString() ?? undefined}>
+              <SelectTrigger className="flex-1">
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{theme?.name ?? 'Select theme'}</span>
+              </SelectTrigger>
+              <SelectContent>
+                {themeFamily?.themes.map(({ name }, i) => (
+                  <SelectItem key={i} value={`${i}`}>
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
         <div className="flex-1 divide-y divide-neutral-300 overflow-scroll dark:divide-neutral-700">
           {sections.map((section) =>
@@ -88,6 +116,7 @@ export function Side({ edit }: { edit: boolean }) {
                     color={theme?.style[token.token]}
                     description={token.description}
                     onChange={(color) => setStyleToken(token.token, color)}
+                    edit={edit}
                   />
                 )}
               </Section>
@@ -102,11 +131,12 @@ export function Side({ edit }: { edit: boolean }) {
                 color={theme?.style.syntax[token]?.color}
                 description=""
                 onChange={(color) => setSyntaxToken(token, { color })}
+                edit={edit}
               />
             )}
           </Section>
           <Section name="Players" items={theme?.style.players ?? new Array(8).fill({})}>
-            {(player, index) => <Player key={index} player={player} index={index} />}
+            {(player, index) => <Player key={index} player={player} index={index} edit={edit} />}
           </Section>
         </div>
         <div className="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">

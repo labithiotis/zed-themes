@@ -2,6 +2,7 @@ import { LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import { memo } from 'react';
 import { UiThemeToggle } from '~/components/UiThemeToggle';
+import { Badge } from '~/components/ui/badge';
 import {
   Carousel,
   CarouselContent,
@@ -49,7 +50,12 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: Theme; index: number
     <Carousel className="items flex flex-col gap-2" opts={{ active: theme.themes?.length > 1 }}>
       <div className="flex flex-col overflow-hidden">
         <div className="flex">
-          <h4 className="flex-1 text-lg">{theme.name}</h4>
+          <div className="flex flex-1 gap-2 items-center">
+            <h4 className="text-lg">{theme.name}</h4>
+            <Badge variant="outline" title="This theme is already included with zed">
+              Bundled
+            </Badge>
+          </div>
           <a
             role="button"
             href={'/download/themes/' + theme.id}

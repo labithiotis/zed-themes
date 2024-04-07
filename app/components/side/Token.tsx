@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { ColorHex, useTheme } from '~/providers/theme';
+import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { SyntaxTokens } from '../../providers/tokens';
 import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
 
 export function Token({
   name,
@@ -11,6 +13,7 @@ export function Token({
   description,
   onChange,
   syntax,
+  edit,
 }: {
   name: string;
   color?: ColorHex | string | null;
@@ -19,6 +22,7 @@ export function Token({
   syntax?: SyntaxTokens;
   onSyntaxStyleChange?(fontStyle: string): void;
   onSyntaxFontChange?(fontStyle: number): void;
+  edit?: boolean;
 }) {
   const [showColor, setShowColor] = useState(false);
   const { theme, dispatch } = useTheme();
@@ -31,19 +35,28 @@ export function Token({
     <div className="flex flex-col px-4 py-1">
       <div className="flex flex-row items-center gap-2" title={!showColor && !!description ? description : undefined}>
         <button
-          className="color-preview h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border outline-none hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
+          className={cn(
+            'color-preview h-9 min-h-9 w-9 min-w-9 rounded border outline-none active:translate-y-[0px] active:scale-100',
+            {
+              'cursor-pointer hover:scale-[1.05] hover:pb-[1px] hover:translate-y-[-1px]': edit,
+            }
+          )}
           style={{
             color: color ? color : 'transparent',
             borderColor: color ? `color-mix(in xyz, ${color} 70%, black)` : '#808080',
           }}
           onClick={() => setShowColor(!showColor)}
           aria-label="Token color preivew toggle color picker"
+          disabled={!edit}
         />
         <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
           <button
             onClick={() => setShowColor(!showColor)}
-            className="text-left outline-none hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200"
+            className={cn('text-left outline-none', {
+              'cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200': edit,
+            })}
             aria-label="Token color name toggle color picker"
+            disabled={!edit}
           >
             {name}
           </button>
@@ -51,50 +64,67 @@ export function Token({
             <div className="flex-1">
               <input
                 value={color ?? ''}
-                className="border-1 h-[22px] w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-500 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
+                className={cn(
+                  'border-1 h-[22px] w-full rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
+                  {
+                    'cursor-pointer hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800':
+                      edit,
+                  }
+                )}
                 type="text"
-                placeholder="#color"
+                placeholder="unset"
                 onChange={(e) => onChange(e.currentTarget.value?.trim())}
+                disabled={!edit}
               />
             </div>
             {!!syntax && (
               <>
-                <select
+                <Select
                   value={theme?.style.syntax[syntax]?.font_style ?? ''}
-                  className="h-[22px] w-[80px] rounded-md border border-neutral-300 bg-transparent px-1 text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500  dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  onChange={(e) =>
+                  onValueChange={(value) =>
                     setSyntaxToken(syntax, {
-                      font_style: (e.currentTarget?.value || null) as FontStyleContent,
+                      font_style: value === 'unset' ? null : (value as FontStyleContent),
                     })
                   }
                 >
-                  <option value=""></option>
-                  <option value="normal">Normal</option>
-                  <option value="italic">Italic</option>
-                  <option value="oblique">Oblique</option>
-                </select>
-                <select
-                  value={theme?.style.syntax[syntax]?.font_weight ?? ''}
-                  className="h-[22px] rounded-md border border-neutral-300 bg-transparent px-1 text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  onChange={(e) =>
+                  <SelectTrigger disabled={!edit} className="w-26 pl-1 pr-0 py-0">
+                    {theme?.style.syntax[syntax]?.font_style ?? <span className="opacity-50">style</span>}
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="unset" className="opacity-50">
+                      unset
+                    </SelectItem>
+                    <SelectItem value="normal">normal</SelectItem>
+                    <SelectItem value="italic">italic</SelectItem>
+                    <SelectItem value="oblique">oblique</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={theme?.style.syntax[syntax]?.font_weight?.toString() ?? ''}
+                  onValueChange={(value) =>
                     setSyntaxToken(syntax, {
-                      font_weight: e.currentTarget?.value
-                        ? (+e.currentTarget?.value as HighlightStyleContent['font_weight'])
-                        : null,
+                      font_weight: value === 'unset' ? null : (+value as HighlightStyleContent['font_weight']),
                     })
                   }
                 >
-                  <option value=""></option>
-                  <option value="100">100</option>
-                  <option value="200">200</option>
-                  <option value="300">300</option>
-                  <option value="400">400</option>
-                  <option value="500">500</option>
-                  <option value="600">600</option>
-                  <option value="700">700</option>
-                  <option value="800">800</option>
-                  <option value="900">900</option>
-                </select>
+                  <SelectTrigger disabled={!edit} className="w-26 pl-1 pr-0 py-0">
+                    {theme?.style.syntax[syntax]?.font_weight?.toString() ?? <span className="opacity-50">weight</span>}
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="unset" className="opacity-50">
+                      unset
+                    </SelectItem>
+                    <SelectItem value="100">100</SelectItem>
+                    <SelectItem value="200">200</SelectItem>
+                    <SelectItem value="300">300</SelectItem>
+                    <SelectItem value="400">400</SelectItem>
+                    <SelectItem value="500">500</SelectItem>
+                    <SelectItem value="600">600</SelectItem>
+                    <SelectItem value="700">700</SelectItem>
+                    <SelectItem value="800">800</SelectItem>
+                    <SelectItem value="900">900</SelectItem>
+                  </SelectContent>
+                </Select>
               </>
             )}
           </div>
