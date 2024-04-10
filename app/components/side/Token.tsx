@@ -49,7 +49,7 @@ export function Token({
           aria-label="Token color preivew toggle color picker"
           disabled={!edit}
         />
-        <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
+        <div className="flex flex-1 flex-col text-sm text-zinc-800 dark:text-zinc-300">
           <button
             onClick={() => setShowColor(!showColor)}
             className={cn('text-left outline-none', {
@@ -60,23 +60,21 @@ export function Token({
           >
             {name}
           </button>
-          <div className="flex items-center gap-2 pr-2">
-            <div className="flex-1">
-              <input
-                value={color ?? ''}
-                className={cn(
-                  'border-1 h-[22px] w-full rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
-                  {
-                    'cursor-pointer hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800':
-                      edit,
-                  }
-                )}
-                type="text"
-                placeholder="unset"
-                onChange={(e) => onChange(e.currentTarget.value?.trim())}
-                disabled={!edit}
-              />
-            </div>
+          <div className="flex items-center gap-2">
+            <input
+              value={color ?? ''}
+              className={cn(
+                'border-1 h-[22px] flex-1 rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
+                {
+                  'cursor-pointer hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800':
+                    edit,
+                }
+              )}
+              type="text"
+              placeholder="unset"
+              onChange={(e) => onChange(e.currentTarget.value?.trim())}
+              disabled={!edit}
+            />
             {!!syntax && (
               <>
                 <Select
@@ -87,7 +85,7 @@ export function Token({
                     })
                   }
                 >
-                  <SelectTrigger disabled={!edit} className="w-26 pl-1 pr-0 py-0">
+                  <SelectTrigger disabled={!edit} className="w-16 pl-1 pr-0 py-0" id="aa">
                     {theme?.style.syntax[syntax]?.font_style ?? <span className="opacity-50">style</span>}
                   </SelectTrigger>
                   <SelectContent>
@@ -107,7 +105,7 @@ export function Token({
                     })
                   }
                 >
-                  <SelectTrigger disabled={!edit} className="w-26 pl-1 pr-0 py-0">
+                  <SelectTrigger disabled={!edit} className="w-16 pl-1 pr-0 py-0">
                     {theme?.style.syntax[syntax]?.font_weight?.toString() ?? <span className="opacity-50">weight</span>}
                   </SelectTrigger>
                   <SelectContent>

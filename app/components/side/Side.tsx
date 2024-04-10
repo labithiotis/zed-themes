@@ -44,7 +44,7 @@ export function Side({ edit }: { edit: boolean }) {
       <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
         <div className="flex items-center pb-2 pl-6 pr-2 pt-4 text-zed-900">
           <a
-            className="flex-1 cursor-pointer select-none text-xl font-semibold text-zed-800 hover:text-zed-500 dark:text-zed-600 hover:dark:text-zed-400"
+            className="flex-1 cursor-pointer select-none text-xl font-semibold text-zed-800 hover:text-zed-500 dark:text-zed-400 hover:dark:text-zed-400"
             href={'/themes'}
           >
             Zed Themes
@@ -62,7 +62,9 @@ export function Side({ edit }: { edit: boolean }) {
                 onChange={(e) => setName(e.currentTarget.value ?? '')}
               />
               <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
-                <SelectTrigger>{theme?.appearance ?? 'light'}</SelectTrigger>
+                <SelectTrigger title="Set theme appearance is for dark or light mode">
+                  {theme?.appearance ?? 'light'}
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="light">light</SelectItem>
                   <SelectItem value="dark">dark</SelectItem>
@@ -71,7 +73,7 @@ export function Side({ edit }: { edit: boolean }) {
               {themeFamily?.themes && themeFamily?.themes?.length > 1 ? (
                 <>
                   <Select onValueChange={setIndex} value={index?.toString() ?? undefined}>
-                    <SelectTrigger>Select</SelectTrigger>
+                    <SelectTrigger title="Select a theme">Select</SelectTrigger>
                     <SelectContent>
                       {themeFamily?.themes.map(({ name }, i) => (
                         <SelectItem key={i} value={`${i}`}>
@@ -85,7 +87,7 @@ export function Side({ edit }: { edit: boolean }) {
                   </Button>
                 </>
               ) : (
-                <Button size="xs" onClick={addTheme}>
+                <Button size="xs" onClick={addTheme} title="Add a new theme">
                   Add theme
                 </Button>
               )}
