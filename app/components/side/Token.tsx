@@ -52,7 +52,7 @@ export function Token({
         <div className="flex flex-1 flex-col text-sm text-zinc-800 dark:text-zinc-300">
           <button
             onClick={() => setShowColor(!showColor)}
-            className={cn('text-left outline-none', {
+            className={cn('text-left outline-none pl-1', {
               'cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200': edit,
             })}
             aria-label="Token color name toggle color picker"

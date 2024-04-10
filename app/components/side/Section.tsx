@@ -34,7 +34,7 @@ export function Section<T>({
           </svg>
         </span>
       </summary>
-      <div className="relative ">
+      <div className="relative pb-2">
         <div className="absolute left-0 top-[-2px] block h-[1px] w-full shadow-black/60 drop-shadow-2xl dark:shadow-white/60" />
         {items.map(children)}
       </div>
