@@ -1,5 +1,7 @@
 import { useTheme } from '~/providers/theme';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
+import duneDark from '../../assets/images/dune_dark.jpeg';
+import duneLight from '../../assets/images/dune_light.jpeg';
 import { Breadcrumbs } from './components/Breadcrumbs';
 import { Code } from './components/Code';
 import { Dock } from './components/Dock';
@@ -11,42 +13,56 @@ import './preview.css';
 
 export function Preview() {
   const { theme } = useTheme();
+  const background = theme?.appearance === 'dark' ? duneDark : duneLight;
   const cssStyleVars = themeStyleToCssVars(theme?.style);
 
   return (
-    <div id="preview-container" className="flex w-screen flex-1 select-none overflow-auto p-8" style={cssStyleVars}>
+    <div
+      id="preview-container"
+      className="flex w-screen flex-1 select-none overflow-auto p-8"
+      style={{ background: `center / cover no-repeat url(${background})` }}
+    >
       <div
         id="editor"
         className="flex flex-1 flex-col overflow-hidden rounded-lg border"
         style={{
           color: cssVarStyleToken('text', theme?.appearance === 'dark' ? '#CCCCCC' : '#21201C'),
           borderColor: cssVarStyleToken('border'),
-          backgroundColor: cssVarStyleToken('background'),
+          backgroundColor:
+            theme?.style['background.appearance'] === 'opaque'
+              ? theme?.appearance === 'dark'
+                ? '#000'
+                : '#fff'
+              : undefined,
+          backdropFilter: theme?.style['background.appearance'] === 'blurred' ? 'blur(20px)' : 'none',
           minWidth: 800,
           maxWidth: 1000,
           minHeight: 600,
           maxHeight: 800,
+          ...cssStyleVars,
         }}
       >
-        <Header />
-        <div
-          id="editor-body"
-          className="flex flex-1 overflow-hidden border-b"
-          style={{ borderColor: cssVarStyleToken('border') }}
-        >
-          <Dock />
+        <div style={{ backgroundColor: cssVarStyleToken('background') }}>
+          <Header />
           <div
-            id="editor-main"
-            className="flex flex-1 flex-col overflow-hidden border-l"
+            id="editor-body"
+            className="flex flex-1 overflow-hidden border-b"
             style={{ borderColor: cssVarStyleToken('border') }}
           >
-            <Tabs />
-            <Breadcrumbs />
-            <Code />
-            <Terminal />
+            <Dock />
+            <div
+              id="editor-main"
+              className="flex flex-1 flex-col overflow-hidden border-l"
+              style={{ borderColor: cssVarStyleToken('border') }}
+            >
+              <Tabs />
+              <Breadcrumbs />
+              <Code />
+              <Terminal />
+            </div>
           </div>
+          <Status />
         </div>
-        <Status />
       </div>
     </div>
   );

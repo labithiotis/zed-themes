@@ -102,6 +102,18 @@
           "default": null,
           "type": ["string", "null"]
         },
+        "background.appearance": {
+          "description": "Set appearance for background, if transparent or blurred background color needs to be an alpha.",
+          "default": null,
+          "anyOf": [
+            {
+              "enum": ["opaque", "transparent", "blurred"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "border": {
           "description": "Border color. Used for most borders, is usually a high contrast color.",
           "default": null,

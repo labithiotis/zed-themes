@@ -33,6 +33,10 @@ export interface ThemeStyleContent {
    */
   background?: string | null;
   /**
+   * Set appearance for background, if transparent or blurred background color needs to be an alpha.
+   */
+  'background.appearance'?: ('opaque' | 'transparent' | 'blurred') | null;
+  /**
    * Border color. Used for most borders, is usually a high contrast color.
    */
   border?: string | null;

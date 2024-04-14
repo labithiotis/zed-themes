@@ -5,7 +5,6 @@ import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { SyntaxTokens } from '../../providers/tokens';
 import { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
 
 export function Token({
   name,
@@ -77,52 +76,45 @@ export function Token({
             />
             {!!syntax && (
               <>
-                <Select
+                <select
+                  name="font-style"
+                  disabled={!edit}
+                  className="w-16 h-[22px] rounded-md border border-neutral-300 bg-transparent text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   value={theme?.style.syntax[syntax]?.font_style ?? ''}
-                  onValueChange={(value) =>
+                  onChange={(e) =>
                     setSyntaxToken(syntax, {
-                      font_style: value === 'unset' ? null : (value as FontStyleContent),
+                      font_style: e.target.value === 'unset' ? null : (e.target.value as FontStyleContent),
                     })
                   }
                 >
-                  <SelectTrigger disabled={!edit} className="w-16 pl-1 pr-0 py-0" id="aa">
-                    {theme?.style.syntax[syntax]?.font_style ?? <span className="opacity-50">style</span>}
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="unset" className="opacity-50">
-                      unset
-                    </SelectItem>
-                    <SelectItem value="normal">normal</SelectItem>
-                    <SelectItem value="italic">italic</SelectItem>
-                    <SelectItem value="oblique">oblique</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select
+                  <option value="unset">unset</option>
+                  <option value="normal">normal</option>
+                  <option value="italic">italic</option>
+                  <option value="oblique">oblique</option>
+                </select>
+                <select
+                  name="font-weight"
+                  disabled={!edit}
+                  className="w-16 h-[22px] rounded-md border border-neutral-300 bg-transparent text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   value={theme?.style.syntax[syntax]?.font_weight?.toString() ?? ''}
-                  onValueChange={(value) =>
+                  onChange={(e) =>
                     setSyntaxToken(syntax, {
-                      font_weight: value === 'unset' ? null : (+value as HighlightStyleContent['font_weight']),
+                      font_weight:
+                        e.target.value === 'unset' ? null : (+e.target.value as HighlightStyleContent['font_weight']),
                     })
                   }
                 >
-                  <SelectTrigger disabled={!edit} className="w-16 pl-1 pr-0 py-0">
-                    {theme?.style.syntax[syntax]?.font_weight?.toString() ?? <span className="opacity-50">weight</span>}
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="unset" className="opacity-50">
-                      unset
-                    </SelectItem>
-                    <SelectItem value="100">100</SelectItem>
-                    <SelectItem value="200">200</SelectItem>
-                    <SelectItem value="300">300</SelectItem>
-                    <SelectItem value="400">400</SelectItem>
-                    <SelectItem value="500">500</SelectItem>
-                    <SelectItem value="600">600</SelectItem>
-                    <SelectItem value="700">700</SelectItem>
-                    <SelectItem value="800">800</SelectItem>
-                    <SelectItem value="900">900</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <option value="unset">unset</option>
+                  <option value="100">100</option>
+                  <option value="200">200</option>
+                  <option value="300">300</option>
+                  <option value="400">400</option>
+                  <option value="500">500</option>
+                  <option value="600">600</option>
+                  <option value="700">700</option>
+                  <option value="800">800</option>
+                  <option value="900">900</option>
+                </select>
               </>
             )}
           </div>

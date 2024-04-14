@@ -12,7 +12,7 @@ export const loader = async ({ context, params }: LoaderFunctionArgs) => {
     throw new Response(null, { status: 404, statusText: 'Not Found' });
   }
 
-  return new Response(theme, {
+  return new Response(JSON.stringify(JSON.parse(theme), null, 2), {
     headers: {
       'Content-Type': 'application/json',
       'Content-Disposition': `attachment; filename="${params.themeId}.json"`,

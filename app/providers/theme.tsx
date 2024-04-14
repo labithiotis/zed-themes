@@ -30,8 +30,13 @@ type SetThemeName = {
 };
 
 type SetThemeAppearance = {
-  type: 'SetThemeAppearance';
+  type: 'setThemeAppearance';
   appearance: AppearanceContent;
+};
+
+type SetBackgroundAppearance = {
+  type: 'setBackgroundAppearance';
+  appearance: 'opaque' | 'transparent' | 'blurred';
 };
 
 type SetStyleToken = {
@@ -62,6 +67,7 @@ type Actions =
   | SetIndex
   | SetThemeName
   | SetThemeAppearance
+  | SetBackgroundAppearance
   | SetStyleToken
   | SetSyntaxToken
   | SetPlayerToken
@@ -103,7 +109,7 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'SetThemeAppearance': {
+    case 'setThemeAppearance': {
       if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
@@ -112,6 +118,19 @@ const reducer = (state: State, action: Actions): State => {
         themeFamily: {
           themes: {
             [state.themeIndex]: { appearance: { $set: action.appearance } },
+          },
+        },
+      });
+    }
+    case 'setBackgroundAppearance': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          themes: {
+            [state.themeIndex]: { style: { 'background.appearance': { $set: action.appearance } } },
           },
         },
       });
