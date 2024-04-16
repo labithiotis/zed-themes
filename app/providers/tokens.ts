@@ -3,6 +3,8 @@ import { PlayerColorContent, ThemeStyleContent } from '../themeFamily';
 export type StyleTokens = keyof Omit<ThemeStyleContent, 'syntax' | 'players'>;
 export type SyntaxTokens = (typeof syntaxTokens)[number];
 
+export const ignoredTokens = ['syntax', 'players', 'background.appearance'];
+
 export const borderTokens: StyleTokens[] = [
   'border',
   'border.variant',
@@ -72,6 +74,8 @@ export const terminalTokens: StyleTokens[] = [
 ];
 
 export const editorTokens: StyleTokens[] = [
+  'background',
+  'background.appearance',
   'editor.foreground',
   'editor.background',
   'editor.gutter.background',
@@ -87,7 +91,6 @@ export const editorTokens: StyleTokens[] = [
   'editor.document_highlight.write_background',
   'elevated_surface.background',
   'surface.background',
-  'background',
   'drop_target.background',
   'status_bar.background',
   'title_bar.background',

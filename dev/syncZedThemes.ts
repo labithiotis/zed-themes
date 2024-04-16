@@ -40,6 +40,7 @@ for (const folder of folders) {
       author: theme.author,
       updatedDate: new Date().toISOString(),
       versionHash: hash.stdout.trim(),
+      bundled: true,
       themes: theme.themes.map(({ name, appearance }: ThemeContent) => ({ name, appearance })),
     } satisfies ThemesMetaData);
 

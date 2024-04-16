@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { useTheme } from '~/providers/theme';
+import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
 import { PlayerColorContent } from '../../themeFamily';
@@ -8,14 +9,15 @@ import { PlayerColorContent } from '../../themeFamily';
 type PlayerProps = {
   index: number;
   player: PlayerColorContent;
+  edit: boolean;
 };
 
-export function Player({ index, player }: PlayerProps) {
+export function Player({ index, player, edit }: PlayerProps) {
   return (
     <div className="flex flex-col px-3 py-1">
       <p className="text-zinc-600 dark:text-zinc-200">Player {index + 1}</p>
       {playerTokens.map((token) => (
-        <PlayerToken key={token} index={index} player={player} token={token} />
+        <PlayerToken key={token} index={index} player={player} token={token} edit={edit} />
       ))}
     </div>
   );
@@ -25,6 +27,7 @@ function PlayerToken({
   index,
   player,
   token,
+  edit,
 }: PlayerProps & {
   token: keyof PlayerColorContent;
 }) {
@@ -39,19 +42,28 @@ function PlayerToken({
     <div className="flex flex-col px-2 py-1">
       <div className="flex flex-row items-center gap-2">
         <button
-          className="color-preview h-9 min-h-9 w-9 min-w-9 cursor-pointer rounded border hover:translate-y-[-1px] hover:scale-[1.05] hover:pb-[1px] active:translate-y-[0px] active:scale-100"
+          className={cn(
+            'color-preview h-9 min-h-9 w-9 min-w-9 rounded border outline-none active:translate-y-[0px] active:scale-100',
+            {
+              'cursor-pointer hover:scale-[1.05] hover:pb-[1px] hover:translate-y-[-1px]': edit,
+            }
+          )}
           style={{
             color: player[token] ? player[token] ?? undefined : 'transparent',
             borderColor: player[token] ? `color-mix(in xyz, ${player[token]} 70%, black)` : '#808080',
           }}
           onClick={() => setShowColor(!showColor)}
           aria-label="Player token color preivew toggle color picker"
+          disabled={!edit}
         />
         <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
           <button
-            className="hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200"
+            className={cn('text-left', {
+              'hover:cursor-pointer hover:text-zinc-600 dark:hover:text-zinc-200': edit,
+            })}
             onClick={() => setShowColor(!showColor)}
             aria-label="Player token name toggle color picker"
+            disabled={!edit}
           >
             {token}
           </button>
@@ -59,10 +71,17 @@ function PlayerToken({
             <div className="flex-1">
               <input
                 value={player[token] ?? ''}
-                className="border-1 h-[22px] w-full cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-500 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
+                className={cn(
+                  'border-1 h-[22px] w-full rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
+                  {
+                    'cursor-pointer hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800':
+                      edit,
+                  }
+                )}
                 type="text"
-                placeholder="#color"
+                placeholder="unset"
                 onChange={(e) => setPlayerToken(index, token, e.currentTarget.value?.trim())}
+                disabled={!edit}
               />
             </div>
           </div>

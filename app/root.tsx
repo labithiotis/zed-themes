@@ -7,7 +7,7 @@ import { ThemeProvider } from './providers/theme';
 import { UiTheme, UiThemeProvider } from './providers/uiTheme';
 
 import './root.css';
-import styles from './tailwind.css?url';
+import './tailwind.css';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -18,10 +18,7 @@ export const meta: MetaFunction = () => [
   { property: 'og:title', content: 'Zed themes' },
 ];
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: styles },
-  { rel: 'manifest', href: '/manifest.json' },
-];
+export const links: LinksFunction = () => [{ rel: 'manifest', href: '/manifest.json' }];
 
 export type RootData = {
   uiTheme?: UiTheme;

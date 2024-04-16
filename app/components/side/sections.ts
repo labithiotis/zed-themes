@@ -8,6 +8,7 @@ import {
   ghostElementTokens,
   gitTokens,
   iconTokens,
+  ignoredTokens,
   miscTokens,
   scrollbarTokens,
   terminalTokens,
@@ -81,8 +82,8 @@ const sectionGroups: Record<string, { name: string; tokenKeys: string[]; tokens:
 };
 
 for (const [token, info] of tokens) {
-  // skip syntax and players tokens as they are handled separately
-  if (token === 'syntax' || token === 'players') continue;
+  // skip ignored tokens as they are handled separately
+  if (ignoredTokens.includes(token)) continue;
 
   let target = sectionGroups.misc;
   if (sectionGroups.editor.tokenKeys.includes(token)) {

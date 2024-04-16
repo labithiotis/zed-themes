@@ -12,5 +12,6 @@ export type ThemesMetaData = {
   author: string;
   updatedDate: string;
   versionHash: string;
+  bundled: boolean;
   themes: Pick<ThemeContent, 'name' | 'appearance'>[];
 };

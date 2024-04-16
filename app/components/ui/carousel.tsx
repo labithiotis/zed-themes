@@ -171,9 +171,9 @@ CarouselItem.displayName = 'CarouselItem';
 
 const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = 'outline', size = 'icon', ...props }, ref) => {
-    const { orientation, scrollPrev, canScrollPrev, canScroll, api } = useCarousel();
+    const { orientation, scrollPrev, canScrollPrev, canScroll, api, opts } = useCarousel();
 
-    if (api && !canScroll) {
+    if ((api && !canScroll) || !opts?.active) {
       return null;
     }
 
@@ -204,9 +204,9 @@ CarouselPrevious.displayName = 'CarouselPrevious';
 
 const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
   ({ className, variant = 'outline', size = 'icon', ...props }, ref) => {
-    const { orientation, scrollNext, canScrollNext, canScroll, api } = useCarousel();
+    const { orientation, scrollNext, canScrollNext, canScroll, api, opts } = useCarousel();
 
-    if (api && !canScroll) {
+    if ((api && !canScroll) || !opts?.active) {
       return null;
     }
 
@@ -280,10 +280,10 @@ export const useDotButton = (emblaApi: CarouselApi | undefined): UseDotButtonTyp
 
 const CarouselDots = React.forwardRef<HTMLDivElement, { dotProps?: React.ComponentProps<typeof Button> }>(
   ({ dotProps, ...props }, ref) => {
-    const { api, canScroll } = useCarousel();
+    const { api, canScroll, opts } = useCarousel();
     const { scrollSnaps, onDotButtonClick, selectedIndex } = useDotButton(api);
 
-    if (!canScroll) {
+    if ((api && !canScroll) || !opts?.active) {
       return null;
     }
 

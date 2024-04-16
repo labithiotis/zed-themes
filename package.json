@@ -81,6 +81,8 @@
     "zx": "^7.2.3"
   },
   "resolutions": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "@typescript-eslint/typescript-estree": "^7"
   },
   "engines": {
