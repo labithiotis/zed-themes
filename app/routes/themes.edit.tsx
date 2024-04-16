@@ -14,6 +14,8 @@ export default function ThemeEditor() {
 
     if (themeValidator(theme)) {
       dispatch({ type: 'set', themeFamily: theme });
+    } else {
+      console.warn('Unable to load theme from local storage as its invalid theme');
     }
   }, [themeFamily, dispatch]);
 
