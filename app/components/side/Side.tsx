@@ -56,7 +56,7 @@ export function Side({ edit }: { edit: boolean }) {
         </div>
 
         <div className="flex gap-2 px-2 mb-1">
-          <Select onValueChange={setIndex} value={index?.toString() ?? undefined}>
+          <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
             <SelectTrigger className="flex-1">
               <span className="whitespace-nowrap overflow-hidden text-ellipsis">{theme?.name ?? 'Select theme'}</span>
             </SelectTrigger>
