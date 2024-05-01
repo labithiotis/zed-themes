@@ -10,7 +10,7 @@ function useSetUiTheme() {
     const el = document.documentElement.classList;
     uiTheme === 'dark' ? el.add('dark') : el.remove('dark');
     // FIX ME on load when theme is not set this is invoked but the network request is GET not POST! Invoking this fn via UI toggle works just fine
-    fetcher.submit({ uiTheme }, { action: '/action/theme', method: 'post' });
+    fetcher.submit({ uiTheme }, { action: '/action/theme', method: 'POST' });
   };
 }
 
