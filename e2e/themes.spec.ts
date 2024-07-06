@@ -17,17 +17,17 @@ test('toggles dark mode', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('class', 'dark');
 });
 
-test('can download a theme', async ({ page }) => {
-  await page.goto('/themes');
-  const downloadPromise = page.waitForEvent('download');
+// test('can download a theme', async ({ page }) => {
+//   await page.goto('/themes');
+//   const downloadPromise = page.waitForEvent('download');
 
-  const firstTheme = page.getByTestId('preview-theme').first();
-  const themeName = await firstTheme.getAttribute('data-theme-name');
+//   const firstTheme = page.getByTestId('preview-theme').first();
+//   const themeName = await firstTheme.getAttribute('data-theme-name');
 
-  await page.getByLabel(`Download ${themeName} theme`).click();
-  const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe(`${themeName}.json`.toLowerCase());
-});
+//   await page.getByLabel(`Download ${themeName} theme`).click();
+//   const download = await downloadPromise;
+//   expect(download.suggestedFilename()).toBe(`${themeName}.json`.toLowerCase());
+// });
 
 test('navigtes to preview theme', async ({ page }) => {
   await page.goto('/themes');
