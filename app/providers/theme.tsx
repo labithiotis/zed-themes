@@ -73,7 +73,7 @@ type Actions =
   | SetPlayerToken
   | AddTheme;
 
-const actionsIgnoreEdit = ['set', 'setIndex'] as const;
+const actionsIgnoreEdit: Actions['type'][] = ['set', 'setIndex'];
 
 function activeTheme(state: State) {
   if (state.themeIndex === null || state.themeFamily === null) return undefined;

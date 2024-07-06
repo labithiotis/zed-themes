@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "sideEffects": false,
+  "packageManager": "pnpm@8.15.8",
   "scripts": {
     "build": "remix vite:build",
     "build:validator": "npx -f tsx ./dev/buildValidator.ts",
