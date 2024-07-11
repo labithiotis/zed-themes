@@ -1,15 +1,15 @@
 import { LoaderFunction } from '@remix-run/cloudflare';
-import { ThemesMetaData } from '../types';
+import { fetchAllThemesFromKV } from './themes._index';
 
 const ts = '2024-03-20T00:00:00+00:00';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
-  const list = await context.env.themes?.list<ThemesMetaData>();
+  const list = await fetchAllThemesFromKV(context.env.themes);
 
-  const themeUrls = list?.keys.map(
-    (key) =>
-      `<url><loc>${url.origin}/themes/${key.name}</loc><lastmod>${key.metadata?.updatedDate}</lastmod><priority>0.8</priority></url>`
+  const themeUrls = list?.map(
+    (theme) =>
+      `<url><loc>${url.origin}/themes/${theme.name}</loc><lastmod>${theme.updatedDate}</lastmod><priority>0.8</priority></url>`
   );
 
   const content = `

@@ -14,14 +14,26 @@ import {
 import { ThemesMetaData } from '../types';
 
 type Theme = { id: string } & ThemesMetaData;
+type ThemeLitst = { timestamp: number; themes: Theme[] };
 
 type LoaderData = {
   themes: Theme[];
 };
 
-async function fetchAllThemesFromKV(ns?: KVNamespace) {
+const THEMES_LIST_KEY = 'themes-list';
+export async function fetchAllThemesFromKV(ns?: KVNamespace): Promise<ThemeLitst['themes']> {
+  const nsThemes: ThemeLitst = JSON.parse((await ns?.get(THEMES_LIST_KEY)) ?? '{}');
+
+  if (nsThemes.timestamp && nsThemes.timestamp + 3_600_000 > Date.now()) {
+    return nsThemes.themes;
+  }
+
   const nsList = await ns?.list<ThemesMetaData>();
-  return nsList?.keys.map((key) => ({ ...key.metadata, id: key.name }));
+  const themes: Theme[] = nsList?.keys.map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
+  const themeList: ThemeLitst = { timestamp: Date.now(), themes };
+  await ns?.put(THEMES_LIST_KEY, JSON.stringify(themeList));
+
+  return themeList.themes;
 }
 
 export const loader: LoaderFunction = async ({ context }) => {
