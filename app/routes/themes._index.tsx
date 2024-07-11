@@ -29,7 +29,8 @@ export async function fetchAllThemesFromKV(ns?: KVNamespace): Promise<ThemeLitst
   }
 
   const nsList = await ns?.list<ThemesMetaData>();
-  const themes: Theme[] = nsList?.keys.map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
+  const themes: Theme[] =
+    nsList?.keys.filter((key) => key.name !== THEMES_LIST_KEY).map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
   const themeList: ThemeLitst = { timestamp: Date.now(), themes };
   await ns?.put(THEMES_LIST_KEY, JSON.stringify(themeList));
 
