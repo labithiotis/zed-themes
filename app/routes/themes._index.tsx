@@ -23,7 +23,7 @@ type LoaderData = {
 const THEMES_LIST_KEY = 'themes-list';
 export async function fetchAllThemesFromKV(context: AppLoadContext): Promise<ThemeLitst['themes']> {
   const list: ThemeLitst = JSON.parse((await context.env.zed_options.get(THEMES_LIST_KEY)) ?? '{}');
-  if (list.timestamp && list.timestamp + 6_000 > Date.now()) {
+  if (list.timestamp && list.timestamp + 600_000 > Date.now()) {
     return list.themes;
   }
 
