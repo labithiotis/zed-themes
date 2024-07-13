@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 
   if (!themeId) throw new Response('Missing theme id', { status: 400 });
 
-  const value = await context.env?.themes?.get(themeId);
+  const value = await context.env?.zed_themes?.get(themeId);
   const themeFamily = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
 
   const theme = themeFamily?.themes?.find((t) => t.name === themeName) ?? themeFamily?.themes?.at(0);

@@ -5,7 +5,7 @@ const ts = '2024-03-20T00:00:00+00:00';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
-  const list = await fetchAllThemesFromKV(context.env.themes);
+  const list = await fetchAllThemesFromKV(context);
 
   const themeUrls = list?.map(
     (theme) =>
