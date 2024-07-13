@@ -1,3 +1,4 @@
 themeValidatorAjv.mjs
 pnpm-lock.yaml
 worker-configuration.d.ts
+*.md
