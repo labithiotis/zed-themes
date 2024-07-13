@@ -3,8 +3,9 @@ compatibility_date = "2024-03-01"
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
 
 kv_namespaces = [
-    { binding = "themes", id = "5f415783fdf048cc8dfd74f6dd67317f", preview_id = "dfc3757bbcd54fa3839d742d25de2176" },
-    { binding = "shares", id = "37c594b8926644dc9527f00a22982c52", preview_id = "f25a80ef0e534e66b9e2c728dd73d631" },
+    { binding = "zed_themes", id = "db40110d5f6941cf8ca7fc3ba3d98ffa", preview_id = "056232e8f7df42b4be85e1f083761c51" },
+    { binding = "zed_shares", id = "39f7d7e6d1994dc19b0e7e1bb9ba5e02", preview_id = "40ec071715db4dc6b66b71a22d68999a" },
+    { binding = "zed_options", id = "ad64f637e4f549fba2224f7a1f979af0", preview_id = "e8c80d5fbd7f4aceb69ea46f244bde9a" },
 ]
 
 [build]

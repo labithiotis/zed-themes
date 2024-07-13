@@ -2,7 +2,7 @@ import { LoaderFunctionArgs } from '@remix-run/cloudflare';
 import invariant from 'tiny-invariant';
 
 export const loader = async ({ context, params }: LoaderFunctionArgs) => {
-  const themesKv = context.env?.themes;
+  const themesKv = context.env?.zed_themes;
 
   invariant(params.themeId);
 

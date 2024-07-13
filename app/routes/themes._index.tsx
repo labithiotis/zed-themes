@@ -1,4 +1,4 @@
-import { LoaderFunction, json } from '@remix-run/cloudflare';
+import { AppLoadContext, LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import { memo } from 'react';
 import { UiThemeToggle } from '~/components/UiThemeToggle';
@@ -21,24 +21,22 @@ type LoaderData = {
 };
 
 const THEMES_LIST_KEY = 'themes-list';
-export async function fetchAllThemesFromKV(ns?: KVNamespace): Promise<ThemeLitst['themes']> {
-  const nsThemes: ThemeLitst = JSON.parse((await ns?.get(THEMES_LIST_KEY)) ?? '{}');
-
-  if (nsThemes.timestamp && nsThemes.timestamp + 3_600_000 > Date.now()) {
-    return nsThemes.themes;
+export async function fetchAllThemesFromKV(context: AppLoadContext): Promise<ThemeLitst['themes']> {
+  const list: ThemeLitst = JSON.parse((await context.env.zed_options.get(THEMES_LIST_KEY)) ?? '{}');
+  if (list.timestamp && list.timestamp + 600_000 > Date.now()) {
+    return list.themes;
   }
 
-  const nsList = await ns?.list<ThemesMetaData>();
-  const themes: Theme[] =
-    nsList?.keys.filter((key) => key.name !== THEMES_LIST_KEY).map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
+  const nsList = await context.env.zed_themes?.list<ThemesMetaData>();
+  const themes: Theme[] = nsList?.keys.map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
   const themeList: ThemeLitst = { timestamp: Date.now(), themes };
-  await ns?.put(THEMES_LIST_KEY, JSON.stringify(themeList));
+  await context.env.zed_options?.put(THEMES_LIST_KEY, JSON.stringify(themeList));
 
   return themeList.themes;
 }
 
 export const loader: LoaderFunction = async ({ context }) => {
-  const themes = await fetchAllThemesFromKV(context.env?.themes);
+  const themes = await fetchAllThemesFromKV(context);
   return json({ themes });
 };
 

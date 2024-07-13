@@ -46,8 +46,9 @@ for (const folder of folders) {
 
     console.log(`Adding ${id} theme...`);
 
-    await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --binding=themes --preview=true`;
-    await $`npx --yes wrangler kv:key put ${id} ${value} --metadata=${metaData} --binding=themes --preview=false`;
+    await $`npx --yes wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=true`;
+    await $`npx --yes wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=false`;
+    await $`npx --yes wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=false --local=true`;
   } catch (e) {
     // ignore
   }
