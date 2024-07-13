@@ -30,3 +30,8 @@ So of the tokens are still a work in progress, zed seems to have more tokens tha
 - [x] Use light/dark toggle icon
 - [x] Syntax setting font family & weight
 - [x] Set player colours
+
+## Installing new themes
+1. Download the `theme.json` from zed-themes.com
+2. Move `theme.json` to `~/.config/zed/themes`
+3. Enjoy your new Zed theme.
