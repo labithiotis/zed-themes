@@ -1,7 +1,7 @@
 import { AppLoadContext, LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData, useRouteError } from '@remix-run/react';
 import { memo } from 'react';
-import { UiThemeToggle } from '~/components/UiThemeToggle';
+import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
 import { Badge } from '~/components/ui/badge';
 import {
   Carousel,
@@ -47,7 +47,7 @@ export default function Themes() {
     <div className="flex flex-col h-screen w-full px-6 py-4 content-stretch bg-stone-300 dark:bg-stone-900 dark:text-zinc-200">
       <span className="mb-2 flex text-xl font-semibold text-zed-800 dark:text-zed-400">
         <span className="flex-1">Zed Themes</span>
-        <UiThemeToggle />
+        <ColorSchemeToggle />
       </span>
       <div className="grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
         {themes?.map((theme, index) => <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />)}

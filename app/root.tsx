@@ -1,10 +1,9 @@
 import { LinksFunction, LoaderFunction, MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
-import { UiThemeLoader } from './components/UiThemeToggle';
 import { Toaster } from './components/ui/toaster';
-import { uiThemeSession } from './components/uiTheme.server';
+import { ColorScheme, ColorSchemeProvider } from './providers/colorScheme';
 import { ThemeProvider } from './providers/theme';
-import { UiTheme, UiThemeProvider } from './providers/uiTheme';
+import { colorSchemeSession } from './utils/colorScheme.server';
 
 import './root.css';
 import './tailwind.css';
@@ -21,33 +20,33 @@ export const meta: MetaFunction = () => [
 export const links: LinksFunction = () => [{ rel: 'manifest', href: '/manifest.json' }];
 
 export type RootData = {
-  uiTheme?: UiTheme;
+  colorScheme?: ColorScheme;
   shareUrl?: string;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await uiThemeSession(request);
-  return json({ uiTheme: session.getUiTheme() });
+  const session = await colorSchemeSession(request);
+  return json({ colorScheme: session.getColorScheme() });
 };
 
 export default function Root() {
   const loaderData = useLoaderData<RootData>();
 
   return (
-    <html lang="en" className={loaderData.uiTheme}>
+    <html lang="en" className={loaderData.colorScheme}>
       <head>
         <Meta />
         <Links />
+        <meta name="color-scheme" content={loaderData.colorScheme === 'light' ? 'light dark' : 'dark light'} />
       </head>
       <body className="bg-stone-300 dark:bg-stone-900">
-        <UiThemeProvider uiTheme={loaderData.uiTheme}>
+        <ColorSchemeProvider colorScheme={loaderData.colorScheme}>
           <ThemeProvider>
             <Outlet />
           </ThemeProvider>
-        </UiThemeProvider>
+        </ColorSchemeProvider>
         <ScrollRestoration />
         <Scripts />
-        <UiThemeLoader />
         <Toaster />
       </body>
     </html>

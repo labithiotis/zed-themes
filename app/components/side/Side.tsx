@@ -1,4 +1,4 @@
-import { UiThemeToggle } from '~/components/UiThemeToggle';
+import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
 import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
@@ -52,7 +52,7 @@ export function Side({ edit }: { edit: boolean }) {
           >
             Zed Themes
           </a>
-          <UiThemeToggle />
+          <ColorSchemeToggle />
         </div>
 
         <div className="flex gap-2 px-2 mb-1">

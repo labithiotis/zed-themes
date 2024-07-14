@@ -1,49 +1,13 @@
 import { Toggle } from '@radix-ui/react-toggle';
-import { useFetcher } from '@remix-run/react';
-import { useCallback, useEffect, useRef } from 'react';
-import { UiTheme, useUiTheme } from '~/providers/uiTheme';
+import { useCallback } from 'react';
+import { useColorScheme } from '~/providers/colorScheme';
 
-function useSetUiTheme() {
-  const fetcher = useFetcher<{ uiTheme: UiTheme }>({ key: 'ui-theme' });
-
-  const fetcherRef = useRef(fetcher);
-  useEffect(() => {
-    fetcherRef.current = fetcher;
-  }, [fetcher]);
-
-  return (uiTheme: UiTheme) => {
-    const el = document.documentElement.classList;
-    uiTheme === 'dark' ? el.add('dark') : el.remove('dark');
-    fetcherRef.current.submit({ uiTheme }, { action: '/action/theme', method: 'POST' });
-  };
-}
-
-export function UiThemeLoader() {
-  const called = useRef(false);
-  const uiTheme = useUiTheme();
-  const setUiTheme = useSetUiTheme();
-
-  useEffect(() => {
-    if (!called.current && !uiTheme.uiTheme && typeof window === 'object') {
-      const t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      setUiTheme(t);
-      uiTheme.setUiTheme(t);
-      called.current = true;
-    }
-  }, [uiTheme, setUiTheme]);
-
-  return null;
-}
-
-export function UiThemeToggle() {
-  const uiTheme = useUiTheme();
-  const setUiTheme = useSetUiTheme();
+export function ColorSchemeToggle() {
+  const scheme = useColorScheme();
 
   const toggle = useCallback(() => {
-    const nextUiTheme = uiTheme.uiTheme === 'dark' ? 'light' : 'dark';
-    uiTheme.setUiTheme(nextUiTheme);
-    setUiTheme(nextUiTheme);
-  }, [uiTheme, setUiTheme]);
+    scheme.setColorScheme(scheme.colorScheme === 'dark' ? 'light' : 'dark');
+  }, [scheme]);
 
   return (
     <Toggle
@@ -51,7 +15,7 @@ export function UiThemeToggle() {
       className="flex h-5 w-5 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       aria-label="Toggle theme"
     >
-      {uiTheme.uiTheme === 'dark' ? (
+      {scheme.colorScheme === 'dark' ? (
         <svg
           data-theme="dark"
           className="h-3 w-3"
