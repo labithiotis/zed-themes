@@ -1,8 +1,8 @@
-import { AppLoadContext, LoaderFunction, json } from '@remix-run/cloudflare';
-import { useLoaderData, useRouteError } from '@remix-run/react';
-import { memo } from 'react';
-import { UiThemeToggle } from '~/components/UiThemeToggle';
-import { Badge } from '~/components/ui/badge';
+import { type AppLoadContext, type LoaderFunction, json } from "@remix-run/cloudflare";
+import { useLoaderData, useRouteError } from "@remix-run/react";
+import { memo } from "react";
+import { ColorSchemeToggle } from "~/components/ColorSchemeToggle";
+import { Badge } from "~/components/ui/badge";
 import {
   Carousel,
   CarouselContent,
@@ -10,8 +10,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '~/components/ui/carousel';
-import { ThemesMetaData } from '../types';
+} from "~/components/ui/carousel";
+import type { ThemesMetaData } from "../types";
 
 type Theme = { id: string } & ThemesMetaData;
 type ThemeLitst = { timestamp: number; themes: Theme[] };
@@ -20,14 +20,15 @@ type LoaderData = {
   themes: Theme[];
 };
 
-const THEMES_LIST_KEY = 'themes-list';
-export async function fetchAllThemesFromKV(context: AppLoadContext): Promise<ThemeLitst['themes']> {
-  const list: ThemeLitst = JSON.parse((await context.env.zed_options.get(THEMES_LIST_KEY)) ?? '{}');
+const THEMES_LIST_KEY = "themes-list";
+export async function fetchAllThemesFromKV(context: AppLoadContext): Promise<ThemeLitst["themes"]> {
+  const list: ThemeLitst = JSON.parse((await context.env.zed_options.get(THEMES_LIST_KEY)) ?? "{}");
   if (list.timestamp && list.timestamp + 600_000 > Date.now()) {
     return list.themes;
   }
 
   const nsList = await context.env.zed_themes?.list<ThemesMetaData>();
+  // biome-ignore lint/style/noNonNullAssertion: its ok
   const themes: Theme[] = nsList?.keys.map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
   const themeList: ThemeLitst = { timestamp: Date.now(), themes };
   await context.env.zed_options?.put(THEMES_LIST_KEY, JSON.stringify(themeList));
@@ -47,10 +48,12 @@ export default function Themes() {
     <div className="flex flex-col h-screen w-full px-6 py-4 content-stretch bg-stone-300 dark:bg-stone-900 dark:text-zinc-200">
       <span className="mb-2 flex text-xl font-semibold text-zed-800 dark:text-zed-400">
         <span className="flex-1">Zed Themes</span>
-        <UiThemeToggle />
+        <ColorSchemeToggle />
       </span>
       <div className="grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
-        {themes?.map((theme, index) => <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />)}
+        {themes?.map((theme, index) => (
+          <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
+        ))}
       </div>
     </div>
   );
@@ -69,12 +72,13 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: Theme; index: number
           ) : (
             <a
               role="button"
-              href={'/download/themes/' + theme.id}
+              href={`/download/themes/${theme.id}`}
               className="flex h-6 w-6 items-center justify-center rounded hover:bg-neutral-200 dark:hover:bg-neutral-800"
               aria-label={`Download ${theme.name} theme`}
               title="Download theme"
             >
               <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <title>Download</title>
                 <path
                   d="M12 3V16M12 16L16 11.625M12 16L8 11.625"
                   stroke="currentColor"
@@ -116,7 +120,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: Theme; index: number
     </Carousel>
   );
 });
-ThemeFamilyPreview.displayName = 'ThemeFamilyPreview';
+ThemeFamilyPreview.displayName = "ThemeFamilyPreview";
 
 const ThemePreview = memo(
   ({ themeId, themeName, index, index2 }: { themeId: string; themeName: string; index: number; index2: number }) => {
@@ -136,14 +140,14 @@ const ThemePreview = memo(
             height="100%"
             src={encodeURI(`/themes/preview.svg?id=${themeId}&name=${themeName}`)}
             alt={`${themeName} preview`}
-            loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
+            loading={index < 6 && index2 === 0 ? "eager" : "lazy"}
           />
         </a>
       </CarouselItem>
     );
-  }
+  },
 );
-ThemePreview.displayName = 'ThemePreview';
+ThemePreview.displayName = "ThemePreview";
 
 export function ErrorBoundary() {
   const error = useRouteError();
@@ -151,8 +155,8 @@ export function ErrorBoundary() {
   return (
     <div>
       <h1>Themes Error</h1>
-      <p>{error instanceof Error ? error?.message : 'Something went wrong'}</p>
-      <pre>{error instanceof Error ? error?.stack : ''}</pre>
+      <p>{error instanceof Error ? error?.message : "Something went wrong"}</p>
+      <pre>{error instanceof Error ? error?.stack : ""}</pre>
     </div>
   );
 }

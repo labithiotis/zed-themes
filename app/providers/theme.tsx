@@ -1,10 +1,10 @@
-import { useLocation, useNavigate } from '@remix-run/react';
-import update from 'immutability-helper';
-import { Dispatch, PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
-import { AppearanceContent, HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
-import { StyleTokens, SyntaxTokens } from './tokens';
+import { useLocation, useNavigate } from "@remix-run/react";
+import update from "immutability-helper";
+import { type Dispatch, type PropsWithChildren, createContext, useContext, useEffect, useReducer } from "react";
+import type { AppearanceContent, HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from "../themeFamily";
+import type { StyleTokens, SyntaxTokens } from "./tokens";
 
-export const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
+export const LOCAL_STORAGE_THEME_SYNC_KEY = "__theme__";
 
 export type ColorHex = `#${string}`;
 
@@ -14,52 +14,52 @@ type State = {
 };
 
 type Set = {
-  type: 'set';
+  type: "set";
   themeFamily: ThemeFamilyContent;
   themeName?: string | null;
 };
 
 type SetIndex = {
-  type: 'setIndex';
+  type: "setIndex";
   index: number;
 };
 
 type SetThemeName = {
-  type: 'setThemeName';
+  type: "setThemeName";
   name: string;
 };
 
 type SetThemeAppearance = {
-  type: 'setThemeAppearance';
+  type: "setThemeAppearance";
   appearance: AppearanceContent;
 };
 
 type SetBackgroundAppearance = {
-  type: 'setBackgroundAppearance';
-  appearance: 'opaque' | 'transparent' | 'blurred';
+  type: "setBackgroundAppearance";
+  appearance: "opaque" | "transparent" | "blurred";
 };
 
 type SetStyleToken = {
-  type: 'setStyleToken';
+  type: "setStyleToken";
   token: StyleTokens;
   color: unknown;
 };
 
 type SetSyntaxToken = {
-  type: 'setSyntaxToken';
+  type: "setSyntaxToken";
   token: SyntaxTokens;
   content: Partial<HighlightStyleContent>;
 };
 
 type SetPlayerToken = {
-  type: 'setPlayerToken';
+  type: "setPlayerToken";
   index: number;
   token: keyof PlayerColorContent;
   color: unknown;
 };
 
 type AddTheme = {
-  type: 'addTheme';
+  type: "addTheme";
 };
 
 type Actions =
@@ -73,7 +73,7 @@ type Actions =
   | SetPlayerToken
   | AddTheme;
 
-const actionsIgnoreEdit: Actions['type'][] = ['set', 'setIndex'];
+const actionsIgnoreEdit: Actions["type"][] = ["set", "setIndex"];
 
 function activeTheme(state: State) {
   if (state.themeIndex === null || state.themeFamily === null) return undefined;
@@ -82,7 +82,7 @@ function activeTheme(state: State) {
 
 const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
-    case 'set': {
+    case "set": {
       const themeIndex = action.themeName ? action.themeFamily.themes.findIndex((t) => t.name === action.themeName) : 0;
       return update(state, {
         $set: {
@@ -91,12 +91,12 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'setIndex': {
+    case "setIndex": {
       return update(state, {
         themeIndex: { $set: action.index },
       });
     }
-    case 'setThemeName': {
+    case "setThemeName": {
       if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
@@ -109,7 +109,7 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'setThemeAppearance': {
+    case "setThemeAppearance": {
       if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
@@ -122,7 +122,7 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'setBackgroundAppearance': {
+    case "setBackgroundAppearance": {
       if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
@@ -130,12 +130,14 @@ const reducer = (state: State, action: Actions): State => {
       return update(state, {
         themeFamily: {
           themes: {
-            [state.themeIndex]: { style: { 'background.appearance': { $set: action.appearance } } },
+            [state.themeIndex]: {
+              style: { "background.appearance": { $set: action.appearance } },
+            },
           },
         },
       });
     }
-    case 'setStyleToken': {
+    case "setStyleToken": {
       if (state.themeIndex == null || state.themeFamily === null || !isValidColor(action.color)) {
         return state;
       }
@@ -152,7 +154,7 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'setSyntaxToken': {
+    case "setSyntaxToken": {
       if (
         state.themeIndex == null ||
         state.themeFamily === null ||
@@ -175,7 +177,7 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'setPlayerToken': {
+    case "setPlayerToken": {
       if (state.themeIndex == null || state.themeFamily === null || !isValidColor(action.color)) {
         return state;
       }
@@ -194,7 +196,7 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
-    case 'addTheme': {
+    case "addTheme": {
       if (state.themeFamily === null || state.themeIndex === null) {
         return state;
       }
@@ -207,7 +209,7 @@ const reducer = (state: State, action: Actions): State => {
           themes: {
             $push: [
               {
-                name: 'New Theme',
+                name: "New Theme",
                 appearance: state.themeFamily.themes[state.themeIndex].appearance,
                 style: state.themeFamily.themes[state.themeIndex].style,
               },
@@ -250,15 +252,20 @@ export const useTheme = () => {
   const dispatch: typeof ctx.dispatch = (...args) => {
     // If we edit theme change the route to /edit and delay navigate to allow
     // reducer to sync state to localstorage.
-    if (!location.pathname.includes('/themes/edit') && !actionsIgnoreEdit.includes(args[0].type)) {
-      setTimeout(() => navigate('/themes/edit', { replace: true, preventScrollReset: true }), 1);
+    if (!location.pathname.includes("/themes/edit") && !actionsIgnoreEdit.includes(args[0].type)) {
+      setTimeout(() => navigate("/themes/edit", { replace: true, preventScrollReset: true }), 1);
     }
     return ctx.dispatch(...args);
   };
 
-  return { index: ctx.state.themeIndex, themeFamily: ctx.state.themeFamily, theme, dispatch };
+  return {
+    index: ctx.state.themeIndex,
+    themeFamily: ctx.state.themeFamily,
+    theme,
+    dispatch,
+  };
 };
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;
 export const isValidColor = (color: unknown): color is ColorHex =>
-  typeof color === 'string' ? validateColor.test(color) : false;
+  typeof color === "string" ? validateColor.test(color) : false;

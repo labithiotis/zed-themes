@@ -1,18 +1,18 @@
 #!/usr/bin/env zx
 
-import { $, cd, fs, within } from 'zx';
-import { ThemeContent } from '~/themeFamily';
-import { ThemesMetaData } from '~/types';
+import { fs, $, cd, within } from "zx";
+import type { ThemeContent } from "~/themeFamily";
+import type { ThemesMetaData } from "~/types";
 
 $.verbose = false;
 
-const dir = '/tmp/zed-extensions';
+const dir = "/tmp/zed-extensions";
 let folders: string[] = [];
 
 await within(async () => {
   // Fetch repo, pull latest submodules
   if (!(await fs.exists(dir))) {
-    console.log('Cloning extensions repo...');
+    console.log("Cloning extensions repo...");
     await $`git clone git@github.com:zed-industries/extensions.git ${dir}`;
   }
 
@@ -23,9 +23,9 @@ await within(async () => {
   await $`git pull`;
   await $`git submodule update --init --recursive`;
 
-  cd('./extensions');
+  cd("./extensions");
   const cmd = await $`echo *`.quiet();
-  folders = (await cmd.stdout).trim().split(' ');
+  folders = (await cmd.stdout).trim().split(" ");
 });
 
 for (const folder of folders) {
@@ -41,7 +41,10 @@ for (const folder of folders) {
       updatedDate: new Date().toISOString(),
       versionHash: hash.stdout.trim(),
       bundled: true,
-      themes: theme.themes.map(({ name, appearance }: ThemeContent) => ({ name, appearance })),
+      themes: theme.themes.map(({ name, appearance }: ThemeContent) => ({
+        name,
+        appearance,
+      })),
     } satisfies ThemesMetaData);
 
     console.log(`Adding ${id} theme...`);

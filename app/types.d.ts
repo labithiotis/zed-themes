@@ -1,7 +1,7 @@
-import 'react';
-import { ThemeContent } from './themeFamily';
+import "react";
+import type { ThemeContent } from "./themeFamily";
 
-declare module 'react' {
+declare module "react" {
   interface CSSProperties {
     [key: `--${string}`]: string | number;
   }
@@ -13,5 +13,5 @@ export type ThemesMetaData = {
   updatedDate: string;
   versionHash: string;
   bundled: boolean;
-  themes: Pick<ThemeContent, 'name' | 'appearance'>[];
+  themes: Pick<ThemeContent, "name" | "appearance">[];
 };

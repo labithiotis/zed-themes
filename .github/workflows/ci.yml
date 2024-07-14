@@ -22,14 +22,11 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile --prefer-offline
 
-      - name: Format
-        run: pnpm run test:fmt
-
       - name: Lint
-        run: pnpm run test:lint
+        run: pnpm test:lint
 
       - name: Type Check
-        run: pnpm run test:tsc
+        run: pnpm test:tsc
 
       - name: Build
         run: pnpm build
