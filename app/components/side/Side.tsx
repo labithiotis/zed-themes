@@ -1,45 +1,45 @@
-import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
-import { useTheme } from '~/providers/theme';
-import { debounce } from '~/utils/debounce';
-import { StyleTokens, SyntaxTokens, syntaxTokens } from '../../providers/tokens';
-import { AppearanceContent, HighlightStyleContent } from '../../themeFamily';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Player } from './Player';
-import { Section } from './Section';
-import { SideDownloadButton } from './SideDownloadButton';
-import { SideEditButton } from './SideEditButton';
-import { SideShareButton } from './SideShareButton';
-import { SideUploadButton } from './SideUploadButton';
-import { Token } from './Token';
-import { sections } from './sections';
+import { ColorSchemeToggle } from "~/components/ColorSchemeToggle";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "~/components/ui/select";
+import { useTheme } from "~/providers/theme";
+import { debounce } from "~/utils/debounce";
+import { type StyleTokens, type SyntaxTokens, syntaxTokens } from "../../providers/tokens";
+import type { AppearanceContent, HighlightStyleContent } from "../../themeFamily";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Player } from "./Player";
+import { Section } from "./Section";
+import { SideDownloadButton } from "./SideDownloadButton";
+import { SideEditButton } from "./SideEditButton";
+import { SideShareButton } from "./SideShareButton";
+import { SideUploadButton } from "./SideUploadButton";
+import { Token } from "./Token";
+import { sections } from "./sections";
 
 export const btnStyles =
-  'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
+  "flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200";
 
 export function Side({ edit }: { edit: boolean }) {
   const { index, theme, themeFamily, dispatch } = useTheme();
   const setName = (name: string) => {
-    dispatch({ type: 'setThemeName', name });
+    dispatch({ type: "setThemeName", name });
   };
   const setAppearance = (appearance: AppearanceContent) => {
-    dispatch({ type: 'setThemeAppearance', appearance });
+    dispatch({ type: "setThemeAppearance", appearance });
   };
-  const setBackgroundAppearance = (appearance: 'opaque' | 'transparent' | 'blurred') => {
-    dispatch({ type: 'setBackgroundAppearance', appearance });
+  const setBackgroundAppearance = (appearance: "opaque" | "transparent" | "blurred") => {
+    dispatch({ type: "setBackgroundAppearance", appearance });
   };
   const setIndex = (index: string) => {
-    dispatch({ type: 'setIndex', index: Number(index) });
+    dispatch({ type: "setIndex", index: Number(index) });
   };
   const setStyleToken = debounce((token: StyleTokens, color: unknown) => {
-    dispatch({ type: 'setStyleToken', token, color });
+    dispatch({ type: "setStyleToken", token, color });
   }, 25);
   const setSyntaxToken = debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
-    dispatch({ type: 'setSyntaxToken', token, content });
+    dispatch({ type: "setSyntaxToken", token, content });
   }, 25);
   const addTheme = () => {
-    dispatch({ type: 'addTheme' });
+    dispatch({ type: "addTheme" });
   };
 
   return (
@@ -48,7 +48,7 @@ export function Side({ edit }: { edit: boolean }) {
         <div className="flex items-center pb-2 pl-6 pr-2 pt-4 text-zed-900">
           <a
             className="flex-1 cursor-pointer select-none text-xl font-semibold text-zed-800 hover:text-zed-500 dark:text-zed-400 hover:dark:text-zed-400"
-            href={'/themes'}
+            href={"/themes"}
           >
             Zed Themes
           </a>
@@ -56,13 +56,13 @@ export function Side({ edit }: { edit: boolean }) {
         </div>
 
         <div className="flex gap-2 px-2 mb-1">
-          <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
+          <Select onValueChange={setIndex} value={index?.toString() ?? ""}>
             <SelectTrigger className="flex-1">
-              <span className="whitespace-nowrap overflow-hidden text-ellipsis">{theme?.name ?? 'Select theme'}</span>
+              <span className="whitespace-nowrap overflow-hidden text-ellipsis">{theme?.name ?? "Select theme"}</span>
             </SelectTrigger>
             <SelectContent>
               {themeFamily?.themes.map(({ name }, i) => (
-                <SelectItem key={i} value={`${i}`}>
+                <SelectItem key={name} value={`${i}`}>
                   {name}
                 </SelectItem>
               ))}
@@ -78,24 +78,24 @@ export function Side({ edit }: { edit: boolean }) {
         {edit && (
           <div className="flex gap-2 px-2 mb-1">
             <Input
-              value={theme?.name ?? 'loading...'}
+              value={theme?.name ?? "loading..."}
               type="text"
               className="border-1 cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
               placeholder="Theme name"
-              onChange={(e) => setName(e.currentTarget.value ?? '')}
+              onChange={(e) => setName(e.currentTarget.value ?? "")}
             />
-            <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
+            <Select onValueChange={setAppearance} value={theme?.appearance ?? "light"}>
               <SelectTrigger title="Set theme appearance is for dark or light mode">
-                {theme?.appearance ?? 'light'}
+                {theme?.appearance ?? "light"}
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="light">light</SelectItem>
                 <SelectItem value="dark">dark</SelectItem>
               </SelectContent>
             </Select>
-            <Select onValueChange={setBackgroundAppearance} value={theme?.style['background.appearance'] ?? 'opaque'}>
+            <Select onValueChange={setBackgroundAppearance} value={theme?.style["background.appearance"] ?? "opaque"}>
               <SelectTrigger title="Set background appearance">
-                {theme?.style['background.appearance'] ?? 'opaque'}
+                {theme?.style["background.appearance"] ?? "opaque"}
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="opaque">opaque</SelectItem>
@@ -121,7 +121,7 @@ export function Side({ edit }: { edit: boolean }) {
                   />
                 )}
               </Section>
-            ) : null
+            ) : null,
           )}
           <Section name="Syntax" items={syntaxTokens as unknown as SyntaxTokens[]}>
             {(token) => (

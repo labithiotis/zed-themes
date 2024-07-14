@@ -1,11 +1,15 @@
-import { useFetcher } from '@remix-run/react';
-import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useFetcher } from "@remix-run/react";
+import type React from "react";
+import { type PropsWithChildren, createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
-export type ColorScheme = 'dark' | 'light';
+export type ColorScheme = "dark" | "light";
 
-const colorSchemeCtx = createContext<{ colorScheme?: ColorScheme; setColorScheme(theme: ColorScheme): void }>({
+const colorSchemeCtx = createContext<{
+  colorScheme?: ColorScheme;
+  setColorScheme(theme: ColorScheme): void;
+}>({
   colorScheme: undefined,
-  setColorScheme: () => console.warn('Calling setColorScheme provider beofre it is initialized!'),
+  setColorScheme: () => console.warn("Calling setColorScheme provider beofre it is initialized!"),
 });
 
 export const ColorSchemeProvider = (props: React.PropsWithChildren<{ colorScheme?: ColorScheme }>) => {
@@ -15,11 +19,11 @@ export const ColorSchemeProvider = (props: React.PropsWithChildren<{ colorScheme
   const colorSchemeHandler = useCallback(
     (colorScheme: ColorScheme) => {
       const el = document.documentElement.classList;
-      colorScheme === 'dark' ? el.add('dark') : el.remove('dark');
+      colorScheme === "dark" ? el.add("dark") : el.remove("dark");
       setColorScheme(colorScheme);
       peristColorScheme(colorScheme);
     },
-    [setColorScheme, peristColorScheme]
+    [peristColorScheme],
   );
 
   return (
@@ -32,21 +36,23 @@ export const ColorSchemeProvider = (props: React.PropsWithChildren<{ colorScheme
 export const useColorScheme = () => useContext(colorSchemeCtx);
 
 function usePeristColorScheme() {
-  const fetcher = useFetcher<{ colorScheme: ColorScheme }>({ key: 'color-scheme' });
+  const fetcher = useFetcher<{ colorScheme: ColorScheme }>({
+    key: "color-scheme",
+  });
 
   return (colorScheme: ColorScheme) => {
-    fetcher.submit({ colorScheme }, { action: '/action/color-scheme', method: 'post' });
+    fetcher.submit({ colorScheme }, { action: "/action/color-scheme", method: "post" });
   };
 }
 
-const prefersDarkMQ = '(prefers-color-scheme: dark)';
+const prefersDarkMQ = "(prefers-color-scheme: dark)";
 function ColorSchemeLoader({ children }: PropsWithChildren) {
   const called = useRef(false);
   const colorScheme = useColorScheme();
 
   useEffect(() => {
     if (!called.current && !colorScheme.colorScheme) {
-      colorScheme.setColorScheme(matchMedia(prefersDarkMQ).matches ? 'dark' : 'light');
+      colorScheme.setColorScheme(matchMedia(prefersDarkMQ).matches ? "dark" : "light");
       called.current = true;
     }
   }, [colorScheme]);
@@ -54,10 +60,10 @@ function ColorSchemeLoader({ children }: PropsWithChildren) {
   useEffect(() => {
     const mediaQuery = matchMedia(prefersDarkMQ);
     const handleChange = () => {
-      colorScheme.setColorScheme(mediaQuery.matches ? 'dark' : 'light');
+      colorScheme.setColorScheme(mediaQuery.matches ? "dark" : "light");
     };
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, [colorScheme]);
 
   if (!colorScheme.colorScheme) return null;

@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Args = any[];
+type Args = unknown[];
 export function debounce<F extends (...args: Args) => void>(fn: F, delay: number) {
   let timeoutId: number | NodeJS.Timeout;
   return function (this: object, ...args: Args) {

@@ -1,13 +1,14 @@
-import { useNavigate } from '@remix-run/react';
-import { btnStyles } from './Side';
+import { useNavigate } from "@remix-run/react";
+import { btnStyles } from "./Side";
 
 export function SideEditButton() {
   const navigate = useNavigate();
-  const editTheme = () => navigate('/themes/edit');
+  const editTheme = () => navigate("/themes/edit");
 
   return (
-    <button onClick={editTheme} className={btnStyles}>
+    <button type="button" onClick={editTheme} className={btnStyles}>
       <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>Edit</title>
         <path
           d="M12 15L12 2M12 2L15 5.5M12 2L9 5.5"
           stroke="currentColor"

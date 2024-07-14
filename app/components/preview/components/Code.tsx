@@ -1,13 +1,13 @@
-import { CSSProperties, PropsWithChildren, ReactNode, UIEvent, useState } from 'react';
+import { type CSSProperties, type PropsWithChildren, type ReactNode, type UIEvent, useState } from "react";
 import {
   cssVarStyleToken,
   cssVarSyntaxColorToken,
   cssVarSyntaxStyleToken,
   cssVarSyntaxWeightToken,
-} from '~/utils/cssVarTokens';
-import { SyntaxTokens } from '../../../providers/tokens';
-import { GutterMarkers } from './GutterMarkers';
-import { ScrollbarMakers } from './ScrollbarMarkers';
+} from "~/utils/cssVarTokens";
+import type { SyntaxTokens } from "../../../providers/tokens";
+import { GutterMarkers } from "./GutterMarkers";
+import { ScrollbarMakers } from "./ScrollbarMarkers";
 
 const EXTRA_LINES = 10;
 
@@ -16,7 +16,7 @@ type SNProps = PropsWithChildren<{ s: SyntaxTokens }>;
 const SN = (props: SNProps) => {
   return (
     <span
-      data-attribute={'syntax.' + props.s}
+      data-attribute={`syntax.${props.s}`}
       style={{
         color: cssVarSyntaxColorToken(props.s),
         fontStyle: cssVarSyntaxStyleToken(props.s),
@@ -65,9 +65,9 @@ const lines = [
   <div key="line1">
     <span
       style={{
-        textDecorationLine: 'underline',
-        textDecorationStyle: 'wavy',
-        textDecorationColor: cssVarStyleToken('error'),
+        textDecorationLine: "underline",
+        textDecorationStyle: "wavy",
+        textDecorationColor: cssVarStyleToken("error"),
       }}
     >
       <SN s="keyword">import</SN>
@@ -82,7 +82,7 @@ const lines = [
     <br />
     <span
       style={{
-        color: cssVarStyleToken('error'),
+        color: cssVarStyleToken("error"),
       }}
     >
       &#39;fs&#39; is declared but its value is never read.
@@ -129,17 +129,17 @@ const lines = [
     <SN s="type">
       <Popup
         style={{
-          color: cssVarStyleToken('error'),
-          backgroundColor: cssVarStyleToken('error.background'),
-          borderColor: cssVarStyleToken('error.border'),
+          color: cssVarStyleToken("error"),
+          backgroundColor: cssVarStyleToken("error.background"),
+          borderColor: cssVarStyleToken("error.border"),
         }}
         content="'Enum' is declared but never used."
       >
         <span
           style={{
-            textDecorationLine: 'underline',
-            textDecorationStyle: 'wavy',
-            textDecorationColor: cssVarStyleToken('error'),
+            textDecorationLine: "underline",
+            textDecorationStyle: "wavy",
+            textDecorationColor: cssVarStyleToken("error"),
           }}
         >
           Enum
@@ -176,17 +176,17 @@ const lines = [
     <SP />
     <Popup
       style={{
-        color: cssVarStyleToken('warning'),
-        backgroundColor: cssVarStyleToken('warning.background'),
-        borderColor: cssVarStyleToken('warning.border'),
+        color: cssVarStyleToken("warning"),
+        backgroundColor: cssVarStyleToken("warning.background"),
+        borderColor: cssVarStyleToken("warning.border"),
       }}
       content={'Typo in the word "strig"'}
     >
       <span
         style={{
-          textDecorationLine: 'underline',
-          textDecorationStyle: 'wavy',
-          textDecorationColor: cssVarStyleToken('warning'),
+          textDecorationLine: "underline",
+          textDecorationStyle: "wavy",
+          textDecorationColor: cssVarStyleToken("warning"),
         }}
       >
         <SN s="string">&#34;strig&#34;</SN>
@@ -278,8 +278,8 @@ const lines = [
     <span
       className="blink h-full"
       style={{
-        backgroundColor: cssVarStyleToken('text.accent'),
-        width: '2px',
+        backgroundColor: cssVarStyleToken("text.accent"),
+        width: "2px",
       }}
     />
   </span>,
@@ -363,17 +363,17 @@ const lines = [
     <SN s="type">
       <Popup
         style={{
-          color: cssVarStyleToken('error'),
-          backgroundColor: cssVarStyleToken('error.background'),
-          borderColor: cssVarStyleToken('error.border'),
+          color: cssVarStyleToken("error"),
+          backgroundColor: cssVarStyleToken("error.background"),
+          borderColor: cssVarStyleToken("error.border"),
         }}
         content="'Test' is declared but never used."
       >
         <span
           style={{
-            textDecorationLine: 'underline',
-            textDecorationStyle: 'wavy',
-            textDecorationColor: cssVarStyleToken('error'),
+            textDecorationLine: "underline",
+            textDecorationStyle: "wavy",
+            textDecorationColor: cssVarStyleToken("error"),
           }}
         >
           Test
@@ -421,7 +421,7 @@ const lines = [
     <Indent />
     <RB />
   </span>,
-  '',
+  "",
   <span key="line24">
     <Indent />
     <SN s="constructor">@guard</SN>
@@ -463,7 +463,7 @@ const lines = [
   <span key="line28">
     <RB />
   </span>,
-  '',
+  "",
 ];
 
 export function Code() {
@@ -480,14 +480,14 @@ export function Code() {
       className="flex overflow-hidden"
       style={{
         fontFamily: '"Roboto Mono", "Source Code Pro", monospace',
-        '--scrollbar-top': top + 'px',
-        '--scrollbar-thumb-background': cssVarStyleToken('scrollbar_thumb.background'),
-        '--scrollbar-thumb-hover-background': cssVarStyleToken('scrollbar.thumb.hover_background'),
-        '--scrollbar-thumb-border': cssVarStyleToken('scrollbar.thumb.border'),
-        '--scrollbar-track-background': cssVarStyleToken('scrollbar.track.background'),
-        '--scrollbar-track-border': cssVarStyleToken('scrollbar.track.border'),
-        color: cssVarStyleToken('text', 'white'),
-        backgroundColor: cssVarStyleToken('editor.background'),
+        "--scrollbar-top": `${top}px`,
+        "--scrollbar-thumb-background": cssVarStyleToken("scrollbar_thumb.background"),
+        "--scrollbar-thumb-hover-background": cssVarStyleToken("scrollbar.thumb.hover_background"),
+        "--scrollbar-thumb-border": cssVarStyleToken("scrollbar.thumb.border"),
+        "--scrollbar-track-background": cssVarStyleToken("scrollbar.track.background"),
+        "--scrollbar-track-border": cssVarStyleToken("scrollbar.track.border"),
+        color: cssVarStyleToken("text", "white"),
+        backgroundColor: cssVarStyleToken("editor.background"),
       }}
     >
       <div
@@ -499,29 +499,29 @@ export function Code() {
         <div id="scrollbar" />
         {lines.map((code, line) => (
           <div
-            key={`code-${line}`}
+            key={`code-${line.toString()}`}
             className="relative mr-[14px] flex items-start"
             style={{
-              backgroundColor: line === ACTIVE_ROW ? cssVarStyleToken('editor.active_line.background') : undefined,
+              backgroundColor: line === ACTIVE_ROW ? cssVarStyleToken("editor.active_line.background") : undefined,
             }}
           >
             <div className="git min-w-[6px]">
               <GutterMarkers line={line} />
             </div>
-            <div className="gutter min-w-[10px]"></div>
+            <div className="gutter min-w-[10px]" />
             <div
               className="line-number min-w-[25px] text-right"
               style={{
-                color: cssVarStyleToken(line === ACTIVE_ROW ? 'editor.active_line_number' : 'editor.line_number'),
+                color: cssVarStyleToken(line === ACTIVE_ROW ? "editor.active_line_number" : "editor.line_number"),
               }}
             >
-              {line <= lines.length ? line + 1 : ''}
+              {line <= lines.length ? line + 1 : ""}
             </div>
             <div className="code flex flex-1 pl-2">{code}</div>
           </div>
         ))}
         {new Array(EXTRA_LINES).fill(1).map((_, i) => (
-          <div key={`blank-${i}`}>&nbsp;</div>
+          <div key={`blank-${i.toString()}`}>&nbsp;</div>
         ))}
       </div>
     </code>

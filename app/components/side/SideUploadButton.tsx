@@ -1,8 +1,8 @@
-import { ChangeEvent, useRef } from 'react';
-import { FileDrop } from 'react-file-drop';
-import { useTheme } from '~/providers/theme';
-import { themeValidator } from '../../utils/themeValidator';
-import { btnStyles } from './Side';
+import { type ChangeEvent, useRef } from "react";
+import { FileDrop } from "react-file-drop";
+import { useTheme } from "~/providers/theme";
+import { themeValidator } from "../../utils/themeValidator";
+import { btnStyles } from "./Side";
 
 export function SideUploadButton() {
   const { dispatch } = useTheme();
@@ -15,34 +15,34 @@ export function SideUploadButton() {
 
   const onFiles = (files: FileList | null) => {
     if (files === null || files.length > 1) {
-      alert('Please upload only 1 file');
+      alert("Please upload only 1 file");
       return;
     }
 
     const file = files[0];
-    if (file.type !== 'application/json') {
-      alert('Please upload a JSON file');
+    if (file.type !== "application/json") {
+      alert("Please upload a JSON file");
       return;
     }
 
     file.text().then((text) => {
       const data = JSON.parse(text);
-      const isThemeFamily = 'author' in data;
-      const themeFamily = isThemeFamily ? data : { name: 'zed', author: 'zed', themes: [data] };
+      const isThemeFamily = "author" in data;
+      const themeFamily = isThemeFamily ? data : { name: "zed", author: "zed", themes: [data] };
 
       if (themeValidator(themeFamily)) {
-        dispatch({ type: 'set', themeFamily });
+        dispatch({ type: "set", themeFamily });
       } else {
         console.warn(themeValidator.errors);
-        const message = themeValidator.errors?.map((e) => e.message).join('\n');
+        const message = themeValidator.errors?.map((e) => e.message).join("\n");
         alert(`File does not match Zed's theme schema!\n\nWe got the following errors:\n${message}`);
       }
     });
 
-    fileDropRef.current?.classList.add('hidden');
+    fileDropRef.current?.classList.add("hidden");
 
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -51,8 +51,8 @@ export function SideUploadButton() {
       <FileDrop
         onDrop={onFiles}
         onTargetClick={() => fileInputRef.current?.click()}
-        onFrameDragEnter={() => fileDropRef.current?.classList.remove('hidden')}
-        onFrameDragLeave={() => fileDropRef.current?.classList.add('hidden')}
+        onFrameDragEnter={() => fileDropRef.current?.classList.remove("hidden")}
+        onFrameDragLeave={() => fileDropRef.current?.classList.add("hidden")}
       >
         <div
           ref={fileDropRef}
@@ -62,8 +62,9 @@ export function SideUploadButton() {
         </div>
       </FileDrop>
       <input ref={fileInputRef} type="file" accept=".json" className="hidden" multiple={false} onChange={onFileInput} />
-      <button onClick={() => fileInputRef.current?.click()} className={btnStyles}>
+      <button type="button" onClick={() => fileInputRef.current?.click()} className={btnStyles}>
         <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <title>Upload</title>
           <path
             d="M12 15L12 2M12 2L15 5.5M12 2L9 5.5"
             stroke="currentColor"

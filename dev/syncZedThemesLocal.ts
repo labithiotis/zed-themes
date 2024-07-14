@@ -1,6 +1,6 @@
 #!/usr/bin/env zx
 
-import { $ } from 'zx';
+import { $ } from "zx";
 
 $.verbose = false;
 

@@ -1,15 +1,15 @@
-import { useTheme } from '~/providers/theme';
-import { btnStyles } from './Side';
+import { useTheme } from "~/providers/theme";
+import { btnStyles } from "./Side";
 
 export function SideDownloadButton() {
   const { themeFamily } = useTheme();
   const saveTheme = () => {
-    const fileName = `${themeFamily?.name ?? 'schema'}.json`;
+    const fileName = `${themeFamily?.name ?? "schema"}.json`;
     const json = JSON.stringify(themeFamily, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
+    const blob = new Blob([json], { type: "application/json" });
     const href = URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = href;
     link.download = fileName;
     document.body.appendChild(link);
@@ -20,8 +20,9 @@ export function SideDownloadButton() {
   };
 
   return (
-    <button className={btnStyles} onClick={saveTheme}>
+    <button type="button" className={btnStyles} onClick={saveTheme}>
       <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>Download</title>
         <path
           d="M12 3V16M12 16L16 11.625M12 16L8 11.625"
           stroke="currentColor"

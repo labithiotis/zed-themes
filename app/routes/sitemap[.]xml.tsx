@@ -1,7 +1,7 @@
-import { LoaderFunction } from '@remix-run/cloudflare';
-import { fetchAllThemesFromKV } from './themes._index';
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { fetchAllThemesFromKV } from "./themes._index";
 
-const ts = '2024-03-20T00:00:00+00:00';
+const ts = "2024-03-20T00:00:00+00:00";
 
 export const loader: LoaderFunction = async ({ request, context }) => {
   const url = new URL(request.url);
@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 
   const themeUrls = list?.map(
     (theme) =>
-      `<url><loc>${url.origin}/themes/${theme.name}</loc><lastmod>${theme.updatedDate}</lastmod><priority>0.8</priority></url>`
+      `<url><loc>${url.origin}/themes/${theme.name}</loc><lastmod>${theme.updatedDate}</lastmod><priority>0.8</priority></url>`,
   );
 
   const content = `
@@ -24,16 +24,16 @@ export const loader: LoaderFunction = async ({ request, context }) => {
         <lastmod>${ts}</lastmod>
         <priority>1.0</priority>
       </url>
-      ${themeUrls.join('\n')}
+      ${themeUrls.join("\n")}
     </urlset>
     `;
 
   return new Response(content, {
     status: 200,
     headers: {
-      'Content-Type': 'application/xml',
-      'xml-version': '1.0',
-      encoding: 'UTF-8',
+      "Content-Type": "application/xml",
+      "xml-version": "1.0",
+      encoding: "UTF-8",
     },
   });
 };

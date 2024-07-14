@@ -1,36 +1,39 @@
-import { useFetcher } from '@remix-run/react';
-import { useEffect } from 'react';
-import { useTheme } from '~/providers/theme';
-import { useToast } from '../ui/use-toast';
-import { btnStyles } from './Side';
+import { useFetcher } from "@remix-run/react";
+import { useEffect } from "react";
+import { useTheme } from "~/providers/theme";
+import { useToast } from "../ui/use-toast";
+import { btnStyles } from "./Side";
 
 export function SideShareButton({ edit }: { edit: boolean }) {
   const { toast } = useToast();
   const { themeFamily } = useTheme();
-  const fetcher = useFetcher<{ shareUrl: string }>({ key: 'share-theme' });
+  const fetcher = useFetcher<{ shareUrl: string }>({ key: "share-theme" });
 
   useEffect(() => {
     if (fetcher.data) {
       navigator.clipboard.writeText(fetcher.data.shareUrl);
-      toast({ description: 'A shareable url has been copied to your clipboard.' });
+      toast({
+        description: "A shareable url has been copied to your clipboard.",
+      });
     }
   }, [fetcher.data, toast]);
 
   const shareTheme = () => {
     if (edit) {
       fetcher.submit(
-        { id: 'share-theme', theme: JSON.stringify(themeFamily) },
-        { action: '/action/share', method: 'POST' }
+        { id: "share-theme", theme: JSON.stringify(themeFamily) },
+        { action: "/action/share", method: "POST" },
       );
     } else {
       navigator.clipboard.writeText(document.location.href);
-      toast({ description: 'Link has been copied to your clipboard.' });
+      toast({ description: "Link has been copied to your clipboard." });
     }
   };
 
   return (
-    <button className={btnStyles} onClick={shareTheme}>
+    <button type="button" className={btnStyles} onClick={shareTheme}>
       <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>Share</title>
         <path
           d="M4 12C4 13.3807 5.11929 14.5 6.5 14.5C7.88071 14.5 9 13.3807 9 12C9 10.6193 7.88071 9.5 6.5 9.5"
           stroke="currentColor"

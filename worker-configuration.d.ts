@@ -2,7 +2,7 @@
 // by running `wrangler types`
 
 interface Env {
-  zed_themes: KVNamespace;
-  zed_shares: KVNamespace;
-  zed_options: KVNamespace;
+	zed_themes: KVNamespace;
+	zed_shares: KVNamespace;
+	zed_options: KVNamespace;
 }

@@ -1,6 +1,6 @@
-import themeSchema from '../../../dev/themeFamily.json';
+import themeSchema from "../../../dev/themeFamily.json";
 import {
-  StyleTokens,
+  type StyleTokens,
   borderTokens,
   colorTokens,
   editorTokens,
@@ -13,7 +13,7 @@ import {
   scrollbarTokens,
   terminalTokens,
   textTokens,
-} from '../../providers/tokens';
+} from "../../providers/tokens";
 
 const tokens = Object.entries(themeSchema.definitions.ThemeStyleContent.properties).sort();
 
@@ -25,57 +25,57 @@ type TokenInfo = {
 
 const sectionGroups: Record<string, { name: string; tokenKeys: string[]; tokens: TokenInfo[] }> = {
   editor: {
-    name: 'Editor',
+    name: "Editor",
     tokenKeys: editorTokens,
     tokens: [],
   },
   text: {
-    name: 'Text',
+    name: "Text",
     tokenKeys: textTokens,
     tokens: [],
   },
   border: {
-    name: 'Borders',
+    name: "Borders",
     tokenKeys: borderTokens,
     tokens: [],
   },
   elements: {
-    name: 'Elements',
+    name: "Elements",
     tokenKeys: elementTokens,
     tokens: [],
   },
   ghostElements: {
-    name: 'Ghost Elements',
+    name: "Ghost Elements",
     tokenKeys: ghostElementTokens,
     tokens: [],
   },
   icons: {
-    name: 'Icons',
+    name: "Icons",
     tokenKeys: iconTokens,
     tokens: [],
   },
   scrollBar: {
-    name: 'Scrollbar',
+    name: "Scrollbar",
     tokenKeys: scrollbarTokens,
     tokens: [],
   },
   terminal: {
-    name: 'Terminal',
+    name: "Terminal",
     tokenKeys: terminalTokens,
     tokens: [],
   },
   color: {
-    name: 'Color',
+    name: "Color",
     tokenKeys: colorTokens,
     tokens: [],
   },
   git: {
-    name: 'Git',
+    name: "Git",
     tokenKeys: gitTokens,
     tokens: [],
   },
   misc: {
-    name: 'Misc',
+    name: "Misc",
     tokenKeys: miscTokens,
     tokens: [],
   },
@@ -119,7 +119,7 @@ for (const [token, info] of tokens) {
   target.tokens.push({
     token: token as StyleTokens,
     name: token,
-    description: 'description' in info ? info.description : null,
+    description: "description" in info ? info.description : null,
   });
 }
 

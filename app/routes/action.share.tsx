@@ -1,14 +1,14 @@
-import { ActionFunction, json } from '@remix-run/cloudflare';
-import { nanoid } from 'nanoid';
-import invariant from 'tiny-invariant';
+import { type ActionFunction, json } from "@remix-run/cloudflare";
+import { nanoid } from "nanoid";
+import invariant from "tiny-invariant";
 
 export const action: ActionFunction = async ({ context, request }) => {
   const form = new URLSearchParams(await request.text());
-  const id = form.get('id');
+  const id = form.get("id");
 
-  if (id === 'share-theme') {
-    const theme = form.get('theme');
-    invariant(theme, 'theme is required');
+  if (id === "share-theme") {
+    const theme = form.get("theme");
+    invariant(theme, "theme is required");
 
     const shareId = nanoid();
     // expires in 1 week as UNIX second timestamp

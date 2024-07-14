@@ -1,19 +1,19 @@
-import { useTheme } from '~/providers/theme';
-import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
-import duneDark from '../../assets/images/dune_dark.jpeg';
-import duneLight from '../../assets/images/dune_light.jpeg';
-import { Breadcrumbs } from './components/Breadcrumbs';
-import { Code } from './components/Code';
-import { Dock } from './components/Dock';
-import { Header } from './components/Header';
-import { Status } from './components/Status';
-import { Tabs } from './components/Tabs';
-import { Terminal } from './components/Terminal';
-import './preview.css';
+import { useTheme } from "~/providers/theme";
+import { cssVarStyleToken, themeStyleToCssVars } from "~/utils/cssVarTokens";
+import duneDark from "../../assets/images/dune_dark.jpeg";
+import duneLight from "../../assets/images/dune_light.jpeg";
+import { Breadcrumbs } from "./components/Breadcrumbs";
+import { Code } from "./components/Code";
+import { Dock } from "./components/Dock";
+import { Header } from "./components/Header";
+import { Status } from "./components/Status";
+import { Tabs } from "./components/Tabs";
+import { Terminal } from "./components/Terminal";
+import "./preview.css";
 
 export function Preview() {
   const { theme } = useTheme();
-  const background = theme?.appearance === 'dark' ? duneDark : duneLight;
+  const background = theme?.appearance === "dark" ? duneDark : duneLight;
   const cssStyleVars = themeStyleToCssVars(theme?.style);
 
   return (
@@ -26,15 +26,15 @@ export function Preview() {
         id="editor"
         className="flex flex-1 flex-col overflow-hidden rounded-lg border"
         style={{
-          color: cssVarStyleToken('text', theme?.appearance === 'dark' ? '#CCCCCC' : '#21201C'),
-          borderColor: cssVarStyleToken('border'),
+          color: cssVarStyleToken("text", theme?.appearance === "dark" ? "#CCCCCC" : "#21201C"),
+          borderColor: cssVarStyleToken("border"),
           backgroundColor:
-            theme?.style['background.appearance'] === 'opaque'
-              ? theme?.appearance === 'dark'
-                ? '#000'
-                : '#fff'
+            theme?.style["background.appearance"] === "opaque"
+              ? theme?.appearance === "dark"
+                ? "#000"
+                : "#fff"
               : undefined,
-          backdropFilter: theme?.style['background.appearance'] === 'blurred' ? 'blur(20px)' : 'none',
+          backdropFilter: theme?.style["background.appearance"] === "blurred" ? "blur(20px)" : "none",
           minWidth: 800,
           maxWidth: 1000,
           minHeight: 600,
@@ -42,18 +42,18 @@ export function Preview() {
           ...cssStyleVars,
         }}
       >
-        <div style={{ backgroundColor: cssVarStyleToken('background') }}>
+        <div style={{ backgroundColor: cssVarStyleToken("background") }}>
           <Header />
           <div
             id="editor-body"
             className="flex flex-1 overflow-hidden border-b"
-            style={{ borderColor: cssVarStyleToken('border') }}
+            style={{ borderColor: cssVarStyleToken("border") }}
           >
             <Dock />
             <div
               id="editor-main"
               className="flex flex-1 flex-col overflow-hidden border-l"
-              style={{ borderColor: cssVarStyleToken('border') }}
+              style={{ borderColor: cssVarStyleToken("border") }}
             >
               <Tabs />
               <Breadcrumbs />
