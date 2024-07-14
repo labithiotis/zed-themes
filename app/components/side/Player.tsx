@@ -49,7 +49,7 @@ function PlayerToken({
             }
           )}
           style={{
-            color: player[token] ? player[token] ?? undefined : 'transparent',
+            color: player[token] ? (player[token] ?? undefined) : 'transparent',
             borderColor: player[token] ? `color-mix(in xyz, ${player[token]} 70%, black)` : '#808080',
           }}
           onClick={() => setShowColor(!showColor)}
