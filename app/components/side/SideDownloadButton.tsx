@@ -1,15 +1,15 @@
-import { useTheme } from "~/providers/theme";
-import { btnStyles } from "./Side";
+import { useTheme } from '~/providers/theme';
+import { btnStyles } from './Side';
 
 export function SideDownloadButton() {
   const { themeFamily } = useTheme();
   const saveTheme = () => {
-    const fileName = `${themeFamily?.name ?? "schema"}.json`;
+    const fileName = `${themeFamily?.name ?? 'schema'}.json`;
     const json = JSON.stringify(themeFamily, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
+    const blob = new Blob([json], { type: 'application/json' });
     const href = URL.createObjectURL(blob);
 
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = href;
     link.download = fileName;
     document.body.appendChild(link);

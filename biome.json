@@ -3,16 +3,24 @@
   "organizeImports": {
     "enabled": true
   },
+  "files": {
+    "ignore": ["build/**", ".wrangler/**", "code.example.tsx", "themeValidatorAjv.mjs"]
+  },
   "linter": {
     "enabled": true,
-    "rules": { "recommended": true },
-    "ignore": ["themeValidatorAjv.mjs", "build/*", "code.example.tsx"]
+    "rules": { "recommended": true }
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 120,
-    "ignore": ["themeValidatorAjv.mjs", "build/*", "pnpm-lock.yaml"]
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double"
+    }
   }
 }

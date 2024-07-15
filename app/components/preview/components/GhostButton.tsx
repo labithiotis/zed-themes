@@ -1,4 +1,4 @@
-import type { CSSProperties, PropsWithChildren } from "react";
+import type { CSSProperties, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
   hidden?: boolean;
@@ -6,5 +6,5 @@ type Props = PropsWithChildren<{
 }>;
 
 export function GhostButton({ hidden, ...props }: Props) {
-  return <span className={`ghost-button${hidden ? " ghost-button-hidden" : ""}`} {...props} />;
+  return <span className={`ghost-button${hidden ? ' ghost-button-hidden' : ''}`} {...props} />;
 }

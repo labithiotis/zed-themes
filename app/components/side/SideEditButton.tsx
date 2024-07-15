@@ -1,9 +1,9 @@
-import { useNavigate } from "@remix-run/react";
-import { btnStyles } from "./Side";
+import { useNavigate } from '@remix-run/react';
+import { btnStyles } from './Side';
 
 export function SideEditButton() {
   const navigate = useNavigate();
-  const editTheme = () => navigate("/themes/edit");
+  const editTheme = () => navigate('/themes/edit');
 
   return (
     <button type="button" onClick={editTheme} className={btnStyles}>
