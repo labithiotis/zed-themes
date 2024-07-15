@@ -1,19 +1,19 @@
-import { useFetcher } from "@remix-run/react";
-import { useEffect } from "react";
-import { useTheme } from "~/providers/theme";
-import { useToast } from "../ui/use-toast";
-import { btnStyles } from "./Side";
+import { useFetcher } from '@remix-run/react';
+import { useEffect } from 'react';
+import { useTheme } from '~/providers/theme';
+import { useToast } from '../ui/use-toast';
+import { btnStyles } from './Side';
 
 export function SideShareButton({ edit }: { edit: boolean }) {
   const { toast } = useToast();
   const { themeFamily } = useTheme();
-  const fetcher = useFetcher<{ shareUrl: string }>({ key: "share-theme" });
+  const fetcher = useFetcher<{ shareUrl: string }>({ key: 'share-theme' });
 
   useEffect(() => {
     if (fetcher.data) {
       navigator.clipboard.writeText(fetcher.data.shareUrl);
       toast({
-        description: "A shareable url has been copied to your clipboard.",
+        description: 'A shareable url has been copied to your clipboard.',
       });
     }
   }, [fetcher.data, toast]);
@@ -21,12 +21,12 @@ export function SideShareButton({ edit }: { edit: boolean }) {
   const shareTheme = () => {
     if (edit) {
       fetcher.submit(
-        { id: "share-theme", theme: JSON.stringify(themeFamily) },
-        { action: "/action/share", method: "POST" },
+        { id: 'share-theme', theme: JSON.stringify(themeFamily) },
+        { action: '/action/share', method: 'POST' },
       );
     } else {
       navigator.clipboard.writeText(document.location.href);
-      toast({ description: "Link has been copied to your clipboard." });
+      toast({ description: 'Link has been copied to your clipboard.' });
     }
   };
 

@@ -1,18 +1,18 @@
-import type { PlatformProxy } from "wrangler";
+import type { PlatformProxy } from 'wrangler';
 
 // You can generate the ENV type based on `wrangler.toml` and `.dev.vars`
 // by running `npm run typegen`
-type Cloudflare = Omit<PlatformProxy<Env>, "dispose">;
+type Cloudflare = Omit<PlatformProxy<Env>, 'dispose'>;
 type LoadContext = {
   cloudflare: Cloudflare;
 };
 
-declare module "@remix-run/cloudflare" {
+declare module '@remix-run/cloudflare' {
   interface AppLoadContext {
-    env: Cloudflare["env"];
-    cf: Cloudflare["cf"];
-    ctx: Cloudflare["ctx"];
-    cache: Cloudflare["caches"];
+    env: Cloudflare['env'];
+    cf: Cloudflare['cf'];
+    ctx: Cloudflare['ctx'];
+    cache: Cloudflare['caches'];
   }
 }
 

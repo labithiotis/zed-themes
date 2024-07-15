@@ -1,6 +1,6 @@
-import { cssVarStyleToken } from "~/utils/cssVarTokens";
-import { TerminalShell } from "./TerminalShell";
-import { TerminalTabs } from "./TerminalTabs";
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
+import { TerminalShell } from './TerminalShell';
+import { TerminalTabs } from './TerminalTabs';
 
 export function Terminal() {
   return (
@@ -8,7 +8,7 @@ export function Terminal() {
       id="editor-terminal"
       className="flex flex-col border-t"
       style={{
-        borderColor: cssVarStyleToken("border"),
+        borderColor: cssVarStyleToken('border'),
       }}
     >
       <TerminalTabs />

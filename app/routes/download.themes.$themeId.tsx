@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
-import invariant from "tiny-invariant";
+import type { LoaderFunctionArgs } from '@remix-run/cloudflare';
+import invariant from 'tiny-invariant';
 
 export const loader = async ({ context, params }: LoaderFunctionArgs) => {
   const themesKv = context.env?.zed_themes;
@@ -9,13 +9,13 @@ export const loader = async ({ context, params }: LoaderFunctionArgs) => {
   const theme = await themesKv?.get(params.themeId);
 
   if (!theme) {
-    throw new Response(null, { status: 404, statusText: "Not Found" });
+    throw new Response(null, { status: 404, statusText: 'Not Found' });
   }
 
   return new Response(JSON.stringify(JSON.parse(theme), null, 2), {
     headers: {
-      "Content-Type": "application/json",
-      "Content-Disposition": `attachment; filename="${params.themeId}.json"`,
+      'Content-Type': 'application/json',
+      'Content-Disposition': `attachment; filename="${params.themeId}.json"`,
     },
   });
 };

@@ -1,10 +1,10 @@
 #!/usr/bin/env zx
 
-import { $ } from "zx";
+import { $ } from 'zx';
 
 $.verbose = false;
 
-const id = "37c594b8926644dc9527f00a22982c52";
+const id = '37c594b8926644dc9527f00a22982c52';
 
 const list = await $`npx --yes wrangler kv key list --namespace-id=${id} --preview=false`;
 for (const { name, metadata } of JSON.parse(list.stdout).slice(0, process.env.SYNC_LIMIT || -1)) {

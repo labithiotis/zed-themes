@@ -1,11 +1,11 @@
-import { type LoaderFunctionArgs, type TypedResponse, json } from "@remix-run/cloudflare";
-import { useLoaderData, useSearchParams } from "@remix-run/react";
-import { useEffect } from "react";
-import invariant from "tiny-invariant";
-import { Preview } from "~/components/preview/Preview";
-import { Side } from "~/components/side/Side";
-import { useTheme } from "~/providers/theme";
-import type { ThemeFamilyContent } from "../themeFamily";
+import { type LoaderFunctionArgs, type TypedResponse, json } from '@remix-run/cloudflare';
+import { useLoaderData, useSearchParams } from '@remix-run/react';
+import { useEffect } from 'react';
+import invariant from 'tiny-invariant';
+import { Preview } from '~/components/preview/Preview';
+import { Side } from '~/components/side/Side';
+import { useTheme } from '~/providers/theme';
+import type { ThemeFamilyContent } from '../themeFamily';
 
 type LoaderData = {
   theme?: ThemeFamilyContent;
@@ -31,9 +31,9 @@ export default function ThemeById() {
     const dataTheme = data?.theme;
     if (dataTheme && dataTheme?.name !== themeFamily?.name) {
       dispatch({
-        type: "set",
+        type: 'set',
         themeFamily: dataTheme,
-        themeName: searchParams.get("name"),
+        themeName: searchParams.get('name'),
       });
     }
   }, [data, themeFamily, dispatch, searchParams]);

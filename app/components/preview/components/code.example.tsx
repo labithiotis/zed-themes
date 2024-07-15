@@ -3,10 +3,10 @@
 /** {string} a block comment **/
 type Prop = { a: boolean; b: null; c: string };
 enum Enum {
-  zed = "zed",
+  zed = 'zed',
 }
 const number = 1;
-const string = "string";
+const string = 'string';
 const boolean = true;
 const object = { id: `${string}_id1` };
 const regex = /(L^\d]string).*/i;
@@ -24,14 +24,14 @@ class Test {
     this.name = name;
   }
 
-  @guard({ description: "Gets name" })
+  @guard({ description: 'Gets name' })
   public getName() {
     return this.name;
   }
 }
 
-document.getElementById("app").innerHTML = App({
+document.getElementById('app').innerHTML = App({
   a: true,
   b: null,
-  c: "string",
+  c: 'string',
 });

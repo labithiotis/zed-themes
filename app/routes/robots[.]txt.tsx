@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/cloudflare";
+import type { LoaderFunction } from '@remix-run/cloudflare';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
@@ -11,6 +11,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   return new Response(robotText, {
     status: 200,
-    headers: { "Content-Type": "text/plain" },
+    headers: { 'Content-Type': 'text/plain' },
   });
 };

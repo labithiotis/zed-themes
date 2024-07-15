@@ -1,7 +1,7 @@
-import { redirect, useRouteError } from "@remix-run/react";
+import { redirect, useRouteError } from '@remix-run/react';
 
 export function loader() {
-  return redirect("/themes");
+  return redirect('/themes');
 }
 
 export function ErrorBoundary() {
@@ -10,8 +10,8 @@ export function ErrorBoundary() {
   return (
     <div>
       <h1>Whoops</h1>
-      <p>{error instanceof Error ? error?.message : "Something went wrong"}</p>
-      <pre>{error instanceof Error ? error?.stack : ""}</pre>
+      <p>{error instanceof Error ? error?.message : 'Something went wrong'}</p>
+      <pre>{error instanceof Error ? error?.stack : ''}</pre>
     </div>
   );
 }

@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { Preview } from "~/components/preview/Preview";
-import { Side } from "~/components/side/Side";
-import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme } from "~/providers/theme";
-import { themeValidator } from "~/utils/themeValidator";
+import { useEffect } from 'react';
+import { Preview } from '~/components/preview/Preview';
+import { Side } from '~/components/side/Side';
+import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme } from '~/providers/theme';
+import { themeValidator } from '~/utils/themeValidator';
 
 export default function ThemeEditor() {
   const { themeFamily, dispatch } = useTheme();
@@ -10,12 +10,12 @@ export default function ThemeEditor() {
   useEffect(() => {
     if (themeFamily) return;
 
-    const theme = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? "");
+    const theme = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '');
 
     if (themeValidator(theme)) {
-      dispatch({ type: "set", themeFamily: theme });
+      dispatch({ type: 'set', themeFamily: theme });
     } else {
-      console.warn("Unable to load theme from local storage as its invalid theme");
+      console.warn('Unable to load theme from local storage as its invalid theme');
     }
   }, [themeFamily, dispatch]);
 
