@@ -6,12 +6,12 @@ import type { ThemesMetaData } from '~/types';
 
 $.verbose = false;
 
-const dir = '/tmp/zed-extensions';
+const dir = process.env.CI ? '.tmp/zed-extensions' : '/tmp/zed-extensions';
 let folders: string[] = [];
 
 await within(async () => {
   // Fetch repo, pull latest submodules
-  if (!(await fs.exists(dir))) {
+  if (!process.env.CI && !(await fs.exists(dir))) {
     console.log('Cloning extensions repo...');
     await $`git clone git@github.com:zed-industries/extensions.git ${dir}`;
   }
@@ -49,8 +49,8 @@ for (const folder of folders) {
 
     console.log(`Adding ${id} theme...`);
 
-    await $`npx --yes wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=true`;
-    await $`npx --yes wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=false`;
+    await $`pnpm wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=true`;
+    await $`pnpm wrangler kv key put ${id} ${value} --metadata=${metaData} --binding=zed_themes --preview=false`;
   } catch (e) {
     // ignore
   }
