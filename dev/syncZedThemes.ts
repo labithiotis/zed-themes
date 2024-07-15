@@ -11,7 +11,7 @@ let folders: string[] = [];
 
 await within(async () => {
   // Fetch repo, pull latest submodules
-  if (!(await fs.exists(dir))) {
+  if (!process.env.CI && !(await fs.exists(dir))) {
     console.log('Cloning extensions repo...');
     await $`git clone git@github.com:zed-industries/extensions.git ${dir}`;
   }
