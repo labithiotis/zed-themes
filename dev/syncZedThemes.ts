@@ -6,7 +6,7 @@ import type { ThemesMetaData } from '~/types';
 
 $.verbose = false;
 
-const dir = '/tmp/zed-extensions';
+const dir = process.env.CI ? '.tmp/zed-extensions' : '/tmp/zed-extensions';
 let folders: string[] = [];
 
 await within(async () => {

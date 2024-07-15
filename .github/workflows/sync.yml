@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
   push:
     paths: [".github/workflows/sync.yml"]
-  pull_request:
-    paths: [".github/workflows/sync.yml"]
 
 jobs:
   sync:
@@ -20,7 +18,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           repository: zed-industries/extensions
-          path: /tmp/zed-extensions
+          path: .tmp/zed-extensions
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
