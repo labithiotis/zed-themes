@@ -7,6 +7,7 @@ import { colorSchemeSession } from './utils/colorScheme.server';
 
 import './root.css';
 import './tailwind.css';
+import { getUserId } from './utils/supertokens/index.server';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -22,16 +23,22 @@ export const links: LinksFunction = () => [{ rel: 'manifest', href: '/manifest.j
 export type RootData = {
   colorScheme?: ColorScheme;
   shareUrl?: string;
+  userId?: string;
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, response }) => {
   const session = await colorSchemeSession(request);
-  return json({ colorScheme: session.getColorScheme() });
+  const userId = await getUserId({ request, response });
+
+  return json({
+    colorScheme: session.getColorScheme(),
+    userId,
+  });
 };
 
 export default function Root() {
   const loaderData = useLoaderData<RootData>();
-
+  console.log({ userId: loaderData.userId });
   return (
     <html lang="en" className={loaderData.colorScheme}>
       <head>

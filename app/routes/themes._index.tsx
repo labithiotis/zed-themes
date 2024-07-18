@@ -1,5 +1,5 @@
 import { type AppLoadContext, type LoaderFunction, json } from '@remix-run/cloudflare';
-import { useLoaderData, useRouteError } from '@remix-run/react';
+import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { memo } from 'react';
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
 import { Badge } from '~/components/ui/badge';
@@ -11,6 +11,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '~/components/ui/carousel';
+import { routes } from '~/utils/constants';
+import { getUserId } from '~/utils/supertokens/index.server';
 import type { ThemesMetaData } from '../types';
 
 type Theme = { id: string } & ThemesMetaData;
@@ -28,15 +30,16 @@ export async function fetchAllThemesFromKV(context: AppLoadContext): Promise<The
   }
 
   const nsList = await context.env.zed_themes?.list<ThemesMetaData>();
-  // biome-ignore lint/style/noNonNullAssertion: its ok
-  const themes: Theme[] = nsList?.keys.map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
+  const themes: Theme[] =
+    // biome-ignore lint/style/noNonNullAssertion: its ok
+    nsList?.keys.map((key) => ({ ...key.metadata!, id: key.name })) ?? [];
   const themeList: ThemeLitst = { timestamp: Date.now(), themes };
   await context.env.zed_options?.put(THEMES_LIST_KEY, JSON.stringify(themeList));
 
   return themeList.themes;
 }
 
-export const loader: LoaderFunction = async ({ context }) => {
+export const loader: LoaderFunction = async ({ request, response, context }) => {
   const themes = await fetchAllThemesFromKV(context);
   return json({ themes });
 };
@@ -48,7 +51,11 @@ export default function Themes() {
     <div className="flex flex-col h-screen w-full px-6 py-4 content-stretch bg-stone-300 dark:bg-stone-900 dark:text-zinc-200">
       <span className="mb-2 flex text-xl font-semibold text-zed-800 dark:text-zed-400">
         <span className="flex-1">Zed Themes</span>
-        <ColorSchemeToggle />
+        <div className="flex gap-2 items-center">
+          <Link to={routes.login}>Login</Link>
+          <Link to={routes.logout}>Logout</Link>
+          <ColorSchemeToggle />
+        </div>
       </span>
       <div className="grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
         {themes?.map((theme, index) => (
@@ -123,7 +130,17 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: Theme; index: number
 ThemeFamilyPreview.displayName = 'ThemeFamilyPreview';
 
 const ThemePreview = memo(
-  ({ themeId, themeName, index, index2 }: { themeId: string; themeName: string; index: number; index2: number }) => {
+  ({
+    themeId,
+    themeName,
+    index,
+    index2,
+  }: {
+    themeId: string;
+    themeName: string;
+    index: number;
+    index2: number;
+  }) => {
     return (
       <CarouselItem>
         <a

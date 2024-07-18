@@ -15,6 +15,7 @@ dist-ssr
 build
 .env
 .tmp
+.zed
 
 .wrangler
 
