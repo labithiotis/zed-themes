@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#74e8c4bd118ed2032f8a2ea312564b2018e154ed
-    version: github.com/labithiotis/supertokens-cloudflare/74e8c4bd118ed2032f8a2ea312564b2018e154ed
+    specifier: github:labithiotis/supertokens-cloudflare#f55e8e245434a69a4f0a0279abd96b6b11a570c6
+    version: github.com/labithiotis/supertokens-cloudflare/f55e8e245434a69a4f0a0279abd96b6b11a570c6
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -2525,7 +2525,7 @@ packages:
     dev: false
 
   /@radix-ui/react-toggle@1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-gwoxaKZ0oJ4vIgzsfESBuSgJNdc0rv12VhHgcqN0TEJmmZixXG/2XpsLK8kzNWYcnaoRIEEQc0bEi3dIvdUpjw==}
+    resolution: {integrity: sha512-gwoxaKZ0oJ4vIgzsfESBuSgJNdc0rv12VhHgcqN0TEJmmZixXG/2X"psL"K8kzNWYcnaoRIEEQc0bEi3dIvdUpjw==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -6677,10 +6677,6 @@ packages:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
-  /psl@1.8.0:
-    resolution: {integrity: sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==}
-    dev: false
-
   /pump@2.0.1:
     resolution: {integrity: sha512-ruPMNRkN3MHP1cWJc9OWr+T/xDP0jhXYCLfJcBuX54hhfIBnaQmAUMfDcG4DM5UMWByBbJY69QSphm3jtDKIkA==}
     dependencies:
@@ -6702,6 +6698,11 @@ packages:
       inherits: 2.0.4
       pump: 2.0.1
     dev: true
+
+  /punycode@2.3.1:
+    resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
+    engines: {node: '>=6'}
+    dev: false
 
   /qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
@@ -8097,8 +8098,8 @@ packages:
       '@types/node': 20.14.10
     dev: true
 
-  github.com/labithiotis/supertokens-cloudflare/74e8c4bd118ed2032f8a2ea312564b2018e154ed:
-    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/74e8c4bd118ed2032f8a2ea312564b2018e154ed}
+  github.com/labithiotis/supertokens-cloudflare/f55e8e245434a69a4f0a0279abd96b6b11a570c6:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/f55e8e245434a69a4f0a0279abd96b6b11a570c6}
     name: supertokens-node
     version: 19.0.0
     dependencies:
@@ -8110,10 +8111,18 @@ packages:
       libphonenumber-js: 1.11.4
       nodemailer: 6.9.14
       pkce-challenge: 3.1.0
-      psl: 1.8.0
+      psl: github.com/lupomontero/psl/a789d0381c886da02eb8594da0761860657c08ba
       supertokens-js-override: 0.0.4
       twilio: 4.23.0(debug@4.3.4)
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  github.com/lupomontero/psl/a789d0381c886da02eb8594da0761860657c08ba:
+    resolution: {tarball: https://codeload.github.com/lupomontero/psl/tar.gz/a789d0381c886da02eb8594da0761860657c08ba}
+    name: psl
+    version: 1.9.0
+    dependencies:
+      punycode: 2.3.1
     dev: false
