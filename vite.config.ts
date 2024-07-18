@@ -1,5 +1,6 @@
 import { vitePlugin as remix, cloudflareDevProxyVitePlugin as remixCloudflareDevProxy } from '@remix-run/dev';
 import { defineConfig } from 'vite';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import svgrPlugin from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { getLoadContext } from './load-context';
@@ -15,6 +16,10 @@ export default defineConfig({
     svgrPlugin({ svgrOptions: { icon: true } }),
     remix({
       ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
+    }),
+    nodePolyfills({
+      protocolImports: true,
+      include: ['stream', 'querystring', 'zlib'],
     }),
   ],
 });

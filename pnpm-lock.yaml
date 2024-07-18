@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#ea4ec49768f2b8a6d4bcbad77aa70d2e8340adc8
-    version: github.com/labithiotis/supertokens-cloudflare/ea4ec49768f2b8a6d4bcbad77aa70d2e8340adc8
+    specifier: github:labithiotis/supertokens-cloudflare#74c05f2dda768f1ac3feadc6479e0b398684889e
+    version: github.com/labithiotis/supertokens-cloudflare/74c05f2dda768f1ac3feadc6479e0b398684889e
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -8183,8 +8183,8 @@ packages:
       '@types/node': 20.14.11
     dev: true
 
-  github.com/labithiotis/supertokens-cloudflare/ea4ec49768f2b8a6d4bcbad77aa70d2e8340adc8:
-    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/ea4ec49768f2b8a6d4bcbad77aa70d2e8340adc8}
+  github.com/labithiotis/supertokens-cloudflare/74c05f2dda768f1ac3feadc6479e0b398684889e:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/74c05f2dda768f1ac3feadc6479e0b398684889e}
     name: supertokens-node
     version: 19.0.0
     dependencies:
