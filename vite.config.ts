@@ -11,18 +11,12 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [
+    nodePolyfills({ include: ['buffer'], globals: { Buffer: true } }),
     remixCloudflareDevProxy({ getLoadContext }),
     tsconfigPaths(),
     svgrPlugin({ svgrOptions: { icon: true } }),
     remix({
       ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
-    }),
-    nodePolyfills({
-      protocolImports: true,
-      globals: {
-        Buffer: true,
-      },
-      include: ['buffer'],
     }),
   ],
 });
