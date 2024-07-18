@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction } from '@remix-run/cloudflare';
 import { parse } from 'cookie';
 import { routes } from '~/utils/constants';
 import { authCookieNames, createHeadersFromTokens } from '~/utils/supertokens/cookieHelpers.server';
