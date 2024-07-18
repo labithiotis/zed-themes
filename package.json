@@ -49,6 +49,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@cloudflare/workers-types": "^4.20240712.0",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@playwright/test": "^1.45.1",
     "@preact/signals-react-transform": "^0.3.2",
     "@remix-run/dev": "^2.10.2",
