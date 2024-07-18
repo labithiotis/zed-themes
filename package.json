@@ -44,7 +44,8 @@
     "supertokens-node": "github:labithiotis/supertokens-cloudflare#ea4ec49768f2b8a6d4bcbad77aa70d2e8340adc8",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "tiny-invariant": "^1.3.3"
+    "tiny-invariant": "^1.3.3",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
