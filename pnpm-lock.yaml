@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: ^19.0.0
-    version: 19.0.0
+    specifier: github:labithiotis/supertokens-cloudflare#master
+    version: github.com/labithiotis/supertokens-cloudflare/0ca5b2e441ceb35a126ac943e02a31b50cd05308
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -7335,26 +7335,6 @@ packages:
     resolution: {integrity: sha512-r0JFBjkMIdep3Lbk3JA+MpnpuOtw4RSyrlRAbrzMcxwiYco3GFWl/daimQZ5b1forOiUODpOlXbSOljP/oyurg==}
     dev: false
 
-  /supertokens-node@19.0.0:
-    resolution: {integrity: sha512-9h6Ssx6OBi0QaYT+L13wcBLLhCoihyhQUZVfBRp+zfIMCtIQOwN+pBwqXL+5poLRuEQ2V0xTqD9yppSDgtyz4w==}
-    dependencies:
-      content-type: 1.0.5
-      cookie: 0.4.0
-      cross-fetch: 3.1.8
-      debug: 4.3.4
-      inflation: 2.1.0
-      jose: 4.15.9
-      libphonenumber-js: 1.11.4
-      nodemailer: 6.9.14
-      pkce-challenge: 3.1.0
-      psl: 1.8.0
-      supertokens-js-override: 0.0.4
-      twilio: 4.23.0(debug@4.3.4)
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   /supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
     engines: {node: '>=4'}
@@ -8121,3 +8101,25 @@ packages:
       '@types/fs-extra': 11.0.4
       '@types/node': 20.14.10
     dev: true
+
+  github.com/labithiotis/supertokens-cloudflare/0ca5b2e441ceb35a126ac943e02a31b50cd05308:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/0ca5b2e441ceb35a126ac943e02a31b50cd05308}
+    name: supertokens-node
+    version: 19.0.0
+    dependencies:
+      content-type: 1.0.5
+      cookie: 0.4.0
+      cross-fetch: 3.1.8
+      debug: 4.3.4
+      inflation: 2.1.0
+      jose: 4.15.9
+      libphonenumber-js: 1.11.4
+      nodemailer: 6.9.14
+      pkce-challenge: 3.1.0
+      psl: 1.8.0
+      supertokens-js-override: 0.0.4
+      twilio: 4.23.0(debug@4.3.4)
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
