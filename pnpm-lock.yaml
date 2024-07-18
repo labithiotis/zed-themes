@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#74c05f2dda768f1ac3feadc6479e0b398684889e
-    version: github.com/labithiotis/supertokens-cloudflare/74c05f2dda768f1ac3feadc6479e0b398684889e
+    specifier: github:labithiotis/supertokens-cloudflare#25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d
+    version: github.com/labithiotis/supertokens-cloudflare/25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -2937,7 +2937,7 @@ packages:
       '@babel/plugin-syntax-typescript': 7.24.7(@babel/core@7.24.9)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.6
       '@vanilla-extract/css': 1.15.3
-      esbuild: 0.17.19
+      esbuild: 0.17.6
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -6267,6 +6267,10 @@ packages:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
     dev: true
 
+  /pako@2.1.0:
+    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
+    dev: false
+
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -8175,8 +8179,8 @@ packages:
       '@types/node': 20.14.11
     dev: true
 
-  github.com/labithiotis/supertokens-cloudflare/74c05f2dda768f1ac3feadc6479e0b398684889e:
-    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/74c05f2dda768f1ac3feadc6479e0b398684889e}
+  github.com/labithiotis/supertokens-cloudflare/25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d}
     name: supertokens-node
     version: 19.0.0
     dependencies:
@@ -8187,6 +8191,7 @@ packages:
       jose: 5.6.3
       libphonenumber-js: 1.11.4
       nodemailer: 6.9.14
+      pako: 2.1.0
       pkce-challenge: 3.1.0
       supertokens-js-override: 0.0.4
       tldts: 6.1.32
