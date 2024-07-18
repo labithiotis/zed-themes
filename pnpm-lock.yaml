@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#master
-    version: github.com/labithiotis/supertokens-cloudflare/0ca5b2e441ceb35a126ac943e02a31b50cd05308
+    specifier: github:labithiotis/supertokens-cloudflare#74e8c4bd118ed2032f8a2ea312564b2018e154ed
+    version: github.com/labithiotis/supertokens-cloudflare/74e8c4bd118ed2032f8a2ea312564b2018e154ed
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -4982,11 +4982,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /inflation@2.1.0:
-    resolution: {integrity: sha512-t54PPJHG1Pp7VQvxyVCJ9mBbjG3Hqryges9bXoOO6GExCPa+//i/d5GSuFtpx3ALLd7lgIAur6zrIlBQyJuMlQ==}
-    engines: {node: '>= 0.8.0'}
-    dev: false
-
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
@@ -5162,8 +5157,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  /jose@4.15.9:
-    resolution: {integrity: sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==}
+  /jose@5.6.3:
+    resolution: {integrity: sha512-1Jh//hEEwMhNYPDDLwXHa2ePWgWiFNNUadVmguAAw2IJ6sj9mNxV5tGXJNqlMkJAybF6Lgw1mISDxTePP/187g==}
     dev: false
 
   /js-tokens@4.0.0:
@@ -8102,8 +8097,8 @@ packages:
       '@types/node': 20.14.10
     dev: true
 
-  github.com/labithiotis/supertokens-cloudflare/0ca5b2e441ceb35a126ac943e02a31b50cd05308:
-    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/0ca5b2e441ceb35a126ac943e02a31b50cd05308}
+  github.com/labithiotis/supertokens-cloudflare/74e8c4bd118ed2032f8a2ea312564b2018e154ed:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/74e8c4bd118ed2032f8a2ea312564b2018e154ed}
     name: supertokens-node
     version: 19.0.0
     dependencies:
@@ -8111,8 +8106,7 @@ packages:
       cookie: 0.4.0
       cross-fetch: 3.1.8
       debug: 4.3.4
-      inflation: 2.1.0
-      jose: 4.15.9
+      jose: 5.6.3
       libphonenumber-js: 1.11.4
       nodemailer: 6.9.14
       pkce-challenge: 3.1.0
