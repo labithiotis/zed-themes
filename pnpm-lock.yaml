@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d
-    version: github.com/labithiotis/supertokens-cloudflare/25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d
+    specifier: github:labithiotis/supertokens-cloudflare#9b88f5022e10c98cbe5e4d5cc8c364bae8a08a8a
+    version: github.com/labithiotis/supertokens-cloudflare/9b88f5022e10c98cbe5e4d5cc8c364bae8a08a8a
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -8179,8 +8179,8 @@ packages:
       '@types/node': 20.14.11
     dev: true
 
-  github.com/labithiotis/supertokens-cloudflare/25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d:
-    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/25f2832aa3cdf1c058d35a68ebb35ec45dab2c4d}
+  github.com/labithiotis/supertokens-cloudflare/9b88f5022e10c98cbe5e4d5cc8c364bae8a08a8a:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/9b88f5022e10c98cbe5e4d5cc8c364bae8a08a8a}
     name: supertokens-node
     version: 19.0.0
     dependencies:
@@ -8193,6 +8193,7 @@ packages:
       nodemailer: 6.9.14
       pako: 2.1.0
       pkce-challenge: 3.1.0
+      querystringify: 2.2.0
       supertokens-js-override: 0.0.4
       tldts: 6.1.32
       twilio: 4.23.0(debug@4.3.5)
