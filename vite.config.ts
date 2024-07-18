@@ -22,6 +22,7 @@ export default defineConfig({
       globals: {
         Buffer: true,
       },
+      include: ['buffer'],
     }),
   ],
 });
