@@ -2,6 +2,7 @@ import type { CookieSerializeOptions } from 'cookie';
 import { serialize } from 'cookie';
 import type { SessionContainerInterface } from 'supertokens-node/lib/build/recipe/session/types.d.ts';
 import { routes } from '../constants.js';
+import { env } from 'node:process';
 
 export type CookieSettings = Omit<CookieSerializeOptions, 'encode'>;
 export type Tokens = Pick<
@@ -19,7 +20,7 @@ const oneYearInMilliseconds = 365 * 24 * 60 * 60 * 1000;
 
 const commonCookieSettings: CookieSettings = {
   httpOnly: true,
-  secure: process.env.SUPERTOKENS_WEBSITE_DOMAIN?.startsWith('https') ?? false,
+  secure: env.SUPERTOKENS_WEBSITE_DOMAIN?.startsWith('https') ?? false,
   sameSite: 'strict',
   priority: 'high',
 };

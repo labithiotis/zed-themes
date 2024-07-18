@@ -6,6 +6,7 @@ import Session from 'supertokens-node/recipe/session/index.js';
 import { routes } from '~/utils/constants';
 import type { Tokens } from '~/utils/supertokens/cookieHelpers.server';
 import { authCookieNames } from '~/utils/supertokens/cookieHelpers.server';
+import { env } from 'node:process';
 
 SuperTokens.init({
   framework: 'express',
@@ -102,7 +103,7 @@ const SuperTokensHelpers = {
     }
 
     const passwordResetPath = routes.resetPassword;
-    const passwordResetLink = `${process.env.DOMAIN}${passwordResetPath}?token=${tokenResult.token}&rid=${recipeId}`;
+    const passwordResetLink = `${env.DOMAIN}${passwordResetPath}?token=${tokenResult.token}&rid=${recipeId}`;
     return EmailPassword.sendEmail({
       type: 'PASSWORD_RESET',
       tenantId,
