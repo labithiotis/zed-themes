@@ -2,14 +2,20 @@ name = "zed-themes"
 compatibility_date = "2024-03-01"
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
 node_compat = true
-compatibility_flags = [ "nodejs_compat" ]
-
-kv_namespaces = [
-    { binding = "zed_themes", id = "db40110d5f6941cf8ca7fc3ba3d98ffa", preview_id = "056232e8f7df42b4be85e1f083761c51" },
-    { binding = "zed_shares", id = "39f7d7e6d1994dc19b0e7e1bb9ba5e02", preview_id = "40ec071715db4dc6b66b71a22d68999a" },
-    { binding = "zed_options", id = "ad64f637e4f549fba2224f7a1f979af0", preview_id = "e8c80d5fbd7f4aceb69ea46f244bde9a" },
-]
 
 [build]
 command = "npm run build"
 watch_dir = "app"
+
+[[kv_namespaces]]
+binding = "zed_themes"
+id = "db40110d5f6941cf8ca7fc3ba3d98ffa"
+preview_id = "056232e8f7df42b4be85e1f083761c51"
+[[kv_namespaces]]
+binding = "zed_shares"
+id = "39f7d7e6d1994dc19b0e7e1bb9ba5e02"
+preview_id = "40ec071715db4dc6b66b71a22d68999a"
+[[kv_namespaces]]
+binding = "zed_options"
+id = "ad64f637e4f549fba2224f7a1f979af0"
+preview_id = "e8c80d5fbd7f4aceb69ea46f244bde9a"

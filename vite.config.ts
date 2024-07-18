@@ -19,7 +19,7 @@ export default defineConfig({
     }),
     nodePolyfills({
       protocolImports: true,
-      include: ['stream', 'querystring', 'zlib'],
+      include: ['stream', 'querystring'],
     }),
   ],
 });
