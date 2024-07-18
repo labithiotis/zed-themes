@@ -11,15 +11,15 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [
-    nodePolyfills({
-      protocolImports: true,
-      include: ['http', 'stream', 'querystring', 'zlib'],
-    }),
     remixCloudflareDevProxy({ getLoadContext }),
     tsconfigPaths(),
     svgrPlugin({ svgrOptions: { icon: true } }),
     remix({
       ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
+    }),
+    nodePolyfills({
+      protocolImports: true,
+      include: ['http', 'stream', 'querystring', 'zlib'],
     }),
   ],
 });
