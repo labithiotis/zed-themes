@@ -70,8 +70,8 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#f55e8e245434a69a4f0a0279abd96b6b11a570c6
-    version: github.com/labithiotis/supertokens-cloudflare/f55e8e245434a69a4f0a0279abd96b6b11a570c6
+    specifier: github:labithiotis/supertokens-cloudflare#54a02feeabd89dd4c222ac84bd1f2c4047b7538e
+    version: github.com/labithiotis/supertokens-cloudflare/54a02feeabd89dd4c222ac84bd1f2c4047b7538e
   tailwind-merge:
     specifier: ^2.4.0
     version: 2.4.0
@@ -2937,7 +2937,7 @@ packages:
       '@babel/plugin-syntax-typescript': 7.24.7(@babel/core@7.24.9)
       '@vanilla-extract/babel-plugin-debug-ids': 1.0.6
       '@vanilla-extract/css': 1.15.3
-      esbuild: 0.17.19
+      esbuild: 0.17.6
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -6693,11 +6693,6 @@ packages:
     resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
     dev: true
 
-  /punycode@2.3.1:
-    resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
-    engines: {node: '>=6'}
-    dev: false
-
   /qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
@@ -7516,6 +7511,17 @@ packages:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
     dev: false
 
+  /tldts-core@6.1.32:
+    resolution: {integrity: sha512-XfnnY74YWMBfE6BNpi33GCpjzw0lJUUmUW+bKukARTD4IChV9plBnu4wRvl/rN8mnoXA+xAEpVN8XfmtKvQWlA==}
+    dev: false
+
+  /tldts@6.1.32:
+    resolution: {integrity: sha512-M5zZuEGvVz6YAwt3w93zhtBXbW0K4KF4ejzuBULyVp40u/FTQVpLj01zwYTlUkgYqYprTqxCfQFfZSWgz5fJnw==}
+    hasBin: true
+    dependencies:
+      tldts-core: 6.1.32
+    dev: false
+
   /to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
     engines: {node: '>=4'}
@@ -8169,8 +8175,8 @@ packages:
       '@types/node': 20.14.11
     dev: true
 
-  github.com/labithiotis/supertokens-cloudflare/f55e8e245434a69a4f0a0279abd96b6b11a570c6:
-    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/f55e8e245434a69a4f0a0279abd96b6b11a570c6}
+  github.com/labithiotis/supertokens-cloudflare/54a02feeabd89dd4c222ac84bd1f2c4047b7538e:
+    resolution: {tarball: https://codeload.github.com/labithiotis/supertokens-cloudflare/tar.gz/54a02feeabd89dd4c222ac84bd1f2c4047b7538e}
     name: supertokens-node
     version: 19.0.0
     dependencies:
@@ -8182,18 +8188,10 @@ packages:
       libphonenumber-js: 1.11.4
       nodemailer: 6.9.14
       pkce-challenge: 3.1.0
-      psl: github.com/lupomontero/psl/a789d0381c886da02eb8594da0761860657c08ba
       supertokens-js-override: 0.0.4
+      tldts: 6.1.32
       twilio: 4.23.0(debug@4.3.5)
     transitivePeerDependencies:
       - encoding
       - supports-color
-    dev: false
-
-  github.com/lupomontero/psl/a789d0381c886da02eb8594da0761860657c08ba:
-    resolution: {tarball: https://codeload.github.com/lupomontero/psl/tar.gz/a789d0381c886da02eb8594da0761860657c08ba}
-    name: psl
-    version: 1.9.0
-    dependencies:
-      punycode: 2.3.1
     dev: false

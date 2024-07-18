@@ -41,7 +41,7 @@
     "react-colorful": "^5.6.1",
     "react-dom": "^18.3.1",
     "react-file-drop": "^3.1.6",
-    "supertokens-node": "github:labithiotis/supertokens-cloudflare#f55e8e245434a69a4f0a0279abd96b6b11a570c6",
+    "supertokens-node": "github:labithiotis/supertokens-cloudflare#54a02feeabd89dd4c222ac84bd1f2c4047b7538e",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "tiny-invariant": "^1.3.3"
