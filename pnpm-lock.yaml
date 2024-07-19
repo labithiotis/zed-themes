@@ -70,7 +70,7 @@ dependencies:
     specifier: ^3.1.6
     version: 3.1.6
   supertokens-node:
-    specifier: github:labithiotis/supertokens-cloudflare#b0d2c02120096606d41e9c817b598096b64a8b87
+    specifier: github:labithiotis/supertokens-cloudflare#working
     version: github.com/labithiotis/supertokens-cloudflare/b0d2c02120096606d41e9c817b598096b64a8b87
   tailwind-merge:
     specifier: ^2.4.0
