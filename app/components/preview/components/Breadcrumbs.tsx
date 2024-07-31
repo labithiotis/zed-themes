@@ -7,10 +7,15 @@ import MagnifyingGlassIcon from '~/assets/icons/magnifying_glass.svg?react';
 import ReplaceIcon from '~/assets/icons/replace.svg?react';
 import SelectAllIcon from '~/assets/icons/select_all.svg?react';
 import WordSearchIcon from '~/assets/icons/word_search.svg?react';
-import { cssVarStyleToken, cssVarSyntaxColorToken } from '~/utils/cssVarTokens';
+import { languagePacks, useLanguage } from '~/providers/language';
+import { cssVarStyleToken } from '~/utils/cssVarTokens';
 import { GhostButton } from './GhostButton';
 
 export function Breadcrumbs() {
+  const { language } = useLanguage();
+
+  const Breadcrumbs = languagePacks[language].breadcrumbs;
+
   return (
     <div
       className="flex flex-col border-b"
@@ -22,30 +27,7 @@ export function Breadcrumbs() {
       <div id="editor-breadcrums" className="flex px-2 py-1">
         <div className="ml-1 flex flex-1 items-center">
           <GhostButton style={{ paddingInline: '4px' }}>
-            <div className="flex items-center gap-2">
-              <div className="text-md" style={{ color: cssVarStyleToken('text.muted') }}>
-                src/pages/Home.tsx
-              </div>
-              <span className="text-xs" style={{ color: cssVarStyleToken('text.muted') }}>
-                &gt;
-              </span>
-              <span className="text-md pr-1" style={{ color: cssVarSyntaxColorToken('keyword') }}>
-                function
-              </span>
-              <span>
-                <span className="text-md" style={{ color: cssVarSyntaxColorToken('type') }}>
-                  App
-                </span>
-                <span
-                  className="text-md"
-                  style={{
-                    color: cssVarSyntaxColorToken('punctuation.bracket'),
-                  }}
-                >
-                  ()
-                </span>
-              </span>
-            </div>
+            <div className="flex items-center gap-2">{Breadcrumbs}</div>
           </GhostButton>
         </div>
         <div className="flex items-center gap-2">
