@@ -198,7 +198,7 @@ export const csharpPack: LanguagePack = {
     '',
     <span key={key()}>
       <Indent level={4} />
-      <SN s="comment">{/* This is a single comment on a single line*/}</SN>
+      <SN s="comment">&#47;&#47; This is a single comment on a single line</SN>
     </span>,
     <span key={key()}>
       <Indent level={4} />
