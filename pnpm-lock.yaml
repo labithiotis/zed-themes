@@ -23,10 +23,10 @@ dependencies:
     version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
   '@remix-run/cloudflare':
     specifier: ^2.10.2
-    version: 2.10.2(@cloudflare/workers-types@4.20240712.0)(typescript@5.5.3)
+    version: 2.10.2(@cloudflare/workers-types@4.20240729.0)(typescript@5.5.3)
   '@remix-run/cloudflare-pages':
     specifier: ^2.10.2
-    version: 2.10.2(@cloudflare/workers-types@4.20240712.0)(typescript@5.5.3)
+    version: 2.10.2(@cloudflare/workers-types@4.20240729.0)(typescript@5.5.3)
   '@remix-run/react':
     specifier: ^2.10.2
     version: 2.10.2(react-dom@18.3.1)(react@18.3.1)(typescript@5.5.3)
@@ -79,7 +79,7 @@ devDependencies:
     version: 1.8.3
   '@cloudflare/workers-types':
     specifier: ^4.20240712.0
-    version: 4.20240712.0
+    version: 4.20240729.0
   '@playwright/test':
     specifier: ^1.45.1
     version: 1.45.1
@@ -148,7 +148,7 @@ devDependencies:
     version: 4.3.2(typescript@5.5.3)(vite@5.3.3)
   wrangler:
     specifier: ^3.64.0
-    version: 3.64.0(@cloudflare/workers-types@4.20240712.0)
+    version: 3.64.0(@cloudflare/workers-types@4.20240729.0)
   zx:
     specifier: ^8.1.4
     version: 8.1.4
@@ -877,8 +877,8 @@ packages:
     dev: true
     optional: true
 
-  /@cloudflare/workers-types@4.20240712.0:
-    resolution: {integrity: sha512-C+C0ZnkRrxR2tPkZKAXwBsWEse7bWaA7iMbaG6IKaxaPTo/5ilx7Ei3BkI2izxmOJMsC05VS1eFUf95urXzhmw==}
+  /@cloudflare/workers-types@4.20240729.0:
+    resolution: {integrity: sha512-wfe44YQkv5T9aBr/z95P706r2/Ydg32weJYyBOhvge7FqtdY6mM7l39rybNiJrbJoyN16dd0xxyQMf23aJNC6Q==}
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -2631,7 +2631,7 @@ packages:
     resolution: {integrity: sha512-A9+lCBZoaMJlVKcRBz2YByCG+Cp2t6nAnMnNba+XiWxnj6r4JUFqfsgwocMBZU9LPtdxC6wB56ySYpc7LQIoJg==}
     dev: false
 
-  /@remix-run/cloudflare-pages@2.10.2(@cloudflare/workers-types@4.20240712.0)(typescript@5.5.3):
+  /@remix-run/cloudflare-pages@2.10.2(@cloudflare/workers-types@4.20240729.0)(typescript@5.5.3):
     resolution: {integrity: sha512-HaOdGkSMhe4zg1M8KDNNKb7VgBIHGpi0/90aLdYmzvZy+yeR0NOdrQh4P6gAYGCGSzqttuPOEIr4laXtBKI7Yg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
@@ -2641,12 +2641,12 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@cloudflare/workers-types': 4.20240712.0
-      '@remix-run/cloudflare': 2.10.2(@cloudflare/workers-types@4.20240712.0)(typescript@5.5.3)
+      '@cloudflare/workers-types': 4.20240729.0
+      '@remix-run/cloudflare': 2.10.2(@cloudflare/workers-types@4.20240729.0)(typescript@5.5.3)
       typescript: 5.5.3
     dev: false
 
-  /@remix-run/cloudflare@2.10.2(@cloudflare/workers-types@4.20240712.0)(typescript@5.5.3):
+  /@remix-run/cloudflare@2.10.2(@cloudflare/workers-types@4.20240729.0)(typescript@5.5.3):
     resolution: {integrity: sha512-pYDezNSGKVmkpfuHSAN/x9I7518ohJNsZj/WN8S4Y7tZAD2n202EzAX0pJeg6HpqIcqIgr18WiqVwCbx9UvLAg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
@@ -2657,7 +2657,7 @@ packages:
         optional: true
     dependencies:
       '@cloudflare/kv-asset-handler': 0.1.3
-      '@cloudflare/workers-types': 4.20240712.0
+      '@cloudflare/workers-types': 4.20240729.0
       '@remix-run/server-runtime': 2.10.2(typescript@5.5.3)
       typescript: 5.5.3
     dev: false
@@ -2737,7 +2737,7 @@ packages:
       tsconfig-paths: 4.2.0
       typescript: 5.5.3
       vite: 5.3.3(@types/node@20.14.10)
-      wrangler: 3.64.0(@cloudflare/workers-types@4.20240712.0)
+      wrangler: 3.64.0(@cloudflare/workers-types@4.20240729.0)
       ws: 7.5.9
     transitivePeerDependencies:
       - '@types/node'
@@ -7729,7 +7729,7 @@ packages:
       '@cloudflare/workerd-windows-64': 1.20240701.0
     dev: true
 
-  /wrangler@3.64.0(@cloudflare/workers-types@4.20240712.0):
+  /wrangler@3.64.0(@cloudflare/workers-types@4.20240729.0):
     resolution: {integrity: sha512-q2VQADJXzuOkXs9KIfPSx7UCZHBoxsqSNbJDLkc2pHpGmsyNQXsJRqjMoTg/Kls7O3K9A7EGnzGr7+Io2vE6AQ==}
     engines: {node: '>=16.17.0'}
     hasBin: true
@@ -7740,7 +7740,7 @@ packages:
         optional: true
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
-      '@cloudflare/workers-types': 4.20240712.0
+      '@cloudflare/workers-types': 4.20240729.0
       '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
       '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
       blake3-wasm: 2.1.5
