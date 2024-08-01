@@ -47,7 +47,7 @@
     "@biomejs/biome": "^1.8.3",
     "@cloudflare/workers-types": "^4.20240712.0",
     "@playwright/test": "^1.45.1",
-    "@preact/signals-react-transform": "^0.3.2",
+    "@preact/signals-react-transform": "^0.4.0",
     "@remix-run/dev": "^2.10.2",
     "@remix-run/node": "^2.10.2",
     "@types/node": "^20.14.10",
