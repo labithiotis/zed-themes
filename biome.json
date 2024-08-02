@@ -4,11 +4,13 @@
     "enabled": true
   },
   "files": {
-    "ignore": ["build/**", ".wrangler/**", "code.example.tsx", "themeValidatorAjv.mjs"]
+    "ignore": [".zed/", "build/**", ".wrangler/**", "code.example.tsx", "themeValidatorAjv.mjs"]
   },
   "linter": {
     "enabled": true,
-    "rules": { "recommended": true }
+    "rules": {
+      "recommended": true
+    }
   },
   "formatter": {
     "enabled": true,

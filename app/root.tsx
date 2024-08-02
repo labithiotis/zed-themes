@@ -1,3 +1,5 @@
+import { ClerkApp } from '@clerk/remix';
+import { getAuth, rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type LinksFunction, type LoaderFunction, type MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { Toaster } from './components/ui/toaster';
@@ -22,14 +24,17 @@ export const links: LinksFunction = () => [{ rel: 'manifest', href: '/manifest.j
 export type RootData = {
   colorScheme?: ColorScheme;
   shareUrl?: string;
+  userId?: string;
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const session = await colorSchemeSession(request);
-  return json({ colorScheme: session.getColorScheme() });
-};
+export const loader: LoaderFunction = async (args) =>
+  rootAuthLoader(args, async ({ request }) => {
+    const session = await colorSchemeSession(request);
+    const { userId } = await getAuth(args);
+    return json({ colorScheme: session.getColorScheme(), userId });
+  });
 
-export default function Root() {
+function Root() {
   const loaderData = useLoaderData<RootData>();
 
   return (
@@ -52,3 +57,5 @@ export default function Root() {
     </html>
   );
 }
+
+export default ClerkApp(Root);
