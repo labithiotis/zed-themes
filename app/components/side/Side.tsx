@@ -1,5 +1,6 @@
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
+import { type Language, languages, useLanguage } from '~/providers/language';
 import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { type StyleTokens, type SyntaxTokens, syntaxTokens } from '../../providers/tokens';
@@ -42,6 +43,8 @@ export function Side({ edit }: { edit: boolean }) {
     dispatch({ type: 'addTheme' });
   };
 
+  const { language, setLanguage } = useLanguage();
+
   return (
     <>
       <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
@@ -64,6 +67,19 @@ export function Side({ edit }: { edit: boolean }) {
               {themeFamily?.themes.map(({ name }, i) => (
                 <SelectItem key={name} value={`${i}`}>
                   {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select onValueChange={setLanguage} value={language}>
+            <SelectTrigger className="flex-1">
+              <span className="whitespace-nowrap overflow-hidden text-ellipsis">{languages[language ?? 'tsx']}</span>
+            </SelectTrigger>
+            <SelectContent>
+              {Object.keys(languages).map((l) => (
+                <SelectItem key={l} value={l}>
+                  {languages[l as Language]}
                 </SelectItem>
               ))}
             </SelectContent>

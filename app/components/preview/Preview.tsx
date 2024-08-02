@@ -36,9 +36,7 @@ export function Preview() {
               : undefined,
           backdropFilter: theme?.style['background.appearance'] === 'blurred' ? 'blur(20px)' : 'none',
           minWidth: 800,
-          maxWidth: 1000,
           minHeight: 600,
-          maxHeight: 800,
           ...cssStyleVars,
         }}
       >

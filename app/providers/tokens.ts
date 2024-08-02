@@ -157,6 +157,7 @@ export const miscTokens: StyleTokens[] = [];
 
 export const syntaxTokens = [
   'attribute',
+  'editor.foreground',
   'boolean',
   'comment',
   'comment.doc',
@@ -194,6 +195,7 @@ export const syntaxTokens = [
   'text.literal',
   'title',
   'type',
+  'type.builtin',
   'variable',
   'variable.special',
   'variant',
