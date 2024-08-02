@@ -1,9 +1,10 @@
-import { SignOutButton } from '@clerk/remix';
+import { SignOutButton, useUser } from '@clerk/remix';
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type AppLoadContext, type LoaderFunction, json } from '@remix-run/cloudflare';
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { memo } from 'react';
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
 import {
@@ -43,10 +44,14 @@ export async function fetchAllThemesFromKV(context: AppLoadContext): Promise<The
 export const loader: LoaderFunction = async (args) => {
   const themes = await fetchAllThemesFromKV(args.context);
   const { userId } = await getAuth(args);
+
+  // const user = await clerkClient.users.getUser(userId)
+
   return json({ themes, userId });
 };
 
 export default function Themes() {
+  const { user } = useUser();
   const { themes, userId } = useLoaderData<LoaderData>();
 
   return (
@@ -54,12 +59,21 @@ export default function Themes() {
       <span className="mb-2 flex text-xl font-semibold text-zed-800 dark:text-zed-400">
         <span className="flex-1">Zed Themes</span>
         <div className="flex items-center gap-2">
-          {userId ? (
-            <SignOutButton>
-              <Button size="xs" variant="ghost">
-                Sign out
-              </Button>
-            </SignOutButton>
+          <ColorSchemeToggle />
+          {userId && user ? (
+            <>
+              <SignOutButton>
+                <Button size="xs" variant="ghost">
+                  Sign out
+                </Button>
+              </SignOutButton>
+              <Link to="/profile">
+                <Avatar className="w-6 h-6">
+                  <AvatarImage src={user.imageUrl} />
+                  <AvatarFallback>{user.fullName ?? user.username}</AvatarFallback>
+                </Avatar>
+              </Link>
+            </>
           ) : (
             <Link to="/auth/sign-in">
               <Button size="xs" variant="ghost">
@@ -67,7 +81,6 @@ export default function Themes() {
               </Button>
             </Link>
           )}
-          <ColorSchemeToggle />
         </div>
       </span>
       <div className="grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
