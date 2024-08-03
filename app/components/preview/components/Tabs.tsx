@@ -4,10 +4,15 @@ import MaximizeIcon from '~/assets/icons/maximize.svg?react';
 import PlusIcon from '~/assets/icons/plus.svg?react';
 import SplitIcon from '~/assets/icons/split.svg?react';
 import XIcon from '~/assets/icons/x.svg?react';
+import { languagePacks, useLanguage } from '~/providers/language';
 import { cssVarStyleToken } from '~/utils/cssVarTokens';
 import { GhostButton } from './GhostButton';
 
 export function Tabs() {
+  const { language } = useLanguage();
+
+  const tabs = languagePacks[language].tabs;
+
   return (
     <div
       id="editor-tabs"
@@ -42,7 +47,7 @@ export function Tabs() {
             backgroundColor: cssVarStyleToken('tab.active_background'),
           }}
         >
-          <span>App.tsx</span>
+          <span>{tabs[0]}</span>
           <span className="text-xs" style={{ color: cssVarStyleToken('text.muted') }}>
             ~/src
           </span>
@@ -58,7 +63,7 @@ export function Tabs() {
             backgroundColor: cssVarStyleToken('tab.inactive_background'),
           }}
         >
-          <span>index.html</span>
+          <span>{tabs[1]}</span>
           <GhostButton hidden={true}>
             <XIcon width={12} height={12} style={{ color: cssVarStyleToken('text.muted') }} />
           </GhostButton>
@@ -71,7 +76,7 @@ export function Tabs() {
             backgroundColor: cssVarStyleToken('tab.inactive_background'),
           }}
         >
-          <span>package.json</span>
+          <span>{tabs[2]}</span>
           <GhostButton hidden={true}>
             <XIcon width={12} height={12} style={{ color: cssVarStyleToken('text.muted') }} />
           </GhostButton>

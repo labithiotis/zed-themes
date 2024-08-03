@@ -1,14 +1,16 @@
 import { ClerkApp } from '@clerk/remix';
-import { getAuth, rootAuthLoader } from '@clerk/remix/ssr.server';
+import { rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type LinksFunction, type LoaderFunction, type MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { Toaster } from './components/ui/toaster';
 import { type ColorScheme, ColorSchemeProvider } from './providers/colorScheme';
 import { ThemeProvider } from './providers/theme';
 import { colorSchemeSession } from './utils/colorScheme.server';
+import { languageSession } from './utils/language.server';
 
 import './root.css';
 import './tailwind.css';
+import { type Language, LanguageProvider } from './providers/language';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -23,15 +25,20 @@ export const links: LinksFunction = () => [{ rel: 'manifest', href: '/manifest.j
 
 export type RootData = {
   colorScheme?: ColorScheme;
+  language?: Language;
   shareUrl?: string;
   userId?: string;
 };
 
 export const loader: LoaderFunction = async (args) =>
   rootAuthLoader(args, async ({ request }) => {
-    const session = await colorSchemeSession(request);
-    const { userId } = await getAuth(args);
-    return json({ colorScheme: session.getColorScheme(), userId });
+    const _colorSchemeSession = await colorSchemeSession(request);
+    const _languageSession = await languageSession(request);
+
+    return json({
+      colorScheme: _colorSchemeSession.getColorScheme(),
+      language: _languageSession.getLanguage(),
+    });
   });
 
 function Root() {
@@ -46,9 +53,11 @@ function Root() {
       </head>
       <body className="bg-stone-300 dark:bg-stone-900">
         <ColorSchemeProvider colorScheme={loaderData.colorScheme}>
-          <ThemeProvider>
-            <Outlet />
-          </ThemeProvider>
+          <LanguageProvider language={loaderData.language}>
+            <ThemeProvider>
+              <Outlet />
+            </ThemeProvider>
+          </LanguageProvider>
         </ColorSchemeProvider>
         <ScrollRestoration />
         <Scripts />
