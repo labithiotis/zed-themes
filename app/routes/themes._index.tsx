@@ -4,6 +4,8 @@ import { type AppLoadContext, type LoaderFunction, json } from '@remix-run/cloud
 import { Link, useLoaderData, useRouteError } from '@remix-run/react';
 import { memo } from 'react';
 import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
+import { Layout } from '~/components/Layout';
+import { Navbar } from '~/components/Navbar';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Badge } from '~/components/ui/badge';
 import { Button } from '~/components/ui/button';
@@ -22,7 +24,6 @@ type ThemeLitst = { timestamp: number; themes: Theme[] };
 
 type LoaderData = {
   themes: Theme[];
-  userId: string;
 };
 
 const THEMES_LIST_KEY = 'themes-list';
@@ -45,50 +46,21 @@ export const loader: LoaderFunction = async (args) => {
   const themes = await fetchAllThemesFromKV(args.context);
   const { userId } = await getAuth(args);
 
-  // const user = await clerkClient.users.getUser(userId)
-
   return json({ themes, userId });
 };
 
 export default function Themes() {
   const { user } = useUser();
-  const { themes, userId } = useLoaderData<LoaderData>();
+  const { themes } = useLoaderData<LoaderData>();
 
   return (
-    <div className="flex flex-col h-screen w-full px-6 py-4 content-stretch bg-stone-300 dark:bg-stone-900 dark:text-zinc-200">
-      <span className="mb-2 flex text-xl font-semibold text-zed-800 dark:text-zed-400">
-        <span className="flex-1">Zed Themes</span>
-        <div className="flex items-center gap-2">
-          <ColorSchemeToggle />
-          {userId && user ? (
-            <>
-              <SignOutButton>
-                <Button size="xs" variant="ghost">
-                  Sign out
-                </Button>
-              </SignOutButton>
-              <Link to="/profile">
-                <Avatar className="w-6 h-6">
-                  <AvatarImage src={user.imageUrl} />
-                  <AvatarFallback>{user.fullName ?? user.username}</AvatarFallback>
-                </Avatar>
-              </Link>
-            </>
-          ) : (
-            <Link to="/auth/sign-in">
-              <Button size="xs" variant="ghost">
-                Sign in
-              </Button>
-            </Link>
-          )}
-        </div>
-      </span>
+    <Layout>
       <div className="grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
         {themes?.map((theme, index) => (
           <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
         ))}
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -96,11 +68,11 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: Theme; index: number
   return (
     <Carousel className="items flex flex-col gap-2" opts={{ active: theme.themes?.length > 1 }}>
       <div className="flex flex-col overflow-hidden">
-        <div className="flex">
-          <h4 className="text-lg flex-1">{theme.name}</h4>
+        <div className="flex items-center whitespace-nowrap">
+          <h4 className="text-lg flex-1 truncate">{theme.name}</h4>
           {theme.bundled ? (
             <Badge variant="outline" title="This theme is already included with zed">
-              Bundled
+              Included
             </Badge>
           ) : (
             <a

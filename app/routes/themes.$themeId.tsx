@@ -2,6 +2,7 @@ import { type LoaderFunctionArgs, type TypedResponse, json } from '@remix-run/cl
 import { useLoaderData, useSearchParams } from '@remix-run/react';
 import { useEffect } from 'react';
 import invariant from 'tiny-invariant';
+import { Layout } from '~/components/Layout';
 import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { useTheme } from '~/providers/theme';
@@ -39,9 +40,11 @@ export default function ThemeById() {
   }, [data, themeFamily, dispatch, searchParams]);
 
   return (
-    <div className="flex h-full min-w-[1024] overflow-hidden bg-stone-300 dark:bg-stone-900">
-      <Side edit={false} />
-      {!!theme && <Preview />}
-    </div>
+    <Layout className="h-full mt-0 pt-14 flex">
+      <div className="flex-1 flex min-w-[1024] overflow-hidden">
+        <Side edit={false} />
+        {!!theme && <Preview />}
+      </div>
+    </Layout>
   );
 }

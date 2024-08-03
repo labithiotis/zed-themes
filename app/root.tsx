@@ -1,5 +1,5 @@
 import { ClerkApp } from '@clerk/remix';
-import { rootAuthLoader } from '@clerk/remix/ssr.server';
+import { getAuth, rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type LinksFunction, type LoaderFunction, type MetaFunction, json } from '@remix-run/cloudflare';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { Toaster } from './components/ui/toaster';
@@ -32,10 +32,12 @@ export type RootData = {
 
 export const loader: LoaderFunction = async (args) =>
   rootAuthLoader(args, async ({ request }) => {
+    const { userId } = await getAuth(args);
     const _colorSchemeSession = await colorSchemeSession(request);
     const _languageSession = await languageSession(request);
 
     return json({
+      userId,
       colorScheme: _colorSchemeSession.getColorScheme(),
       language: _languageSession.getLanguage(),
     });

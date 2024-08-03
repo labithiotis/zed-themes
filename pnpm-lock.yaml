@@ -15,6 +15,9 @@ importers:
       '@clerk/remix':
         specifier: ^4.2.9
         version: 4.2.9(@remix-run/react@2.10.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.3))(@remix-run/server-runtime@2.10.2(typescript@5.5.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@clerk/themes':
+        specifier: ^2.1.16
+        version: 2.1.16
       '@radix-ui/react-avatar':
         specifier: ^1.1.0
         version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -522,8 +525,16 @@ packages:
       react-dom:
         optional: true
 
+  '@clerk/themes@2.1.16':
+    resolution: {integrity: sha512-ln+Un52L3ibx0Y0PUIDhYwUeCjdkTEL5vPfPxs78rTskCal9orVZ52YXwEs1+I/GIUBstFVB4cOLsuMKdkpdCw==}
+    engines: {node: '>=18.17.0'}
+
   '@clerk/types@4.10.0':
     resolution: {integrity: sha512-Yy4m+aCrvVHT8BVNGDi40hcSUTwMf5o+cBHhAQQTofzCikc+DRI6yL7aYT6nf2YJ5gfm7WdeUwPM8Zz08TDzNA==}
+    engines: {node: '>=18.17.0'}
+
+  '@clerk/types@4.11.0':
+    resolution: {integrity: sha512-sMp3ATIH5ZoZ9veu9/LNH68GvahDm7sPLJf8xYyjc9hJYILz85xzI0JbwS6iFJw2NpTssvyl9viL7tgBrw46iA==}
     engines: {node: '>=18.17.0'}
 
   '@cloudflare/kv-asset-handler@0.1.3':
@@ -4957,7 +4968,16 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  '@clerk/themes@2.1.16':
+    dependencies:
+      '@clerk/types': 4.11.0
+      tslib: 2.4.1
+
   '@clerk/types@4.10.0':
+    dependencies:
+      csstype: 3.1.1
+
+  '@clerk/types@4.11.0':
     dependencies:
       csstype: 3.1.1
 
