@@ -1,5 +1,5 @@
 {
-  "$id": "https://github.com/zed-industries/extensions/blob/main/schemas/theme-family.json",
+  "$id": "https://zed.dev/schema/themes/v0.1.0.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ThemeFamilyContent",
   "description": "The content of a serialized theme family.",
@@ -206,12 +206,12 @@
           "type": ["string", "null"]
         },
         "editor.document_highlight.read_background": {
-          "description": "Read-access of a symbol, like reading a variable.\n\nA document highlight is a range inside a text document which deserves special attention. Usually a document highlight is visualized by changing the background color of its range.",
+          "description": "Read-access of a symbol, like reading a variable. A document highlight is a range inside a text document which deserves special attention. Usually a document highlight is visualized by changing the background color of its range.",
           "default": null,
           "type": ["string", "null"]
         },
         "editor.document_highlight.write_background": {
-          "description": "Read-access of a symbol, like reading a variable.\n\nA document highlight is a range inside a text document which deserves special attention. Usually a document highlight is visualized by changing the background color of its range.",
+          "description": "Read-access of a symbol, like reading a variable. A document highlight is a range inside a text document which deserves special attention. Usually a document highlight is visualized by changing the background color of its range.",
           "default": null,
           "type": ["string", "null"]
         },
@@ -228,7 +228,7 @@
           "type": ["string", "null"]
         },
         "editor.invisible": {
-          "description": "Text Color. Used to mark invisible characters in the editor.\n\nExample: spaces, tabs, carriage returns, etc.",
+          "description": "Text Color. Used to mark invisible characters in the editor. Example: spaces, tabs, carriage returns, etc.",
           "default": null,
           "type": ["string", "null"]
         },
@@ -246,27 +246,27 @@
           "type": ["string", "null"]
         },
         "element.active": {
-          "description": "Background Color. Used for the active state of an element that should have a different background than the surface it's on.\n\nActive states are triggered by the mouse button being pressed down on an element, or the Return button or other activator being pressd.",
+          "description": "Background Color. Used for the active state of an element that should have a different background than the surface it's on. Active states are triggered by the mouse button being pressed down on an element, or the Return button or other activator being pressd.",
           "default": null,
           "type": ["string", "null"]
         },
         "element.background": {
-          "description": "Background Color. Used for the background of an element that should have a different background than the surface it's on.\n\nElements might include: Buttons, Inputs, Checkboxes, Radio Buttons...\n\nFor an element that should have the same background as the surface it's on, use `ghost_element_background`.",
+          "description": "Background Color. Used for the background of an element that should have a different background than the surface it's on. Elements might include: Buttons, Inputs, Checkboxes, Radio Buttons... For an element that should have the same background as the surface it's on, use `ghost_element_background`.",
           "default": null,
           "type": ["string", "null"]
         },
         "element.disabled": {
-          "description": "Background Color. Used for the disabled state of an element that should have a different background than the surface it's on.\n\nDisabled states are shown when a user cannot interact with an element, like a disabled button or input.",
+          "description": "Background Color. Used for the disabled state of an element that should have a different background than the surface it's on. Disabled states are shown when a user cannot interact with an element, like a disabled button or input.",
           "default": null,
           "type": ["string", "null"]
         },
         "element.hover": {
-          "description": "Background Color. Used for the hover state of an element that should have a different background than the surface it's on.\n\nHover states are triggered by the mouse entering an element, or a finger touching an element on a touch screen.",
+          "description": "Background Color. Used for the hover state of an element that should have a different background than the surface it's on. Hover states are triggered by the mouse entering an element, or a finger touching an element on a touch screen.",
           "default": null,
           "type": ["string", "null"]
         },
         "element.selected": {
-          "description": "Background Color. Used for the selected state of an element that should have a different background than the surface it's on.\n\nSelected states are triggered by the element being selected (or \"activated\") by the user.\n\nThis could include a selected checkbox, a toggleable button that is toggled on, etc.",
+          "description": "Background Color. Used for the selected state of an element that should have a different background than the surface it's on. Selected states are triggered by the element being selected (or 'activated') by the user. This could include a selected checkbox, a toggleable button that is toggled on, etc.",
           "default": null,
           "type": ["string", "null"]
         },
@@ -289,27 +289,27 @@
           "type": ["string", "null"]
         },
         "ghost_element.active": {
-          "description": "Background Color. Used for the active state of a ghost element that should have the same background as the surface it's on.\n\nActive states are triggered by the mouse button being pressed down on an element, or the Return button or other activator being pressd.",
+          "description": "Background Color. Used for the active state of a ghost element that should have the same background as the surface it's on. Active states are triggered by the mouse button being pressed down on an element, or the Return button or other activator being pressd.",
           "default": null,
           "type": ["string", "null"]
         },
         "ghost_element.background": {
-          "description": "Used for the background of a ghost element that should have the same background as the surface it's on.\n\nElements might include: Buttons, Inputs, Checkboxes, Radio Buttons...\n\nFor an element that should have a different background than the surface it's on, use `element_background`.",
+          "description": "Used for the background of a ghost element that should have the same background as the surface it's on. Elements might include: Buttons, Inputs, Checkboxes, Radio Buttons... For an element that should have a different background than the surface it's on, use `element_background`.",
           "default": null,
           "type": ["string", "null"]
         },
         "ghost_element.disabled": {
-          "description": "Background Color. Used for the disabled state of a ghost element that should have the same background as the surface it's on.\n\nDisabled states are shown when a user cannot interact with an element, like a disabled button or input.",
+          "description": "Background Color. Used for the disabled state of a ghost element that should have the same background as the surface it's on. Disabled states are shown when a user cannot interact with an element, like a disabled button or input.",
           "default": null,
           "type": ["string", "null"]
         },
         "ghost_element.hover": {
-          "description": "Background Color. Used for the hover state of a ghost element that should have the same background as the surface it's on.\n\nHover states are triggered by the mouse entering an element, or a finger touching an element on a touch screen.",
+          "description": "Background Color. Used for the hover state of a ghost element that should have the same background as the surface it's on. Hover states are triggered by the mouse entering an element, or a finger touching an element on a touch screen.",
           "default": null,
           "type": ["string", "null"]
         },
         "ghost_element.selected": {
-          "description": "Background Color. Used for the selected state of a ghost element that should have the same background as the surface it's on.\n\nSelected states are triggered by the element being selected (or \"activated\") by the user.\n\nThis could include a selected checkbox, a toggleable button that is toggled on, etc.",
+          "description": "Background Color. Used for the selected state of a ghost element that should have the same background as the surface it's on. Selected states are triggered by the element being selected (or 'activated') by the user. This could include a selected checkbox, a toggleable button that is toggled on, etc.",
           "default": null,
           "type": ["string", "null"]
         },
@@ -345,22 +345,22 @@
           "type": ["string", "null"]
         },
         "icon.accent": {
-          "description": "Fill Color. Used for the accent fill color of an icon.\n\nThis might be used to show when a toggleable icon button is selected.",
+          "description": "Fill Color. Used for the accent fill color of an icon. This might be used to show when a toggleable icon button is selected.",
           "default": null,
           "type": ["string", "null"]
         },
         "icon.disabled": {
-          "description": "Fill Color. Used for the disabled fill color of an icon.\n\nDisabled states are shown when a user cannot interact with an element, like a icon button.",
+          "description": "Fill Color. Used for the disabled fill color of an icon. Disabled states are shown when a user cannot interact with an element, like a icon button.",
           "default": null,
           "type": ["string", "null"]
         },
         "icon.muted": {
-          "description": "Fill Color. Used for the muted or deemphasized fill color of an icon.\n\nThis might be used to show an icon in an inactive pane, or to demphasize a series of icons to give them less visual weight.",
+          "description": "Fill Color. Used for the muted or deemphasized fill color of an icon. This might be used to show an icon in an inactive pane, or to demphasize a series of icons to give them less visual weight.",
           "default": null,
           "type": ["string", "null"]
         },
         "icon.placeholder": {
-          "description": "Fill Color. Used for the placeholder fill color of an icon.\n\nThis might be used to show an icon in an input that disappears when the user enters text.",
+          "description": "Fill Color. Used for the placeholder fill color of an icon. This might be used to show an icon in an input that disappears when the user enters text.",
           "default": null,
           "type": ["string", "null"]
         },

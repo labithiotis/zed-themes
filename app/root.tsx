@@ -10,6 +10,7 @@ import { languageSession } from './utils/language.server';
 
 import './root.css';
 import './tailwind.css';
+import { TooltipProvider } from './components/ui/tooltip';
 import { type Language, LanguageProvider } from './providers/language';
 
 export const meta: MetaFunction = () => [
@@ -57,7 +58,9 @@ function Root() {
         <ColorSchemeProvider colorScheme={loaderData.colorScheme}>
           <LanguageProvider language={loaderData.language}>
             <ThemeProvider>
-              <Outlet />
+              <TooltipProvider>
+                <Outlet />
+              </TooltipProvider>
             </ThemeProvider>
           </LanguageProvider>
         </ColorSchemeProvider>

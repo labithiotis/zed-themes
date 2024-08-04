@@ -1,4 +1,3 @@
-import { ColorSchemeToggle } from '~/components/ColorSchemeToggle';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
 import { type Language, languages, useLanguage } from '~/providers/language';
 import { useTheme } from '~/providers/theme';
@@ -11,8 +10,8 @@ import { Player } from './Player';
 import { Section } from './Section';
 import { SideDownloadButton } from './SideDownloadButton';
 import { SideEditButton } from './SideEditButton';
+import { SidePublishButton } from './SideSaveButton';
 import { SideShareButton } from './SideShareButton';
-import { SideUploadButton } from './SideUploadButton';
 import { Token } from './Token';
 import { sections } from './sections';
 
@@ -20,7 +19,9 @@ export const btnStyles =
   'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
 export function Side({ edit }: { edit: boolean }) {
+  const { language, setLanguage } = useLanguage();
   const { index, theme, themeFamily, dispatch } = useTheme();
+
   const setName = (name: string) => {
     dispatch({ type: 'setThemeName', name });
   };
@@ -42,8 +43,6 @@ export function Side({ edit }: { edit: boolean }) {
   const addTheme = () => {
     dispatch({ type: 'addTheme' });
   };
-
-  const { language, setLanguage } = useLanguage();
 
   return (
     <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800 pt-4">
@@ -148,16 +147,20 @@ export function Side({ edit }: { edit: boolean }) {
       <div className="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
         {edit ? (
           <>
-            <SideUploadButton />
-            <div className="flex">
+            <div className="flex justify-stretch items-center p-2 gap-2">
+              <SidePublishButton />
+            </div>
+            <div className="flex justify-stretch items-center p-2 gap-2">
               <SideShareButton edit={true} />
               <SideDownloadButton />
             </div>
           </>
         ) : (
           <>
-            <SideEditButton />
-            <div className="flex">
+            <div className="flex justify-stretch items-center p-2 gap-2">
+              <SideEditButton />
+            </div>
+            <div className="flex justify-stretch items-center p-2 gap-2">
               <SideShareButton edit={false} />
               <SideDownloadButton />
             </div>

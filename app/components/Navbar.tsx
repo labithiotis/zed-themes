@@ -1,10 +1,19 @@
-import { UserButton, useUser } from '@clerk/remix';
-import { Link, json, useLoaderData, useRouteLoaderData } from '@remix-run/react';
+import { SignInButton, UserButton } from '@clerk/remix';
+import { dark } from '@clerk/themes';
+import { Link, useLocation, useParams, useRouteLoaderData } from '@remix-run/react';
+import { RxPlus } from 'react-icons/rx';
+import { useColorScheme } from '~/providers/colorScheme';
 import type { RootData } from '~/root';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
+import { UploadTheme } from './NavbarUpload';
 import { Button } from './ui/button';
+import { ButtonMenu } from './ui/button-menu';
+import { DropdownMenuItem } from './ui/dropdown-menu';
 
 export function Navbar() {
+  const params = useParams();
+  const location = useLocation();
+  const { colorScheme } = useColorScheme();
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
 
   return (
@@ -14,17 +23,33 @@ export function Navbar() {
           Zed Themes
         </Link>
         <div className="flex items-center gap-4">
+          {!params.themeId && (
+            <ButtonMenu
+              size="xs"
+              variant="outline"
+              label={
+                <Link to="/themes/new" rel="new theme" className="flex gap-1 items-center">
+                  <RxPlus />
+                  Create
+                </Link>
+              }
+            >
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                <UploadTheme />
+              </DropdownMenuItem>
+            </ButtonMenu>
+          )}
           <ColorSchemeToggle />
           {userId ? (
             <div className="w-[28px] h-[28px] bg-gray-300 rounded-full">
-              <UserButton />
+              <UserButton appearance={{ baseTheme: colorScheme === 'dark' ? dark : undefined }} />
             </div>
           ) : (
-            <Link to="/auth/sign-in">
+            <SignInButton mode="modal" forceRedirectUrl={location.pathname} signUpForceRedirectUrl={location.pathname}>
               <Button size="xs" variant="ghost">
                 Sign in
               </Button>
-            </Link>
+            </SignInButton>
           )}
         </div>
       </nav>
