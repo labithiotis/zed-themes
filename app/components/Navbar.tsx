@@ -3,17 +3,20 @@ import { dark } from '@clerk/themes';
 import { Link, useLocation, useParams, useRouteLoaderData } from '@remix-run/react';
 import { RxPlus } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
+import { languages, useLanguage } from '~/providers/language';
 import type { RootData } from '~/root';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { UploadTheme } from './NavbarUpload';
 import { Button } from './ui/button';
 import { ButtonMenu } from './ui/button-menu';
 import { DropdownMenuItem } from './ui/dropdown-menu';
+import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
 
 export function Navbar() {
   const params = useParams();
   const location = useLocation();
   const { colorScheme } = useColorScheme();
+  const { language, setLanguage } = useLanguage();
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
 
   return (
@@ -23,14 +26,28 @@ export function Navbar() {
           Zed Themes
         </Link>
         <div className="flex items-center gap-4">
+          <ColorSchemeToggle />
+          {params.themeId && (
+            <Select onValueChange={setLanguage} value={language}>
+              <SelectTrigger className="flex-1">
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">{languages[language ?? 'tsx']}</span>
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(languages).map(([l, label]) => (
+                  <SelectItem key={l} value={l}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
           {!params.themeId && (
             <ButtonMenu
-              size="xs"
+              size="sm"
               variant="outline"
               label={
                 <Link to="/themes/new" rel="new theme" className="flex gap-1 items-center">
-                  <RxPlus />
-                  Create
+                  Create your own
                 </Link>
               }
             >
@@ -39,7 +56,6 @@ export function Navbar() {
               </DropdownMenuItem>
             </ButtonMenu>
           )}
-          <ColorSchemeToggle />
           {userId ? (
             <div className="w-[28px] h-[28px] bg-gray-300 rounded-full">
               <UserButton appearance={{ baseTheme: colorScheme === 'dark' ? dark : undefined }} />

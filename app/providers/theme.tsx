@@ -38,6 +38,11 @@ type SetIndex = {
   index: number;
 };
 
+type SetFamilyName = {
+  type: 'setFamilyName';
+  name: string;
+};
+
 type SetThemeName = {
   type: 'setThemeName';
   name: string;
@@ -79,6 +84,7 @@ type AddTheme = {
 type Actions =
   | Set
   | SetIndex
+  | SetFamilyName
   | SetThemeName
   | SetThemeAppearance
   | SetBackgroundAppearance
@@ -108,6 +114,17 @@ const reducer = (state: State, action: Actions): State => {
     case 'setIndex': {
       return update(state, {
         themeIndex: { $set: action.index },
+      });
+    }
+    case 'setFamilyName': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          name: { $set: action.name },
+        },
       });
     }
     case 'setThemeName': {

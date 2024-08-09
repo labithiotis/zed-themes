@@ -1,11 +1,11 @@
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
-import { type Language, languages, useLanguage } from '~/providers/language';
 import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { type StyleTokens, type SyntaxTokens, syntaxTokens } from '../../providers/tokens';
 import type { AppearanceContent, HighlightStyleContent } from '../../themeFamily';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 import { Player } from './Player';
 import { Section } from './Section';
 import { SideDownloadButton } from './SideDownloadButton';
@@ -19,10 +19,12 @@ export const btnStyles =
   'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
 export function Side({ edit }: { edit: boolean }) {
-  const { language, setLanguage } = useLanguage();
   const { index, theme, themeFamily, dispatch } = useTheme();
 
-  const setName = (name: string) => {
+  const setFamilyName = (name: string) => {
+    dispatch({ type: 'setFamilyName', name });
+  };
+  const setThemeName = (name: string) => {
     dispatch({ type: 'setThemeName', name });
   };
   const setAppearance = (appearance: AppearanceContent) => {
@@ -45,66 +47,101 @@ export function Side({ edit }: { edit: boolean }) {
   };
 
   return (
-    <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800 pt-4">
-      <div className="flex gap-2 px-2 mb-1">
-        <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
-          <SelectTrigger className="flex-1.5 overflow-hidden">
-            <span className="flex-1">{theme?.name ?? 'Select theme'}</span>
-          </SelectTrigger>
-          <SelectContent>
-            {themeFamily?.themes.map(({ name }, i) => (
-              <SelectItem key={name} value={`${i}`}>
-                {name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800 pt-2">
+      {edit ? (
+        <div className="flex flex-col gap-1.5 px-2 pb-2">
+          <div className="flex flex-col flex-1 gap-1">
+            <Label htmlFor="themeFamilyName">Theme family name</Label>
+            <div className="flex gap-1.5">
+              <Input
+                type="text"
+                id="themeFamilyName"
+                value={themeFamily?.name ?? 'loading...'}
+                className="truncate"
+                placeholder="Theme family name"
+                onChange={(e) => setFamilyName(e.currentTarget.value ?? '')}
+                autoComplete="off"
+                data-1p-ignore
+              />
+              <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
+                <SelectTrigger className="flex-1 overflow-hidden">
+                  <span className="truncate">{theme?.name ?? 'Select theme'}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  {themeFamily?.themes.map(({ name }, i) => (
+                    <SelectItem key={name} value={`${i}`}>
+                      {name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button size="xs" onClick={addTheme} title="Add a new theme">
+                Add theme
+              </Button>
+            </div>
+          </div>
 
-        <Select onValueChange={setLanguage} value={language}>
-          <SelectTrigger className="flex-1">
-            <span className="whitespace-nowrap overflow-hidden text-ellipsis">{languages[language ?? 'tsx']}</span>
-          </SelectTrigger>
-          <SelectContent>
-            {Object.keys(languages).map((l) => (
-              <SelectItem key={l} value={l}>
-                {languages[l as Language]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {edit && (
-          <Button size="xs" onClick={addTheme} title="Add a new theme">
-            Add new theme
-          </Button>
-        )}
-      </div>
-
-      {edit && (
-        <div className="flex gap-2 px-2 mb-1">
-          <Input
-            value={theme?.name ?? 'loading...'}
-            type="text"
-            className="border-1 cursor-pointer rounded border border-solid border-transparent bg-transparent px-1 text-zed-800 outline-none hover:border-zinc-300 hover:bg-zinc-200 focus:border-zinc-400 focus:text-black dark:text-zinc-300 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:focus:border-zinc-500 dark:focus:text-white"
-            placeholder="Theme name"
-            onChange={(e) => setName(e.currentTarget.value ?? '')}
-          />
-          <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
-            <SelectTrigger title="Set theme appearance is for dark or light mode">
-              {theme?.appearance ?? 'light'}
+          <div className="flex w-full items-center gap-1">
+            <div className="grid items-center gap-1 flex-1">
+              <Label htmlFor="themeName">Selected theme name</Label>
+              <Input
+                id="themeName"
+                value={theme?.name ?? 'loading...'}
+                type="text"
+                className="truncate"
+                placeholder="Theme name"
+                onChange={(e) => setThemeName(e.currentTarget.value ?? '')}
+                autoComplete="off"
+                data-1p-ignore
+              />
+            </div>
+            <div className="grid items-center gap-1 flex-1">
+              <Label htmlFor="appearance">Appearance</Label>
+              <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
+                <SelectTrigger
+                  id="appearance"
+                  title="Set theme appearance is for dark or light mode"
+                  className="flex-1 overflow-hidden"
+                >
+                  {theme?.appearance ?? 'light'}
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">light</SelectItem>
+                  <SelectItem value="dark">dark</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid items-center gap-1 flex-1">
+              <Label htmlFor="backgroundAppearance">Background</Label>
+              <Select onValueChange={setBackgroundAppearance} value={theme?.style['background.appearance'] ?? 'opaque'}>
+                <SelectTrigger
+                  id="backgroundAppearance"
+                  title="Set background appearance"
+                  className="flex-1 overflow-hidden"
+                >
+                  {theme?.style['background.appearance'] ?? 'opaque'}
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="opaque">opaque</SelectItem>
+                  <SelectItem value="blurred">blurred</SelectItem>
+                  <SelectItem value="transparent">transparent</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex gap-1 px-2">
+          <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
+            <SelectTrigger className="w-full">
+              <span className="truncate">{theme?.name ?? 'Select theme'}</span>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">light</SelectItem>
-              <SelectItem value="dark">dark</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select onValueChange={setBackgroundAppearance} value={theme?.style['background.appearance'] ?? 'opaque'}>
-            <SelectTrigger title="Set background appearance">
-              {theme?.style['background.appearance'] ?? 'opaque'}
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="opaque">opaque</SelectItem>
-              <SelectItem value="blurred">blurred</SelectItem>
-              <SelectItem value="transparent">transparent</SelectItem>
+              {themeFamily?.themes.map(({ name }, i) => (
+                <SelectItem key={name} value={`${i}`}>
+                  {name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
