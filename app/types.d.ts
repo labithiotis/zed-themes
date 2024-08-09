@@ -7,11 +7,24 @@ declare module 'react' {
   }
 }
 
-export type ThemesMetaData = {
+export type Theme = {
+  id: string;
+  userId?: string;
   name: string;
   author: string;
   updatedDate: string;
   versionHash: string;
   bundled: boolean;
+  themes: ThemeContent[];
+};
+
+export type ThemesMetaData = {
+  id: string;
+  name: string;
+  author: string;
+  updatedDate: number;
+  versionHash: string;
+  bundled: boolean;
+  userId?: string | null;
   themes: Pick<ThemeContent, 'name' | 'appearance'>[];
 };

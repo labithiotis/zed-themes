@@ -86,37 +86,37 @@ for (const [token, info] of tokens) {
   if (ignoredTokens.includes(token)) continue;
 
   let target = sectionGroups.misc;
-  if (sectionGroups.editor.tokenKeys.includes(token)) {
+  if (sectionGroups.editor?.tokenKeys.includes(token)) {
     target = sectionGroups.editor;
   }
-  if (sectionGroups.text.tokenKeys.includes(token)) {
+  if (sectionGroups.text?.tokenKeys.includes(token)) {
     target = sectionGroups.text;
   }
-  if (sectionGroups.border.tokenKeys.includes(token)) {
+  if (sectionGroups.border?.tokenKeys.includes(token)) {
     target = sectionGroups.border;
   }
-  if (sectionGroups.elements.tokenKeys.includes(token)) {
+  if (sectionGroups.elements?.tokenKeys.includes(token)) {
     target = sectionGroups.elements;
   }
-  if (sectionGroups.ghostElements.tokenKeys.includes(token)) {
+  if (sectionGroups.ghostElements?.tokenKeys.includes(token)) {
     target = sectionGroups.ghostElements;
   }
-  if (sectionGroups.icons.tokenKeys.includes(token)) {
+  if (sectionGroups.icons?.tokenKeys.includes(token)) {
     target = sectionGroups.icons;
   }
-  if (sectionGroups.scrollBar.tokenKeys.includes(token)) {
+  if (sectionGroups.scrollBar?.tokenKeys.includes(token)) {
     target = sectionGroups.scrollBar;
   }
-  if (sectionGroups.terminal.tokenKeys.includes(token)) {
+  if (sectionGroups.terminal?.tokenKeys.includes(token)) {
     target = sectionGroups.terminal;
   }
-  if (sectionGroups.color.tokenKeys.includes(token)) {
+  if (sectionGroups.color?.tokenKeys.includes(token)) {
     target = sectionGroups.color;
   }
-  if (sectionGroups.git.tokenKeys.includes(token)) {
+  if (sectionGroups.git?.tokenKeys.includes(token)) {
     target = sectionGroups.git;
   }
-  target.tokens.push({
+  target?.tokens.push({
     token: token as StyleTokens,
     name: token,
     description: 'description' in info ? info.description : null,

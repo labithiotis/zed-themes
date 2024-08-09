@@ -81,7 +81,7 @@ export function Code() {
   return (
     <code
       id="editor-code"
-      className="flex overflow-hidden"
+      className="flex-1 flex overflow-hidden"
       style={{
         fontFamily: '"Roboto Mono", "Source Code Pro", monospace',
         '--scrollbar-top': `${top}px`,

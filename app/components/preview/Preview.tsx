@@ -51,7 +51,7 @@ export function Preview() {
             <div
               id="editor-main"
               className="flex flex-1 flex-col overflow-hidden border-l"
-              style={{ borderColor: cssVarStyleToken('border') }}
+              style={{ borderColor: cssVarStyleToken('border'), height: 'min-content' }}
             >
               <Tabs />
               <Breadcrumbs />

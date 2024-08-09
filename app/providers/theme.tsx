@@ -1,7 +1,21 @@
 import { useLocation, useNavigate } from '@remix-run/react';
 import update from 'immutability-helper';
-import { type Dispatch, type PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
-import type { AppearanceContent, HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
+import {
+  type Dispatch,
+  type PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
+import type {
+  AppearanceContent,
+  HighlightStyleContent,
+  PlayerColorContent,
+  ThemeContent,
+  ThemeFamilyContent,
+} from '../themeFamily';
 import type { StyleTokens, SyntaxTokens } from './tokens';
 
 export const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
@@ -210,9 +224,9 @@ const reducer = (state: State, action: Actions): State => {
             $push: [
               {
                 name: 'New Theme',
-                appearance: state.themeFamily.themes[state.themeIndex].appearance,
-                style: state.themeFamily.themes[state.themeIndex].style,
-              },
+                appearance: state.themeFamily.themes[state.themeIndex]?.appearance ?? 'light',
+                style: state.themeFamily.themes[state.themeIndex]?.style ?? {},
+              } as ThemeContent,
             ],
           },
         },
@@ -249,14 +263,17 @@ export const useTheme = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const theme = activeTheme(ctx.state);
-  const dispatch: typeof ctx.dispatch = (...args) => {
-    // If we edit theme change the route to /edit and delay navigate to allow
-    // reducer to sync state to localstorage.
-    if (!location.pathname.includes('/themes/edit') && !actionsIgnoreEdit.includes(args[0].type)) {
-      setTimeout(() => navigate('/themes/edit', { replace: true, preventScrollReset: true }), 1);
-    }
-    return ctx.dispatch(...args);
-  };
+  const dispatch = useCallback<typeof ctx.dispatch>(
+    (...args) => {
+      // If we edit theme change the route to /edit and delay navigate to allow
+      // reducer to sync state to localstorage.
+      if (!location.pathname.includes('/themes/edit') && !actionsIgnoreEdit.includes(args[0].type)) {
+        setTimeout(() => navigate('/themes/edit', { replace: true, preventScrollReset: true }), 1);
+      }
+      return ctx.dispatch(...args);
+    },
+    [ctx, location.pathname, navigate],
+  );
 
   return {
     index: ctx.state.themeIndex,
