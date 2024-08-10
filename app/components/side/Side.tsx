@@ -47,11 +47,13 @@ export function Side({ edit }: { edit: boolean }) {
   };
 
   return (
-    <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800 pt-2">
+    <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
       {edit ? (
-        <div className="flex flex-col gap-1.5 px-2 pb-2">
+        <div className="flex flex-col gap-1.5 p-2">
           <div className="flex flex-col flex-1 gap-1">
-            <Label htmlFor="themeFamilyName">Theme family name</Label>
+            <Label htmlFor="themeFamilyName" className="opacity-60 font-light">
+              Theme family name
+            </Label>
             <div className="flex gap-1.5">
               <Input
                 type="text"
@@ -83,7 +85,9 @@ export function Side({ edit }: { edit: boolean }) {
 
           <div className="flex w-full items-center gap-1">
             <div className="grid items-center gap-1 flex-1">
-              <Label htmlFor="themeName">Selected theme name</Label>
+              <Label htmlFor="themeName" className="opacity-60 font-light">
+                Selected theme name
+              </Label>
               <Input
                 id="themeName"
                 value={theme?.name ?? 'loading...'}
@@ -96,7 +100,9 @@ export function Side({ edit }: { edit: boolean }) {
               />
             </div>
             <div className="grid items-center gap-1 flex-1">
-              <Label htmlFor="appearance">Appearance</Label>
+              <Label htmlFor="appearance" className="opacity-60 font-light">
+                Appearance
+              </Label>
               <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
                 <SelectTrigger
                   id="appearance"
@@ -112,7 +118,9 @@ export function Side({ edit }: { edit: boolean }) {
               </Select>
             </div>
             <div className="grid items-center gap-1 flex-1">
-              <Label htmlFor="backgroundAppearance">Background</Label>
+              <Label htmlFor="backgroundAppearance" className="opacity-60 font-light">
+                Background
+              </Label>
               <Select onValueChange={setBackgroundAppearance} value={theme?.style['background.appearance'] ?? 'opaque'}>
                 <SelectTrigger
                   id="backgroundAppearance"
@@ -131,7 +139,8 @@ export function Side({ edit }: { edit: boolean }) {
           </div>
         </div>
       ) : (
-        <div className="flex gap-1 px-2">
+        <div className="flex flex-col gap-1.5 p-2">
+          <Label className="truncate">{themeFamily?.name}</Label>
           <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
             <SelectTrigger className="w-full">
               <span className="truncate">{theme?.name ?? 'Select theme'}</span>
