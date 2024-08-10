@@ -20,8 +20,6 @@ export const action: ActionFunction = async (args) => {
 
   invariant(themeRaw, 'theme is required');
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
   const themeData: Pick<Theme, 'name' | 'author' | 'themes'> = JSON.parse(themeRaw);
 
   if (themeValidator(themeData)) {

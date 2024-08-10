@@ -9,13 +9,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useToast } from '../ui/use-toast';
 
 export function SidePublishButton() {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useUser();
   const { toast } = useToast();
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
   const { themeFamily } = useTheme();
-  const fetcher = useFetcher<{ id: string }>({ key: 'publish-theme' });
+  const fetcher = useFetcher<{ id: string }>({ key: 'theme-save' });
 
   useEffect(() => {
     if (fetcher.data?.id) {
@@ -27,10 +25,9 @@ export function SidePublishButton() {
   }, [fetcher.data, toast]);
 
   const publishTheme = () => {
-    console.log('publishTheme');
     fetcher.submit(
       { theme: JSON.stringify({ author: user?.fullName, ...themeFamily }) },
-      { action: '/action/save', method: 'POST' },
+      { action: '/action/theme/save', method: 'POST' },
     );
   };
 

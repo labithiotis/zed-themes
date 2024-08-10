@@ -1,7 +1,7 @@
 import { SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
-import { Link, useLocation, useParams, useRouteLoaderData } from '@remix-run/react';
-import { RxPlus } from 'react-icons/rx';
+import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
+import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
 import type { RootData } from '~/root';
@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
 export function Navbar() {
   const params = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { colorScheme } = useColorScheme();
   const { language, setLanguage } = useLanguage();
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
@@ -47,7 +48,7 @@ export function Navbar() {
               variant="outline"
               label={
                 <Link to="/themes/new" rel="new theme" className="flex gap-1 items-center">
-                  Create your own
+                  Create theme
                 </Link>
               }
             >
@@ -58,7 +59,15 @@ export function Navbar() {
           )}
           {userId ? (
             <div className="w-[28px] h-[28px] bg-gray-300 rounded-full">
-              <UserButton appearance={{ baseTheme: colorScheme === 'dark' ? dark : undefined }} />
+              <UserButton appearance={{ baseTheme: colorScheme === 'dark' ? dark : undefined }}>
+                <UserButton.MenuItems>
+                  <UserButton.Action
+                    label="My themes"
+                    labelIcon={<RxPerson />}
+                    onClick={() => navigate('/users/themes')}
+                  />
+                </UserButton.MenuItems>
+              </UserButton>
             </div>
           ) : (
             <SignInButton mode="modal" forceRedirectUrl={location.pathname} signUpForceRedirectUrl={location.pathname}>

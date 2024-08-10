@@ -8,7 +8,7 @@ import { useToast } from '../ui/use-toast';
 export function SideShareButton({ edit }: { edit: boolean }) {
   const { toast } = useToast();
   const { themeFamily } = useTheme();
-  const fetcher = useFetcher<{ shareUrl: string }>({ key: 'share-theme' });
+  const fetcher = useFetcher<{ shareUrl: string }>({ key: 'theme-share' });
 
   useEffect(() => {
     if (fetcher.data) {
@@ -21,7 +21,7 @@ export function SideShareButton({ edit }: { edit: boolean }) {
 
   const shareTheme = () => {
     if (edit) {
-      fetcher.submit({ theme: JSON.stringify(themeFamily) }, { action: '/action/share', method: 'POST' });
+      fetcher.submit({ theme: JSON.stringify(themeFamily) }, { action: '/action/theme/share', method: 'POST' });
     } else {
       navigator.clipboard.writeText(document.location.href);
       toast({ description: 'Link has been copied to your clipboard.' });
