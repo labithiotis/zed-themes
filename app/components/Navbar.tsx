@@ -47,7 +47,7 @@ export function Navbar() {
               size="sm"
               variant="outline"
               label={
-                <Link to="/themes/new" rel="new theme" className="flex gap-1 items-center">
+                <Link to="/themes/new" rel="Create theme">
                   Create theme
                 </Link>
               }

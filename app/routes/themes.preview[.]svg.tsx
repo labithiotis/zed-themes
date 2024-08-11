@@ -1,9 +1,9 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
-import { dbThemes } from 'drizzle/schema.js';
+import * as schema from 'drizzle/schema.js';
 import type { SyntaxTokens } from '~/providers/tokens.js';
-import type { ThemeContent, ThemeFamilyContent } from '../themeFamily.js';
+import type { ThemeContent } from '../themeFamily.js';
 
 export const loader: LoaderFunction = async (args) => {
   const url = new URL(args.request.url);
@@ -12,8 +12,11 @@ export const loader: LoaderFunction = async (args) => {
 
   if (!themeId) throw new Response('Missing theme id', { status: 400 });
 
-  const db = drizzle(args.context.env.db);
-  const themeFamily = await db.select({ theme: dbThemes.theme }).from(dbThemes).where(sql`${dbThemes.id} = ${themeId}`);
+  const db = drizzle(args.context.env.db, { schema });
+  const themeFamily = await db
+    .select({ theme: schema.themes.theme })
+    .from(schema.themes)
+    .where(sql`${schema.themes.id} = ${themeId}`);
 
   const themes = themeFamily.at(0)?.theme?.themes;
   const theme = themes?.find((t) => t.name === themeName) ?? themes?.at(0);

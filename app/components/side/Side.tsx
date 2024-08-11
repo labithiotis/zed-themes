@@ -10,7 +10,7 @@ import { Player } from './Player';
 import { Section } from './Section';
 import { SideDownloadButton } from './SideDownloadButton';
 import { SideEditButton } from './SideEditButton';
-import { SidePublishButton } from './SideSaveButton';
+import { SideSaveButton } from './SideSaveButton';
 import { SideShareButton } from './SideShareButton';
 import { Token } from './Token';
 import { sections } from './sections';
@@ -194,7 +194,7 @@ export function Side({ edit }: { edit: boolean }) {
         {edit ? (
           <>
             <div className="flex justify-stretch items-center p-2 gap-2">
-              <SidePublishButton />
+              <SideSaveButton />
             </div>
             <div className="flex justify-stretch items-center p-2 gap-2">
               <SideShareButton edit={true} />

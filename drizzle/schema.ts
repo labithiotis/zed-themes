@@ -1,7 +1,7 @@
 import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 import type { ThemeFamilyContent } from '~/themeFamily';
 
-export const dbThemes = sqliteTable(
+export const themes = sqliteTable(
   'themes',
   {
     id: text('id').primaryKey().notNull(),
@@ -23,4 +23,4 @@ export const dbThemes = sqliteTable(
   }),
 );
 
-export type DBTheme = typeof dbThemes.$inferSelect;
+export type DBTheme = typeof themes.$inferSelect;

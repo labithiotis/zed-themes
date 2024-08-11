@@ -1,32 +1,58 @@
 import { useUser } from '@clerk/remix';
-import { useFetcher, useLocation, useNavigate, useRouteLoaderData } from '@remix-run/react';
+import { useFetcher, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
+import type { ErrorObject } from 'ajv';
 import { useEffect } from 'react';
-import { RxShare1, RxUpload } from 'react-icons/rx';
+import { RxUpload } from 'react-icons/rx';
 import { useTheme } from '~/providers/theme';
 import type { RootData } from '~/root';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useToast } from '../ui/use-toast';
 
-export function SidePublishButton() {
+export function SideSaveButton() {
   const { user } = useUser();
   const { toast } = useToast();
+  const { themeId } = useParams();
+  const navigate = useNavigate();
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
   const { themeFamily } = useTheme();
-  const fetcher = useFetcher<{ id: string }>({ key: 'theme-save' });
+  const fetcher = useFetcher<{ success: boolean; id: string; error?: string; errors?: ErrorObject[] }>({
+    key: themeId,
+  });
 
   useEffect(() => {
-    if (fetcher.data?.id) {
+    if (fetcher.data?.success) {
       toast({
         variant: 'success',
         description: '🎉 Theme has been published.',
       });
     }
-  }, [fetcher.data, toast]);
+    if (fetcher.data?.error) {
+      toast({
+        variant: 'destructive',
+        description: (
+          <div className="flex flex-col gap-1">
+            <strong>{fetcher.data.error ?? 'An error occurred'}</strong>
+            {fetcher.data.errors?.map((error, index) => (
+              <div key={index}>
+                <strong>{error.instancePath}</strong>
+                <i> {error.message} </i>
+                <strong>{Object.values(error.params).join(', ')}</strong>
+              </div>
+            ))}
+          </div>
+        ),
+      });
+    }
+    if (fetcher.data?.id && (themeId === 'new' || themeId === 'edit')) {
+      navigate(`/themes/${fetcher.data.id}`);
+    }
+  }, [fetcher.data, toast, themeId, navigate]);
 
   const publishTheme = () => {
+    const id = !themeId || themeId === 'new' || themeId === 'edit' ? '' : themeId;
     fetcher.submit(
-      { theme: JSON.stringify({ author: user?.fullName, ...themeFamily }) },
+      { id, theme: JSON.stringify({ ...themeFamily, author: user?.fullName }) },
       { action: '/action/theme/save', method: 'POST' },
     );
   };
@@ -47,7 +73,7 @@ export function SidePublishButton() {
 
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         <Button size="sm" variant="secondary" disabled={true} className="flex-1 flex gap-1 items-center">
           <RxUpload />
           <span>Publish</span>

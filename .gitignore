@@ -13,8 +13,11 @@ dist-ssr
 .cache
 build
 public
-.env*
 .tmp
+.env*
+!.env.*.example
+.dev*
+!.dev.*.example
 
 .wrangler
 

@@ -3,8 +3,9 @@ import { type LoaderFunction, json } from '@remix-run/cloudflare';
 import { Link, useFetcher, useLoaderData, useRouteError } from '@remix-run/react';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
-import { dbThemes } from 'drizzle/schema';
+import * as schema from 'drizzle/schema';
 import { useState } from 'react';
+import { AiOutlineFileAdd } from 'react-icons/ai';
 import { Layout } from '~/components/Layout';
 import { Button } from '~/components/ui/button';
 import {
@@ -18,16 +19,7 @@ import {
   DialogTrigger,
 } from '~/components/ui/dialog';
 import { Input } from '~/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '~/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
 import type { ThemesMetaData } from '../types';
 
 type LoaderData = {
@@ -36,9 +28,9 @@ type LoaderData = {
 
 export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
-  const db = drizzle(args.context.env.db);
+  const db = drizzle(args.context.env.db, { schema });
 
-  const records = await db.select().from(dbThemes).where(sql`${dbThemes.userId} = ${userId}`).all();
+  const records = await db.select().from(schema.themes).where(sql`${schema.themes.userId} = ${userId}`).all();
   const themes: ThemesMetaData[] = records.map((record) => ({
     id: record.id,
     name: record.name,
@@ -55,6 +47,23 @@ export const loader: LoaderFunction = async (args) => {
 
 export default function UserThemes() {
   const { themes } = useLoaderData<LoaderData>();
+
+  if (themes.length === 0) {
+    return (
+      <Layout>
+        <div className="flex flex-col items-center mt-20 ">
+          <AiOutlineFileAdd size={40} />
+          <h2 className="text-lg font-semibold">You have no themes yet</h2>
+          <p className="mb-4">Get started by creating a new theme.</p>
+          <Button size="sm">
+            <Link to="/themes/new" rel="Create theme">
+              Create theme
+            </Link>
+          </Button>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

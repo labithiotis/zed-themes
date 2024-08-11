@@ -40,7 +40,10 @@ export function Preview() {
           ...cssStyleVars,
         }}
       >
-        <div style={{ backgroundColor: cssVarStyleToken('background') }}>
+        <div
+          className="flex flex-col flex-1 overflow-hidden"
+          style={{ backgroundColor: cssVarStyleToken('background') }}
+        >
           <Header />
           <div
             id="editor-body"
@@ -51,7 +54,7 @@ export function Preview() {
             <div
               id="editor-main"
               className="flex flex-1 flex-col overflow-hidden border-l"
-              style={{ borderColor: cssVarStyleToken('border'), height: 'min-content' }}
+              style={{ borderColor: cssVarStyleToken('border') }}
             >
               <Tabs />
               <Breadcrumbs />

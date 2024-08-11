@@ -39,7 +39,7 @@ export function UploadTheme() {
 
       if (themeValidator(themeFamily)) {
         console.debug('Theme schema is valid navigate to edit page');
-        dispatch({ type: 'set', themeFamily });
+        dispatch({ type: 'set', themeFamily, themeId: null });
         navigate('/themes/edit');
       } else {
         console.warn(themeValidator.errors);

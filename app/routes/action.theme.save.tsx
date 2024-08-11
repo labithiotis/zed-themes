@@ -1,11 +1,12 @@
 import { createHash } from 'node:crypto';
 import { getAuth } from '@clerk/remix/ssr.server';
-import { type ActionFunction, json, redirect } from '@remix-run/cloudflare';
+import { type ActionFunction, json } from '@remix-run/cloudflare';
 import { drizzle } from 'drizzle-orm/d1';
-import { type DBTheme, dbThemes } from 'drizzle/schema';
+import type { DBTheme } from 'drizzle/schema';
+import * as schema from 'drizzle/schema';
 import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
-import type { Theme, ThemesMetaData } from '~/types';
+import type { ThemeFamilyContent } from '~/themeFamily';
 import { themeValidator } from '~/utils/themeValidator';
 
 export const action: ActionFunction = async (args) => {
@@ -16,29 +17,41 @@ export const action: ActionFunction = async (args) => {
   }
 
   const form = new URLSearchParams(await args.request.text());
+  const id = form.get('id');
   const themeRaw = form.get('theme');
+  const db = drizzle(args.context.env.db, { schema });
 
   invariant(themeRaw, 'theme is required');
 
-  const themeData: Pick<Theme, 'name' | 'author' | 'themes'> = JSON.parse(themeRaw);
+  const themeFamilyContent: Pick<ThemeFamilyContent, 'name' | 'author' | 'themes'> = JSON.parse(themeRaw);
 
-  if (themeValidator(themeData)) {
+  const nameExists = await db.query.themes.findFirst({
+    where: (themes, { eq }) => eq(themes.name, themeFamilyContent.name),
+  });
+
+  if (nameExists) {
+    return json({ error: 'A theme with that name already exists.' }, { status: 400 });
+  }
+
+  if (themeValidator(themeFamilyContent)) {
     const versionHash = createHash('md5').update(themeRaw).digest('hex');
     const theme: DBTheme = {
-      id: nanoid(),
-      name: themeData.name,
-      author: themeData.author,
+      id: id ?? nanoid(),
+      name: themeFamilyContent.name,
+      author: themeFamilyContent.author,
       userId,
       updatedDate: new Date(),
       versionHash,
       bundled: false,
-      theme: themeData,
+      theme: themeFamilyContent,
     };
 
-    const db = drizzle(args.context.env.db);
-    await db.insert(dbThemes).values(theme);
+    await db.insert(schema.themes).values(theme).onConflictDoUpdate({
+      target: schema.themes.id,
+      set: theme,
+    });
 
-    return redirect(`/themes/${theme.id}`);
+    return json({ success: true, id: theme.id });
   }
 
   return json({ error: 'Invalid theme', errors: themeValidator.errors }, { status: 400 });

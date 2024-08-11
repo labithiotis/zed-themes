@@ -1,14 +1,14 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
 import { drizzle } from 'drizzle-orm/d1';
-import { dbThemes } from 'drizzle/schema';
+import * as schema from 'drizzle/schema';
 
 const ts = '2024-03-20T00:00:00+00:00';
 
 export const loader: LoaderFunction = async (args) => {
   const url = new URL(args.request.url);
-  const db = drizzle(args.context.env.db);
+  const db = drizzle(args.context.env.db, { schema });
 
-  const records = await db.select().from(dbThemes).all();
+  const records = await db.select().from(schema.themes).all();
 
   const themeUrls = records?.map(
     (theme) =>

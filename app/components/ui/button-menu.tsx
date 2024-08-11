@@ -18,7 +18,7 @@ export const ButtonMenu = ({ children, label, ...props }: ButtonMenuProps) => {
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button {...props} className={'rounded-l-none border-l-0 px-2'}>
+          <Button {...props} className={'rounded-l-none border-l-0 px-2'} aria-label="more-options">
             <RxChevronDown />
           </Button>
         </DropdownMenuTrigger>

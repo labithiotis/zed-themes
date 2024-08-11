@@ -2,7 +2,7 @@ import { getAuth } from '@clerk/remix/ssr.server';
 import { type ActionFunction, json, redirect } from '@remix-run/cloudflare';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
-import { dbThemes } from 'drizzle/schema';
+import * as schema from 'drizzle/schema';
 import invariant from 'tiny-invariant';
 
 export const action: ActionFunction = async (args) => {
@@ -18,10 +18,10 @@ export const action: ActionFunction = async (args) => {
 
   invariant(themeId, 'themeId is required');
 
-  const db = drizzle(args.context.env.db);
+  const db = drizzle(args.context.env.db, { schema });
 
   try {
-    await db.delete(dbThemes).where(sql`${dbThemes.id} = ${themeId} AND ${dbThemes.userId} = ${userId}`);
+    await db.delete(schema.themes).where(sql`${schema.themes.id} = ${themeId} AND ${schema.themes.userId} = ${userId}`);
 
     // Redirect to themes page if user is deleteing theme their currently on
     if (url.pathname === `/themes/${themeId}`) {

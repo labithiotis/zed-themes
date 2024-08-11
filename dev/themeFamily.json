@@ -94,7 +94,6 @@
     "ThemeStyleContent": {
       "description": "The content of a serialized theme.",
       "type": "object",
-      "additionalProperties": false,
       "required": ["syntax", "players"],
       "properties": {
         "background": {
@@ -485,6 +484,10 @@
           "default": null,
           "type": ["string", "null"]
         },
+        "status_bar.foreground": {
+          "default": null,
+          "type": ["string", "null"]
+        },
         "success": {
           "description": "Indicates a successful operation or task completion.",
           "default": null,
@@ -515,11 +518,20 @@
           "default": null,
           "type": ["string", "null"]
         },
+        "tab.active_foreground": {
+          "default": null,
+          "type": ["string", "null"]
+        },
         "tab.inactive_background": {
           "default": null,
           "type": ["string", "null"]
         },
         "tab_bar.background": {
+          "default": null,
+          "type": ["string", "null"]
+        },
+        "terminal.ansi.amber": {
+          "description": "Amber ANSI terminal color.",
           "default": null,
           "type": ["string", "null"]
         },
