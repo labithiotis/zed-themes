@@ -36,7 +36,7 @@ export const action: ActionFunction = async (args) => {
   if (themeValidator(themeFamilyContent)) {
     const versionHash = createHash('md5').update(themeRaw).digest('hex');
     const theme: DBTheme = {
-      id: id ?? nanoid(),
+      id: id || nanoid(),
       name: themeFamilyContent.name,
       author: themeFamilyContent.author,
       userId,
