@@ -63,7 +63,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
           <h4 className="text-lg flex-1 truncate">{theme.name}</h4>
           <div>
             {theme.bundled ? (
-              <Badge variant="outline" title="This theme is already included with zed">
+              <Badge variant="outline" title="This theme is already included with zed, install via extensions">
                 Included
               </Badge>
             ) : (
@@ -72,7 +72,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
                 href={`/download/themes/${theme.id}`}
                 className="flex px-1 gap-1 text-sm items-center justify-center rounded hover:bg-neutral-200 dark:hover:bg-neutral-800"
                 aria-label={`Download ${theme.name} theme`}
-                title="Download theme"
+                title="Download theme to ~/.config/zed/themes"
               >
                 <svg width="14px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <title>Download</title>

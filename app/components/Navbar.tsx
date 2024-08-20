@@ -1,6 +1,7 @@
 import { SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
 import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
+import { IoIosHelpCircleOutline } from 'react-icons/io';
 import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
@@ -9,6 +10,7 @@ import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { UploadTheme } from './NavbarUpload';
 import { Button } from './ui/button';
 import { ButtonMenu } from './ui/button-menu';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { DropdownMenuItem } from './ui/dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
 
@@ -23,9 +25,28 @@ export function Navbar() {
   return (
     <header className="fixed top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container flex h-14 max-w-screen-2xl items-center justify-between">
-        <Link to="/" rel="home" className="text-xl font-semibold text-zed-800 dark:text-zed-400">
-          Zed Themes
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link to="/" rel="home" className="text-xl font-semibold text-zed-800 dark:text-zed-400">
+            Zed Themes
+          </Link>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size="xs" variant="ghost" className="flex items-center gap-1">
+                Installing theme <IoIosHelpCircleOutline />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Installing community themes</DialogTitle>
+              </DialogHeader>
+              <div className="flex flex-col gap-1.5">
+                Community themes can be downloaded and installed by placing the theme in the following directory:
+                <br />
+                <code>~/.config/zed/themes</code>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
         <div className="flex items-center gap-4">
           <ColorSchemeToggle />
           {params.themeId && (
