@@ -17,7 +17,7 @@ export const action: ActionFunction = async (args) => {
   }
 
   const form = new URLSearchParams(await args.request.text());
-  const id = form.get('id');
+  const formId = form.get('id');
   const themeRaw = form.get('theme');
   const db = drizzle(args.context.env.db, { schema });
 
@@ -35,15 +35,16 @@ export const action: ActionFunction = async (args) => {
 
   if (themeValidator(themeFamilyContent)) {
     const versionHash = createHash('md5').update(themeRaw).digest('hex');
+    const id = formId || nanoid();
     const theme: DBTheme = {
-      id: id || nanoid(),
+      id,
       name: themeFamilyContent.name,
       author: themeFamilyContent.author,
       userId,
       updatedDate: new Date(),
       versionHash,
       bundled: false,
-      theme: themeFamilyContent,
+      theme: { ...themeFamilyContent, id },
     };
 
     await db.insert(schema.themes).values(theme).onConflictDoUpdate({

@@ -11,7 +11,7 @@ export const themes = sqliteTable(
     versionHash: text('versionHash').notNull(),
     bundled: integer('bundled', { mode: 'boolean' }).notNull(),
     userId: text('userId'),
-    theme: text('theme', { mode: 'json' }).$type<ThemeFamilyContent>().notNull(),
+    theme: text('theme', { mode: 'json' }).$type<ThemeFamilyContent & { id: string }>().notNull(),
   },
   (themes) => ({
     idIdx: uniqueIndex('idIdx').on(themes.id),
