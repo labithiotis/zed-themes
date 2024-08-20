@@ -22,7 +22,7 @@ export const loader = async (args: LoaderFunctionArgs) => {
   return new Response(JSON.stringify(theme, null, 2), {
     headers: {
       'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="${args.params.themeId}.json"`,
+      'Content-Disposition': `attachment; filename="${theme.name}.json"`,
     },
   });
 };
