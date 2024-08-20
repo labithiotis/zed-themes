@@ -11,6 +11,7 @@ import { Layout } from '~/components/Layout';
 import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme } from '~/providers/theme';
+import { getAuthor } from '~/utils/getAuthor';
 import { themeValidator } from '~/utils/themeValidator';
 import type { ThemeFamilyContent } from '../themeFamily';
 
@@ -32,7 +33,7 @@ export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<Lo
   if (args.params.themeId === 'new') {
     const user = userId ? await clerkClient.users.getUser(userId) : undefined;
     const theme: ThemeFamilyContent = {
-      author: user?.fullName ?? 'Anonymous',
+      author: getAuthor(user),
       name: 'default',
       themes: [
         {

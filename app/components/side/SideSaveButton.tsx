@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { RxUpload } from 'react-icons/rx';
 import { useTheme } from '~/providers/theme';
 import type { RootData } from '~/root';
+import { getAuthor } from '~/utils/getAuthor';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useToast } from '../ui/use-toast';
@@ -52,7 +53,7 @@ export function SideSaveButton() {
   const publishTheme = () => {
     const id = !themeId || themeId === 'new' || themeId === 'edit' ? '' : themeId;
     fetcher.submit(
-      { id, theme: JSON.stringify({ ...themeFamily, author: user?.fullName }) },
+      { id, theme: JSON.stringify({ ...themeFamily, author: getAuthor(user) }) },
       { action: '/action/theme/save', method: 'POST' },
     );
   };

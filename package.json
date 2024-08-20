@@ -7,6 +7,7 @@
   "packageManager": "pnpm@9.6.0",
   "scripts": {
     "build": "remix vite:build",
+    "build:types": "wrangler types",
     "build:validator": "npx -f tsx ./dev/buildValidator.ts",
     "build:schema": "pnpm json2ts ./dev/themeFamily.json ./app/themeFamily.d.ts --unknownAny=false --style.singleQuote --additionalProperties=false",
     "dev": "remix vite:dev",
@@ -21,7 +22,7 @@
     "db:studio:prod": "export $(xargs < .env.drizzle) && DB_ID=28315368-145a-4500-a29a-5e5e3afb344b drizzle-kit studio",
     "fmt": "biome format --write",
     "test:lint": "biome check",
-    "test:tsc": "wrangler types && tsc",
+    "test:tsc": "tsc",
     "test:e2e": "pnpm exec playwright test",
     "sync:themes": "npx tsx ./dev/syncZedThemes.ts",
     "sync:themes:local": "npx tsx ./dev/syncZedThemes.ts --local",
