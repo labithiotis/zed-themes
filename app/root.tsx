@@ -1,5 +1,7 @@
+import { ClerkApp } from '@clerk/remix';
+import { getAuth, rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type LinksFunction, type LoaderFunction, type MetaFunction, json } from '@remix-run/cloudflare';
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useRouteError } from '@remix-run/react';
 import { Toaster } from './components/ui/toaster';
 import { type ColorScheme, ColorSchemeProvider } from './providers/colorScheme';
 import { ThemeProvider } from './providers/theme';
@@ -8,6 +10,7 @@ import { languageSession } from './utils/language.server';
 
 import './root.css';
 import './tailwind.css';
+import { TooltipProvider } from './components/ui/tooltip';
 import { type Language, LanguageProvider } from './providers/language';
 
 export const meta: MetaFunction = () => [
@@ -25,19 +28,23 @@ export type RootData = {
   colorScheme?: ColorScheme;
   language?: Language;
   shareUrl?: string;
+  userId?: string;
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const _colorSchemeSession = await colorSchemeSession(request);
-  const _languageSession = await languageSession(request);
+export const loader: LoaderFunction = async (args) =>
+  rootAuthLoader(args, async ({ request }) => {
+    const { userId } = await getAuth(args);
+    const _colorSchemeSession = await colorSchemeSession(request);
+    const _languageSession = await languageSession(request);
 
-  return json({
-    colorScheme: _colorSchemeSession.getColorScheme(),
-    language: _languageSession.getLanguage(),
+    return json({
+      userId,
+      colorScheme: _colorSchemeSession.getColorScheme(),
+      language: _languageSession.getLanguage(),
+    });
   });
-};
 
-export default function Root() {
+function Root() {
   const loaderData = useLoaderData<RootData>();
 
   return (
@@ -51,7 +58,9 @@ export default function Root() {
         <ColorSchemeProvider colorScheme={loaderData.colorScheme}>
           <LanguageProvider language={loaderData.language}>
             <ThemeProvider>
-              <Outlet />
+              <TooltipProvider>
+                <Outlet />
+              </TooltipProvider>
             </ThemeProvider>
           </LanguageProvider>
         </ColorSchemeProvider>
@@ -62,3 +71,17 @@ export default function Root() {
     </html>
   );
 }
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return (
+    <div>
+      <h1>Themes Error</h1>
+      <p>{error instanceof Error ? error?.message : 'Something went wrong'}</p>
+      <pre>{error instanceof Error ? error?.stack : ''}</pre>
+    </div>
+  );
+}
+
+export default ClerkApp(Root);

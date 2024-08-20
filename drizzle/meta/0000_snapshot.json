@@ -1,0 +1,113 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "80ede75d-5b80-404e-86fc-f3533ec3aa93",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "themes": {
+      "name": "themes",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "author": {
+          "name": "author",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updatedDate": {
+          "name": "updatedDate",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "versionHash": {
+          "name": "versionHash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "bundled": {
+          "name": "bundled",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "theme": {
+          "name": "theme",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "idIdx": {
+          "name": "idIdx",
+          "columns": ["id"],
+          "isUnique": true
+        },
+        "nameIdx": {
+          "name": "nameIdx",
+          "columns": ["name"],
+          "isUnique": false
+        },
+        "authorIdx": {
+          "name": "authorIdx",
+          "columns": ["author"],
+          "isUnique": false
+        },
+        "updatedDateIdx": {
+          "name": "updatedDateIdx",
+          "columns": ["updatedDate"],
+          "isUnique": false
+        },
+        "bundledIdx": {
+          "name": "bundledIdx",
+          "columns": ["bundled"],
+          "isUnique": false
+        },
+        "userIdIdx": {
+          "name": "userIdIdx",
+          "columns": ["userId"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

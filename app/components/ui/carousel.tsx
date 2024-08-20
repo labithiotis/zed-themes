@@ -288,14 +288,16 @@ const CarouselDots = React.forwardRef<HTMLDivElement, { dotProps?: React.Compone
     }
 
     return (
-      <div className="flex gap-1" ref={ref} {...props}>
+      <div className="flex gap-1.5" ref={ref} {...props}>
         {scrollSnaps.map((_, index) => (
           <button
             key={index.toString()}
             onClick={() => onDotButtonClick(index)}
             className={cn(
-              'h-2 w-2 rounded-full',
-              index === selectedIndex ? 'bg-neutral-100' : 'bg-neutral-400 dark:bg-neutral-600',
+              'h-[10px] w-[10px] rounded-full',
+              index === selectedIndex
+                ? 'bg-neutral-800 dark:bg-neutral-100'
+                : 'bg-neutral-400 dark:bg-neutral-600 hover:bg-neutral-500 hover:dark:bg-neutral-400',
             )}
             aria-label={`Go to preview ${index + 1}`}
             aria-current={index === selectedIndex}

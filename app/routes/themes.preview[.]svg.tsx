@@ -1,18 +1,25 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
+import { sql } from 'drizzle-orm';
+import { drizzle } from 'drizzle-orm/d1';
+import * as schema from 'drizzle/schema.js';
 import type { SyntaxTokens } from '~/providers/tokens.js';
-import type { ThemeContent, ThemeFamilyContent } from '../themeFamily.js';
+import type { ThemeContent } from '../themeFamily.js';
 
-export const loader: LoaderFunction = async ({ request, context }) => {
-  const url = new URL(request.url);
+export const loader: LoaderFunction = async (args) => {
+  const url = new URL(args.request.url);
   const themeId = url.searchParams.get('id');
   const themeName = url.searchParams.get('name');
 
   if (!themeId) throw new Response('Missing theme id', { status: 400 });
 
-  const value = await context.env?.zed_themes?.get(themeId);
-  const themeFamily = value ? (JSON.parse(value) as ThemeFamilyContent) : undefined;
+  const db = drizzle(args.context.env.db, { schema });
+  const themeFamily = await db
+    .select({ theme: schema.themes.theme })
+    .from(schema.themes)
+    .where(sql`${schema.themes.id} = ${themeId}`);
 
-  const theme = themeFamily?.themes?.find((t) => t.name === themeName) ?? themeFamily?.themes?.at(0);
+  const themes = themeFamily.at(0)?.theme?.themes;
+  const theme = themes?.find((t) => t.name === themeName) ?? themes?.at(0);
 
   if (!theme) throw new Response('Unable to find a theme', { status: 400 });
 

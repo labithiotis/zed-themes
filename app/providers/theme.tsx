@@ -1,7 +1,12 @@
-import { useLocation, useNavigate } from '@remix-run/react';
 import update from 'immutability-helper';
 import { type Dispatch, type PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
-import type { AppearanceContent, HighlightStyleContent, PlayerColorContent, ThemeFamilyContent } from '../themeFamily';
+import type {
+  AppearanceContent,
+  HighlightStyleContent,
+  PlayerColorContent,
+  ThemeContent,
+  ThemeFamilyContent,
+} from '../themeFamily';
 import type { StyleTokens, SyntaxTokens } from './tokens';
 
 export const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
@@ -9,12 +14,14 @@ export const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
 export type ColorHex = `#${string}`;
 
 type State = {
+  themeId: string | null;
   themeIndex: number | null;
   themeFamily: ThemeFamilyContent | null;
 };
 
 type Set = {
   type: 'set';
+  themeId: string | null;
   themeFamily: ThemeFamilyContent;
   themeName?: string | null;
 };
@@ -22,6 +29,11 @@ type Set = {
 type SetIndex = {
   type: 'setIndex';
   index: number;
+};
+
+type SetFamilyName = {
+  type: 'setFamilyName';
+  name: string;
 };
 
 type SetThemeName = {
@@ -65,6 +77,7 @@ type AddTheme = {
 type Actions =
   | Set
   | SetIndex
+  | SetFamilyName
   | SetThemeName
   | SetThemeAppearance
   | SetBackgroundAppearance
@@ -72,8 +85,6 @@ type Actions =
   | SetSyntaxToken
   | SetPlayerToken
   | AddTheme;
-
-const actionsIgnoreEdit: Actions['type'][] = ['set', 'setIndex'];
 
 function activeTheme(state: State) {
   if (state.themeIndex === null || state.themeFamily === null) return undefined;
@@ -86,6 +97,7 @@ const reducer = (state: State, action: Actions): State => {
       const themeIndex = action.themeName ? action.themeFamily.themes.findIndex((t) => t.name === action.themeName) : 0;
       return update(state, {
         $set: {
+          themeId: action.themeId,
           themeIndex: themeIndex === -1 ? 0 : themeIndex,
           themeFamily: action.themeFamily,
         },
@@ -94,6 +106,17 @@ const reducer = (state: State, action: Actions): State => {
     case 'setIndex': {
       return update(state, {
         themeIndex: { $set: action.index },
+      });
+    }
+    case 'setFamilyName': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          name: { $set: action.name },
+        },
       });
     }
     case 'setThemeName': {
@@ -210,9 +233,9 @@ const reducer = (state: State, action: Actions): State => {
             $push: [
               {
                 name: 'New Theme',
-                appearance: state.themeFamily.themes[state.themeIndex].appearance,
-                style: state.themeFamily.themes[state.themeIndex].style,
-              },
+                appearance: state.themeFamily.themes[state.themeIndex]?.appearance ?? 'light',
+                style: state.themeFamily.themes[state.themeIndex]?.style ?? {},
+              } as ThemeContent,
             ],
           },
         },
@@ -225,6 +248,7 @@ const reducer = (state: State, action: Actions): State => {
 };
 
 const initialState: State = {
+  themeId: null,
   themeIndex: null,
   themeFamily: null,
 };
@@ -246,23 +270,14 @@ export const ThemeProvider = (props: PropsWithChildren) => {
 
 export const useTheme = () => {
   const ctx = useContext(ThemeCtx);
-  const location = useLocation();
-  const navigate = useNavigate();
   const theme = activeTheme(ctx.state);
-  const dispatch: typeof ctx.dispatch = (...args) => {
-    // If we edit theme change the route to /edit and delay navigate to allow
-    // reducer to sync state to localstorage.
-    if (!location.pathname.includes('/themes/edit') && !actionsIgnoreEdit.includes(args[0].type)) {
-      setTimeout(() => navigate('/themes/edit', { replace: true, preventScrollReset: true }), 1);
-    }
-    return ctx.dispatch(...args);
-  };
 
   return {
+    theme,
+    themeId: ctx.state.themeId,
     index: ctx.state.themeIndex,
     themeFamily: ctx.state.themeFamily,
-    theme,
-    dispatch,
+    dispatch: ctx.dispatch,
   };
 };
 

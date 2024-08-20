@@ -12,13 +12,13 @@ export function ColorSchemeToggle() {
   return (
     <Toggle
       onClick={toggle}
-      className="flex h-5 w-5 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+      className="flex h-6 w-6 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       aria-label="Toggle theme"
     >
       {scheme.colorScheme === 'dark' ? (
         <svg
           data-theme="dark"
-          className="h-3 w-3"
+          className="h-5 w-5"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +33,7 @@ export function ColorSchemeToggle() {
       ) : (
         <svg
           data-theme="light"
-          className="h-3 w-3"
+          className="h-5 w-5"
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"

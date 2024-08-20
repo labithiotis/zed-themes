@@ -1,15 +1,18 @@
 import type { LoaderFunction } from '@remix-run/cloudflare';
-import { fetchAllThemesFromKV } from './themes._index';
+import { drizzle } from 'drizzle-orm/d1';
+import * as schema from 'drizzle/schema';
 
 const ts = '2024-03-20T00:00:00+00:00';
 
-export const loader: LoaderFunction = async ({ request, context }) => {
-  const url = new URL(request.url);
-  const list = await fetchAllThemesFromKV(context);
+export const loader: LoaderFunction = async (args) => {
+  const url = new URL(args.request.url);
+  const db = drizzle(args.context.env.db, { schema });
 
-  const themeUrls = list?.map(
+  const records = await db.select().from(schema.themes).all();
+
+  const themeUrls = records?.map(
     (theme) =>
-      `<url><loc>${url.origin}/themes/${theme.name}</loc><lastmod>${theme.updatedDate}</lastmod><priority>0.8</priority></url>`,
+      `<url><loc>${url.origin}/themes/${theme.id}</loc><lastmod>${theme.updatedDate}</lastmod><priority>0.8</priority></url>`,
   );
 
   const content = `

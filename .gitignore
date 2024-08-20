@@ -10,17 +10,21 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-*.local
 .cache
 build
-.env
+public
 .tmp
+.env*
+!.env.*.example
+.dev*
+!.dev.*.example
 
 .wrangler
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+.zed
 .idea
 .DS_Store
 *.suo

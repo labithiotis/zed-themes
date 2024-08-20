@@ -10,8 +10,6 @@ import type { SyntaxTokens } from '../../../providers/tokens';
 import { GutterMarkers } from './GutterMarkers';
 import { ScrollbarMakers } from './ScrollbarMarkers';
 
-const EXTRA_LINES = 10;
-
 type SNProps = PropsWithChildren<{ s: SyntaxTokens }>;
 
 export const SN = (props: SNProps) => {
@@ -79,9 +77,9 @@ export function Code() {
   const data = languagePacks[language];
 
   return (
-    <code
+    <div
       id="editor-code"
-      className="flex overflow-hidden"
+      className="flex-1 overflow-hidden"
       style={{
         fontFamily: '"Roboto Mono", "Source Code Pro", monospace',
         '--scrollbar-top': `${top}px`,
@@ -96,10 +94,10 @@ export function Code() {
     >
       <div
         id="editor-code-scroll"
-        className="flex flex-1 flex-col overflow-y-scroll scrollbar-hide"
+        className="h-full w-full flex flex-col overflow-y-scroll scrollbar-hide"
         onScroll={onScroll}
       >
-        <ScrollbarMakers lineCount={data.lines.length + EXTRA_LINES} />
+        <ScrollbarMakers lineCount={data.lines.length} />
         <div id="scrollbar" />
         {data.lines.map((code, line) => (
           <div
@@ -124,10 +122,7 @@ export function Code() {
             <div className="code flex flex-1 pl-2">{code}</div>
           </div>
         ))}
-        {new Array(EXTRA_LINES).fill(1).map((_, i) => (
-          <div key={`blank-${i.toString()}`}>&nbsp;</div>
-        ))}
       </div>
-    </code>
+    </div>
   );
 }

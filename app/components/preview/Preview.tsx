@@ -40,7 +40,10 @@ export function Preview() {
           ...cssStyleVars,
         }}
       >
-        <div style={{ backgroundColor: cssVarStyleToken('background') }}>
+        <div
+          className="flex flex-col flex-1 overflow-hidden"
+          style={{ backgroundColor: cssVarStyleToken('background') }}
+        >
           <Header />
           <div
             id="editor-body"

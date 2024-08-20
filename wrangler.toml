@@ -2,11 +2,32 @@ name = "zed-themes"
 compatibility_date = "2024-03-01"
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
 
-kv_namespaces = [
-    { binding = "zed_themes", id = "db40110d5f6941cf8ca7fc3ba3d98ffa", preview_id = "056232e8f7df42b4be85e1f083761c51" },
-    { binding = "zed_shares", id = "39f7d7e6d1994dc19b0e7e1bb9ba5e02", preview_id = "40ec071715db4dc6b66b71a22d68999a" },
-    { binding = "zed_options", id = "ad64f637e4f549fba2224f7a1f979af0", preview_id = "e8c80d5fbd7f4aceb69ea46f244bde9a" },
-]
+[vars]
+CLERK_SECRET_KEY = "<KEY>"
+CLERK_PUBLISHABLE_KEY = "<KEY>"
+
+[[kv_namespaces]]
+binding = "zed_shares"
+id = "39f7d7e6d1994dc19b0e7e1bb9ba5e02"
+
+[[d1_databases]]
+binding = "db"
+database_name = "zed_themes"
+database_id = "28315368-145a-4500-a29a-5e5e3afb344b"
+migrations_dir = "drizzle"
+preview_database_id = "db"
+
+[env.preview]
+name = "preview"
+[[env.preview.d1_databases]]
+binding = "db"
+database_name = "zed_themes_preview"
+database_id = "d302f4f5-e52a-4192-869d-8bd7a746135f"
+migrations_dir = "drizzle"
+
+[[env.preview.kv_namespaces]]
+binding = "zed_shares"
+id = "40ec071715db4dc6b66b71a22d68999a"
 
 [build]
 command = "npm run build"

@@ -6,9 +6,11 @@ export const action: ActionFunction = async ({ request }) => {
   const requestText = await request.text();
   const form = new URLSearchParams(requestText);
   const colorScheme = form.get('colorScheme');
+
   if (colorScheme === 'dark' || colorScheme === 'light') {
     session.setColorScheme(colorScheme);
     return json({ colorScheme }, { headers: { 'Set-Cookie': await session.commit() } });
   }
+
   return colorScheme;
 };
