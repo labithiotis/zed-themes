@@ -1,10 +1,20 @@
 import { ClerkApp } from '@clerk/remix';
 import { getAuth, rootAuthLoader } from '@clerk/remix/ssr.server';
 import { type LinksFunction, type LoaderFunction, type MetaFunction, json } from '@remix-run/cloudflare';
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData, useRouteError } from '@remix-run/react';
+import {
+  Links,
+  Meta,
+  Outlet,
+  Routes,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react';
 import { Toaster } from './components/ui/toaster';
 import { type ColorScheme, ColorSchemeProvider } from './providers/colorScheme';
 import { ThemeProvider } from './providers/theme';
+import { useFaro } from './providers/useFaro';
 import { colorSchemeSession } from './utils/colorScheme.server';
 import { languageSession } from './utils/language.server';
 
@@ -45,6 +55,7 @@ export const loader: LoaderFunction = async (args) =>
   });
 
 function Root() {
+  useFaro();
   const loaderData = useLoaderData<RootData>();
 
   return (

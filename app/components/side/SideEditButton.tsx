@@ -1,4 +1,4 @@
-import { useNavigate, useRevalidator } from '@remix-run/react';
+import { useNavigate } from '@remix-run/react';
 import { useCallback } from 'react';
 import { RxPencil1 } from 'react-icons/rx';
 import { Button } from '../ui/button';
