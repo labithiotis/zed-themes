@@ -26,5 +26,8 @@ export type ThemesMetaData = {
   versionHash: string;
   bundled: boolean;
   userId?: string | null;
-  themes: Pick<ThemeContent, 'name' | 'appearance'>[];
+  themes: (Pick<ThemeContent, 'name' | 'appearance'> & {
+    backgroundColor?: ThemeStyleContent['background'];
+    backgroundAppearance: ThemeStyleContent['background.appearance'];
+  })[];
 };

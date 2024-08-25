@@ -4,6 +4,8 @@ import { useLoaderData, useRouteError } from '@remix-run/react';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import { memo } from 'react';
+import themePreviewBackgroundDark from '~/assets/images/dune_dark_sm.jpeg';
+import themePreviewBackgroundLight from '~/assets/images/dune_light_sm.jpeg';
 import { Layout } from '~/components/Layout';
 import { Badge } from '~/components/ui/badge';
 import {
@@ -14,6 +16,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '~/components/ui/carousel';
+import type { AppearanceContent } from '~/themeFamily';
 import type { ThemesMetaData } from '../types';
 
 export type ThemeLitst = { timestamp: number; themes: ThemesMetaData[] };
@@ -35,7 +38,13 @@ export const loader: LoaderFunction = async (args) => {
     versionHash: record.versionHash,
     bundled: record.bundled,
     userId: record.userId,
-    themes: record.theme?.themes.map(({ name, appearance }) => ({ name, appearance })) ?? [],
+    themes:
+      record.theme?.themes.map(({ name, appearance, style }) => ({
+        name,
+        appearance,
+        backgroundColor: style.background,
+        backgroundAppearance: style['background.appearance'],
+      })) ?? [],
   }));
 
   return json({ themes, userId });
@@ -103,11 +112,14 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
       </div>
       <div className="relative flex flex-col isolate min-h-[20vw]">
         <CarouselContent className="w-full">
-          {theme?.themes?.map(({ name }, index2) => (
+          {theme?.themes?.map(({ name, appearance, backgroundColor, backgroundAppearance }, index2) => (
             <ThemePreview
               key={`${theme.id}-${name}`}
               themeId={theme.id}
               themeName={name}
+              themeAppearance={appearance}
+              backgroundColor={backgroundColor}
+              backgroundAppearance={backgroundAppearance}
               index={index}
               index2={index2}
             />
@@ -122,21 +134,51 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
 ThemeFamilyPreview.displayName = 'ThemeFamilyPreview';
 
 const ThemePreview = memo(
-  ({ themeId, themeName, index, index2 }: { themeId: string; themeName: string; index: number; index2: number }) => {
+  ({
+    themeId,
+    themeName,
+    themeAppearance,
+    backgroundColor,
+    backgroundAppearance,
+    index,
+    index2,
+  }: {
+    themeId: string;
+    themeName: string;
+    themeAppearance: AppearanceContent;
+    backgroundColor?: string;
+    backgroundAppearance: string;
+    index: number;
+    index2: number;
+  }) => {
     return (
       <CarouselItem>
         <a
           role="button"
           href={encodeURI(`/themes/${themeId}?name=${themeName}`)}
-          className="flex-1 cursor-pointer rounded outline outline-2 outline-transparent hover:outline-zed-800 dark:hover:outline-neutral-600"
+          className="flex-1 relative cursor-pointer rounded-lg overflow-hidden outline outline-2 outline-transparent hover:outline-zed-800 dark:hover:outline-neutral-600"
           aria-label={`Preview ${themeName} theme`}
           data-testid="preview-theme"
           data-theme-id={themeId}
           data-theme-name={themeName}
+          style={{
+            backgroundColor:
+              backgroundAppearance === 'opaque' ? (themeAppearance === 'dark' ? '#000' : '#fff') : undefined,
+            backdropFilter: backgroundAppearance === 'blurred' ? 'blur(20px)' : 'none',
+          }}
         >
           <img
             width="100%"
             height="100%"
+            className="absolute z-10 inset-0 w-full h-full object-cover rounded"
+            src={themeAppearance === 'dark' ? themePreviewBackgroundDark : themePreviewBackgroundLight}
+            alt="Preview background"
+          />
+          <div className="absolute z-30  inset-0 w-full h-full rounded" style={{ backgroundColor }} />
+          <img
+            width="100%"
+            height="100%"
+            className="relative z-50"
             src={encodeURI(`/themes/preview.svg?id=${themeId}&name=${themeName}`)}
             alt={`${themeName} preview`}
             loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
