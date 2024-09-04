@@ -20,7 +20,7 @@ importers:
         version: 2.1.19
       '@grafana/faro-react':
         specifier: ^1.9.0
-        version: 1.9.0(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 1.9.1(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@grafana/faro-web-tracing':
         specifier: ^1.9.0
         version: 1.9.1
@@ -1501,14 +1501,11 @@ packages:
   '@grafana/faro-bundlers-shared@0.1.1':
     resolution: {integrity: sha512-ZjMm5z9WpvRNsIplIKV5bNy0lbbMJjjuNHR40Wd4VvkuHhg2uJxMydW3016JQGmliJJL8kyGpVe7Uy0c8aqq3w==}
 
-  '@grafana/faro-core@1.9.0':
-    resolution: {integrity: sha512-mxBeAOmL5aIsYU5hC4Zc0D4TA5UzsbpzD81JPHEaCLmi4PHjFZNC66xYNH2MOJQlsTUGPV/e/bXJS8+F5pfFhg==}
-
   '@grafana/faro-core@1.9.1':
     resolution: {integrity: sha512-dAQcuQJXg91oYqCbsuEXXzAW/Z4CLnt1ef7jfW8jui5Ngo+5ZxbFhRmGxMnTqckRti/3q6hxqSc/sYWnu1x78g==}
 
-  '@grafana/faro-react@1.9.0':
-    resolution: {integrity: sha512-vSB0zjbCN7YGa3bktuLWNttlG6//TP+GLe/Tmgx+c4tnDZftGUOB4OfKNKiaIK/qR3gpDVTo2rh9wjQd2XTuRw==}
+  '@grafana/faro-react@1.9.1':
+    resolution: {integrity: sha512-TH8fHAsCQU7esvu5BZT3UODHEug3kBtaWNe3pz/RHfLNXPk3ErkbVJIkwpLzFV0xPNjCqI/kC/KtW7hncK+Z6w==}
     peerDependencies:
       react: ^18.3.0
       react-dom: ^18.3.0
@@ -1521,9 +1518,6 @@ packages:
 
   '@grafana/faro-rollup-plugin@0.1.1':
     resolution: {integrity: sha512-ZjhT+n9LvaI967FeQ9O1dMtjbjaSxDgUlfCI/O5oeX86ryZQGsceD1Yn5FCmhyyl9KXAT59iJTDcvu8NhiaACg==}
-
-  '@grafana/faro-web-sdk@1.9.0':
-    resolution: {integrity: sha512-BRtOpT/Du5pL25AAH0GNM9j7VrJZrDFEumTHG1ku3l+INMZ3j6SqBWiOT5R2Zeh95Tpz848OZoYL8AnN9NocfQ==}
 
   '@grafana/faro-web-sdk@1.9.1':
     resolution: {integrity: sha512-TkSBsYsg+NXsd2QIyDinI0hXJt3rhj5c+uqAliasKkZiPYZ1/HS3XkX1cIsQ/51+uD2fGmilZDVj0sbZnmFuhw==}
@@ -6162,19 +6156,14 @@ snapshots:
       node-tar: 1.0.0
       tar: 7.4.3
 
-  '@grafana/faro-core@1.9.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/otlp-transformer': 0.52.1(@opentelemetry/api@1.9.0)
-
   '@grafana/faro-core@1.9.1':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/otlp-transformer': 0.52.1(@opentelemetry/api@1.9.0)
 
-  '@grafana/faro-react@1.9.0(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+  '@grafana/faro-react@1.9.1(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.26.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@grafana/faro-web-sdk': 1.9.0
+      '@grafana/faro-web-sdk': 1.9.1
       '@grafana/faro-web-tracing': 1.9.1
       hoist-non-react-statics: 3.3.2
       react: 18.3.1
@@ -6192,12 +6181,6 @@ snapshots:
       rollup: 4.13.2
     transitivePeerDependencies:
       - encoding
-
-  '@grafana/faro-web-sdk@1.9.0':
-    dependencies:
-      '@grafana/faro-core': 1.9.0
-      ua-parser-js: 1.0.38
-      web-vitals: 4.2.3
 
   '@grafana/faro-web-sdk@1.9.1':
     dependencies:
