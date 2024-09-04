@@ -28,6 +28,6 @@ export type ThemesMetaData = {
   userId?: string | null;
   themes: (Pick<ThemeContent, 'name' | 'appearance'> & {
     backgroundColor?: ThemeStyleContent['background'];
-    backgroundAppearance: ThemeStyleContent['background.appearance'];
+    backgroundAppearance?: ThemeStyleContent['background.appearance'];
   })[];
 };
