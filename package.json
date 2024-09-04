@@ -79,7 +79,7 @@
     "cloudflare-workers-kv-viewer": "^1.0.3",
     "drizzle-kit": "^0.24.0",
     "esbuild": "^0.23.0",
-    "json-schema-to-typescript": "^14.1.0",
+    "json-schema-to-typescript": "^15.0.2",
     "lefthook": "^1.7.12",
     "miniflare": "^3.20240806.0",
     "postcss": "^8.4.41",
