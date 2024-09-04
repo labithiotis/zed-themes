@@ -1,6 +1,6 @@
 import faroUploader from '@grafana/faro-rollup-plugin';
 import { vitePlugin as remix, cloudflareDevProxyVitePlugin as remixCloudflareDevProxy } from '@remix-run/dev';
-import { defineConfig, type PluginOption } from 'vite';
+import { type PluginOption, defineConfig } from 'vite';
 import svgrPlugin from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { getLoadContext } from './load-context';
