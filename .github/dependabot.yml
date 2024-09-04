@@ -10,3 +10,8 @@ updates:
     versioning-strategy: increase-if-necessary
     schedule:
       interval: 'monthly'
+    groups:
+      minor-and-patch:
+        update-types:
+            - 'minor'
+            - 'patch'
