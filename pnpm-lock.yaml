@@ -68,7 +68,7 @@ importers:
         version: 2.1.1
       drizzle-orm:
         specifier: ^0.33.0
-        version: 0.33.0(@cloudflare/workers-types@4.20240903.0)(@opentelemetry/api@1.9.0)(@types/react@18.3.3)(better-sqlite3@11.1.2)(react@18.3.1)
+        version: 0.33.0(@cloudflare/workers-types@4.20240903.0)(@opentelemetry/api@1.9.0)(@types/react@18.3.3)(better-sqlite3@11.2.1)(react@18.3.1)
       embla-carousel-react:
         specifier: ^8.1.8
         version: 8.1.8(react@18.3.1)
@@ -147,7 +147,7 @@ importers:
         version: 10.4.20(postcss@8.4.41)
       better-sqlite3:
         specifier: ^11.1.2
-        version: 11.1.2
+        version: 11.2.1
       cloudflare-workers-kv-viewer:
         specifier: ^1.0.3
         version: 1.0.3
@@ -2569,8 +2569,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  better-sqlite3@11.1.2:
-    resolution: {integrity: sha512-gujtFwavWU4MSPT+h9B+4pkvZdyOUkH54zgLdIrMmmmd4ZqiBIrRNBzNzYVFO417xo882uP5HBu4GjOfaSrIQw==}
+  better-sqlite3@11.2.1:
+    resolution: {integrity: sha512-Xbt1d68wQnUuFIEVsbt6V+RG30zwgbtCGQ4QOcXVrOH0FE4eHk64FWZ9NUfRHS4/x1PXqwz/+KOrnXD7f0WieA==}
 
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
@@ -7375,7 +7375,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  better-sqlite3@11.1.2:
+  better-sqlite3@11.2.1:
     dependencies:
       bindings: 1.5.0
       prebuild-install: 7.1.2
@@ -7713,12 +7713,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.33.0(@cloudflare/workers-types@4.20240903.0)(@opentelemetry/api@1.9.0)(@types/react@18.3.3)(better-sqlite3@11.1.2)(react@18.3.1):
+  drizzle-orm@0.33.0(@cloudflare/workers-types@4.20240903.0)(@opentelemetry/api@1.9.0)(@types/react@18.3.3)(better-sqlite3@11.2.1)(react@18.3.1):
     optionalDependencies:
       '@cloudflare/workers-types': 4.20240903.0
       '@opentelemetry/api': 1.9.0
       '@types/react': 18.3.3
-      better-sqlite3: 11.1.2
+      better-sqlite3: 11.2.1
       react: 18.3.1
 
   duplexify@3.7.1:
