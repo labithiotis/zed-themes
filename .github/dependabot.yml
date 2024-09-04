@@ -11,7 +11,8 @@ updates:
     schedule:
       interval: 'monthly'
     groups:
-      minor-and-patch:
+      dependencies:
+        applies-to: security-updates
         update-types:
             - 'minor'
             - 'patch'
