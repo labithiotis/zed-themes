@@ -1,6 +1,6 @@
 import faroUploader from '@grafana/faro-rollup-plugin';
 import { vitePlugin as remix, cloudflareDevProxyVitePlugin as remixCloudflareDevProxy } from '@remix-run/dev';
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 import svgrPlugin from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { getLoadContext } from './load-context';
@@ -24,6 +24,6 @@ export default defineConfig({
       stackId: '1014205',
       apiKey: process.env.GRAFANA_SOURCE_MAP_API_KEY ?? '',
       gzipContents: true,
-    }),
+    }) as PluginOption,
   ],
 });
