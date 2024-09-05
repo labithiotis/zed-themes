@@ -1,4 +1,4 @@
-// @ts-nocheck This is a test file for previewing syntaxt theme
+// @ts-nocheck
 // simple comment
 /** {string} a block comment **/
 type Prop = { a: boolean; b: null; c: string };
