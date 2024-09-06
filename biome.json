@@ -4,7 +4,7 @@
     "enabled": true
   },
   "files": {
-    "ignore": [".zed/", "build/**", ".wrangler/**", "themeValidatorAjv.mjs", "language_packs/examples/**"]
+    "ignore": [".zed/", "build/**", ".wrangler/**", "themeValidatorAjv.mjs", "languages/examples/**"]
   },
   "linter": {
     "enabled": true,

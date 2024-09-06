@@ -3,8 +3,8 @@ import type React from 'react';
 import { type ReactNode, createContext, useCallback, useContext, useState } from 'react';
 import type FileIcon from '~/assets/icons/file_icons/file.svg?react';
 import { csharpPack } from '~/languages/csharp';
-import { tsxPack } from '~/languages/tsx';
 import { rustPack } from '~/languages/rust';
+import { tsxPack } from '~/languages/tsx';
 
 export type Language = keyof typeof languages;
 export type LanguagePack = {
@@ -63,7 +63,7 @@ export const LanguageProvider = (props: React.PropsWithChildren<{ language?: Lan
       setLanguage(language);
       persistLanguage(language);
     },
-    [persistLanguage]
+    [persistLanguage],
   );
 
   return (

@@ -7,19 +7,10 @@
     "**/.client/**/*.ts",
     "**/.client/**/*.tsx"
   ],
-  "exclude": [
-    "app/languages/examples/**"
-  ],
+  "exclude": ["app/languages/examples/**"],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
-    "types": [
-      "@remix-run/cloudflare",
-      "vite/client"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["@remix-run/cloudflare", "vite/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -36,14 +27,10 @@
     "verbatimModuleSyntax": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./app/*"
-      ]
+      "~/*": ["./app/*"]
     },
     // Vite takes care of building everything, not tsc.
     "noEmit": true
   },
-  "files": [
-    "./node_modules/vite-plugin-svgr/client.d.ts"
-  ]
+  "files": ["./node_modules/vite-plugin-svgr/client.d.ts"]
 }

@@ -240,6 +240,7 @@ export const tsxPack: LanguagePack = {
       <SN s="string.regex">i</SN>
       <SN s="punctuation.delimiter">;</SN>
     </span>,
+    '',
     <span key="line11" className="flex">
       <SN s="keyword">export</SN>
       <SP />
@@ -357,6 +358,7 @@ export const tsxPack: LanguagePack = {
       <RB />
       <SN s="punctuation.delimiter">;</SN>
     </span>,
+    '',
     <span key="line19">
       <SN s="keyword">class</SN>
       <SP />
@@ -395,33 +397,6 @@ export const tsxPack: LanguagePack = {
       <SN s="type">string</SN>
       <SN s="punctuation.delimiter">;</SN>
     </span>,
-    <span key="line21">
-      <Indent />
-      <SN s="function.method">constructor</SN>
-      <LP />
-      <SN s="variable">name</SN>
-      <SN s="punctuation.delimiter">:</SN>
-      <SP />
-      <SN s="type">string</SN>
-      <RP />
-      <SP />
-      <SN s="type">void</SN>
-      <SP />
-      <LB />
-    </span>,
-    <span key="line22">
-      <Indent />
-      <Indent />
-      <SN s="variable.special">this</SN>
-      <SN s="punctuation.delimiter">.</SN>
-      <SN s="variable">name</SN>
-      <SN s="punctuation.delimiter">;</SN>
-    </span>,
-    <span key="line23">
-      <Indent />
-      <RB />
-    </span>,
-    '',
     <span key="line24">
       <Indent />
       <SN s="constructor">@guard</SN>

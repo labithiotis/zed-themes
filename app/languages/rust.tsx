@@ -1,8 +1,8 @@
 import FileIcon from '~/assets/icons/file_icons/file.svg?react';
 import FolderIcon from '~/assets/icons/file_icons/folder.svg?react';
-import RustIcon from '~/assets/icons/file_icons/rust.svg?react';
 import FolderOpenIcon from '~/assets/icons/file_icons/folder_open.svg?react';
-import { Indent, LA, LAF, LB, LP, Popup, RA, RB, RP, SN, SP } from '~/components/preview/components/Code';
+import RustIcon from '~/assets/icons/file_icons/rust.svg?react';
+import { Indent, LB, LP, RB, RP, SN, SP } from '~/components/preview/components/Code';
 import type { LanguagePack } from '~/providers/language';
 import { cssVarStyleToken, cssVarSyntaxColorToken } from '~/utils/cssVarTokens';
 
@@ -13,7 +13,7 @@ export const rustPack: LanguagePack = {
   activeRow: 11,
   tabs: ['main.rs', 'lib.rs', 'Cargo.toml'],
   files: [
-    { Icon: FolderOpenIcon, name: 'my_rust_project', indent: 0 },
+    { Icon: FolderOpenIcon, name: 'zed', indent: 0 },
     { Icon: FolderIcon, name: 'src', indent: 2 },
     { Icon: RustIcon, name: 'main.rs', indent: 4, selected: true },
     { Icon: RustIcon, name: 'lib.rs', indent: 4 },
@@ -44,29 +44,28 @@ export const rustPack: LanguagePack = {
   ],
   lines: [
     <SN key={key()} s="keyword">
-      use
-    </SN>,
-    <span key={key()}>
+      <SN s="keyword">use</SN>
       <Indent />
-      <SN s="namespace">std</SN>
+      <SN s="keyword">std</SN>
       <SN s="punctuation.delimiter">::</SN>
-      <SN s="namespace">collections</SN>
+      <SN s="keyword">collections</SN>
       <SN s="punctuation.delimiter">::</SN>
       <SN s="type">HashMap</SN>
       <SN s="punctuation.delimiter">;</SN>
-    </span>,
+    </SN>,
     <span key={key()}>
+      <SN s="keyword">use</SN>
       <Indent />
-      <SN s="namespace">crate</SN>
+      <SN s="keyword">crate</SN>
       <SN s="punctuation.delimiter">::</SN>
-      <SN s="namespace">modules</SN>
+      <SN s="keyword">modules</SN>
       <SN s="punctuation.delimiter">::</SN>
-      <SN s="namespace">user_service</SN>
+      <SN s="keyword">user_service</SN>
       <SN s="punctuation.delimiter">::</SN>
       <SN s="type">UserService</SN>
       <SN s="punctuation.delimiter">;</SN>
     </span>,
-    '',
+    <span key={key()} />,
     <SN key={key()} s="comment">
       // Define a struct for User
     </SN>,
@@ -101,8 +100,8 @@ export const rustPack: LanguagePack = {
       <SN s="type">u32</SN>
       <SN s="punctuation.delimiter">,</SN>
     </span>,
-    <RB />,
-    '',
+    <RB key={key()} />,
+    <span key={key()} />,
     <span key={key()}>
       <SN s="keyword">fn</SN>
       <SP />
@@ -129,7 +128,7 @@ export const rustPack: LanguagePack = {
       <RP />
       <SN s="punctuation.delimiter">;</SN>
     </span>,
-    '',
+    <span key={key()} />,
     <span key={key()}>
       <Indent />
       <SN s="keyword">let</SN>
@@ -182,7 +181,7 @@ export const rustPack: LanguagePack = {
       <RB />
       <SN s="punctuation.delimiter">;</SN>
     </span>,
-    '',
+    <span key={key()} />,
     <span key={key()}>
       <Indent />
       <SN s="keyword">match</SN>
@@ -234,6 +233,6 @@ export const rustPack: LanguagePack = {
       <Indent />
       <RB />
     </span>,
-    <RB />,
+    <RB key={key()} />,
   ],
 };
