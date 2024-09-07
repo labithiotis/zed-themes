@@ -2,17 +2,9 @@ import { useFetcher } from '@remix-run/react';
 import type React from 'react';
 import { type ReactNode, createContext, useCallback, useContext, useState } from 'react';
 import type FileIcon from '~/assets/icons/file_icons/file.svg?react';
-import { csharpPack } from '~/language_packs/csharp_pack';
-import { tsxPack } from '~/language_packs/tsx_pack';
-
-export const languages = {
-  tsx: 'TSX',
-  csharp: 'C#',
-};
-export const languagePacks: Record<Language, LanguagePack> = {
-  tsx: tsxPack,
-  csharp: csharpPack,
-};
+import { csharpPack } from '~/languages/csharp';
+import { rustPack } from '~/languages/rust';
+import { tsxPack } from '~/languages/tsx';
 
 export type Language = keyof typeof languages;
 export type LanguagePack = {
@@ -30,12 +22,24 @@ type FileItem = {
   selected?: boolean;
 };
 
+export const languages = {
+  csharp: 'C#',
+  rust: 'Rust',
+  tsx: 'TSX',
+};
+
+export const languagePacks: Record<Language, LanguagePack> = {
+  rust: rustPack,
+  csharp: csharpPack,
+  tsx: tsxPack,
+};
+
 const languageCtx = createContext<{
   language: Language;
   setLanguage(theme: Language): void;
 }>({
   language: 'tsx',
-  setLanguage: () => console.warn('Calling setLanguage provider beofre it is initialized!'),
+  setLanguage: () => console.warn('Calling setLanguage provider before it is initialized!'),
 });
 
 export const useLanguage = () => useContext(languageCtx);

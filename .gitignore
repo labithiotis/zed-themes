@@ -36,3 +36,5 @@ public
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+sqlite.db

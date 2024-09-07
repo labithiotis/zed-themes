@@ -1,4 +1,4 @@
-// @ts-nocheck This is a test file for previewing syntaxt theme
+// @ts-nocheck
 // simple comment
 /** {string} a block comment **/
 type Prop = { a: boolean; b: null; c: string };
@@ -10,6 +10,7 @@ const string = 'string';
 const boolean = true;
 const object = { id: `${string}_id1` };
 const regex = /(L^\d]string).*/i;
+
 export default function App<T extends Prop = object>(p: T): any {
   if (p == false) return null;
   return (
@@ -18,20 +19,11 @@ export default function App<T extends Prop = object>(p: T): any {
     </div>
   );
 }
+
 class Test {
   private readonly name: string;
-  constructor(name: string) {
-    this.name = name;
-  }
-
   @guard({ description: 'Gets name' })
   public getName() {
     return this.name;
   }
 }
-
-document.getElementById('app').innerHTML = App({
-  a: true,
-  b: null,
-  c: 'string',
-});
