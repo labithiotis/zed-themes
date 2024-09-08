@@ -5,6 +5,7 @@ import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
 import type { PlayerColorContent } from '../../themeFamily';
+import TokenleInput from './TokenleInput';
 
 type PlayerProps = {
   index: number;
@@ -71,10 +72,10 @@ function PlayerToken({
           </button>
           <div className="flex items-center gap-2 pr-2">
             <div className="flex-1">
-              <input
+              <TokenleInput
                 value={player[token] ?? ''}
                 className={cn(
-                  'border-1 h-[22px] w-full rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
+                  'border-1 h-[22px] w-full rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500 dark:focus:border-zinc-500 dark:focus:text-white',
                   {
                     'cursor-pointer hover:border-zinc-300 hover:bg-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800':
                       edit,
@@ -83,6 +84,7 @@ function PlayerToken({
                 type="text"
                 placeholder="unset"
                 onChange={(e) => setPlayerToken(index, token, e.currentTarget.value?.trim())}
+                onClear={() => setPlayerToken(index, token, null)}
                 disabled={!edit}
               />
             </div>

@@ -5,12 +5,14 @@ import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import type { SyntaxTokens } from '../../providers/tokens';
 import type { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
+import TokenleInput from './TokenleInput';
 
 export function Token({
   name,
   color,
   description,
   onChange,
+  onClear,
   syntax,
   edit,
 }: {
@@ -18,6 +20,7 @@ export function Token({
   color?: ColorHex | string | null;
   description?: string | null;
   onChange(color: string): void;
+  onClear(): void;
   syntax?: SyntaxTokens;
   onSyntaxStyleChange?(fontStyle: string): void;
   onSyntaxFontChange?(fontStyle: number): void;
@@ -62,7 +65,7 @@ export function Token({
             {name}
           </button>
           <div className="flex items-center gap-2">
-            <input
+            <TokenleInput
               value={color ?? ''}
               className={cn(
                 'border-1 h-[22px] flex-1 rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
@@ -73,8 +76,9 @@ export function Token({
               )}
               type="text"
               placeholder="unset"
-              onChange={(e) => onChange(e.currentTarget.value?.trim())}
               disabled={!edit}
+              onChange={(e) => onChange(e.currentTarget.value?.trim())}
+              onClear={onClear}
             />
             {!!syntax && (
               <>
