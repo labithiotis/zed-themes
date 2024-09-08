@@ -55,7 +55,7 @@ export default function Themes() {
 
   return (
     <Layout>
-      <div className="grid w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
+      <div className="grid grid-cols-1 w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
         {themes?.map((theme, index) => (
           <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
         ))}

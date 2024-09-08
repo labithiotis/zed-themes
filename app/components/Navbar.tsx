@@ -26,12 +26,12 @@ export function Navbar() {
     <header className="fixed top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container flex h-14 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link to="/" rel="home" className="text-xl font-semibold text-zed-800 dark:text-zed-400">
+          <Link to="/" rel="home" className="text-xl font-semibold no-wraps text-zed-800 dark:text-zed-400">
             Zed Themes
           </Link>
           <Dialog>
             <DialogTrigger asChild>
-              <Button size="xs" variant="ghost" className="flex items-center gap-1">
+              <Button size="xs" variant="ghost" className="hidden items-center gap-1 md:flex">
                 Installing theme <IoIosHelpCircleOutline />
               </Button>
             </DialogTrigger>
@@ -47,7 +47,7 @@ export function Navbar() {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <ColorSchemeToggle />
           {params.themeId && (
             <Select onValueChange={setLanguage} value={language}>
@@ -65,7 +65,7 @@ export function Navbar() {
           )}
           {!params.themeId && (
             <ButtonMenu
-              size="sm"
+              size="xs"
               variant="outline"
               label={
                 <Link to="/themes/new" rel="Create theme">
