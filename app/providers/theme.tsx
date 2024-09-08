@@ -100,8 +100,6 @@ function activeTheme(state: State) {
 }
 
 const reducer = (state: State, action: Actions): State => {
-  console.log(action);
-
   switch (action.type) {
     case 'set': {
       const themeIndex = action.themeName ? action.themeFamily.themes.findIndex((t) => t.name === action.themeName) : 0;
