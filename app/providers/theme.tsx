@@ -70,6 +70,13 @@ type SetPlayerToken = {
   color: unknown;
 };
 
+type UnsetToken = {
+  type: 'unsetToken';
+  index: number;
+  group: 'style' | 'syntax' | 'players';
+  key: string;
+};
+
 type AddTheme = {
   type: 'addTheme';
 };
@@ -84,6 +91,7 @@ type Actions =
   | SetStyleToken
   | SetSyntaxToken
   | SetPlayerToken
+  | UnsetToken
   | AddTheme;
 
 function activeTheme(state: State) {
@@ -161,7 +169,7 @@ const reducer = (state: State, action: Actions): State => {
       });
     }
     case 'setStyleToken': {
-      if (state.themeIndex == null || state.themeFamily === null || !isValidColor(action.color)) {
+      if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
 
@@ -178,11 +186,7 @@ const reducer = (state: State, action: Actions): State => {
       });
     }
     case 'setSyntaxToken': {
-      if (
-        state.themeIndex == null ||
-        state.themeFamily === null ||
-        (action.content.color && !isValidColor(action.content.color))
-      ) {
+      if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
 
@@ -200,8 +204,25 @@ const reducer = (state: State, action: Actions): State => {
         },
       });
     }
+    case 'unsetToken': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          themes: {
+            [state.themeIndex]: {
+              style: {
+                [action.group]: { [action.key]: { $set: null } },
+              },
+            },
+          },
+        },
+      });
+    }
     case 'setPlayerToken': {
-      if (state.themeIndex == null || state.themeFamily === null || !isValidColor(action.color)) {
+      if (state.themeIndex == null || state.themeFamily === null) {
         return state;
       }
 

@@ -167,6 +167,7 @@ export function Side({ edit }: { edit: boolean }) {
                   color={theme?.style[token.token]}
                   description={token.description}
                   onChange={(color) => setStyleToken(token.token, color)}
+                  onClear={() => setStyleToken(token.token, null)}
                   edit={edit}
                 />
               )}
@@ -182,6 +183,7 @@ export function Side({ edit }: { edit: boolean }) {
               color={theme?.style.syntax[token]?.color}
               description=""
               onChange={(color) => setSyntaxToken(token, { color })}
+              onClear={() => setSyntaxToken(token, { color: null })}
               edit={edit}
             />
           )}

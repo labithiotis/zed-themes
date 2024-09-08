@@ -67,14 +67,14 @@ export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<Lo
   const themeShare = !themeData ? await sharesKv?.get(themeId) : undefined;
   const theme = themeData ?? (themeShare ? JSON.parse(themeShare) : undefined);
 
-  return json({ themeId: record.id, theme, editable: record.userId === userId });
+  return json({ themeId: record.id, theme, editable: !!userId && record.userId === userId });
 };
 
 export default function ThemeById() {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const data = useLoaderData<typeof loader>();
-  const { theme, themeId, themeFamily, dispatch } = useTheme();
+  const { theme, themeId, dispatch } = useTheme();
 
   useEffect(() => {
     if (themeId && themeId === data.themeId) return;
