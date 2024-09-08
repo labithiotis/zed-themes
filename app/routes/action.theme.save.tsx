@@ -25,11 +25,11 @@ export const action: ActionFunction = async (args) => {
 
   const themeFamilyContent: Pick<ThemeFamilyContent, 'name' | 'author' | 'themes'> = JSON.parse(themeRaw);
 
-  const nameExists = await db.query.themes.findFirst({
+  const existing = await db.query.themes.findFirst({
     where: (themes, { eq }) => eq(themes.name, themeFamilyContent.name),
   });
 
-  if (nameExists) {
+  if (existing && existing.userId !== userId) {
     return json({ error: 'A theme with that name already exists.' }, { status: 400 });
   }
 

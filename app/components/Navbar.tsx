@@ -69,7 +69,7 @@ export function Navbar() {
               variant="outline"
               label={
                 <Link to="/themes/new" rel="Create theme">
-                  Create theme
+                  Create
                 </Link>
               }
             >

@@ -70,13 +70,6 @@ type SetPlayerToken = {
   color: unknown;
 };
 
-type UnsetToken = {
-  type: 'unsetToken';
-  index: number;
-  group: 'style' | 'syntax' | 'players';
-  key: string;
-};
-
 type AddTheme = {
   type: 'addTheme';
 };
@@ -91,7 +84,6 @@ type Actions =
   | SetStyleToken
   | SetSyntaxToken
   | SetPlayerToken
-  | UnsetToken
   | AddTheme;
 
 function activeTheme(state: State) {
@@ -190,33 +182,20 @@ const reducer = (state: State, action: Actions): State => {
         return state;
       }
 
-      return update(state, {
-        themeFamily: {
-          themes: {
-            [state.themeIndex]: {
-              style: {
-                syntax: {
-                  [action.token]: { $merge: action.content ?? {} },
-                },
-              },
-            },
-          },
-        },
-      });
-    }
-    case 'unsetToken': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
+      let syntax = {};
+      const syntaxPresent = state.themeFamily.themes[state.themeIndex]?.style.syntax[action.token];
+      if (syntaxPresent) {
+        syntax = { [action.token]: { $merge: action.content } };
+      } else {
+        syntax = {
+          $merge: { [action.token]: { color: null, font_style: null, font_weight: null, ...action.content } },
+        };
       }
 
       return update(state, {
         themeFamily: {
           themes: {
-            [state.themeIndex]: {
-              style: {
-                [action.group]: { [action.key]: { $set: null } },
-              },
-            },
+            [state.themeIndex]: { style: { syntax } },
           },
         },
       });
