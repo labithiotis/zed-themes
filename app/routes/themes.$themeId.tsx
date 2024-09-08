@@ -1,7 +1,7 @@
 import { createClerkClient } from '@clerk/remix/api.server';
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunctionArgs, type TypedResponse, json } from '@remix-run/cloudflare';
-import { useLoaderData, useParams, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useParams, useRouteError, useSearchParams } from '@remix-run/react';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
@@ -104,5 +104,17 @@ export default function ThemeById() {
         {!!theme && <Preview />}
       </div>
     </Layout>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  return (
+    <div>
+      <h1>Themes Error</h1>
+      <p>{error instanceof Error ? error?.message : 'Something went wrong'}</p>
+      <pre>{error instanceof Error ? error?.stack : ''}</pre>
+    </div>
   );
 }
