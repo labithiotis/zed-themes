@@ -13,7 +13,7 @@ export const LOCAL_STORAGE_THEME_SYNC_KEY = '__theme__';
 
 export type ColorHex = `#${string}`;
 
-type State = {
+export type State = {
   themeId: string | null;
   themeIndex: number | null;
   themeFamily: ThemeFamilyContent | null;
@@ -91,7 +91,7 @@ function activeTheme(state: State) {
   return state.themeFamily.themes[state.themeIndex];
 }
 
-const reducer = (state: State, action: Actions): State => {
+export const themeReducer = (state: State, action: Actions): State => {
   switch (action.type) {
     case 'set': {
       const themeIndex = action.themeName ? action.themeFamily.themes.findIndex((t) => t.name === action.themeName) : 0;
@@ -109,7 +109,7 @@ const reducer = (state: State, action: Actions): State => {
       });
     }
     case 'setFamilyName': {
-      if (state.themeIndex == null || state.themeFamily === null) {
+      if (state.themeFamily === null) {
         return state;
       }
 
@@ -183,7 +183,9 @@ const reducer = (state: State, action: Actions): State => {
       }
 
       let syntax = {};
-      const syntaxPresent = state.themeFamily.themes[state.themeIndex]?.style.syntax[action.token];
+      const currentSyntax = state.themeFamily.themes[state.themeIndex]?.style.syntax;
+      const syntaxPresent = !!currentSyntax && Object.hasOwn(currentSyntax, action.token);
+
       if (syntaxPresent) {
         syntax = { [action.token]: { $merge: action.content } };
       } else {
@@ -247,7 +249,7 @@ const reducer = (state: State, action: Actions): State => {
   }
 };
 
-const initialState: State = {
+export const initialState: State = {
   themeId: null,
   themeIndex: null,
   themeFamily: null,
@@ -259,7 +261,7 @@ const ThemeCtx = createContext<{ state: State; dispatch: Dispatch<Actions> }>({
 });
 
 export const ThemeProvider = (props: PropsWithChildren) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(themeReducer, initialState);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));

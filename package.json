@@ -21,6 +21,7 @@
     "db:studio:preview": "export $(xargs < .env.drizzle) && DB_ID=d302f4f5-e52a-4192-869d-8bd7a746135f drizzle-kit studio",
     "db:studio:prod": "export $(xargs < .env.drizzle) && DB_ID=28315368-145a-4500-a29a-5e5e3afb344b drizzle-kit studio",
     "fmt": "biome format --write",
+    "test": "vitest ./app",
     "test:lint": "biome check",
     "test:tsc": "tsc",
     "test:e2e": "pnpm exec playwright test",
@@ -89,6 +90,7 @@
     "vite": "^5.4.3",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.0.5",
     "wrangler": "^3.74.0",
     "zx": "^8.1.5"
   },
