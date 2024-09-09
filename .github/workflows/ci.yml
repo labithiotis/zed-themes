@@ -28,6 +28,9 @@ jobs:
       - name: Type Check
         run: pnpm test:tsc
 
+      - name: Test
+        run: pnpm test
+
       - name: Build
         run: pnpm build
 
