@@ -1,9 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { log } from 'zx/core';
 import { merge } from '~/utils/helpers';
 import { initialState, themeReducer } from './theme';
 import { createThemeFamily } from './themeFamily';
-import { syntaxTokens } from './tokens';
+import {
+  borderTokens,
+  syntaxTokens,
+  elementTokens,
+  ghostElementTokens,
+  textTokens,
+  iconTokens,
+  scrollbarTokens,
+  terminalTokens,
+  editorTokens,
+  colorTokens,
+  gitTokens,
+  miscTokens,
+} from './tokens';
 
 describe('Theme Reducer', () => {
   it('can set theme', () => {
@@ -113,17 +125,31 @@ describe('Theme Reducer', () => {
     expect(nextState.themeFamily?.themes[0]?.style['background.appearance']).toEqual('opaque');
   });
 
-  it('can setStyleToken', () => {
-    const state = merge(initialState, { themeIndex: 0, themeFamily: createThemeFamily({ name: 'new theme' }) });
+  for (const token of [
+    ...borderTokens,
+    ...elementTokens,
+    ...ghostElementTokens,
+    ...textTokens,
+    ...iconTokens,
+    ...scrollbarTokens,
+    ...terminalTokens,
+    ...editorTokens,
+    ...colorTokens,
+    ...gitTokens,
+    ...miscTokens,
+  ]) {
+    it(`can setStyleToken ${token}`, () => {
+      const state = merge(initialState, { themeIndex: 0, themeFamily: createThemeFamily({ name: 'new theme' }) });
 
-    const nextState = themeReducer(state, {
-      type: 'setStyleToken',
-      token: 'background',
-      color: 'red',
+      const nextState = themeReducer(state, {
+        type: 'setStyleToken',
+        token,
+        color: 'red',
+      });
+
+      expect(nextState.themeFamily?.themes[0]?.style[token]).toEqual('red');
     });
-
-    expect(nextState.themeFamily?.themes[0]?.style.background).toEqual('red');
-  });
+  }
 
   for (const token of syntaxTokens) {
     it(`can setSyntaxToken ${token} if not preset`, () => {
