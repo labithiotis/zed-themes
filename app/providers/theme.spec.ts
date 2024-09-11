@@ -4,17 +4,17 @@ import { initialState, themeReducer } from './theme';
 import { createThemeFamily } from './themeFamily';
 import {
   borderTokens,
-  syntaxTokens,
+  colorTokens,
+  editorTokens,
   elementTokens,
   ghostElementTokens,
-  textTokens,
-  iconTokens,
-  scrollbarTokens,
-  terminalTokens,
-  editorTokens,
-  colorTokens,
   gitTokens,
+  iconTokens,
   miscTokens,
+  scrollbarTokens,
+  syntaxTokens,
+  terminalTokens,
+  textTokens,
 } from './tokens';
 
 describe('Theme Reducer', () => {

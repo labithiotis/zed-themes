@@ -264,8 +264,10 @@ export const ThemeProvider = (props: PropsWithChildren) => {
   const [state, dispatch] = useReducer(themeReducer, initialState);
 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
-  }, [state]);
+    if (state.themeFamily) {
+      localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
+    }
+  }, [state.themeFamily]);
 
   return <ThemeCtx.Provider value={{ state, dispatch }}>{props.children}</ThemeCtx.Provider>;
 };

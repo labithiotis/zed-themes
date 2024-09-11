@@ -1,16 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-test('redirects to themes', async ({ page }) => {
-  await page.goto('/');
-
-  await expect(page).toHaveURL(/\/themes/);
-  await expect(page).toHaveTitle(/Zed themes/);
-  expect(new URL(page.url()).pathname).toEqual('/themes');
-});
-
 test.use({ colorScheme: 'light' });
 test('toggles dark mode', async ({ page }) => {
-  await page.goto('/themes');
+  await page.goto('/');
 
   await expect(page.locator('html')).not.toHaveAttribute('class', 'dark');
   await page.locator('[aria-label="Toggle theme"]').click();
@@ -30,7 +22,7 @@ test('toggles dark mode', async ({ page }) => {
 // });
 
 test('navigtes to preview theme', async ({ page }) => {
-  await page.goto('/themes');
+  await page.goto('/');
 
   const firstTheme = page.getByTestId('preview-theme').first();
   const themeId = await firstTheme.getAttribute('data-theme-id');

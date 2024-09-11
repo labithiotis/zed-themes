@@ -1,7 +1,6 @@
-import { createClerkClient } from '@clerk/remix/api.server';
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunctionArgs, type TypedResponse, json } from '@remix-run/cloudflare';
-import { useLoaderData, useParams, useRouteError, useSearchParams } from '@remix-run/react';
+import { useLoaderData, useNavigate, useParams, useRouteError, useSearchParams } from '@remix-run/react';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
@@ -11,7 +10,7 @@ import { Layout } from '~/components/Layout';
 import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme } from '~/providers/theme';
-import { getAuthor } from '~/utils/getAuthor';
+import { createThemeFamily } from '~/providers/themeFamily';
 import { themeValidator } from '~/utils/themeValidator';
 import type { ThemeFamilyContent } from '../themeFamily';
 
@@ -23,32 +22,13 @@ type LoaderData = {
 
 export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> => {
   const sharesKv = args.context.env?.zed_shares;
-  const { userId } = await getAuth(args);
-  const clerkClient = createClerkClient({ secretKey: args.context.env.CLERK_SECRET_KEY });
-
   const { themeId } = args.params;
+  const { userId } = await getAuth(args);
 
   invariant(themeId);
 
-  if (args.params.themeId === 'new') {
-    const user = userId ? await clerkClient.users.getUser(userId) : undefined;
-    const theme: ThemeFamilyContent = {
-      author: getAuthor(user),
-      name: 'default',
-      themes: [
-        {
-          name: 'default',
-          appearance: 'light',
-          style: {
-            background: '#7e7e7e',
-            syntax: {},
-            players: [],
-          },
-        },
-      ],
-    };
-
-    return json({ themeId: null, theme, editable: true });
+  if (args.params.themeId === 'new' || args.params.themeId === 'edit') {
+    return json({ themeId: null, theme: null, editable: true });
   }
 
   const db = drizzle(args.context.env.db, { schema });
@@ -72,30 +52,45 @@ export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<Lo
 
 export default function ThemeById() {
   const params = useParams();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const data = useLoaderData<typeof loader>();
   const { theme, themeId, dispatch } = useTheme();
+  const hasTheme = !!theme;
 
+  // Load theme from loader data
   useEffect(() => {
-    if (themeId && themeId === data.themeId) return;
-
+    if (themeId && data.themeId === themeId) return;
     if (data.theme) {
+      console.debug('Load theme from remote data');
       dispatch({
         type: 'set',
         themeId: data.themeId,
         themeFamily: data?.theme,
         themeName: searchParams.get('name'),
       });
-    } else {
-      const localTheme = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '');
+    }
+  }, [data, themeId, dispatch, searchParams]);
 
+  // Load theme from localstorage
+  useEffect(() => {
+    if (params.themeId === 'new') {
+      dispatch({ type: 'set', themeId: null, themeFamily: createThemeFamily() });
+      navigate('/themes/edit');
+    }
+
+    if (!hasTheme && params.themeId === 'edit') {
+      console.debug('Load theme from localstorage');
+      const localTheme = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '{}');
       if (themeValidator(localTheme)) {
+        console.debug('Localstorage theme is valid, load it');
         dispatch({ type: 'set', themeId: null, themeFamily: localTheme });
       } else {
         console.warn('Unable to load theme from local storage as its invalid theme:', themeValidator.errors);
+        dispatch({ type: 'set', themeId: null, themeFamily: createThemeFamily() });
       }
     }
-  }, [data, dispatch, searchParams, themeId]);
+  }, [hasTheme, params.themeId, dispatch, navigate]);
 
   return (
     <Layout className="h-full mt-0 pt-14 flex">

@@ -1,23 +1,23 @@
 import type { ThemeFamilyContent } from '~/themeFamily';
 import { type PartialRecursive, merge } from '~/utils/helpers';
 
-export function createThemeFamily(theme: PartialRecursive<ThemeFamilyContent>): ThemeFamilyContent {
+export function createThemeFamily(theme?: PartialRecursive<ThemeFamilyContent>): ThemeFamilyContent {
   return merge(
     {
-      name: '',
+      name: 'default',
       author: '',
       themes: [
         {
-          name: '',
+          name: 'default',
           appearance: 'light',
           style: {
-            background: '#ffffff',
+            background: '#7e7e7e',
             syntax: {},
             players: [],
           },
         },
       ],
-    },
+    } satisfies ThemeFamilyContent,
     theme,
   );
 }
