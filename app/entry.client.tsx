@@ -14,7 +14,10 @@ Sentry.init({
       useMatches,
     }),
     Sentry.feedbackIntegration({
+      autoInject: false,
       colorScheme: 'system',
+      showBranding: false,
+      showName: false,
     }),
   ],
 });

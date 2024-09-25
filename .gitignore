@@ -38,6 +38,3 @@ public
 /playwright/.cache/
 
 sqlite.db
-
-# Sentry Config File
-.env.sentry-build-plugin
