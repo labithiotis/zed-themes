@@ -5,7 +5,7 @@
  */
 
 import type { ActionFunctionArgs, AppLoadContext, EntryContext, LoaderFunctionArgs } from '@remix-run/cloudflare';
-import { RemixServer } from '@remix-run/react';
+import { RemixServer, isRouteErrorResponse } from '@remix-run/react';
 import * as Sentry from '@sentry/remix';
 import { isbot } from 'isbot';
 import { renderToReadableStream } from 'react-dom/server';
@@ -19,6 +19,7 @@ Sentry.init({
 
 export function handleError(error: unknown, { request }: LoaderFunctionArgs | ActionFunctionArgs) {
   if (!request.signal.aborted) {
+    if (isRouteErrorResponse(error) && error.status === 404) return;
     console.error(error);
     Sentry.captureException(error);
   }
