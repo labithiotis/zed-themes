@@ -149,15 +149,3 @@ function DeleteAction({ theme }: { theme: Pick<ThemesMetaData, 'id' | 'name'> })
     </Dialog>
   );
 }
-
-export function ErrorBoundary() {
-  const error = useRouteError();
-
-  return (
-    <div>
-      <h1>Themes Error</h1>
-      <p>{error instanceof Error ? error?.message : 'Something went wrong'}</p>
-      <pre>{error instanceof Error ? error?.stack : ''}</pre>
-    </div>
-  );
-}
