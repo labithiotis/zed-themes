@@ -7,8 +7,6 @@ import { useEffect } from 'react';
 export const postHogClient = new PostHog(import.meta.env.VITE_POSTHOG_API_KEY, { host: 'https://eu.i.posthog.com' });
 
 export const usePosthog = () => {
-  const { user } = useUser();
-
   useEffect(() => {
     posthog.init(import.meta.env.VITE_POSTHOG_API_KEY, {
       api_host: 'https://eu.i.posthog.com',
@@ -16,6 +14,12 @@ export const usePosthog = () => {
       autocapture: true,
     });
   }, []);
+
+  return null;
+};
+
+export const usePosthogIdentify = () => {
+  const { user } = useUser();
 
   useEffect(() => {
     if (user) {
