@@ -13,5 +13,6 @@ export const action: ActionFunction = async ({ context, request }) => {
   await context.env?.zed_shares?.put(shareId, theme, { expiration });
   const shareUrl = new URL(request.url);
   shareUrl.pathname = `/themes/${shareId}`;
+
   return json({ shareUrl });
 };

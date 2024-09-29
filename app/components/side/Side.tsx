@@ -1,3 +1,6 @@
+import * as Sentry from '@sentry/remix';
+import { useEffect, useState } from 'react';
+import { IoBug } from 'react-icons/io5';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
 import { useTheme } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
@@ -19,6 +22,7 @@ export const btnStyles =
   'flex flex-1 items-center justify-center gap-2 p-3 text-lg font-semibold text-zed-800 hover:bg-neutral-200 hover:text-zed-900 dark:text-zed-600 dark:hover:bg-neutral-700 dark:hover:text-zed-200';
 
 export function Side({ edit }: { edit: boolean }) {
+  const [feedback, setFeedback] = useState<ReturnType<typeof Sentry.getFeedback> | undefined>(undefined);
   const { index, theme, themeFamily, dispatch } = useTheme();
 
   const setFamilyName = (name: string) => {
@@ -45,6 +49,12 @@ export function Side({ edit }: { edit: boolean }) {
   const addTheme = () => {
     dispatch({ type: 'addTheme' });
   };
+
+  useEffect(() => {
+    if (Sentry.getFeedback) {
+      setFeedback(Sentry.getFeedback());
+    }
+  }, []);
 
   return (
     <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
@@ -214,7 +224,7 @@ export function Side({ edit }: { edit: boolean }) {
             </div>
           </>
         )}
-        <div className="flex justify-center gap-2 bg-neutral-200 p-3 dark:bg-neutral-900">
+        <div className="flex justify-center gap-2.5 bg-neutral-200 p-3 dark:bg-neutral-900">
           <a
             className="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
             href="https://zed.dev"
@@ -229,7 +239,7 @@ export function Side({ edit }: { edit: boolean }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            suggestion?
+            Suggestion?
           </a>
           <a
             className="text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
@@ -237,8 +247,23 @@ export function Side({ edit }: { edit: boolean }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            support ♥︎
+            Support ♥︎
           </a>
+          <button
+            type="button"
+            className="flex justify-center items-center cursor-pointer text-zed-800 hover:text-zed-500 dark:text-zed-600 dark:hover:text-zed-200"
+            onClick={async () => {
+              if (feedback) {
+                const form = await feedback.createForm();
+                form.appendToDom();
+                form.open();
+              } else {
+                window.open('https://github.com/labithiotis/zed-themes/issues', '_blank');
+              }
+            }}
+          >
+            Report <IoBug className="ml-1" />
+          </button>
         </div>
       </div>
     </div>

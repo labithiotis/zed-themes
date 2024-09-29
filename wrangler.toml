@@ -1,11 +1,12 @@
 name = "zed-themes"
-compatibility_date = "2024-03-01"
+compatibility_date = "2024-09-02"
+compatibility_flags = ["nodejs_compat_v2", "nodejs_als"]
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
 
 [vars]
 CLERK_SECRET_KEY = "<KEY>"
 CLERK_PUBLISHABLE_KEY = "<KEY>"
-GRAFANA_SOURCE_MAP_API_KEY = "<KEY>"
+SENTRY_AUTH_TOKEN = "<KEY>"
 
 [[kv_namespaces]]
 binding = "zed_shares"
@@ -33,7 +34,7 @@ id = "40ec071715db4dc6b66b71a22d68999a"
 [env.preview.vars]
 CLERK_SECRET_KEY = "<KEY>"
 CLERK_PUBLISHABLE_KEY = "<KEY>"
-GRAFANA_SOURCE_MAP_API_KEY = "<KEY>"
+SENTRY_AUTH_TOKEN = "<KEY>"
 
 [build]
 command = "npm run build"
