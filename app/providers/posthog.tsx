@@ -4,11 +4,14 @@ import posthog from 'posthog-js';
 import { PostHog } from 'posthog-node';
 import { useEffect } from 'react';
 
-export const postHogClient = new PostHog(import.meta.env.VITE_POSTHOG_API_KEY, { host: 'https://eu.i.posthog.com' });
+const apiKey = import.meta.env.VITE_POSTHOG_API_KEY;
+
+export const postHogClient = apiKey ? new PostHog(apiKey, { host: 'https://eu.i.posthog.com' }) : null;
 
 export const usePosthog = () => {
   useEffect(() => {
-    posthog.init(import.meta.env.VITE_POSTHOG_API_KEY, {
+    if (!apiKey) return;
+    posthog.init(apiKey, {
       api_host: 'https://eu.i.posthog.com',
       person_profiles: 'identified_only',
       autocapture: true,
@@ -22,6 +25,7 @@ export const usePosthogIdentify = () => {
   const { user } = useUser();
 
   useEffect(() => {
+    if (!apiKey) return;
     if (user) {
       posthog.identify(user.id, {
         name: user.fullName,
