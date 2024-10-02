@@ -41,8 +41,10 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: E2E tests
+        if: ${{ github.actor != 'dependabot[bot]' }}
         run: DEBUG=pw:browser,pw:api,pw:webserver pnpm exec playwright test
         env:
+          NODE_ENV: development
           CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
           CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
           VITE_POSTHOG_API_KEY: ${{ secrets.VITE_POSTHOG_API_KEY }}

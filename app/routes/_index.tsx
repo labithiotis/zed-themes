@@ -1,6 +1,6 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunction, json } from '@remix-run/cloudflare';
-import { useLoaderData, useRouteError } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import { memo } from 'react';
