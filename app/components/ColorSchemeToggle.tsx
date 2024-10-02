@@ -3,11 +3,12 @@ import { useCallback } from 'react';
 import { useColorScheme } from '~/providers/colorScheme';
 
 export function ColorSchemeToggle() {
-  const scheme = useColorScheme();
+  const colorScheme = useColorScheme((s) => s.colorScheme);
+  const setColorScheme = useColorScheme((s) => s.setColorScheme);
 
   const toggle = useCallback(() => {
-    scheme.setColorScheme(scheme.colorScheme === 'dark' ? 'light' : 'dark');
-  }, [scheme]);
+    setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
+  }, [setColorScheme, colorScheme]);
 
   return (
     <Toggle
@@ -15,7 +16,7 @@ export function ColorSchemeToggle() {
       className="flex h-6 w-6 items-center justify-center rounded-lg text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       aria-label="Toggle theme"
     >
-      {scheme.colorScheme === 'dark' ? (
+      {colorScheme === 'dark' ? (
         <svg
           data-theme="dark"
           className="h-5 w-5"

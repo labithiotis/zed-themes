@@ -1,72 +1,78 @@
 import { useFetcher } from '@remix-run/react';
 import type React from 'react';
-import { type PropsWithChildren, createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
+import { create } from 'zustand';
 
 export type ColorScheme = 'dark' | 'light';
 
-const colorSchemeCtx = createContext<{
+type ColorSchemeState = {
   colorScheme?: ColorScheme;
   setColorScheme(theme: ColorScheme): void;
-}>({
+};
+
+export const useColorScheme = create<ColorSchemeState>((set) => ({
   colorScheme: undefined,
-  setColorScheme: () => console.warn('Calling setColorScheme provider beofre it is initialized!'),
-});
+  setColorScheme: (colorScheme) => set({ colorScheme }),
+}));
 
 export const ColorSchemeProvider = (props: React.PropsWithChildren<{ colorScheme?: ColorScheme }>) => {
   const peristColorScheme = usePeristColorScheme();
-  const [colorScheme, setColorScheme] = useState<ColorScheme | undefined>(props.colorScheme);
+  const colorScheme = useColorScheme((s) => s.colorScheme);
+  const setColorScheme = useColorScheme((s) => s.setColorScheme);
 
-  const colorSchemeHandler = useCallback(
-    (colorScheme: ColorScheme) => {
+  useEffect(() => {
+    if (props.colorScheme) {
+      setColorScheme(props.colorScheme);
+    }
+  }, [props.colorScheme, setColorScheme]);
+
+  useEffect(() => {
+    if (colorScheme) {
       const el = document.documentElement.classList;
       colorScheme === 'dark' ? el.add('dark') : el.remove('dark');
-      setColorScheme(colorScheme);
       peristColorScheme(colorScheme);
-    },
-    [peristColorScheme],
-  );
+    }
+  }, [colorScheme, peristColorScheme]);
 
-  return (
-    <colorSchemeCtx.Provider value={{ colorScheme, setColorScheme: colorSchemeHandler }}>
-      <ColorSchemeLoader>{props.children}</ColorSchemeLoader>
-    </colorSchemeCtx.Provider>
-  );
+  return <ColorSchemeLoader>{props.children}</ColorSchemeLoader>;
 };
-
-export const useColorScheme = () => useContext(colorSchemeCtx);
 
 function usePeristColorScheme() {
   const fetcher = useFetcher<{ colorScheme: ColorScheme }>({
     key: 'color-scheme',
   });
 
-  return (colorScheme: ColorScheme) => {
-    fetcher.submit({ colorScheme }, { action: '/action/color-scheme', method: 'post' });
-  };
+  return useCallback(
+    (colorScheme: ColorScheme) => {
+      fetcher.submit({ colorScheme }, { action: '/action/color-scheme', method: 'post' });
+    },
+    [fetcher.submit],
+  );
 }
 
 const prefersDarkMQ = '(prefers-color-scheme: dark)';
 function ColorSchemeLoader({ children }: PropsWithChildren) {
   const called = useRef(false);
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme((s) => s.colorScheme);
+  const setColorScheme = useColorScheme((s) => s.setColorScheme);
 
   useEffect(() => {
-    if (!called.current && !colorScheme.colorScheme) {
-      colorScheme.setColorScheme(matchMedia(prefersDarkMQ).matches ? 'dark' : 'light');
+    if (!called.current && !colorScheme) {
+      setColorScheme(matchMedia(prefersDarkMQ).matches ? 'dark' : 'light');
       called.current = true;
     }
-  }, [colorScheme]);
+  }, [colorScheme, setColorScheme]);
 
   useEffect(() => {
     const mediaQuery = matchMedia(prefersDarkMQ);
     const handleChange = () => {
-      colorScheme.setColorScheme(mediaQuery.matches ? 'dark' : 'light');
+      setColorScheme(mediaQuery.matches ? 'dark' : 'light');
     };
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [colorScheme]);
+  }, [setColorScheme]);
 
-  if (!colorScheme.colorScheme) return null;
+  if (!colorScheme) return null;
 
   return <>{children}</>;
 }
