@@ -6,10 +6,11 @@
 version: 2
 updates:
   - package-ecosystem: 'npm' # See documentation for possible values
+    open-pull-requests-limit: 0 # This forces no normal updates and only security updates
     directory: '/' # Location of package manifests
     versioning-strategy: increase-if-necessary
     schedule:
-      interval: 'monthly'
+      interval: 'weekly'
     groups:
       dependencies:
         update-types:
