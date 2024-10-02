@@ -67,7 +67,7 @@ export const rustPack: LanguagePack = {
     </span>,
     <span key={key()} />,
     <SN key={key()} s="comment">
-      // Define a struct for User
+      &#47;&#47; Define a struct for User
     </SN>,
     <span key={key()}>
       <SN s="keyword">struct</SN>

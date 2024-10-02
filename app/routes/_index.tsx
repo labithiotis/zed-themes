@@ -77,7 +77,6 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
               </Badge>
             ) : (
               <a
-                role="button"
                 href={`/download/themes/${theme.id}`}
                 className="flex px-1 gap-1 text-sm items-center justify-center rounded hover:bg-neutral-200 dark:hover:bg-neutral-800"
                 aria-label={`Download ${theme.name} theme`}
@@ -154,7 +153,6 @@ const ThemePreview = memo(
     return (
       <CarouselItem>
         <a
-          role="button"
           href={encodeURI(`/themes/${themeId}?name=${themeName}`)}
           className="flex-1 relative cursor-pointer rounded-lg overflow-hidden outline outline-2 outline-transparent hover:outline-zed-800 dark:hover:outline-neutral-600"
           aria-label={`Preview ${themeName} theme`}
