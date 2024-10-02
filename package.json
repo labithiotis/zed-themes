@@ -53,7 +53,7 @@
     "embla-carousel-react": "^8.2.1",
     "immutability-helper": "^3.1.1",
     "isbot": "^5.1.17",
-    "lucide-react": "^0.438.0",
+    "lucide-react": "^0.447.0",
     "nanoid": "^5.0.7",
     "posthog-js": "^1.164.1",
     "posthog-node": "^4.2.0",
