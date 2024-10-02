@@ -7,6 +7,7 @@ import * as schema from 'drizzle/schema';
 import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
 import type { ThemeFamilyContent } from '~/themeFamily';
+import { NotFoundResponse } from '~/utils/helpers';
 import { themeValidator } from '~/utils/themeValidator';
 
 export const action: ActionFunction = async (args) => {
@@ -57,3 +58,7 @@ export const action: ActionFunction = async (args) => {
 
   return json({ error: 'Invalid theme', errors: themeValidator.errors }, { status: 400 });
 };
+
+export default function Page() {
+  throw NotFoundResponse;
+}

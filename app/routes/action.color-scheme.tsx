@@ -1,5 +1,6 @@
 import { type ActionFunction, json } from '@remix-run/cloudflare';
 import { colorSchemeSession } from '~/utils/colorScheme.server';
+import { NotFoundResponse } from '~/utils/helpers';
 
 export const action: ActionFunction = async ({ request }) => {
   const session = await colorSchemeSession(request);
@@ -14,3 +15,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   return colorScheme;
 };
+
+export default function Page() {
+  throw NotFoundResponse;
+}

@@ -1,6 +1,7 @@
 import { type ActionFunction, json } from '@remix-run/cloudflare';
 import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
+import { NotFoundResponse } from '~/utils/helpers';
 
 export const action: ActionFunction = async ({ context, request }) => {
   const form = new URLSearchParams(await request.text());
@@ -16,3 +17,7 @@ export const action: ActionFunction = async ({ context, request }) => {
 
   return json({ shareUrl });
 };
+
+export default function Page() {
+  throw NotFoundResponse;
+}

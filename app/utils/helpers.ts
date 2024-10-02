@@ -44,3 +44,8 @@ export function merge<T extends Record<string, unknown>>(
 
   return target as T;
 }
+
+export const NotFoundResponse = new Response(null, {
+  status: 404,
+  statusText: 'Not Found',
+});

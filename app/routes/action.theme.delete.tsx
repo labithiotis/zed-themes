@@ -4,6 +4,7 @@ import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import invariant from 'tiny-invariant';
+import { NotFoundResponse } from '~/utils/helpers';
 
 export const action: ActionFunction = async (args) => {
   const url = new URL(args.request.url);
@@ -33,3 +34,7 @@ export const action: ActionFunction = async (args) => {
     return json({ error: 'Unable to delete theme' }, { status: 400 });
   }
 };
+
+export default function Page() {
+  throw NotFoundResponse;
+}

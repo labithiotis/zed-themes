@@ -1,5 +1,6 @@
 import { type ActionFunction, json } from '@remix-run/cloudflare';
 import { type Language, languages } from '~/providers/language';
+import { NotFoundResponse } from '~/utils/helpers';
 import { languageSession } from '~/utils/language.server';
 
 export const action: ActionFunction = async ({ request }) => {
@@ -15,3 +16,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   return language;
 };
+
+export default function Page() {
+  throw NotFoundResponse;
+}
