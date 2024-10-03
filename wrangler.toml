@@ -1,7 +1,10 @@
 name = "zed-themes"
-compatibility_date = "2024-09-02"
-compatibility_flags = ["nodejs_compat_v2", "nodejs_als"]
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat", "nodejs_als"]
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
+
+[observability]
+enabled = true
 
 [vars]
 CLERK_SECRET_KEY = "<KEY>"
