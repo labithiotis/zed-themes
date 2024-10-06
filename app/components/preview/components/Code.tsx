@@ -65,16 +65,15 @@ export const LSB = () => <SN s="punctuation.bracket">&#91;</SN>;
 export const RSB = () => <SN s="punctuation.bracket">&#93;</SN>;
 
 export function Code() {
+  const language = useLanguage((s) => s.language);
   const [top, setTop] = useState(0);
-
-  const { language } = useLanguage();
 
   const onScroll = (e: UIEvent) => {
     const el = e.target as HTMLDivElement;
     setTop(Math.ceil((el.scrollTop / el.scrollHeight) * el.clientHeight));
   };
 
-  const data = languagePacks[language];
+  const data = languagePacks[language ?? 'tsx'];
 
   return (
     <div

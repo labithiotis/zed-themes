@@ -18,12 +18,14 @@ export default defineConfig({
     remix({
       ignoredRouteFiles: ['**/*.css', '**/*.{json,css}', '**/components/**', '**/*.spec.{ts,tsx}'],
     }),
-    sentryVitePlugin({
-      org: 'zed-themes',
-      project: 'zed-themes',
-      url: 'https://sentry.io/',
-      telemetry: false,
-    }),
+    process.env.SENTRY_AUTH_TOKEN
+      ? sentryVitePlugin({
+          org: 'zed-themes',
+          project: 'zed-themes',
+          url: 'https://sentry.io/',
+          telemetry: false,
+        })
+      : null,
   ],
 
   build: {

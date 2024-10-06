@@ -2,7 +2,7 @@ import { languagePacks, useLanguage } from '~/providers/language';
 import { cssVarStyleToken } from '~/utils/cssVarTokens';
 
 export function Dock() {
-  const { language } = useLanguage();
+  const language = useLanguage((s) => s.language);
 
   return (
     <ul
@@ -12,7 +12,7 @@ export function Dock() {
         backgroundColor: cssVarStyleToken('panel.background'),
       }}
     >
-      {languagePacks[language].files.map(({ Icon, name, indent, selected }) => (
+      {languagePacks[language ?? 'tsx'].files.map(({ Icon, name, indent, selected }) => (
         <li
           key={name}
           className="ghost-element-hover px-3"

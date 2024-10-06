@@ -1,12 +1,26 @@
 import { useFetcher } from '@remix-run/react';
 import type React from 'react';
-import { type ReactNode, createContext, useCallback, useContext, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useRef } from 'react';
+import { create } from 'zustand';
 import type FileIcon from '~/assets/icons/file_icons/file.svg?react';
 import { csharpPack } from '~/languages/csharp';
 import { rustPack } from '~/languages/rust';
 import { tsxPack } from '~/languages/tsx';
 
+export const languages = {
+  csharp: 'C#',
+  rust: 'Rust',
+  tsx: 'TSX',
+};
+
+export const languagePacks: Record<Language, LanguagePack> = {
+  rust: rustPack,
+  csharp: csharpPack,
+  tsx: tsxPack,
+};
+
 export type Language = keyof typeof languages;
+
 export type LanguagePack = {
   activeRow: number;
   tabs: [string, string, string];
@@ -22,51 +36,47 @@ type FileItem = {
   selected?: boolean;
 };
 
-export const languages = {
-  csharp: 'C#',
-  rust: 'Rust',
-  tsx: 'TSX',
+type LanguageState = {
+  language?: Language;
+  setLanguage(language: Language): void;
 };
 
-export const languagePacks: Record<Language, LanguagePack> = {
-  rust: rustPack,
-  csharp: csharpPack,
-  tsx: tsxPack,
-};
-
-const languageCtx = createContext<{
-  language: Language;
-  setLanguage(theme: Language): void;
-}>({
-  language: 'tsx',
-  setLanguage: () => console.warn('Calling setLanguage provider before it is initialized!'),
-});
-
-export const useLanguage = () => useContext(languageCtx);
+export const useLanguage = create<LanguageState>((set) => ({
+  language: undefined,
+  setLanguage: (language) => set({ language }),
+}));
 
 function usePersistLanguage() {
   const fetcher = useFetcher<{ language: Language }>({
     key: 'language',
   });
 
-  return (language: Language) => {
-    fetcher.submit({ language }, { action: '/action/language', method: 'post' });
-  };
+  return useCallback(
+    (language: Language) => {
+      fetcher.submit({ language }, { action: '/action/language', method: 'post' });
+    },
+    [fetcher.submit],
+  );
 }
 
 export const LanguageProvider = (props: React.PropsWithChildren<{ language?: Language }>) => {
+  const loaded = useRef(false);
   const persistLanguage = usePersistLanguage();
-  const [language, setLanguage] = useState<Language>(props.language ?? 'tsx');
+  const language = useLanguage((s) => s.language);
+  const setLanguage = useLanguage((s) => s.setLanguage);
 
-  const languageHandler = useCallback(
-    (language: Language) => {
-      setLanguage(language);
+  useEffect(() => {
+    if (!loaded.current && !language && props.language) {
+      setLanguage(props.language);
+      loaded.current = true;
+    }
+  }, [language, props.language, setLanguage]);
+
+  useEffect(() => {
+    if (language) {
       persistLanguage(language);
-    },
-    [persistLanguage],
-  );
+    }
+  }, [persistLanguage, language]);
 
-  return (
-    <languageCtx.Provider value={{ language, setLanguage: languageHandler }}>{props.children}</languageCtx.Provider>
-  );
+  return <>{props.children}</>;
 };

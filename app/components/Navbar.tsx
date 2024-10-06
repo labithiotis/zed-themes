@@ -19,7 +19,8 @@ export function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const colorScheme = useColorScheme((s) => s.colorScheme);
-  const { language, setLanguage } = useLanguage();
+  const language = useLanguage((s) => s.language);
+  const setLanguage = useLanguage((s) => s.setLanguage);
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
 
   return (
