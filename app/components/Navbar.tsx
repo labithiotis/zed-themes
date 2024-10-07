@@ -52,12 +52,12 @@ export function Navbar() {
           <ColorSchemeToggle />
           {params.themeId && (
             <Select onValueChange={setLanguage} value={language}>
-              <SelectTrigger className="flex-1">
+              <SelectTrigger className="flex-1" data-testid="preview-language">
                 <span className="whitespace-nowrap overflow-hidden text-ellipsis">{languages[language ?? 'tsx']}</span>
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(languages).map(([l, label]) => (
-                  <SelectItem key={l} value={l}>
+                  <SelectItem key={l} value={l} data-testid={`preview-language-${l}`}>
                     {label}
                   </SelectItem>
                 ))}
