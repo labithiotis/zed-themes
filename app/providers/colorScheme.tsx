@@ -52,14 +52,14 @@ function usePeristColorScheme() {
 
 const prefersDarkMQ = '(prefers-color-scheme: dark)';
 function ColorSchemeLoader({ children }: PropsWithChildren) {
-  const called = useRef(false);
+  const loaded = useRef(false);
   const colorScheme = useColorScheme((s) => s.colorScheme);
   const setColorScheme = useColorScheme((s) => s.setColorScheme);
 
   useEffect(() => {
-    if (!called.current && !colorScheme) {
+    if (!loaded.current && !colorScheme) {
       setColorScheme(matchMedia(prefersDarkMQ).matches ? 'dark' : 'light');
-      called.current = true;
+      loaded.current = true;
     }
   }, [colorScheme, setColorScheme]);
 

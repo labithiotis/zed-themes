@@ -12,9 +12,9 @@ import { cssVarStyleToken } from '~/utils/cssVarTokens';
 import { GhostButton } from './GhostButton';
 
 export function Breadcrumbs() {
-  const { language } = useLanguage();
+  const language = useLanguage((s) => s.language);
 
-  const Breadcrumbs = languagePacks[language].breadcrumbs;
+  const Breadcrumbs = languagePacks[language ?? 'tsx'].breadcrumbs;
 
   return (
     <div

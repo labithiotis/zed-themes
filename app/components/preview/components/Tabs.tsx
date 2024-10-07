@@ -9,9 +9,9 @@ import { cssVarStyleToken } from '~/utils/cssVarTokens';
 import { GhostButton } from './GhostButton';
 
 export function Tabs() {
-  const { language } = useLanguage();
+  const language = useLanguage((s) => s.language);
 
-  const tabs = languagePacks[language].tabs;
+  const tabs = languagePacks[language ?? 'tsx'].tabs;
 
   return (
     <div
