@@ -152,7 +152,6 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
         ref={ref}
         role="group"
         aria-roledescription="slide"
-        // className={cn('min-w-0 shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-4' : 'pt-4', className)}
         className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
         {...props}
       />
@@ -279,10 +278,10 @@ const CarouselDots = React.forwardRef<
     },
     ref,
   ) => {
-    const { api, canScrollNext, opts } = useCarousel();
+    const { api, opts } = useCarousel();
     const { scrollSnaps, onDotButtonClick, selectedIndex } = useDotButton(api);
 
-    if ((api && !canScrollNext) || !opts?.active) {
+    if (!opts?.active || !api) {
       return null;
     }
 
@@ -294,8 +293,8 @@ const CarouselDots = React.forwardRef<
             onClick={() => onDotButtonClick(index)}
             className={cn(
               'h-[10px] w-[10px] rounded-full hover:outline hover:outline-1 hover:outline-offset-1 hover:outline-zed-800',
-              index === selectedIndex ? classNameSelected : classNameUnselected,
               classNamesByIndex[index],
+              index === selectedIndex ? classNameSelected : classNameUnselected,
             )}
             aria-label={`Go to preview ${index + 1}`}
             aria-current={index === selectedIndex}

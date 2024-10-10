@@ -107,16 +107,16 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
         <div className="flex gap-2 items-center">
           <p className="flex-1 overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">By {theme.author}</p>
           <CarouselDots
-            classNameSelected="bg-zed-600"
-            classNameUnselected="opacity-50"
+            classNameSelected="bg-zed-700 dark:bg-zed-600"
+            classNameUnselected="bg-opacity-80"
             classNamesByIndex={theme?.themes?.map(({ appearance }) =>
               appearance === 'dark' ? 'bg-black' : 'bg-white',
             )}
           />
         </div>
       </div>
-      <div className="relative flex flex-col isolate min-h-[20vw]">
-        <CarouselContent className="w-full">
+      <div className="relative cursor-pointer overflow-hidden rounded-lg hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-zed-800 dark:hover:outline-neutral-600">
+        <CarouselContent>
           {theme?.themes?.map(({ name, appearance, backgroundColor, backgroundAppearance }, index2) => (
             <ThemePreview
               key={`${theme.id}-${name}`}
@@ -160,7 +160,7 @@ const ThemePreview = memo(
       <CarouselItem>
         <a
           href={encodeURI(`/themes/${themeId}?name=${themeName}`)}
-          className="flex-1 relative cursor-pointer rounded-lg overflow-hidden outline outline-2 outline-transparent hover:outline-zed-800 dark:hover:outline-neutral-600"
+          className="overflow-hidden rounded-lg"
           aria-label={`Preview ${themeName} theme`}
           data-testid="preview-theme"
           data-theme-id={themeId}
@@ -174,15 +174,16 @@ const ThemePreview = memo(
           <img
             width="100%"
             height="100%"
-            className="absolute z-10 inset-0 w-full h-full object-cover rounded"
+            className="absolute z-10 overflow-hidden rounded-lg inset-0 w-full h-full object-cover"
             src={themeAppearance === 'dark' ? themePreviewBackgroundDark : themePreviewBackgroundLight}
             alt="Preview background"
+            loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
           />
-          <div className="absolute z-30  inset-0 w-full h-full rounded" style={{ backgroundColor }} />
+          <div className="absolute z-30 overflow-hidden rounded-lg inset-0 w-full h-full" style={{ backgroundColor }} />
           <img
             width="100%"
             height="100%"
-            className="relative z-50"
+            className="relative z-50 overflow-hidden rounded-lg inset-0 w-full h-full"
             src={encodeURI(`/themes/preview.svg?id=${themeId}&name=${themeName}`)}
             alt={`${themeName} preview`}
             loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
