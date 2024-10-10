@@ -21,7 +21,10 @@ Sentry.init({
       showBranding: false,
       showName: false,
     }),
+    Sentry.replayIntegration(),
   ],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
 });
 
 startTransition(() => {
