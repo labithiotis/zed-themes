@@ -106,7 +106,13 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
         </div>
         <div className="flex gap-2 items-center">
           <p className="flex-1 overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">By {theme.author}</p>
-          <CarouselDots />
+          <CarouselDots
+            classNameSelected="bg-zed-600"
+            classNameUnselected="opacity-50"
+            classNamesByIndex={theme?.themes?.map(({ appearance }) =>
+              appearance === 'dark' ? 'bg-black' : 'bg-white',
+            )}
+          />
         </div>
       </div>
       <div className="relative flex flex-col isolate min-h-[20vw]">
