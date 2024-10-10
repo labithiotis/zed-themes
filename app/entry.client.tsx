@@ -14,6 +14,8 @@ Sentry.init({
       useLocation,
       useMatches,
     }),
+    Sentry.captureConsoleIntegration(),
+    Sentry.extraErrorDataIntegration(),
     Sentry.feedbackIntegration({
       autoInject: false,
       colorScheme: 'system',
