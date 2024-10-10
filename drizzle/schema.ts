@@ -1,3 +1,5 @@
+import { sql, type SQL } from 'drizzle-orm';
+import type { AnyMySqlColumn } from 'drizzle-orm/mysql-core';
 import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 import type { ThemeFamilyContent } from '~/themeFamily';
 
@@ -24,3 +26,7 @@ export const themes = sqliteTable(
 );
 
 export type DBTheme = typeof themes.$inferSelect;
+
+export function lower(value: AnyMySqlColumn): SQL {
+  return sql`(lower(${value}))`;
+}

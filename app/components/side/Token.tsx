@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { type ColorHex, useTheme } from '~/providers/theme';
 import { cn } from '~/utils';
@@ -29,9 +29,12 @@ export function Token({
   const [showColor, setShowColor] = useState(false);
   const { theme, dispatch } = useTheme();
 
-  const setSyntaxToken = debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
-    dispatch({ type: 'setSyntaxToken', token, content });
-  }, 25);
+  const setSyntaxToken = useCallback(
+    debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
+      dispatch({ type: 'setSyntaxToken', token, content });
+    }, 25),
+    [],
+  );
 
   return (
     <div className="flex flex-col px-4 py-1">

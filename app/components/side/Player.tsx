@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { useTheme } from '~/providers/theme';
 import { cn } from '~/utils';
@@ -35,9 +35,12 @@ function PlayerToken({
   const { dispatch } = useTheme();
   const [showColor, setShowColor] = useState(false);
 
-  const setPlayerToken = debounce((index: number, token: keyof PlayerColorContent, color: unknown) => {
-    dispatch({ type: 'setPlayerToken', index, token, color });
-  }, 25);
+  const setPlayerToken = useCallback(
+    debounce((index: number, token: keyof PlayerColorContent, color: unknown) => {
+      dispatch({ type: 'setPlayerToken', index, token, color });
+    }, 25),
+    [],
+  );
 
   return (
     <div className="flex flex-col px-2 py-1">

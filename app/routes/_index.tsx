@@ -28,6 +28,10 @@ type LoaderData = {
 export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
   const db = drizzle(args.context.env.db, { schema });
+  const url = new URL(args.request.url);
+  const search = url.searchParams.get('search');
+
+  console.log('TODO use search', search);
 
   const records = await db.select().from(schema.themes).all();
   const themes: ThemesMetaData[] = records.map((record) => ({
