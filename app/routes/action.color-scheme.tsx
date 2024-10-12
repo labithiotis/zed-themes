@@ -16,6 +16,7 @@ export const action: ActionFunction = async ({ request }) => {
   return colorScheme;
 };
 
-export default function Page() {
+export const loader = () => {
   throw NotFoundResponse;
-}
+};
+export default () => null;

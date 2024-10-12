@@ -196,7 +196,7 @@ export function Side({ edit }: { edit: boolean }) {
               key={token}
               name={token}
               syntax={token}
-              color={theme?.style.syntax[token]?.color}
+              color={theme?.style.syntax?.[token]?.color}
               description=""
               onChange={(color) => setSyntaxToken(token, { color })}
               onClear={() => setSyntaxToken(token, { color: null })}

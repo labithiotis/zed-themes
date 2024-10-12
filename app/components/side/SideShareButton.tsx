@@ -12,10 +12,9 @@ export function SideShareButton({ edit }: { edit: boolean }) {
 
   useEffect(() => {
     if (fetcher.data) {
-      navigator.clipboard.writeText(fetcher.data.shareUrl);
-      toast({
-        description: 'A shareable url has been copied to your clipboard.',
-      });
+      navigator.clipboard
+        .writeText(fetcher.data.shareUrl)
+        .then(() => toast({ description: 'A shareable url has been copied to your clipboard.' }));
     }
   }, [fetcher.data, toast]);
 
@@ -23,8 +22,9 @@ export function SideShareButton({ edit }: { edit: boolean }) {
     if (edit) {
       fetcher.submit({ theme: JSON.stringify(themeFamily) }, { action: '/action/theme/share', method: 'POST' });
     } else {
-      navigator.clipboard.writeText(document.location.href);
-      toast({ description: 'Link has been copied to your clipboard.' });
+      navigator.clipboard
+        .writeText(document.location.href)
+        .then(() => toast({ description: 'Link has been copied to your clipboard.' }));
     }
   };
 
