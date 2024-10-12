@@ -78,6 +78,7 @@ export function Navbar() {
               placeholder="Search themes..."
               className="w-full rounded-lg bg-background pl-8 py-1 md:w-[200px] lg:w-[336px]"
               onChange={updateSearch}
+              data-testid="search-input"
             />
           </div>
         </div>
