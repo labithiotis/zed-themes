@@ -1,22 +1,22 @@
 import { ClerkLoading, SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
 import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
+import { Search } from 'lucide-react';
+import { useCallback, useState } from 'react';
 import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
 import type { RootData } from '~/root';
+import { debounce } from '~/utils/debounce';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { UploadTheme } from './NavbarUpload';
 import { Button } from './ui/button';
 import { ButtonMenu } from './ui/button-menu';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { DropdownMenuItem } from './ui/dropdown-menu';
-import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
-import { useCallback, useState } from 'react';
-import { useToast } from './ui/use-toast';
-import { Search } from 'lucide-react';
 import { Input } from './ui/input';
-import { debounce } from '~/utils/debounce';
+import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
+import { useToast } from './ui/use-toast';
 
 export function Navbar() {
   const params = useParams();
@@ -61,7 +61,10 @@ export function Navbar() {
   };
 
   return (
-    <header className="fixed top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className="fixed top-0 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      style={{ zIndex: 100 }}
+    >
       <nav className="container flex h-14 max-w-screen-2xl items-center justify-between">
         <div className="flex items-center gap-3">
           <Link to="/" rel="home" className="text-xl font-semibold no-wraps text-zed-800 dark:text-zed-400">
