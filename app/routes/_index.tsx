@@ -19,6 +19,7 @@ import {
 } from '~/components/ui/carousel';
 import type { AppearanceContent } from '~/themeFamily';
 import type { ThemesMetaData } from '../types';
+import { Search } from 'lucide-react';
 
 export type ThemeLitst = { timestamp: number; themes: ThemesMetaData[] };
 
@@ -68,11 +69,19 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="grid grid-cols-1 w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
-        {themes?.map((theme, index) => (
-          <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
-        ))}
-      </div>
+      {themes.length === 0 ? (
+        <div className="flex flex-col items-center justify-center mt-10" data-testid="no-results-message">
+          <Search className="h-16 w-16 text-gray-400" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">No results found</h3>
+          <p className="text-sm text-gray-500 text-center max-w-sm">We couldn't find any themes for your search.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
+          {themes?.map((theme, index) => (
+            <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
+          ))}
+        </div>
+      )}
     </Layout>
   );
 }

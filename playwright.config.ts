@@ -18,7 +18,7 @@ export default defineConfig({
   },
   use: {
     baseURL: 'http://localhost:3000',
-    trace: process.env.NODE_ENV === 'development' ? 'on' : 'on-first-retry',
+    trace: 'on',
   },
   projects: [
     {
