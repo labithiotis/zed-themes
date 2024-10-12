@@ -31,15 +31,16 @@ export function Navbar() {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
 
   const copyInstallDir = useCallback(() => {
-    navigator?.clipboard?.writeText(' ~/.config/zed/themes');
-    toast({
-      variant: 'success',
-      description: (
-        <p>
-          <strong>~/.config/zed/themes</strong> is copied to your clipboard
-        </p>
-      ),
-    });
+    navigator?.clipboard?.writeText('~/.config/zed/themes').then(() =>
+      toast({
+        variant: 'success',
+        description: (
+          <p>
+            <strong>~/.config/zed/themes</strong> is copied to your clipboard
+          </p>
+        ),
+      }),
+    );
   }, [toast]);
 
   const updateSearchQuery = useCallback(

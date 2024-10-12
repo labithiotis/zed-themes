@@ -4,6 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
+import { Search } from 'lucide-react';
 import { memo } from 'react';
 import themePreviewBackgroundDark from '~/assets/images/dune_dark_sm.jpeg';
 import themePreviewBackgroundLight from '~/assets/images/dune_light_sm.jpeg';
@@ -19,7 +20,6 @@ import {
 } from '~/components/ui/carousel';
 import type { AppearanceContent } from '~/themeFamily';
 import type { ThemesMetaData } from '../types';
-import { Search } from 'lucide-react';
 
 export type ThemeLitst = { timestamp: number; themes: ThemesMetaData[] };
 
