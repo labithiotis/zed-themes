@@ -17,6 +17,7 @@ export const action: ActionFunction = async ({ request }) => {
   return language;
 };
 
-export default function Page() {
+export const loader = () => {
   throw NotFoundResponse;
-}
+};
+export default () => null;

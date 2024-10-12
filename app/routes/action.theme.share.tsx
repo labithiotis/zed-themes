@@ -18,6 +18,7 @@ export const action: ActionFunction = async ({ context, request }) => {
   return json({ shareUrl });
 };
 
-export default function Page() {
+export const loader = () => {
   throw NotFoundResponse;
-}
+};
+export default () => null;

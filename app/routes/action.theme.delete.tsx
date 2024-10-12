@@ -24,7 +24,7 @@ export const action: ActionFunction = async (args) => {
   try {
     await db.delete(schema.themes).where(sql`${schema.themes.id} = ${themeId} AND ${schema.themes.userId} = ${userId}`);
 
-    // Redirect to themes page if user is deleteing theme their currently on
+    // Redirect to themes page if user is deleting theme their currently on
     if (url.pathname === `/themes/${themeId}`) {
       return redirect('/users/themes');
     }
@@ -35,6 +35,7 @@ export const action: ActionFunction = async (args) => {
   }
 };
 
-export default function Page() {
+export const loader = () => {
   throw NotFoundResponse;
-}
+};
+export default () => null;

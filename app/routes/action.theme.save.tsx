@@ -59,6 +59,7 @@ export const action: ActionFunction = async (args) => {
   return json({ error: 'Invalid theme', errors: themeValidator.errors }, { status: 400 });
 };
 
-export default function Page() {
+export const loader = () => {
   throw NotFoundResponse;
-}
+};
+export default () => null;
