@@ -62,15 +62,15 @@ export function Navbar() {
 
   return (
     <header
-      className="fixed top-0 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="container fixed top-0 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       style={{ zIndex: 100 }}
     >
-      <nav className="container flex h-14 max-w-screen-2xl items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link to="/" rel="home" className="text-xl font-semibold no-wraps text-zed-800 dark:text-zed-400">
+      <nav className="flex flex-col-reverse md:flex-row p-1.5 gap-1 max-w-screen-2xl items-end md:items-center justify-between">
+        <div className="flex w-full items-center gap-3">
+          <Link to="/" rel="home" className="text-xl font-semibold whitespace-nowrap text-zed-800 dark:text-zed-400">
             Zed Themes
           </Link>
-          <div className="relative">
+          <div className="relative w-full">
             <Search className="absolute left-2 h-full w-4 text-muted-foreground" />
             <Input
               type="search"
