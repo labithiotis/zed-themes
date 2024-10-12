@@ -33,18 +33,23 @@ export function UploadTheme() {
     }
 
     file.text().then((text) => {
-      const data = JSON.parse(text);
-      const isThemeFamily = 'author' in data;
-      const themeFamily = isThemeFamily ? data : { name: 'zed', author: 'zed', themes: [data] };
+      try {
+        const data = JSON.parse(text);
+        const isThemeFamily = 'author' in data;
+        const themeFamily = isThemeFamily ? data : { name: 'zed', author: 'zed', themes: [data] };
 
-      if (themeValidator(themeFamily)) {
-        console.debug('Theme schema is valid navigate to edit page');
-        dispatch({ type: 'set', themeFamily, themeId: null });
-        navigate('/themes/edit');
-      } else {
-        console.warn(themeValidator.errors);
-        const message = themeValidator.errors?.map((e) => e.message).join('\n');
-        alert(`File does not match Zed's theme schema!\n\nWe got the following errors:\n${message}`);
+        if (themeValidator(themeFamily)) {
+          console.debug('Theme schema is valid navigate to edit page');
+          dispatch({ type: 'set', themeFamily, themeId: null });
+          navigate('/themes/edit');
+        } else {
+          console.warn(themeValidator.errors);
+          const message = themeValidator.errors?.map((e) => e.message).join('\n');
+          alert(`File does not match Zed's theme schema!\n\nWe got the following errors:\n${message}`);
+        }
+      } catch (error) {
+        console.warn('JSON parse error:', error);
+        alert('Error parsing JSON file');
       }
     });
 
