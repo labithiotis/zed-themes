@@ -1,6 +1,7 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
+import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import { memo } from 'react';
@@ -30,10 +31,18 @@ export const loader: LoaderFunction = async (args) => {
   const db = drizzle(args.context.env.db, { schema });
   const url = new URL(args.request.url);
   const search = url.searchParams.get('search');
+  const searchQuery = search ? `%${search}%` : undefined;
 
-  console.log('TODO use search', search);
+  const records = await db
+    .select()
+    .from(schema.themes)
+    .where(
+      searchQuery
+        ? sql`${schema.themes.name} LIKE ${searchQuery} OR ${schema.themes.author} like ${searchQuery}`
+        : undefined,
+    )
+    .all();
 
-  const records = await db.select().from(schema.themes).all();
   const themes: ThemesMetaData[] = records.map((record) => ({
     id: record.id,
     name: record.name,
