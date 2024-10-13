@@ -29,5 +29,7 @@ test('navigtes to preview theme', async ({ page }) => {
 
   await firstTheme.click();
 
+  await page.waitForURL(`**/themes/${themeId}**`);
+
   expect(new URL(page.url()).pathname).toEqual(`/themes/${themeId}`);
 });

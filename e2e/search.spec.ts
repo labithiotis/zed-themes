@@ -14,7 +14,8 @@ test('can search for themes', async ({ page }) => {
   // Test searching for a theme with mixed case
   await page.getByTestId('search-input').click();
   await page.getByTestId('search-input').fill('anYA');
-  await page.waitForTimeout(1000); // Search has a debounce of 600ms so wait for addtionall 400ms to ensure search is actioned
+
+  await page.waitForTimeout(2000);
 
   const searchCount = await page.getByTestId('theme').count();
   expect(searchCount).toBe(1);
@@ -23,7 +24,8 @@ test('can search for themes', async ({ page }) => {
   // Test clearing search
   await page.getByTestId('search-input').click();
   await page.getByTestId('search-input').fill('');
-  await page.waitForTimeout(1000);
+
+  await page.waitForTimeout(2000);
 
   const resetCount = await page.getByTestId('theme').count();
   expect(resetCount).toBeGreaterThan(3);
@@ -36,6 +38,8 @@ test('search with no results displays appropriate message', async ({ page }) => 
 
   await page.getByTestId('search-input').click();
   await page.getByTestId('search-input').fill('xyznonexistent');
+
+  await page.waitForTimeout(2000);
 
   await expect(page.getByTestId('theme')).toHaveCount(0);
   await expect(page.getByTestId('no-results-message')).toBeVisible();
