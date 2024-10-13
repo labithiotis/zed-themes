@@ -66,13 +66,15 @@ export function Navbar() {
 
   return (
     <header
-      className="fixed w-screen top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="fixed w-screen  top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       style={{ zIndex: 100 }}
     >
       <nav
         className={cn(
-          'py-1.5 flex flex-col-reverse md:flex-row gap-1 items-end md:items-center justify-between',
-          isRoot ? 'container px-8' : 'px-3',
+          'py-1.5 flex gap-1 justify-between',
+          isRoot
+            ? 'container px-8 h-20 md:h-14 flex-col-reverse md:flex-row items-end md:items-center'
+            : 'px-3 h-14 flex-row items-center',
         )}
       >
         <div className="flex w-full items-center gap-3">

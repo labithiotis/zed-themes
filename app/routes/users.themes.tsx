@@ -51,7 +51,7 @@ export default function UserThemes() {
   if (themes.length === 0) {
     return (
       <Layout>
-        <div className="flex flex-col items-center mt-20 ">
+        <div className="flex flex-col items-center mt-20">
           <AiOutlineFileAdd size={40} />
           <h2 className="text-lg font-semibold">You have no themes yet</h2>
           <p className="mb-4">Get started by creating a new theme.</p>
