@@ -88,7 +88,13 @@ export default function Home() {
 
 const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; index: number }) => {
   return (
-    <Carousel className="items flex flex-col gap-2" opts={{ active: theme.themes?.length > 1 }}>
+    <Carousel
+      className="items flex flex-col gap-2"
+      opts={{ active: theme.themes?.length > 1 }}
+      data-testid="theme"
+      data-theme-id={theme.id}
+      data-theme-name={theme.name}
+    >
       <div className="flex flex-col overflow-hidden">
         <div className="flex items-center overflow-hidden">
           <h4 className="text-lg flex-1 truncate">{theme.name}</h4>
@@ -184,9 +190,6 @@ const ThemePreview = memo(
           href={encodeURI(`/themes/${themeId}?name=${themeName}`)}
           className="overflow-hidden rounded-lg"
           aria-label={`Preview ${themeName} theme`}
-          data-testid="preview-theme"
-          data-theme-id={themeId}
-          data-theme-name={themeName}
           style={{
             backgroundColor:
               backgroundAppearance === 'opaque' ? (themeAppearance === 'dark' ? '#000' : '#fff') : undefined,
