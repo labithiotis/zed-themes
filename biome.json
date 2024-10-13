@@ -4,7 +4,15 @@
     "enabled": true
   },
   "files": {
-    "ignore": [".zed/", "build/**", ".wrangler/**", "themeValidatorAjv.mjs", "languages/examples/**"]
+    "ignore": [
+      ".zed/",
+      "build/**",
+      ".wrangler/**",
+      "test-results/**",
+      "playwright-report/**",
+      "themeValidatorAjv.mjs",
+      "languages/examples/**"
+    ]
   },
   "linter": {
     "enabled": true,

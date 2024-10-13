@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/remix';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { IoBug } from 'react-icons/io5';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
 import { useTheme } from '~/providers/theme';
@@ -40,12 +40,18 @@ export function Side({ edit }: { edit: boolean }) {
   const setIndex = (index: string) => {
     dispatch({ type: 'setIndex', index: Number(index) });
   };
-  const setStyleToken = debounce((token: StyleTokens, color: unknown) => {
-    dispatch({ type: 'setStyleToken', token, color });
-  }, 25);
-  const setSyntaxToken = debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
-    dispatch({ type: 'setSyntaxToken', token, content });
-  }, 25);
+  const setStyleToken = useCallback(
+    debounce((token: StyleTokens, color: unknown) => {
+      dispatch({ type: 'setStyleToken', token, color });
+    }, 25),
+    [],
+  );
+  const setSyntaxToken = useCallback(
+    debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
+      dispatch({ type: 'setSyntaxToken', token, content });
+    }, 25),
+    [],
+  );
   const addTheme = () => {
     dispatch({ type: 'addTheme' });
   };
@@ -247,7 +253,7 @@ export function Side({ edit }: { edit: boolean }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Support ♥︎
+            Support ♥
           </a>
           <button
             type="button"

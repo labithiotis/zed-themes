@@ -1,54 +1,115 @@
-import { SignInButton, UserButton } from '@clerk/remix';
+import { ClerkLoading, SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
 import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
-import { IoIosHelpCircleOutline } from 'react-icons/io';
+import { Search } from 'lucide-react';
+import { useCallback, useState } from 'react';
 import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
 import type { RootData } from '~/root';
+import { debounce } from '~/utils/debounce';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { UploadTheme } from './NavbarUpload';
 import { Button } from './ui/button';
 import { ButtonMenu } from './ui/button-menu';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { DropdownMenuItem } from './ui/dropdown-menu';
+import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
+import { useToast } from './ui/use-toast';
 
 export function Navbar() {
   const params = useParams();
+  const { toast } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
   const colorScheme = useColorScheme((s) => s.colorScheme);
   const language = useLanguage((s) => s.language);
   const setLanguage = useLanguage((s) => s.setLanguage);
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
+  const searchParams = new URLSearchParams(location.search);
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
+
+  const copyInstallDir = useCallback(() => {
+    navigator?.clipboard?.writeText('~/.config/zed/themes').then(() =>
+      toast({
+        variant: 'success',
+        description: (
+          <p>
+            <strong>~/.config/zed/themes</strong> is copied to your clipboard
+          </p>
+        ),
+      }),
+    );
+  }, [toast]);
+
+  const updateSearchQuery = useCallback(
+    debounce((search?: string) => {
+      if (search) {
+        searchParams.set('search', search);
+        navigate({ search: searchParams.toString() });
+      } else {
+        searchParams.delete('search');
+        navigate({ search: searchParams.toString() });
+      }
+    }, 600),
+    [],
+  );
+
+  const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    updateSearchQuery(e.target.value);
+  };
 
   return (
-    <header className="fixed top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container flex h-14 max-w-screen-2xl items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link to="/" rel="home" className="text-xl font-semibold no-wraps text-zed-800 dark:text-zed-400">
+    <header
+      className="fixed w-screen top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      style={{ zIndex: 100 }}
+    >
+      <nav className="px-8 container flex flex-col-reverse md:flex-row p-1.5 gap-1 items-end md:items-center justify-between">
+        <div className="flex w-full items-center gap-3">
+          <Link to="/" rel="home" className="text-xl font-semibold whitespace-nowrap text-zed-800 dark:text-zed-400">
             Zed Themes
           </Link>
+          <div className="relative flex-1">
+            <Search className="absolute left-2 h-full w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              value={searchTerm}
+              placeholder="Search themes..."
+              className="w-full rounded-lg bg-background pl-8 py-1 md:w-[200px] lg:w-[336px]"
+              onChange={updateSearch}
+              data-testid="search-input"
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
           <Dialog>
             <DialogTrigger asChild>
               <Button size="xs" variant="ghost" className="hidden items-center gap-1 md:flex">
-                Installing theme <IoIosHelpCircleOutline />
+                How to install themes?
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Installing community themes</DialogTitle>
+                <DialogTitle>Installing themes</DialogTitle>
               </DialogHeader>
               <div className="flex flex-col gap-1.5">
-                Community themes can be downloaded and installed by placing the theme in the following directory:
-                <br />
-                <code>~/.config/zed/themes</code>
+                <p>
+                  Themes that are marked as "included" are ones that are already added to Zed's' extensions repo, you
+                  can install those by searching for theme name in the extensions panel within Zed.
+                </p>
+                <p>
+                  Community themes, which are ones hosted here can be downloaded and installed by placing the theme in
+                  the following directory on your system:
+                  <br />
+                  <Button onClick={copyInstallDir} variant="ghost" size="sm" className="-ml-1">
+                    <code>~/.config/zed/themes</code>
+                  </Button>
+                </p>
               </div>
             </DialogContent>
           </Dialog>
-        </div>
-        <div className="flex items-center gap-2">
           <ColorSchemeToggle />
           {params.themeId && (
             <Select onValueChange={setLanguage} value={language}>
@@ -92,11 +153,22 @@ export function Navbar() {
               </UserButton>
             </div>
           ) : (
-            <SignInButton mode="modal" forceRedirectUrl={location.pathname} signUpForceRedirectUrl={location.pathname}>
-              <Button size="xs" variant="ghost">
-                Sign in
-              </Button>
-            </SignInButton>
+            <>
+              <ClerkLoading>
+                <Button size="xs" variant="ghost" disabled={true}>
+                  Sign in
+                </Button>
+              </ClerkLoading>
+              <SignInButton
+                mode="modal"
+                forceRedirectUrl={location.pathname}
+                signUpForceRedirectUrl={location.pathname}
+              >
+                <Button size="xs" variant="ghost">
+                  Sign in
+                </Button>
+              </SignInButton>
+            </>
           )}
         </div>
       </nav>

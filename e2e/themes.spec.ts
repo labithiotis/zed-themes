@@ -13,7 +13,7 @@ test('toggles dark mode', async ({ page }) => {
 //   await page.goto('/themes');
 //   const downloadPromise = page.waitForEvent('download');
 
-//   const firstTheme = page.getByTestId('preview-theme').first();
+//   const firstTheme = page.getByTestId('theme').first();
 //   const themeName = await firstTheme.getAttribute('data-theme-name');
 
 //   await page.getByLabel(`Download ${themeName} theme`).click();
@@ -24,11 +24,12 @@ test('toggles dark mode', async ({ page }) => {
 test('navigtes to preview theme', async ({ page }) => {
   await page.goto('/');
 
-  const firstTheme = page.getByTestId('preview-theme').first();
+  const firstTheme = page.getByTestId('theme').first();
   const themeId = await firstTheme.getAttribute('data-theme-id');
-  const themeName = await firstTheme.getAttribute('data-theme-name');
 
-  await page.getByLabel(`Preview ${themeName} theme`).click();
+  await firstTheme.click();
+
+  await page.waitForURL(`**/themes/${themeId}**`);
 
   expect(new URL(page.url()).pathname).toEqual(`/themes/${themeId}`);
 });

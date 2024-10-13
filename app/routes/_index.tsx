@@ -1,8 +1,10 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
+import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
+import { Search } from 'lucide-react';
 import { memo } from 'react';
 import themePreviewBackgroundDark from '~/assets/images/dune_dark_sm.jpeg';
 import themePreviewBackgroundLight from '~/assets/images/dune_light_sm.jpeg';
@@ -28,8 +30,20 @@ type LoaderData = {
 export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
   const db = drizzle(args.context.env.db, { schema });
+  const url = new URL(args.request.url);
+  const search = url.searchParams.get('search');
+  const searchQuery = search ? `%${search}%` : undefined;
 
-  const records = await db.select().from(schema.themes).all();
+  const records = await db
+    .select()
+    .from(schema.themes)
+    .where(
+      searchQuery
+        ? sql`LOWER(${schema.themes.name}) LIKE LOWER(${searchQuery}) OR LOWER(${schema.themes.author}) LIKE LOWER(${searchQuery})`
+        : undefined,
+    )
+    .all();
+
   const themes: ThemesMetaData[] = records.map((record) => ({
     id: record.id,
     name: record.name,
@@ -55,18 +69,32 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="grid grid-cols-1 w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
-        {themes?.map((theme, index) => (
-          <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
-        ))}
-      </div>
+      {themes.length === 0 ? (
+        <div className="flex flex-col items-center justify-center mt-10" data-testid="no-results-message">
+          <Search className="h-16 w-16 text-gray-400" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">No results found</h3>
+          <p className="text-sm text-gray-500 text-center max-w-sm">We couldn't find any themes for your search.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
+          {themes?.map((theme, index) => (
+            <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
+          ))}
+        </div>
+      )}
     </Layout>
   );
 }
 
 const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; index: number }) => {
   return (
-    <Carousel className="items flex flex-col gap-2" opts={{ active: theme.themes?.length > 1 }}>
+    <Carousel
+      className="items flex flex-col gap-2"
+      opts={{ active: theme.themes?.length > 1 }}
+      data-testid="theme"
+      data-theme-id={theme.id}
+      data-theme-name={theme.name}
+    >
       <div className="flex flex-col overflow-hidden">
         <div className="flex items-center overflow-hidden">
           <h4 className="text-lg flex-1 truncate">{theme.name}</h4>
@@ -106,11 +134,17 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
         </div>
         <div className="flex gap-2 items-center">
           <p className="flex-1 overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">By {theme.author}</p>
-          <CarouselDots />
+          <CarouselDots
+            classNameSelected="bg-zed-700 dark:bg-zed-600"
+            classNameUnselected="bg-opacity-80"
+            classNamesByIndex={theme?.themes?.map(({ appearance }) =>
+              appearance === 'dark' ? 'bg-black' : 'bg-white',
+            )}
+          />
         </div>
       </div>
-      <div className="relative flex flex-col isolate min-h-[20vw]">
-        <CarouselContent className="w-full">
+      <div className="relative cursor-pointer overflow-hidden rounded-lg hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-zed-800 dark:hover:outline-neutral-600">
+        <CarouselContent>
           {theme?.themes?.map(({ name, appearance, backgroundColor, backgroundAppearance }, index2) => (
             <ThemePreview
               key={`${theme.id}-${name}`}
@@ -154,11 +188,8 @@ const ThemePreview = memo(
       <CarouselItem>
         <a
           href={encodeURI(`/themes/${themeId}?name=${themeName}`)}
-          className="flex-1 relative cursor-pointer rounded-lg overflow-hidden outline outline-2 outline-transparent hover:outline-zed-800 dark:hover:outline-neutral-600"
+          className="overflow-hidden rounded-lg"
           aria-label={`Preview ${themeName} theme`}
-          data-testid="preview-theme"
-          data-theme-id={themeId}
-          data-theme-name={themeName}
           style={{
             backgroundColor:
               backgroundAppearance === 'opaque' ? (themeAppearance === 'dark' ? '#000' : '#fff') : undefined,
@@ -168,15 +199,16 @@ const ThemePreview = memo(
           <img
             width="100%"
             height="100%"
-            className="absolute z-10 inset-0 w-full h-full object-cover rounded"
+            className="absolute z-10 overflow-hidden rounded-lg inset-0 w-full h-full object-cover"
             src={themeAppearance === 'dark' ? themePreviewBackgroundDark : themePreviewBackgroundLight}
             alt="Preview background"
+            loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
           />
-          <div className="absolute z-30  inset-0 w-full h-full rounded" style={{ backgroundColor }} />
+          <div className="absolute z-30 overflow-hidden rounded-lg inset-0 w-full h-full" style={{ backgroundColor }} />
           <img
             width="100%"
             height="100%"
-            className="relative z-50"
+            className="relative z-50 overflow-hidden rounded-lg inset-0 w-full h-full"
             src={encodeURI(`/themes/preview.svg?id=${themeId}&name=${themeName}`)}
             alt={`${themeName} preview`}
             loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
