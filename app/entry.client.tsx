@@ -21,7 +21,10 @@ Sentry.init({
       showBranding: false,
       showName: false,
     }),
-    Sentry.replayIntegration(),
+    Sentry.replayIntegration({
+      maskAllText: false,
+      blockAllMedia: false,
+    }),
   ],
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
