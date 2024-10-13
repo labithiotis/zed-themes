@@ -39,7 +39,7 @@ export const loader: LoaderFunction = async (args) => {
     .from(schema.themes)
     .where(
       searchQuery
-        ? sql`${schema.themes.name} LIKE ${searchQuery} OR ${schema.themes.author} like ${searchQuery}`
+        ? sql`LOWER(${schema.themes.name}) LIKE LOWER(${searchQuery}) OR LOWER(${schema.themes.author}) LIKE LOWER(${searchQuery})`
         : undefined,
     )
     .all();

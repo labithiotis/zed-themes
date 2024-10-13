@@ -37,6 +37,7 @@ if (!process.env.CI) {
   config.workers = 1;
   config.retries = 0;
   config.reporter = 'html';
+  config.forbidOnly = false;
 
   if (config.use) {
     config.use.trace = 'on';
