@@ -72,7 +72,5 @@ function ColorSchemeLoader({ children }: PropsWithChildren) {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [setColorScheme]);
 
-  if (!colorScheme) return null;
-
   return <>{children}</>;
 }

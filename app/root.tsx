@@ -96,7 +96,6 @@ function Root() {
         </LanguageProvider>
       </ColorSchemeProvider>
       <ScrollRestoration />
-      <Scripts />
       <Toaster />
     </Document>
   );
@@ -132,7 +131,7 @@ export function ErrorBoundary() {
     content = (
       <>
         <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">
-          Opps!
+          Oops!
         </h1>
         <p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
           Something unexpected happened

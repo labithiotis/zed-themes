@@ -7,6 +7,7 @@ import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
 import type { RootData } from '~/root';
+import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { UploadTheme } from './NavbarUpload';
@@ -29,6 +30,8 @@ export function Navbar() {
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
   const searchParams = new URLSearchParams(location.search);
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
+
+  const isRoot = location.pathname === '/';
 
   const copyInstallDir = useCallback(() => {
     navigator?.clipboard?.writeText('~/.config/zed/themes').then(() =>
@@ -66,22 +69,29 @@ export function Navbar() {
       className="fixed w-screen top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       style={{ zIndex: 100 }}
     >
-      <nav className="px-8 container flex flex-col-reverse md:flex-row p-1.5 gap-1 items-end md:items-center justify-between">
+      <nav
+        className={cn(
+          'py-1.5 flex flex-col-reverse md:flex-row gap-1 items-end md:items-center justify-between',
+          isRoot ? 'container px-8' : 'px-3',
+        )}
+      >
         <div className="flex w-full items-center gap-3">
           <Link to="/" rel="home" className="text-xl font-semibold whitespace-nowrap text-zed-800 dark:text-zed-400">
             Zed Themes
           </Link>
-          <div className="relative flex-1">
-            <Search className="absolute left-2 h-full w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              value={searchTerm}
-              placeholder="Search themes..."
-              className="w-full rounded-lg bg-background pl-8 py-1 md:w-[200px] lg:w-[336px]"
-              onChange={updateSearch}
-              data-testid="search-input"
-            />
-          </div>
+          {isRoot && (
+            <div className="relative flex-1">
+              <Search className="absolute left-2 h-full w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                value={searchTerm}
+                placeholder="Search"
+                className="w-full rounded-lg bg-background pl-8 py-1 md:w-[200px] lg:w-[336px]"
+                onChange={updateSearch}
+                data-testid="search-input"
+              />
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Dialog>
