@@ -67,7 +67,11 @@ const ColorSchemeLoader = (props: React.PropsWithChildren) => {
   useEffect(() => {
     if (colorScheme) {
       const el = document.documentElement.classList;
-      colorScheme === 'dark' ? el.add('dark') : el.remove('dark');
+      if (colorScheme === 'system') {
+        el.toggle('dark', window.matchMedia(prefersDarkMQ).matches);
+      } else {
+        el.toggle('dark', colorScheme === 'dark');
+      }
       persistColorScheme(colorScheme);
     }
   }, [colorScheme, persistColorScheme]);
