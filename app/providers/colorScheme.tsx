@@ -1,7 +1,8 @@
 import { useFetcher } from '@remix-run/react';
 import type React from 'react';
 import { createContext, useCallback, useContext, useEffect, useRef } from 'react';
-import { createStore, useStore } from 'zustand';
+import { useStore } from 'zustand';
+import { createStore } from 'zustand/vanilla';
 
 const prefersDarkMQ = '(prefers-color-scheme: dark)';
 
@@ -23,14 +24,14 @@ const createColorSchemeStore = (initProps?: Partial<ColorSchemeProps>) => {
   const DEFAULT_PROPS: ColorSchemeProps = {
     colorScheme: 'system',
   };
-  return createStore<ColorSchemeState>()((set) => ({
+  return createStore<ColorSchemeState>((set) => ({
     ...DEFAULT_PROPS,
     ...initProps,
     setColorScheme: (colorScheme) => set({ colorScheme }),
   }));
 };
 
-export function useColorScheme<T>(selector: (state: ColorSchemeState) => T): T {
+export function useColorScheme<T = ColorSchemeState>(selector: (state: ColorSchemeState) => T): T {
   const store = useContext(ColorSchemeContext);
   if (!store) throw new Error('Missing ColorSchemeContext.Provider in the tree');
   return useStore(store, selector);
@@ -55,7 +56,7 @@ const ColorSchemeLoader = (props: React.PropsWithChildren) => {
     key: 'color-scheme',
   });
 
-  const peristColorScheme = useCallback(
+  const persistColorScheme = useCallback(
     (colorScheme: ColorScheme) => {
       fetcher.submit({ colorScheme }, { action: '/action/color-scheme', method: 'post' });
     },
@@ -67,9 +68,9 @@ const ColorSchemeLoader = (props: React.PropsWithChildren) => {
     if (colorScheme) {
       const el = document.documentElement.classList;
       colorScheme === 'dark' ? el.add('dark') : el.remove('dark');
-      peristColorScheme(colorScheme);
+      persistColorScheme(colorScheme);
     }
-  }, [colorScheme, peristColorScheme]);
+  }, [colorScheme, persistColorScheme]);
 
   // Add event listener for media color-scheme changes
   useEffect(() => {

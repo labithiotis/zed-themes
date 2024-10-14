@@ -52,14 +52,14 @@ const createLanguageStore = (initProps?: Partial<LanguageProps>) => {
   const DEFAULT_PROPS: LanguageProps = {
     language: 'tsx',
   };
-  return createStore<LanguageState>()((set) => ({
+  return createStore<LanguageState>((set) => ({
     ...DEFAULT_PROPS,
     ...initProps,
     setLanguage: (language) => set({ language }),
   }));
 };
 
-export function useLanguage<T>(selector: (state: LanguageState) => T): T {
+export function useLanguage<T = LanguageState>(selector: (state: LanguageState) => T): T {
   const store = useContext(LanguageContext);
   if (!store) throw new Error('Missing LanguageContext.Provider in the tree');
   return useStore(store, selector);
