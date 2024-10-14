@@ -63,13 +63,15 @@ export const loader: LoaderFunction = async (args) => {
 };
 
 function Document(props: { children: ReactNode; title?: string; colorScheme?: ColorScheme }) {
+  const className = props.colorScheme === 'dark' ? 'dark' : 'light';
   return (
-    <html lang="en" className={props.colorScheme}>
+    <html lang="en" className={className}>
       <head>
         {props.title ? <title>{props.title}</title> : null}
         <Meta />
         <Links />
-        <meta name="color-scheme" content={props.colorScheme === 'light' ? 'light dark' : 'dark light'} />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
       </head>
       <body className="bg-stone-300 dark:bg-stone-900">
         {props.children}
@@ -139,7 +141,7 @@ export function ErrorBoundary() {
         <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
           {error instanceof Error ? error?.message : 'Unknown error'}
         </p>
-        <pre className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
+        <pre className="mb-4 text-xs font-light text-gray-500 dark:text-gray-400 overflow-scroll max-h-24">
           {error instanceof Error ? error?.stack : ''}
         </pre>
       </>
