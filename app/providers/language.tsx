@@ -1,7 +1,7 @@
 import { useFetcher } from '@remix-run/react';
 import type React from 'react';
-import { type ReactNode, useCallback, useEffect, useRef } from 'react';
-import { create } from 'zustand';
+import { type ReactNode, createContext, useCallback, useContext, useEffect, useRef } from 'react';
+import { createStore, useStore } from 'zustand';
 import type FileIcon from '~/assets/icons/file_icons/file.svg?react';
 import { csharpPack } from '~/languages/csharp';
 import { rustPack } from '~/languages/rust';
@@ -36,41 +36,59 @@ type FileItem = {
   selected?: boolean;
 };
 
-type LanguageState = {
+type LanguageProps = {
   language?: Language;
+};
+
+type LanguageState = LanguageProps & {
   setLanguage(language: Language): void;
 };
 
-export const useLanguage = create<LanguageState>((set) => ({
-  language: undefined,
-  setLanguage: (language) => set({ language }),
-}));
+type LanguageStore = ReturnType<typeof createLanguageStore>;
 
-function usePersistLanguage() {
+const LanguageContext = createContext<LanguageStore | null>(null);
+
+const createLanguageStore = (initProps?: Partial<LanguageProps>) => {
+  const DEFAULT_PROPS: LanguageProps = {
+    language: 'tsx',
+  };
+  return createStore<LanguageState>((set) => ({
+    ...DEFAULT_PROPS,
+    ...initProps,
+    setLanguage: (language) => set({ language }),
+  }));
+};
+
+export function useLanguage<T = LanguageState>(selector: (state: LanguageState) => T): T {
+  const store = useContext(LanguageContext);
+  if (!store) throw new Error('Missing LanguageContext.Provider in the tree');
+  return useStore(store, selector);
+}
+
+export function LanguageProvider({ children, ...props }: React.PropsWithChildren<{ language?: Language }>) {
+  const storeRef = useRef<LanguageStore>();
+  if (!storeRef.current) {
+    storeRef.current = createLanguageStore(props);
+  }
+  return (
+    <LanguageContext.Provider value={storeRef.current}>
+      <LanguageLoader>{children}</LanguageLoader>
+    </LanguageContext.Provider>
+  );
+}
+
+export const LanguageLoader = (props: React.PropsWithChildren) => {
+  const language = useLanguage((s) => s.language);
   const fetcher = useFetcher<{ language: Language }>({
     key: 'language',
   });
 
-  return useCallback(
+  const persistLanguage = useCallback(
     (language: Language) => {
       fetcher.submit({ language }, { action: '/action/language', method: 'post' });
     },
     [fetcher.submit],
   );
-}
-
-export const LanguageProvider = (props: React.PropsWithChildren<{ language?: Language }>) => {
-  const loaded = useRef(false);
-  const persistLanguage = usePersistLanguage();
-  const language = useLanguage((s) => s.language);
-  const setLanguage = useLanguage((s) => s.setLanguage);
-
-  useEffect(() => {
-    if (!loaded.current && !language && props.language) {
-      setLanguage(props.language);
-      loaded.current = true;
-    }
-  }, [language, props.language, setLanguage]);
 
   useEffect(() => {
     if (language) {

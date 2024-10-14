@@ -199,19 +199,22 @@ const ThemePreview = memo(
           <img
             width="100%"
             height="100%"
-            className="absolute z-10 overflow-hidden rounded-lg inset-0 w-full h-full object-cover"
+            className="absolute z-10 overflow-hidden rounded-lg inset-0 w-full aspect-[4.24/3.05] object-cover"
             src={themeAppearance === 'dark' ? themePreviewBackgroundDark : themePreviewBackgroundLight}
             alt="Preview background"
-            loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
+            loading={index < 9 && index2 === 0 ? 'eager' : 'lazy'}
           />
-          <div className="absolute z-30 overflow-hidden rounded-lg inset-0 w-full h-full" style={{ backgroundColor }} />
+          <div
+            className="absolute z-30 overflow-hidden rounded-lg inset-0 w-full aspect-[4.24/3.05]"
+            style={{ backgroundColor }}
+          />
           <img
             width="100%"
             height="100%"
-            className="relative z-50 overflow-hidden rounded-lg inset-0 w-full h-full"
+            className="relative z-50 overflow-hidden rounded-lg inset-0 w-full aspect-[4.24/3.05]"
             src={encodeURI(`/themes/preview.svg?id=${themeId}&name=${themeName}`)}
             alt={`${themeName} preview`}
-            loading={index < 6 && index2 === 0 ? 'eager' : 'lazy'}
+            loading={index < 9 && index2 === 0 ? 'eager' : 'lazy'}
           />
         </a>
       </CarouselItem>
