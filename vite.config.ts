@@ -27,6 +27,10 @@ export default defineConfig({
       }),
   ],
 
+  optimizeDeps: {
+    entries: ['./src/**/*.{ts,tsx,css}'],
+  },
+
   build: {
     sourcemap: true,
   },
