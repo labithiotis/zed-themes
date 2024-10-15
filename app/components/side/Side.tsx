@@ -63,7 +63,7 @@ export function Side({ edit }: { edit: boolean }) {
   }, []);
 
   return (
-    <div className="flex h-full w-96 min-w-[250px] flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
+    <div className="flex h-full w-96 flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
       {edit ? (
         <div className="flex flex-col gap-1.5 p-2">
           <div className="flex flex-col flex-1 gap-1">
@@ -172,7 +172,7 @@ export function Side({ edit }: { edit: boolean }) {
         </div>
       )}
 
-      <div className="flex-1 divide-y divide-neutral-300 overflow-scroll dark:divide-neutral-700">
+      <div className="flex-1 divide-y divide-neutral-300 overflow-y-auto dark:divide-neutral-700">
         {sections.map((section) =>
           section.tokens.length ? (
             <Section key={section.name} name={section.name} items={section.tokens}>

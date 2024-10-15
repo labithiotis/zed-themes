@@ -93,7 +93,7 @@ export default function ThemeById() {
   }, [hasTheme, params.themeId, dispatch, navigate]);
 
   return (
-    <Layout className="h-full flex">
+    <Layout className="h-full flex overflow-hidden">
       <div className="flex-1 flex min-w-[1024] overflow-hidden" key={params.themeId}>
         <Side edit={data.editable} />
         {!!theme && <Preview />}

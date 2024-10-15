@@ -1,6 +1,12 @@
 import { ClerkApp } from '@clerk/remix';
 import { getAuth, rootAuthLoader } from '@clerk/remix/ssr.server';
-import { type LinksFunction, type LoaderFunction, type MetaFunction, json } from '@remix-run/cloudflare';
+import {
+  type ActionFunction,
+  type LinksFunction,
+  type LoaderFunction,
+  type MetaFunction,
+  json,
+} from '@remix-run/cloudflare';
 import {
   Link,
   Links,
@@ -26,6 +32,7 @@ import { colorSchemeSession } from './utils/colorScheme.server';
 import { languageSession } from './utils/language.server';
 
 import './root.css';
+import { NotFoundResponse } from './utils/helpers';
 
 export const meta: MetaFunction = () => [
   { charset: 'utf-8' },
@@ -60,6 +67,10 @@ export const loader: LoaderFunction = async (args) => {
       language: _languageSession.getLanguage(),
     });
   });
+};
+
+export const action: ActionFunction = async () => {
+  throw NotFoundResponse;
 };
 
 function Document(props: { children: ReactNode; title?: string; colorScheme?: ColorScheme }) {
@@ -141,7 +152,7 @@ export function ErrorBoundary() {
         <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
           {error instanceof Error ? error?.message : 'Unknown error'}
         </p>
-        <pre className="mb-4 text-xs font-light text-gray-500 dark:text-gray-400 overflow-scroll max-h-24">
+        <pre className="mb-4 text-xs font-light text-gray-500 dark:text-gray-400 overflow-y-auto max-h-24">
           {error instanceof Error ? error?.stack : ''}
         </pre>
       </>
