@@ -74,15 +74,15 @@ export const action: ActionFunction = async () => {
 };
 
 function Document(props: { children: ReactNode; title?: string; colorScheme?: ColorScheme }) {
-  const className = props.colorScheme === 'dark' ? 'dark' : 'light';
+  const colorScheme = props.colorScheme === 'dark' ? 'dark' : 'light';
   return (
-    <html lang="en" className={className}>
+    <html lang="en" className={colorScheme}>
       <head>
         {props.title ? <title>{props.title}</title> : null}
         <Meta />
         <Links />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+        <meta name="theme-color" content={colorScheme} />
+        <meta name="color-scheme" content={colorScheme} />
       </head>
       <body className="bg-stone-300 dark:bg-stone-900">
         {props.children}
