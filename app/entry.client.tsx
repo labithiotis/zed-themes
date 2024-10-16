@@ -31,11 +31,4 @@ Sentry.init({
   replaysOnErrorSampleRate: 0.01, // 1% of errors
 });
 
-startTransition(() => {
-  hydrateRoot(
-    document,
-    <StrictMode>
-      <RemixBrowser />
-    </StrictMode>,
-  );
-});
+hydrateRoot(document, <RemixBrowser />);
