@@ -145,20 +145,18 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
       </div>
       <div className="relative cursor-pointer overflow-hidden rounded-lg hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-zed-800 dark:hover:outline-neutral-600">
         <CarouselContent>
-          {theme?.themes
-            ?.map(({ name, appearance, backgroundColor, backgroundAppearance }, index2) => (
-              <ThemePreview
-                key={`${theme.id}-${name}`}
-                themeId={theme.id}
-                themeName={name}
-                themeAppearance={appearance}
-                backgroundColor={backgroundColor}
-                backgroundAppearance={backgroundAppearance}
-                index={index}
-                index2={index2}
-              />
-            ))
-            .slice(0)}
+          {theme?.themes?.map(({ name, appearance, backgroundColor, backgroundAppearance }, index2) => (
+            <ThemePreview
+              key={`${theme.id}-${name}`}
+              themeId={theme.id}
+              themeName={name}
+              themeAppearance={appearance}
+              backgroundColor={backgroundColor}
+              backgroundAppearance={backgroundAppearance}
+              index={index}
+              index2={index2}
+            />
+          ))}
         </CarouselContent>
         <CarouselPrevious className="z-10" />
         <CarouselNext className="z-10" />
