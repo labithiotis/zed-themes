@@ -158,7 +158,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
                 index2={index2}
               />
             ))
-            .slice(0, 3)}
+            .slice(0, 8)}
         </CarouselContent>
         <CarouselPrevious className="z-10" />
         <CarouselNext className="z-10" />
