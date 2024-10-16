@@ -1,6 +1,6 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunction, json } from '@remix-run/cloudflare';
-import { Link, useFetcher, useLoaderData, useRouteError } from '@remix-run/react';
+import { Link, useFetcher, useLoaderData } from '@remix-run/react';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
@@ -45,7 +45,7 @@ export const loader: LoaderFunction = async (args) => {
   return json({ themes });
 };
 
-export default function UserThemes() {
+export default function PageUserThemes() {
   const { themes } = useLoaderData<LoaderData>();
 
   if (themes.length === 0) {
