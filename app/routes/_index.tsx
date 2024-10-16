@@ -44,24 +44,22 @@ export const loader: LoaderFunction = async (args) => {
     )
     .all();
 
-  const themes: ThemesMetaData[] = records
-    .map((record) => ({
-      id: record.id,
-      name: record.name,
-      author: record.author,
-      updatedDate: record.updatedDate.getTime(),
-      versionHash: record.versionHash,
-      bundled: record.bundled,
-      userId: record.userId,
-      themes:
-        record.theme?.themes.map(({ name, appearance, style }) => ({
-          name,
-          appearance,
-          backgroundColor: style.background,
-          backgroundAppearance: style['background.appearance'],
-        })) ?? [],
-    }))
-    .slice(0, 10);
+  const themes: ThemesMetaData[] = records.map((record) => ({
+    id: record.id,
+    name: record.name,
+    author: record.author,
+    updatedDate: record.updatedDate.getTime(),
+    versionHash: record.versionHash,
+    bundled: record.bundled,
+    userId: record.userId,
+    themes:
+      record.theme?.themes.map(({ name, appearance, style }) => ({
+        name,
+        appearance,
+        backgroundColor: style.background,
+        backgroundAppearance: style['background.appearance'],
+      })) ?? [],
+  }));
 
   return json({ themes, userId });
 };

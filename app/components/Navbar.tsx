@@ -66,8 +66,8 @@ export function Navbar() {
 
   return (
     <header
-      className="fixed w-screen  top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-      style={{ zIndex: 100 }}
+      className="fixed w-screen top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      style={{ zIndex: 25 }}
     >
       <nav
         className={cn(
