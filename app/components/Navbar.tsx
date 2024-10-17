@@ -1,4 +1,4 @@
-import { ClerkLoading, SignInButton, UserButton } from '@clerk/remix';
+import { SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
 import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
 import { Search } from 'lucide-react';
@@ -165,22 +165,11 @@ export function Navbar() {
               </UserButton>
             </div>
           ) : (
-            <>
-              <ClerkLoading>
-                <Button size="xs" variant="ghost" disabled={true}>
-                  Sign in
-                </Button>
-              </ClerkLoading>
-              <SignInButton
-                mode="modal"
-                forceRedirectUrl={location.pathname}
-                signUpForceRedirectUrl={location.pathname}
-              >
-                <Button size="xs" variant="ghost">
-                  Sign in
-                </Button>
-              </SignInButton>
-            </>
+            <SignInButton mode="modal" forceRedirectUrl={location.pathname} signUpForceRedirectUrl={location.pathname}>
+              <Button size="xs" variant="ghost">
+                Sign in
+              </Button>
+            </SignInButton>
           )}
         </div>
       </nav>
