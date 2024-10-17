@@ -58,9 +58,9 @@
     "nanoid": "^5.0.7",
     "posthog-js": "^1.173.0",
     "posthog-node": "^4.2.1",
-    "react": "^18.3.1",
+    "react": "18.3.1",
     "react-colorful": "^5.6.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "18.3.1",
     "react-file-drop": "^3.1.6",
     "react-icons": "^5.3.0",
     "tailwind-merge": "^2.5.4",
@@ -99,8 +99,8 @@
     "zx": "^8.1.9"
   },
   "resolutions": {
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "engines": {
     "node": ">=20.11.0"
