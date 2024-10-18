@@ -45,6 +45,8 @@ export const action: ActionFunction = async (args) => {
       updatedDate: new Date(),
       versionHash,
       bundled: false,
+      repoUrl: null,
+      repoStars: null,
       theme: { ...themeFamilyContent, id },
     };
 

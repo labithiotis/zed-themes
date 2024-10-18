@@ -10,6 +10,8 @@ export const themes = sqliteTable(
     updatedDate: integer('updatedDate', { mode: 'timestamp' }).notNull(),
     versionHash: text('versionHash').notNull(),
     bundled: integer('bundled', { mode: 'boolean' }).notNull(),
+    repoUrl: text('repoUrl'),
+    repoStars: integer('repoStars'),
     userId: text('userId'),
     theme: text('theme', { mode: 'json' }).$type<ThemeFamilyContent & { id: string }>().notNull(),
   },

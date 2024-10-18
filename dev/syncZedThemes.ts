@@ -44,6 +44,13 @@ for (const folder of folders) {
     const cmd = await $`cat ${dir}/extensions/${folder}/themes/${folder}.json`.quiet();
     const hash = await $`(cd ${dir}/extensions/${folder} && git rev-parse --short HEAD)`.quiet();
     const data = JSON.parse(cmd.stdout);
+    const origin = await $`cd ${dir}/extensions/${folder} && git remote get-url origin`.quiet();
+    const repoUrl = origin.stdout?.trim();
+    const repoPath = repoUrl.replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '');
+    const repoInfo =
+      await $`curl -s --header "Authorization: Bearer ${process.env.GITHUB_TOKEN}" https://api.github.com/repos/${repoPath}`.quiet();
+    const repoStars = Number(repoInfo.stdout?.match(/stargazers_count"\s?:\s?(\d+)/)?.at(-1) ?? '0');
+
     const theme = {
       id,
       name: data.name,
@@ -51,6 +58,8 @@ for (const folder of folders) {
       updatedDate: new Date().getTime(),
       versionHash: hash.stdout.trim(),
       bundled: true,
+      repoUrl,
+      repoStars,
       theme: data,
       userId: null,
     };
@@ -58,14 +67,16 @@ for (const folder of folders) {
       dbSeedThemes.push(theme);
     }
     const sql = `
-      INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, userId, theme)
-      VALUES ("${theme.id}", "${theme.name}", "${theme.author}", ${theme.updatedDate}, "${theme.versionHash}", ${theme.bundled}, null, '${JSON.stringify(theme.theme)}')
+      INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, repoUrl, repoStars, userId, theme)
+      VALUES ("${theme.id}", "${theme.name}", "${theme.author}", ${theme.updatedDate}, "${theme.versionHash}", ${theme.bundled}, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(theme.theme)}')
       ON CONFLICT (id) DO UPDATE
       SET name = EXCLUDED.name,
           author = EXCLUDED.author,
           updatedDate = EXCLUDED.updatedDate,
           versionHash = EXCLUDED.versionHash,
           bundled = EXCLUDED.bundled,
+          repoUrl = EXCLUDED.repoUrl,
+          repoStars = EXCLUDED.repoStars,
           userId = EXCLUDED.userId,
           theme = EXCLUDED.theme;
     `;

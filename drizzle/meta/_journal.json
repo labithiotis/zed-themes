@@ -8,6 +8,13 @@
       "when": 1723145332924,
       "tag": "0000_clumsy_hiroim",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1729274195830,
+      "tag": "0001_fat_eddie_brock",
+      "breakpoints": true
     }
   ]
 }
