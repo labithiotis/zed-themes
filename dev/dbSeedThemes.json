@@ -6,14 +6,7 @@
     "updatedDate": 1729276706287,
     "versionHash": "4a3fd20",
     "bundled": true,
-    "repoUrl": {
-      "_code": 0,
-      "_signal": null,
-      "_stdout": "https://github.com/Takk8IS/amber-monochrome-monitor-crt-phosphor-theme-for-zed.git\n",
-      "_stderr": "",
-      "_combined": "https://github.com/Takk8IS/amber-monochrome-monitor-crt-phosphor-theme-for-zed.git\n",
-      "_duration": 20
-    },
+    "repoUrl": "https://github.com/Takk8IS/amber-monochrome-monitor-crt-phosphor-theme-for-zed.git",
     "repoStars": 4,
     "theme": {
       "$schema": "https://zed.dev/schema/themes/v0.1.0.json",
