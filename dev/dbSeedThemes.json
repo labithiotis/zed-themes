@@ -3,7 +3,7 @@
     "id": "amber-monochrome-monitor-crt-phosphor",
     "name": "Amber Monochrome Monitor CRT Phosphor",
     "author": "David C Cavalcante",
-    "updatedDate": 1729276706287,
+    "updatedDate": 1729281729117,
     "versionHash": "4a3fd20",
     "bundled": true,
     "repoUrl": "https://github.com/Takk8IS/amber-monochrome-monitor-crt-phosphor-theme-for-zed.git",
@@ -3841,17 +3841,10 @@
     "id": "anya",
     "name": "Anya",
     "author": "choednwn",
-    "updatedDate": 1729276708331,
+    "updatedDate": 1729281731577,
     "versionHash": "2d666ed",
     "bundled": true,
-    "repoUrl": {
-      "_code": 0,
-      "_signal": null,
-      "_stdout": "https://github.com/anya-theme/anya-zed.git\n",
-      "_stderr": "",
-      "_combined": "https://github.com/anya-theme/anya-zed.git\n",
-      "_duration": 21
-    },
+    "repoUrl": "https://github.com/anya-theme/anya-zed.git",
     "repoStars": 2,
     "theme": {
       "$schema": "https://zed.dev/schema/themes/v0.1.0.json",
@@ -4134,17 +4127,10 @@
     "id": "atomize",
     "name": "atomize",
     "author": "Zhouyuxiang <1521350289@qq.com>",
-    "updatedDate": 1729276710372,
+    "updatedDate": 1729281733755,
     "versionHash": "23cc873",
     "bundled": true,
-    "repoUrl": {
-      "_code": 0,
-      "_signal": null,
-      "_stdout": "https://github.com/zhouyuxiang0/atomize.zed.git\n",
-      "_stderr": "",
-      "_combined": "https://github.com/zhouyuxiang0/atomize.zed.git\n",
-      "_duration": 21
-    },
+    "repoUrl": "https://github.com/zhouyuxiang0/atomize.zed.git",
     "repoStars": 1,
     "theme": {
       "$schema": "https://zed.dev/schema/themes/v0.1.0.json",
@@ -4436,17 +4422,10 @@
     "id": "axolosin",
     "name": "Axolosin",
     "author": "Alok Meshram <meshram.alok@gmail.com>",
-    "updatedDate": 1729276712454,
+    "updatedDate": 1729281735941,
     "versionHash": "0fc9b04",
     "bundled": true,
-    "repoUrl": {
-      "_code": 0,
-      "_signal": null,
-      "_stdout": "https://github.com/LightTreasure/axolosin-theme.git\n",
-      "_stderr": "",
-      "_combined": "https://github.com/LightTreasure/axolosin-theme.git\n",
-      "_duration": 21
-    },
+    "repoUrl": "https://github.com/LightTreasure/axolosin-theme.git",
     "repoStars": 0,
     "theme": {
       "$schema": "https://zed.dev/schema/themes/v0.1.0.json",

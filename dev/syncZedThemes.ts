@@ -44,11 +44,9 @@ for (const folder of folders) {
     const cmd = await $`cat ${dir}/extensions/${folder}/themes/${folder}.json`.quiet();
     const hash = await $`(cd ${dir}/extensions/${folder} && git rev-parse --short HEAD)`.quiet();
     const data = JSON.parse(cmd.stdout);
-    const repoUrl = await $`cd ${dir}/extensions/${folder} && git remote get-url origin`.quiet();
-    const repoPath = repoUrl.stdout
-      ?.trim()
-      .replace(/^https?:\/\/github\.com\//, '')
-      .replace(/\.git$/, '');
+    const origin = await $`cd ${dir}/extensions/${folder} && git remote get-url origin`.quiet();
+    const repoUrl = origin.stdout?.trim();
+    const repoPath = repoUrl.replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '');
     const repoInfo =
       await $`curl -s --header "Authorization: Bearer ${process.env.GITHUB_TOKEN}" https://api.github.com/repos/${repoPath}`.quiet();
     const repoStars = Number(repoInfo.stdout?.match(/stargazers_count"\s?:\s?(\d+)/)?.at(-1) ?? '0');
