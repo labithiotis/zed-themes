@@ -16,8 +16,8 @@ Sentry.init({
   sampleRate: 1,
   tracesSampleRate: 0.5, // 50%
   autoInstrumentRemix: true,
-  integrations: [Sentry.extraErrorDataIntegration()],
   initialScope: { tags: { server: true } },
+  integrations: [Sentry.extraErrorDataIntegration()],
 });
 
 export function handleError(error: unknown, { request }: LoaderFunctionArgs | ActionFunctionArgs) {
