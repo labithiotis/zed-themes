@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 const apiKey = import.meta.env.VITE_POSTHOG_API_KEY;
 
-export const postHogClient = apiKey ? new PostHog(apiKey, { host: 'https://ph.zed-themes.com' }) : null;
+export const postHogClient = apiKey ? new PostHog(apiKey, { host: 'https://eu.i.posthog.com' }) : null;
 
 export const usePosthog = () => {
   useEffect(() => {
