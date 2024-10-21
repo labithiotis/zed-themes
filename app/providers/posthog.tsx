@@ -6,13 +6,13 @@ import { useEffect } from 'react';
 
 const apiKey = import.meta.env.VITE_POSTHOG_API_KEY;
 
-export const postHogClient = apiKey ? new PostHog(apiKey, { host: 'https://eu.i.posthog.com' }) : null;
+export const postHogClient = apiKey ? new PostHog(apiKey, { host: 'https://ph.zed-themes.com' }) : null;
 
 export const usePosthog = () => {
   useEffect(() => {
     if (!apiKey) return;
     posthog.init(apiKey, {
-      api_host: 'https://eu.i.posthog.com',
+      api_host: 'https://ph.zed-themes.com',
       person_profiles: 'identified_only',
       autocapture: true,
     });
