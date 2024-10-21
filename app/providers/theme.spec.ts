@@ -167,7 +167,7 @@ describe('Theme Reducer', () => {
         content: { color: 'red' },
       });
 
-      expect(nextState.themeFamily?.themes[0]?.style.syntax[token]).toEqual({
+      expect(nextState.themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'red',
         font_weight: null,
         font_style: null,
@@ -194,7 +194,7 @@ describe('Theme Reducer', () => {
         content: { color: 'red' },
       });
 
-      expect(nextState.themeFamily?.themes[0]?.style.syntax[token]).toEqual({
+      expect(nextState.themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'red',
         font_weight: 500,
         font_style: 'italic',
@@ -221,7 +221,7 @@ describe('Theme Reducer', () => {
         content: { font_weight: 700 },
       });
 
-      expect(nextState.themeFamily?.themes[0]?.style.syntax[token]).toEqual({
+      expect(nextState.themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'blue',
         font_weight: 700,
         font_style: 'italic',
@@ -248,7 +248,7 @@ describe('Theme Reducer', () => {
         content: { font_style: 'normal' },
       });
 
-      expect(nextState.themeFamily?.themes[0]?.style.syntax[token]).toEqual({
+      expect(nextState.themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'blue',
         font_weight: 500,
         font_style: 'normal',
@@ -272,7 +272,7 @@ describe('Theme Reducer', () => {
       color: 'red',
     });
 
-    expect(nextState.themeFamily?.themes[0]?.style.players[0]?.background).toEqual('red');
+    expect(nextState.themeFamily?.themes[0]?.style.players?.[0]?.background).toEqual('red');
   });
 
   it('can setPlayerToken cursor', () => {
@@ -291,7 +291,7 @@ describe('Theme Reducer', () => {
       color: 'red',
     });
 
-    expect(nextState.themeFamily?.themes[0]?.style.players[0]?.cursor).toEqual('red');
+    expect(nextState.themeFamily?.themes[0]?.style.players?.[0]?.cursor).toEqual('red');
   });
 
   it('can setPlayerToken selection', () => {
@@ -310,7 +310,7 @@ describe('Theme Reducer', () => {
       color: 'red',
     });
 
-    expect(nextState.themeFamily?.themes[0]?.style.players[0]?.selection).toEqual('red');
+    expect(nextState.themeFamily?.themes[0]?.style.players?.[0]?.selection).toEqual('red');
   });
 
   it('can addTheme', () => {

@@ -94,7 +94,6 @@
     "ThemeStyleContent": {
       "description": "The content of a serialized theme.",
       "type": "object",
-      "required": ["syntax", "players"],
       "properties": {
         "background": {
           "description": "Background Color. Used for the app background and blank panels or windows.",

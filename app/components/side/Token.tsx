@@ -89,7 +89,7 @@ export function Token({
                   name="font-style"
                   disabled={!edit}
                   className="w-16 h-[22px] rounded-md border border-neutral-300 bg-transparent text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  value={theme?.style.syntax[syntax]?.font_style ?? ''}
+                  value={theme?.style.syntax?.[syntax]?.font_style ?? ''}
                   onChange={(e) =>
                     setSyntaxToken(syntax, {
                       font_style: e.target.value === 'unset' ? null : (e.target.value as FontStyleContent),
@@ -105,7 +105,7 @@ export function Token({
                   name="font-weight"
                   disabled={!edit}
                   className="w-16 h-[22px] rounded-md border border-neutral-300 bg-transparent text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  value={theme?.style.syntax[syntax]?.font_weight?.toString() ?? ''}
+                  value={theme?.style.syntax?.[syntax]?.font_weight?.toString() ?? ''}
                   onChange={(e) =>
                     setSyntaxToken(syntax, {
                       font_weight:
