@@ -49,6 +49,11 @@ for (const folder of folders) {
     const repoPath = repoUrl.replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '');
     const repoInfo =
       await $`curl -s --header "Authorization: Bearer ${process.env.GITHUB_TOKEN}" https://api.github.com/repos/${repoPath}`.quiet();
+
+    if (!repoInfo.stdout?.match(/stargazers_count/)) {
+      console.log(repoInfo.stdout);
+    }
+
     const repoStars = Number(repoInfo.stdout?.match(/stargazers_count"\s?:\s?(\d+)/)?.at(-1) ?? '0');
 
     const theme = {
@@ -68,7 +73,7 @@ for (const folder of folders) {
     }
     const sql = `
       INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, repoUrl, repoStars, userId, theme)
-      VALUES ("${theme.id}", "${theme.name}", "${theme.author}", ${theme.updatedDate}, "${theme.versionHash}", ${theme.bundled}, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(theme.theme)}')
+      VALUES ('${theme.id}', '${theme.name}', '${theme.author}', ${theme.updatedDate}, '${theme.versionHash}', ${theme.bundled}, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(theme.theme)}')
       ON CONFLICT (id) DO UPDATE
       SET name = EXCLUDED.name,
           author = EXCLUDED.author,
@@ -81,7 +86,8 @@ for (const folder of folders) {
           theme = EXCLUDED.theme;
     `;
 
-    console.log(`Adding ${id} theme...`);
+    console.log(`Adding theme [id=${theme.id}][stars=${theme.repoStars}][author=${theme.author}][name=${theme.name}]`);
+
     try {
       if (argv.local) {
         await $`pnpm wrangler d1 execute zed_themes --command=${sql} --local`;
