@@ -81,7 +81,7 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 w-full gap-8 sm:grid-cols-2 md:grid-cols-3 pb-6">
           {themes?.map((theme, index) => (
-            <ThemeFamilyPreview key={theme.id} theme={theme} index={index} />
+            <ThemeFamilyPreview key={`${theme.id}-${theme.name}-${index}`} theme={theme} index={index} />
           ))}
         </div>
       )}
@@ -138,7 +138,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
         <div className="flex gap-2 items-center">
           <div className="flex items-center flex-1 overflow-hidden gap-1">
             <span className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">
-              By {theme.author.replace(/<.*>/g, '').trim()}
+              By {theme.author.replace(/<.*>?$/, '').trim()}
             </span>
             {theme.bundled && typeof theme.repoUrl === 'string' ? (
               <>
@@ -177,7 +177,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
         <CarouselContent>
           {theme?.themes?.map(({ name, appearance, backgroundColor, backgroundAppearance }, index2) => (
             <ThemePreview
-              key={`${theme.id}-${name}`}
+              key={`${theme.id}-${name}-${index2}`}
               themeId={theme.id}
               themeName={name}
               themeAppearance={appearance}
