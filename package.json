@@ -56,8 +56,6 @@
     "isbot": "^5.1.17",
     "lucide-react": "^0.453.0",
     "nanoid": "^5.0.7",
-    "posthog-js": "^1.173.0",
-    "posthog-node": "^4.2.1",
     "react": "rc",
     "react-colorful": "^5.6.1",
     "react-dom": "rc",

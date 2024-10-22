@@ -25,7 +25,6 @@ import { Toaster } from './components/ui/toaster';
 import { TooltipProvider } from './components/ui/tooltip';
 import { type ColorScheme, ColorSchemeProvider } from './providers/colorScheme';
 import { type Language, LanguageProvider } from './providers/language';
-import { usePosthog, usePosthogIdentify } from './providers/posthog';
 import { ThemeProvider } from './providers/theme';
 import tailwindStylesheet from './tailwind.css?url';
 import { colorSchemeSession } from './utils/colorScheme.server';
@@ -92,12 +91,8 @@ function Document(props: { children: ReactNode; title?: string; colorScheme?: Co
   );
 }
 
-const App = ClerkApp(() => {
-  usePosthog();
-  usePosthogIdentify();
-
-  return <Outlet />;
-});
+// Push Clerk HOC lower to avoid issues if clerkApp triggers hydration errors
+const App = ClerkApp(() => <Outlet />);
 
 function Root() {
   const loaderData = useLoaderData<RootData>();
@@ -122,7 +117,6 @@ function Root() {
 export default Root;
 
 export function ErrorBoundary() {
-  usePosthog();
   const error = useRouteError();
 
   let content = <></>;
