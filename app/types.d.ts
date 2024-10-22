@@ -25,6 +25,8 @@ export type ThemesMetaData = {
   updatedDate: number;
   versionHash: string;
   bundled: boolean;
+  repoUrl?: string | null;
+  repoStars?: number | null;
   userId?: string | null;
   themes: (Pick<ThemeContent, 'name' | 'appearance'> & {
     backgroundColor?: ThemeStyleContent['background'];

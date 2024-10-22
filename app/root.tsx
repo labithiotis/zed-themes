@@ -92,9 +92,14 @@ function Document(props: { children: ReactNode; title?: string; colorScheme?: Co
   );
 }
 
-function Root() {
+const App = ClerkApp(() => {
   usePosthog();
   usePosthogIdentify();
+
+  return <Outlet />;
+});
+
+function Root() {
   const loaderData = useLoaderData<RootData>();
 
   return (
@@ -103,7 +108,7 @@ function Root() {
         <LanguageProvider language={loaderData.language}>
           <ThemeProvider>
             <TooltipProvider>
-              <Outlet />
+              <App />
             </TooltipProvider>
           </ThemeProvider>
         </LanguageProvider>
@@ -114,7 +119,7 @@ function Root() {
   );
 }
 
-export default ClerkApp(Root);
+export default Root;
 
 export function ErrorBoundary() {
   usePosthog();

@@ -12,7 +12,8 @@ export const usePosthog = () => {
   useEffect(() => {
     if (!apiKey) return;
     posthog.init(apiKey, {
-      api_host: 'https://eu.i.posthog.com',
+      api_host: 'https://eu.i.posthog.com', // https://ph.zed-themes.com is 401
+      ui_host: 'https://eu.i.posthog.com',
       person_profiles: 'identified_only',
       autocapture: true,
     });

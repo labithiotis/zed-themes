@@ -6,6 +6,7 @@ import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import { Search } from 'lucide-react';
 import { memo } from 'react';
+import { FaGithub, FaStar } from 'react-icons/fa';
 import themePreviewBackgroundDark from '~/assets/images/dune_dark_sm.jpeg';
 import themePreviewBackgroundLight from '~/assets/images/dune_light_sm.jpeg';
 import { Layout } from '~/components/Layout';
@@ -51,6 +52,8 @@ export const loader: LoaderFunction = async (args) => {
     updatedDate: record.updatedDate.getTime(),
     versionHash: record.versionHash,
     bundled: record.bundled,
+    repoUrl: record.repoUrl,
+    repoStars: record.repoStars,
     userId: record.userId,
     themes:
       record.theme?.themes.map(({ name, appearance, style }) => ({
@@ -133,7 +136,34 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
           </div>
         </div>
         <div className="flex gap-2 items-center">
-          <p className="flex-1 overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">By {theme.author}</p>
+          <div className="flex items-center flex-1 overflow-hidden gap-1">
+            <span className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">
+              By {theme.author.replace(/<.*>/g, '').trim()}
+            </span>
+            {theme.bundled && typeof theme.repoUrl === 'string' ? (
+              <>
+                <a
+                  href={theme.repoUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                  className="text-neutral-500 hover:text-black dark:hover:text-white"
+                >
+                  <FaGithub size={12} />
+                </a>
+                {theme.bundled && typeof theme.repoStars === 'number' && (
+                  <a
+                    href={theme.repoUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                    className="flex items-center text-neutral-500 hover:text-black dark:hover:text-white"
+                  >
+                    <span className="text-xs">{theme.repoStars}</span>
+                    <FaStar size={10} className="ml-[1px]" />
+                  </a>
+                )}
+              </>
+            ) : null}
+          </div>
           <CarouselDots
             classNameSelected="bg-zed-700 dark:bg-zed-600"
             classNameUnselected="bg-opacity-80"

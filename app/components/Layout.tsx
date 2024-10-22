@@ -6,7 +6,7 @@ export function Layout({ children, className = 'container pt-6' }: PropsWithChil
   return (
     <div className="flex flex-col h-full w-full content-stretch bg-stone-300 dark:bg-stone-900 dark:text-zinc-200">
       <Navbar />
-      <main className={cn('mt-20 md:mt-14', className)}>{children}</main>
+      <main className={cn('mt-20 md:mt-14 isolate', className)}>{children}</main>
     </div>
   );
 }
