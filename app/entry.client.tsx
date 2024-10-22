@@ -1,7 +1,7 @@
 import { RemixBrowser } from '@remix-run/react';
 import * as Sentry from '@sentry/remix';
 import { StrictMode, startTransition } from 'react';
-import { hydrateRoot } from 'react-dom/client';
+import { type ErrorInfo, type HydrationOptions, hydrateRoot } from 'react-dom/client';
 
 Sentry.init({
   dsn: 'https://ad00c9a48ec1d40d8ee464869fe3a993@o4508006947356672.ingest.de.sentry.io/4508009341452368',
@@ -25,5 +25,13 @@ startTransition(() => {
     <StrictMode>
       <RemixBrowser />
     </StrictMode>,
+    {
+      onUncaughtError: (error: Error, errorInfo: ErrorInfo) => {
+        console.error('!Uncaught error', error, errorInfo.componentStack);
+      },
+      onRecoverableError: (error: Error, errorInfo: ErrorInfo) => {
+        console.error('!Caught error', error, error.cause, errorInfo.componentStack);
+      },
+    } as HydrationOptions,
   );
 });
