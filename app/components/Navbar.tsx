@@ -125,7 +125,7 @@ export function Navbar() {
           <ColorSchemeToggle />
           {params.themeId && (
             <Select onValueChange={setLanguage} value={language}>
-              <SelectTrigger className="flex-1" data-testid="preview-language">
+              <SelectTrigger className="flex-1" data-testid="preview-language" aria-label="Theme preview language">
                 <span className="whitespace-nowrap overflow-hidden text-ellipsis">{languages[language ?? 'tsx']}</span>
               </SelectTrigger>
               <SelectContent>

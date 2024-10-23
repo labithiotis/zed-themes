@@ -75,14 +75,14 @@ export function Side({ edit }: { edit: boolean }) {
                 type="text"
                 id="themeFamilyName"
                 value={themeFamily?.name ?? 'loading...'}
-                className="truncate"
+                className="flex-1 truncate"
                 placeholder="Theme family name"
                 onChange={(e) => setFamilyName(e.currentTarget.value ?? '')}
                 autoComplete="off"
                 data-1p-ignore
               />
               <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
-                <SelectTrigger className="flex-1 overflow-hidden">
+                <SelectTrigger className="flex-1 overflow-hidden" aria-label="Select theme">
                   <span className="truncate">{theme?.name ?? 'Select theme'}</span>
                 </SelectTrigger>
                 <SelectContent>
@@ -102,13 +102,13 @@ export function Side({ edit }: { edit: boolean }) {
           <div className="flex w-full items-center gap-1">
             <div className="grid items-center gap-1 flex-1">
               <Label htmlFor="themeName" className="opacity-60 font-light">
-                Selected theme name
+                Selected theme
               </Label>
               <Input
                 id="themeName"
                 value={theme?.name ?? 'loading...'}
                 type="text"
-                className="truncate"
+                className="flex-1 truncate"
                 placeholder="Theme name"
                 onChange={(e) => setThemeName(e.currentTarget.value ?? '')}
                 autoComplete="off"
