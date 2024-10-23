@@ -93,7 +93,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
     >
       <div className="flex flex-col">
         <div className="flex items-center overflow-hidden">
-          <h4 className="text-lg flex-1 truncate">{theme.name} asdsd</h4>
+          <h4 className="text-lg flex-1 truncate">{theme.name}</h4>
           <div>
             {theme.bundled ? (
               <Badge variant="outline" title="This theme is already included with zed, install via extensions">
