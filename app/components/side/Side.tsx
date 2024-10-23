@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { IoBug } from 'react-icons/io5';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
 import { useTheme } from '~/providers/theme';
+import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { type StyleTokens, type SyntaxTokens, syntaxTokens } from '../../providers/tokens';
 import type { AppearanceContent, HighlightStyleContent } from '../../themeFamily';
@@ -63,7 +64,12 @@ export function Side({ edit }: { edit: boolean }) {
   }, []);
 
   return (
-    <div className="flex h-full w-96 flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800">
+    <div
+      className={cn(
+        'flex h-full flex-col overflow-hidden border-r border-zinc-300 bg-zinc-100 dark:border-neutral-600 dark:bg-neutral-800',
+        { 'w-64': !edit },
+      )}
+    >
       {edit ? (
         <div className="flex flex-col gap-1.5 p-2">
           <div className="flex flex-col flex-1 gap-1">
