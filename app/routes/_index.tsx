@@ -11,14 +11,7 @@ import themePreviewBackgroundDark from '~/assets/images/dune_dark_sm.jpeg';
 import themePreviewBackgroundLight from '~/assets/images/dune_light_sm.jpeg';
 import { Layout } from '~/components/Layout';
 import { Badge } from '~/components/ui/badge';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselDots,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '~/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '~/components/ui/carousel';
 import type { AppearanceContent } from '~/themeFamily';
 import type { ThemesMetaData } from '../types';
 
@@ -92,13 +85,13 @@ export default function Home() {
 const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; index: number }) => {
   return (
     <Carousel
-      className="items flex flex-col gap-2"
+      className="items flex flex-col gap-1"
       opts={{ active: theme.themes?.length > 1 }}
       data-testid="theme"
       data-theme-id={theme.id}
       data-theme-name={theme.name}
     >
-      <div className="flex flex-col overflow-hidden">
+      <div className="flex flex-col">
         <div className="flex items-center overflow-hidden">
           <h4 className="text-lg flex-1 truncate">{theme.name}</h4>
           <div>
@@ -135,9 +128,9 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
             )}
           </div>
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-1 items-center">
           <div className="flex items-center flex-1 overflow-hidden gap-1">
-            <span className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-80">
+            <span className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-80 mr-1">
               By {theme.author.replace(/<.*>?$/, '').trim()}
             </span>
             {theme.bundled && typeof theme.repoUrl === 'string' ? (
@@ -146,7 +139,8 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
                   href={theme.repoUrl}
                   rel="noreferrer"
                   target="_blank"
-                  className="text-neutral-500 hover:text-black dark:hover:text-white"
+                  className="p-[6px] text-neutral-600 hover:text-black dark:hover:text-white"
+                  aria-label="Github repository link"
                 >
                   <FaGithub size={12} />
                 </a>
@@ -155,7 +149,8 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
                     href={theme.repoUrl}
                     rel="noreferrer"
                     target="_blank"
-                    className="flex items-center text-neutral-500 hover:text-black dark:hover:text-white"
+                    className="py-[4px] px-[3px] flex items-center text-neutral-600 hover:text-black dark:hover:text-white"
+                    aria-label="Github repository link"
                   >
                     <span className="text-xs">{theme.repoStars}</span>
                     <FaStar size={10} className="ml-[1px]" />
@@ -164,13 +159,6 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
               </>
             ) : null}
           </div>
-          <CarouselDots
-            classNameSelected="bg-zed-700 dark:bg-zed-600"
-            classNameUnselected="bg-opacity-80"
-            classNamesByIndex={theme?.themes?.map(({ appearance }) =>
-              appearance === 'dark' ? 'bg-black' : 'bg-white',
-            )}
-          />
         </div>
       </div>
       <div className="relative cursor-pointer overflow-hidden rounded-lg hover:outline hover:outline-2 hover:outline-offset-2 hover:outline-zed-800 dark:hover:outline-neutral-600">

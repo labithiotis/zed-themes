@@ -286,20 +286,24 @@ const CarouselDots = React.forwardRef<
     }
 
     return (
-      <div className="flex gap-1.5 pr-2" ref={ref} {...props}>
+      <div className="flex gap-[2px]" ref={ref} {...props}>
         {scrollSnaps.map((_, index) => (
           <button
             key={index.toString()}
             onClick={() => onDotButtonClick(index)}
-            className={cn(
-              'h-[10px] w-[10px] rounded-full hover:outline hover:outline-1 hover:outline-offset-1 hover:outline-zed-800',
-              classNamesByIndex[index],
-              index === selectedIndex ? classNameSelected : classNameUnselected,
-            )}
-            aria-label={`Go to preview ${index + 1}`}
+            className="px-[4px] py-[4px] group"
+            aria-label={`Go to slide ${index + 1}`}
             aria-current={index === selectedIndex}
             {...dotProps}
-          />
+          >
+            <div
+              className={cn(
+                'h-[16px] w-[16px] rounded-lg group-hover:outline group-hover:outline-1 group-hover:outline-offset-1 group-hover:outline-zed-800',
+                classNamesByIndex[index],
+                index === selectedIndex ? classNameSelected : classNameUnselected,
+              )}
+            />
+          </button>
         ))}
       </div>
     );

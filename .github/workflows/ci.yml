@@ -41,7 +41,7 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: E2E tests
-        if: ${{ github.actor != 'dependabot[bot]' }}
+        if: ${{ github.actor != 'dependabot[bot]' && !!env.CLERK_SECRET_KEY }}
         run: DEBUG=pw:browser,pw:api,pw:webserver pnpm exec playwright test
         env:
           NODE_ENV: development
