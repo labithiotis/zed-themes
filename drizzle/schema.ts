@@ -14,6 +14,7 @@ export const themes = sqliteTable(
     repoStars: integer('repoStars'),
     userId: text('userId'),
     theme: text('theme', { mode: 'json' }).$type<ThemeFamilyContent & { id: string }>().notNull(),
+    installCount: integer('installCount').default(0),
   },
   (themes) => ({
     idIdx: uniqueIndex('idIdx').on(themes.id),
@@ -22,6 +23,7 @@ export const themes = sqliteTable(
     updatedDateIdx: index('updatedDateIdx').on(themes.updatedDate),
     bundledIdx: index('bundledIdx').on(themes.bundled),
     userIdIdx: index('userIdIdx').on(themes.userId),
+    installCountIdx: index('installCountIdx').on(themes.installCount),
   }),
 );
 

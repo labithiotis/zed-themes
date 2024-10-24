@@ -49,7 +49,7 @@ export const loader: LoaderFunction = async (args) => {
     repoStars: record.repoStars,
     userId: record.userId,
     themes:
-      record.theme?.themes.map(({ name, appearance, style }) => ({
+      record.theme?.themes?.map(({ name, appearance, style }) => ({
         name,
         appearance,
         backgroundColor: style.background,
