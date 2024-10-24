@@ -4,6 +4,7 @@ import { type ActionFunction, json } from '@remix-run/cloudflare';
 import { drizzle } from 'drizzle-orm/d1';
 import type { DBTheme } from 'drizzle/schema';
 import * as schema from 'drizzle/schema';
+import json5 from 'json5';
 import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
 import type { ThemeFamilyContent } from '~/themeFamily';
@@ -24,7 +25,7 @@ export const action: ActionFunction = async (args) => {
 
   invariant(themeRaw, 'theme is required');
 
-  const themeFamilyContent: Pick<ThemeFamilyContent, 'name' | 'author' | 'themes'> = JSON.parse(themeRaw);
+  const themeFamilyContent: Pick<ThemeFamilyContent, 'name' | 'author' | 'themes'> = json5.parse(themeRaw);
 
   const existing = await db.query.themes.findFirst({
     where: (themes, { eq }) => eq(themes.name, themeFamilyContent.name),
@@ -47,6 +48,7 @@ export const action: ActionFunction = async (args) => {
       bundled: false,
       repoUrl: null,
       repoStars: null,
+      installCount: null,
       theme: { ...themeFamilyContent, id },
     };
 

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { getTestTheme } from './helpers';
 
 test('can search for themes', async ({ page }) => {
   await page.goto('/');
@@ -11,15 +12,20 @@ test('can search for themes', async ({ page }) => {
   const initialCount = await page.getByTestId('theme').count();
   expect(initialCount).toBeGreaterThan(3);
 
+  const term = getTestTheme()
+    .name.split('')
+    .map((s, i) => (i % 2 === 0 ? s.toUpperCase() : s))
+    .join('');
+
   // Test searching for a theme with mixed case
   await page.getByTestId('search-input').click();
-  await page.getByTestId('search-input').fill('anYA');
+  await page.getByTestId('search-input').fill(term);
 
   await page.waitForTimeout(2000);
 
   const searchCount = await page.getByTestId('theme').count();
   expect(searchCount).toBe(1);
-  expect(page.url()).toContain('search=anYA');
+  expect(page.url()).toContain(`search=${term}`);
 
   // Test clearing search
   await page.getByTestId('search-input').click();
