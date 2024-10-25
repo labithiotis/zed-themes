@@ -24,8 +24,8 @@ test('can search for themes', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   const searchCount = await page.getByTestId('theme').count();
+  expect(page.url()).toContain(`search=${term.replaceAll(/\s/g, '+')}`);
   expect(searchCount).toBe(1);
-  expect(page.url()).toContain(`search=${term}`);
 
   // Test clearing search
   await page.getByTestId('search-input').click();
@@ -34,8 +34,8 @@ test('can search for themes', async ({ page }) => {
   await page.waitForTimeout(2000);
 
   const resetCount = await page.getByTestId('theme').count();
-  expect(resetCount).toBeGreaterThan(3);
   expect(page.url()).not.toContain('search=');
+  expect(resetCount).toBeGreaterThan(3);
 });
 
 test('search with no results displays appropriate message', async ({ page }) => {
