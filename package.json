@@ -54,6 +54,7 @@
     "embla-carousel-react": "^8.3.0",
     "immutability-helper": "^3.1.1",
     "isbot": "^5.1.17",
+    "json5": "^2.2.3",
     "lucide-react": "^0.453.0",
     "nanoid": "^5.0.7",
     "react": "rc",

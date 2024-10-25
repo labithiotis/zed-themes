@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
+import { getTestTheme } from './helpers';
 
 test('change language', async ({ page }) => {
-  await page.goto('/themes/anya');
+  await page.goto(`/themes/${getTestTheme().id}`);
 
   await page.getByTestId('preview-language').click();
   await page.getByTestId('preview-language-csharp').click();

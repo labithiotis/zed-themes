@@ -1,4 +1,5 @@
 import { useNavigate } from '@remix-run/react';
+import json5 from 'json5';
 import type { ChangeEvent, MouseEventHandler } from 'react';
 import { useCallback, useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
@@ -34,7 +35,7 @@ export function UploadTheme() {
 
     file.text().then((text) => {
       try {
-        const data = JSON.parse(text);
+        const data = json5.parse(text);
         const isThemeFamily = 'author' in data;
         const themeFamily = isThemeFamily ? data : { name: 'zed', author: 'zed', themes: [data] };
 

@@ -4,6 +4,7 @@ import { useLoaderData, useNavigate, useParams, useSearchParams } from '@remix-r
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
+import json5 from 'json5';
 import { useEffect } from 'react';
 import invariant from 'tiny-invariant';
 import { Layout } from '~/components/Layout';
@@ -45,7 +46,7 @@ export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<Lo
 
   const themeData = record.theme;
   const themeShare = !themeData ? await sharesKv?.get(themeId) : undefined;
-  const theme = themeData ?? (themeShare ? JSON.parse(themeShare) : undefined);
+  const theme = themeData ?? (themeShare ? json5.parse(themeShare) : undefined);
 
   return json({ themeId: record.id, theme, editable: !!userId && record.userId === userId });
 };
@@ -81,7 +82,7 @@ export default function ThemeById() {
 
     if (!hasTheme && params.themeId === 'edit') {
       console.debug('Load theme from localstorage');
-      const localTheme = JSON.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '{}');
+      const localTheme = json5.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '{}');
       if (themeValidator(localTheme)) {
         console.debug('Localstorage theme is valid, load it');
         dispatch({ type: 'set', themeId: null, themeFamily: localTheme });
