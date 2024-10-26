@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { DBTheme } from 'drizzle/schema';
 import json5 from 'json5';
 import { fs, path, $, argv } from 'zx';
 
@@ -46,8 +47,20 @@ try {
 console.log(`Fetched ${extInfo.length} extensions from Zed API`);
 
 let count = 0;
-const dbSeedThemes = [];
-for (const ext of extInfo) {
+const dbSeedThemes: DBTheme[] = [];
+
+const chunkSize = +(process.env.CHUNK_SIZE ?? 25);
+const chunks = Array.from({ length: Math.ceil(extInfo.length / chunkSize) }, (_, i) =>
+  extInfo.slice(i * chunkSize, i * chunkSize + chunkSize),
+);
+
+for (const chunk of chunks) {
+  await Promise.all(chunk.map(processExtension));
+}
+
+async function processExtension(ext: ExtInfo) {
+  if (argv.limit && ++count >= argv.limit) return;
+
   try {
     const repoUrl = ext.repository;
     const repoPath = repoUrl.replaceAll(/.*github\.com\/|\.git$/g, '');
@@ -56,22 +69,22 @@ for (const ext of extInfo) {
 
     if (!themeFile) {
       console.log(`⏩ [${ext.id}] Skipping because it has no themes`);
-      continue;
+      return;
     }
 
     const repoInfo = await getRepoInfo(repoPath);
     const installCount = ext.download_count;
-    const updatedDateTs = new Date(ext.published_at).getTime();
+    const updatedDateTs = new Date(ext.published_at);
 
     if (!repoInfo) {
       console.warn(`⚠️  [${ext.id}] Unable to get GH repo info`);
     }
 
-    const theme = {
+    const theme: DBTheme = {
       id: ext.id,
       name: ext.name.replace(/\btheme\b/i, '').trim(),
       author: ext.authors.map((s) => s.replaceAll(/<[^>]+>/g, '').trim()).join(', '),
-      updatedDate: Number.isNaN(updatedDateTs) ? Date.now() : updatedDateTs,
+      updatedDate: Number.isNaN(updatedDateTs.getTime()) ? new Date() : updatedDateTs,
       versionHash: ext.version,
       bundled: true,
       repoUrl,
@@ -88,7 +101,7 @@ for (const ext of extInfo) {
     const addInstallCount = typeof installCount === 'number';
     const sqlCmd = `
       INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, repoUrl, repoStars, userId, theme ${addInstallCount ? ', installCount' : ''})
-      VALUES ('${theme.id}', '${sqlSafe(theme.name)}', '${theme.author}', ${theme.updatedDate}, '${theme.versionHash}', ${theme.bundled}, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(theme.theme)}' ${addInstallCount ? `, ${theme.installCount}` : ''})
+      VALUES ('${theme.id}', '${sqlSafe(theme.name)}', '${theme.author}', ${theme.updatedDate.getTime()}, '${theme.versionHash}', ${theme.bundled}, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(theme.theme)}' ${addInstallCount ? `, ${theme.installCount}` : ''})
       ON CONFLICT (id) DO UPDATE
       SET name = EXCLUDED.name,
           author = EXCLUDED.author,
@@ -115,8 +128,6 @@ for (const ext of extInfo) {
     } catch (e) {
       console.error(`❌ [${ext.id}] ${e instanceof Error ? e.message : e}`);
     }
-
-    if (argv.limit && ++count >= argv.limit) break;
   } catch (e) {
     console.error(`❌ [${ext.id}] ${e instanceof Error ? e.message : e}`);
   }
@@ -151,7 +162,7 @@ async function getThemeFile(repoPath: string) {
     }).then((res) => res.json());
     const files = res.filter((file) => file.name.endsWith('.json'));
     if (files.length > 1) {
-      console.log(`⚠️  [${repoPath}] Has more than one theme json file found, using the first one`);
+      console.log(`❓ [${repoPath}] Has more than one theme json file found, using the first one`);
     }
     const url = files[0]?.download_url;
     if (url) {
