@@ -21,6 +21,8 @@ type LoaderData = {
   themes: ThemesMetaData[];
 };
 
+const numberFormatter = Intl.NumberFormat('en', { notation: 'compact' }).format;
+
 export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
   const db = drizzle(args.context.env.db, { schema });
@@ -48,6 +50,7 @@ export const loader: LoaderFunction = async (args) => {
     repoUrl: record.repoUrl,
     repoStars: record.repoStars,
     userId: record.userId,
+    installCount: record.installCount,
     themes:
       record.theme?.themes?.map(({ name, appearance, style }) => ({
         name,
@@ -129,35 +132,28 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
           </div>
         </div>
         <div className="flex gap-1 items-center">
-          <div className="flex items-center flex-1 overflow-hidden gap-1">
-            <span className="overflow-hidden text-ellipsis text-nowrap text-xs opacity-80 mr-1">
+          <div className="flex items-center flex-1 overflow-hidden gap-2 text-xs">
+            <span className="overflow-hidden text-ellipsis text-nowrap opacity-80 flex-1">
               By {theme.author.replace(/<.*>?$/, '').trim()}
             </span>
             {theme.bundled && typeof theme.repoUrl === 'string' ? (
-              <>
-                <a
-                  href={theme.repoUrl}
-                  rel="noreferrer"
-                  target="_blank"
-                  className="p-[6px] text-neutral-600 hover:text-black dark:hover:text-white"
-                  aria-label="Github repository link"
-                >
-                  <FaGithub size={12} />
-                </a>
+              <a
+                href={theme.repoUrl}
+                rel="noreferrer"
+                target="_blank"
+                className="flex items-center gap-0.5 text-neutral-600 hover:text-black dark:hover:text-white"
+                aria-label="Github repository link"
+              >
+                <FaGithub size={12} />
                 {theme.bundled && typeof theme.repoStars === 'number' && (
-                  <a
-                    href={theme.repoUrl}
-                    rel="noreferrer"
-                    target="_blank"
-                    className="py-[4px] px-[3px] flex items-center text-neutral-600 hover:text-black dark:hover:text-white"
-                    aria-label="Github repository link"
-                  >
-                    <span className="text-xs">{theme.repoStars}</span>
-                    <FaStar size={10} className="ml-[1px]" />
-                  </a>
+                  <>
+                    <span>{numberFormatter(theme.repoStars)}</span>
+                    <FaStar size={10} />
+                  </>
                 )}
-              </>
+              </a>
             ) : null}
+            {theme.installCount && <span className="opacity-80">{numberFormatter(theme.installCount)} installs</span>}
           </div>
         </div>
       </div>

@@ -28,6 +28,7 @@ export type ThemesMetaData = {
   repoUrl?: string | null;
   repoStars?: number | null;
   userId?: string | null;
+  installCount?: number | null;
   themes: (Pick<ThemeContent, 'name' | 'appearance'> & {
     backgroundColor?: ThemeStyleContent['background'];
     backgroundAppearance?: ThemeStyleContent['background.appearance'];
