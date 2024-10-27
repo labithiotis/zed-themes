@@ -55,25 +55,16 @@ export function Navbar() {
     );
   };
 
-  const updateSearchQuery = debounce((search?: string) => {
-    if (search) {
-      searchParams.set('search', search);
-      navigate({ search: searchParams.toString() });
+  const updateUrlParam = (key: string, value?: string) => {
+    if (value) {
+      searchParams.set(key, value);
     } else {
-      searchParams.delete('search');
-      navigate({ search: searchParams.toString() });
+      searchParams.delete(key);
     }
-  }, 600);
-
-  const updateOrderQuery = (order?: string) => {
-    if (order) {
-      searchParams.set('order', order);
-      navigate({ search: searchParams.toString() });
-    } else {
-      searchParams.delete('order');
-      navigate({ search: searchParams.toString() });
-    }
+    navigate({ search: searchParams.toString() });
   };
+
+  const updateSearchQuery = debounce((search?: string) => updateUrlParam('search', search), 600);
 
   const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -82,7 +73,7 @@ export function Navbar() {
 
   const updateOrder = (value: string) => {
     setOrder(value);
-    updateOrderQuery(value);
+    updateUrlParam('order', value);
   };
 
   return (

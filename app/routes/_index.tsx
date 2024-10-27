@@ -15,8 +15,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import type { AppearanceContent } from '~/themeFamily';
 import type { ThemesMetaData } from '../types';
 
-export type ThemeLitst = { timestamp: number; themes: ThemesMetaData[] };
-
 type LoaderData = {
   themes: ThemesMetaData[];
 };
