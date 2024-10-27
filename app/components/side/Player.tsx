@@ -22,7 +22,16 @@ export function Player({ index, player, edit }: PlayerProps) {
       <p className="flex justify-between text-zinc-600 dark:text-zinc-200">
         <span>Player {index + 1}</span>
         {edit && (
-          <Button size="xs" variant="outline" onClick={() => edit && dispatch({ type: 'removePlayer', index })}>
+          <Button
+            size="xs"
+            variant="outline"
+            onClick={() => {
+              if (window.confirm(`Are you sure you want to remove Player ${index + 1}?`)) {
+                dispatch({ type: 'removePlayer', index });
+              }
+            }}
+            aria-label={`Remove Player ${index + 1}`}
+          >
             Remove player
           </Button>
         )}
