@@ -46,14 +46,12 @@ export function Navbar() {
     setTimeout(() => {
       const searchParams = new URLSearchParams(location.search);
       if (!searchParams.get('search')) {
-        console.debug('Clearing search term');
         setSearchTerm('');
       }
       if (!searchParams.get('order')) {
-        console.debug('Clearing order');
         setOrder('relative');
       }
-    }, 10);
+    }, 50);
   }, [location.search]);
 
   const copyInstallDir = () => {
