@@ -1,12 +1,7 @@
 #!/usr/bin/env zx
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import type { DBTheme } from 'drizzle/schema';
 import json5 from 'json5';
-import { fs, path, $, argv } from 'zx';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { $, argv } from 'zx';
 
 $.verbose = false;
 
@@ -47,7 +42,6 @@ try {
 console.log(`Fetched ${extInfo.length} extensions from Zed API`);
 
 let count = 0;
-const dbSeedThemes: DBTheme[] = [];
 
 const chunkSize = +(process.env.CHUNK_SIZE ?? 25);
 const chunks = Array.from({ length: Math.ceil(extInfo.length / chunkSize) }, (_, i) =>
@@ -94,10 +88,6 @@ async function processExtension(ext: ExtInfo) {
       installCount,
     };
 
-    if (dbSeedThemes.length <= 5) {
-      dbSeedThemes.push(theme);
-    }
-
     const addInstallCount = typeof installCount === 'number';
     const sqlCmd = `
       INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, repoUrl, repoStars, userId, theme ${addInstallCount ? ', installCount' : ''})
@@ -132,8 +122,6 @@ async function processExtension(ext: ExtInfo) {
     console.error(`❌ [${ext.id}] ${e instanceof Error ? e.message : e}`);
   }
 }
-
-fs.writeFileSync(path.resolve(__dirname, 'dbSeedThemes.json'), JSON.stringify(dbSeedThemes, null, 2));
 
 type GHContent = {
   name: string;
