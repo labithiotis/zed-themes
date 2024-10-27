@@ -70,6 +70,15 @@ type SetPlayerToken = {
   color: unknown;
 };
 
+type AddPlayer = {
+  type: 'addPlayer';
+};
+
+type RemovePlayer = {
+  type: 'removePlayer';
+  index: number;
+};
+
 type AddTheme = {
   type: 'addTheme';
 };
@@ -84,6 +93,8 @@ type Actions =
   | SetStyleToken
   | SetSyntaxToken
   | SetPlayerToken
+  | AddPlayer
+  | RemovePlayer
   | AddTheme;
 
 function activeTheme(state: State) {
@@ -214,6 +225,44 @@ export const themeReducer = (state: State, action: Actions): State => {
               style: {
                 players: {
                   [action.index]: { [action.token]: { $set: action.color } },
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+    case 'addPlayer': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          themes: {
+            [state.themeIndex]: {
+              style: {
+                players: {
+                  $push: [{ background: 'transparent' }],
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+    case 'removePlayer': {
+      if (state.themeIndex == null || state.themeFamily === null) {
+        return state;
+      }
+
+      return update(state, {
+        themeFamily: {
+          themes: {
+            [state.themeIndex]: {
+              style: {
+                players: {
+                  $splice: [[action.index, 1]],
                 },
               },
             },
