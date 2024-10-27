@@ -1,7 +1,7 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
-import { sql } from 'drizzle-orm';
+import { type SQL, asc, desc, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import { Search } from 'lucide-react';
@@ -15,8 +15,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import type { AppearanceContent } from '~/themeFamily';
 import type { ThemesMetaData } from '../types';
 
-export type ThemeLitst = { timestamp: number; themes: ThemesMetaData[] };
-
 type LoaderData = {
   themes: ThemesMetaData[];
 };
@@ -28,7 +26,9 @@ export const loader: LoaderFunction = async (args) => {
   const db = drizzle(args.context.env.db, { schema });
   const url = new URL(args.request.url);
   const search = url.searchParams.get('search');
+  const order = url.searchParams.get('order');
   const searchQuery = search ? `%${search}%` : undefined;
+  const orderByColumn = getOrderByColumn(order);
 
   const records = await db
     .select()
@@ -38,6 +38,7 @@ export const loader: LoaderFunction = async (args) => {
         ? sql`LOWER(${schema.themes.name}) LIKE LOWER(${searchQuery}) OR LOWER(${schema.themes.author}) LIKE LOWER(${searchQuery})`
         : undefined,
     )
+    .orderBy(orderByColumn, asc(schema.themes.name))
     .all();
 
   const themes: ThemesMetaData[] = records.map((record) => ({
@@ -62,6 +63,19 @@ export const loader: LoaderFunction = async (args) => {
 
   return json({ themes, userId });
 };
+
+function getOrderByColumn(filter: string | null): SQL {
+  switch (filter) {
+    case 'recent':
+      return desc(schema.themes.updatedDate);
+    case 'bundled':
+      return asc(schema.themes.bundled);
+    case 'installs':
+      return desc(schema.themes.installCount);
+    default:
+      return asc(schema.themes.id);
+  }
+}
 
 export default function Home() {
   const { themes } = useLoaderData<LoaderData>();

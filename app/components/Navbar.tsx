@@ -1,8 +1,8 @@
 import { ClerkLoading, SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
-import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from '@remix-run/react';
-import { Search } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { Link, useLocation, useNavigate, useNavigation, useParams, useRouteLoaderData } from '@remix-run/react';
+import { LoaderCircle, Search } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
@@ -19,21 +19,42 @@ import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select';
 import { useToast } from './ui/use-toast';
 
+const orderOptions = new Map([
+  ['relative', 'Relative'],
+  ['installs', 'Installs'],
+  ['recent', 'Recent'],
+  ['bundled', 'Not Included'],
+]);
+
 export function Navbar() {
   const params = useParams();
   const { toast } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const colorScheme = useColorScheme((s) => s.colorScheme);
   const language = useLanguage((s) => s.language);
   const setLanguage = useLanguage((s) => s.setLanguage);
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
   const searchParams = new URLSearchParams(location.search);
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
+  const [order, setOrder] = useState(searchParams.get('order') ?? 'relative');
 
   const isRoot = location.pathname === '/';
 
-  const copyInstallDir = useCallback(() => {
+  useEffect(() => {
+    setTimeout(() => {
+      const searchParams = new URLSearchParams(location.search);
+      if (!searchParams.get('search')) {
+        setSearchTerm('');
+      }
+      if (!searchParams.get('order')) {
+        setOrder('relative');
+      }
+    }, 50);
+  }, [location.search]);
+
+  const copyInstallDir = () => {
     navigator?.clipboard?.writeText('~/.config/zed/themes').then(() =>
       toast({
         variant: 'success',
@@ -44,24 +65,30 @@ export function Navbar() {
         ),
       }),
     );
-  }, [toast]);
+  };
+
+  const updateUrlParam = (key: string, value?: string) => {
+    if (value) {
+      searchParams.set(key, value);
+    } else {
+      searchParams.delete(key);
+    }
+    navigate({ search: searchParams.toString() });
+  };
 
   const updateSearchQuery = useCallback(
-    debounce((search?: string) => {
-      if (search) {
-        searchParams.set('search', search);
-        navigate({ search: searchParams.toString() });
-      } else {
-        searchParams.delete('search');
-        navigate({ search: searchParams.toString() });
-      }
-    }, 600),
+    debounce((search?: string) => updateUrlParam('search', search), 600),
     [],
   );
 
   const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     updateSearchQuery(e.target.value);
+  };
+
+  const updateOrder = (value: string) => {
+    setOrder(value);
+    updateUrlParam('order', value);
   };
 
   return (
@@ -73,25 +100,48 @@ export function Navbar() {
         className={cn(
           'py-1.5 flex gap-1 justify-between',
           isRoot
-            ? 'container px-8 h-20 md:h-14 flex-col-reverse md:flex-row items-end md:items-center'
+            ? 'container px-2 md:px-8 h-20 md:h-14 flex-col-reverse md:flex-row items-end md:items-center'
             : 'px-3 h-14 flex-row items-center',
         )}
       >
-        <div className="flex w-full items-center gap-3">
+        <div className="w-full flex items-center gap-3">
           <Link to="/" rel="home" className="text-xl font-semibold whitespace-nowrap text-zed-800 dark:text-zed-400">
             Zed Themes
           </Link>
           {isRoot && (
-            <div className="relative flex-1">
-              <Search className="absolute left-2 h-full w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                value={searchTerm}
-                placeholder="Search"
-                className="w-full rounded-lg bg-background pl-8 py-1 md:w-[200px] lg:w-[336px]"
-                onChange={updateSearch}
-                data-testid="search-input"
-              />
+            <div className="flex-1 flex items-center gap-1">
+              <div className="relative flex-1 md:flex-none">
+                <div className="absolute left-2 h-full flex items-center text-muted-foreground">
+                  {navigation.state === 'idle' ? (
+                    <Search className=" w-4" size={16} />
+                  ) : (
+                    <LoaderCircle className="animate-spin" size={16} />
+                  )}
+                </div>
+                <Input
+                  type="search"
+                  value={searchTerm}
+                  placeholder="Search"
+                  className="w-full rounded-lg bg-background pl-8 py-1 md:w-[200px] lg:w-[336px]"
+                  onChange={updateSearch}
+                  data-testid="search-input"
+                />
+              </div>
+              <Select value={order} onValueChange={updateOrder} data-testid="order-select">
+                <SelectTrigger className="border border-transparent bg-transparent hover:bg-neutral-200">
+                  <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    <span className="text-muted-foreground hidden md:inline-block">Sort by:&nbsp;</span>
+                    {orderOptions.get(order)}
+                  </span>
+                </SelectTrigger>
+                <SelectContent>
+                  {[...orderOptions.entries()].map(([value, label]) => (
+                    <SelectItem key={value} value={value} data-testid={`order-select-${value}`}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
         </div>
