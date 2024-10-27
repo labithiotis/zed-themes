@@ -2,7 +2,7 @@ import { ClerkLoading, SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
 import { Link, useLocation, useNavigate, useNavigation, useParams, useRouteLoaderData } from '@remix-run/react';
 import { LoaderCircle, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
@@ -42,6 +42,20 @@ export function Navbar() {
 
   const isRoot = location.pathname === '/';
 
+  useEffect(() => {
+    setTimeout(() => {
+      const searchParams = new URLSearchParams(location.search);
+      if (!searchParams.get('search')) {
+        console.debug('Clearing search term');
+        setSearchTerm('');
+      }
+      if (!searchParams.get('order')) {
+        console.debug('Clearing order');
+        setOrder('relative');
+      }
+    }, 10);
+  }, [location.search]);
+
   const copyInstallDir = () => {
     navigator?.clipboard?.writeText('~/.config/zed/themes').then(() =>
       toast({
@@ -64,7 +78,10 @@ export function Navbar() {
     navigate({ search: searchParams.toString() });
   };
 
-  const updateSearchQuery = debounce((search?: string) => updateUrlParam('search', search), 600);
+  const updateSearchQuery = useCallback(
+    debounce((search?: string) => updateUrlParam('search', search), 600),
+    [],
+  );
 
   const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
