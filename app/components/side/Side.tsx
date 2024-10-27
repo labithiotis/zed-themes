@@ -52,6 +52,9 @@ export function Side({ edit }: { edit: boolean }) {
     }, 25),
     [],
   );
+  const addPlayer = () => {
+    dispatch({ type: 'addPlayer' });
+  };
   const addTheme = () => {
     dispatch({ type: 'addTheme' });
   };
@@ -204,7 +207,17 @@ export function Side({ edit }: { edit: boolean }) {
             />
           )}
         </Section>
-        <Section name="Players" items={theme?.style.players ?? new Array(8).fill({})}>
+        <Section
+          name="Players"
+          items={theme?.style.players ?? new Array(8).fill({})}
+          action={
+            edit && (
+              <Button className="mr-2" size="xs" variant="outline" onClick={addPlayer}>
+                Add player
+              </Button>
+            )
+          }
+        >
           {(player, index) => <Player key={index} player={player} index={index} edit={edit} />}
         </Section>
       </div>

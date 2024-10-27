@@ -3,20 +3,23 @@ import type { ReactNode } from 'react';
 export function Section<T>({
   name,
   items,
+  action,
   children,
 }: {
   name: string;
   items: T[];
+  action?: ReactNode;
   children: (item: T, i: number) => ReactNode;
 }) {
   return (
     <details className="group open:bg-neutral-200 dark:open:bg-neutral-900">
       <summary className="flex cursor-pointer list-none items-center justify-between p-2 font-medium hover:bg-zinc-200 dark:hover:bg-neutral-700">
-        <div className="flex select-none items-center gap-2">
+        <div className="flex-1 flex select-none items-center gap-2">
           <span className="flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-md bg-zinc-200 text-[10px] text-blue-800 shadow-md dark:bg-zinc-700 dark:text-neutral-300">
             {items.length}
           </span>
-          <span className="text-sm text-zed-800 dark:text-zinc-300">{name}</span>
+          <span className="flex-1 text-sm text-zed-800 dark:text-zinc-300">{name}</span>
+          {action}
         </div>
         <span className="transition group-open:rotate-180 dark:text-zinc-300">
           <svg

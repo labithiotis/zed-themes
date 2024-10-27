@@ -313,6 +313,44 @@ describe('Theme Reducer', () => {
     expect(nextState.themeFamily?.themes[0]?.style.players?.[0]?.selection).toEqual('red');
   });
 
+  it('can add player', () => {
+    const state = merge(initialState, {
+      themeIndex: 0,
+      themeFamily: createThemeFamily({
+        name: 'new theme',
+        themes: [{ name: 'theme 1', style: { players: [] } }],
+      }),
+    });
+
+    const nextState = themeReducer(state, {
+      type: 'addPlayer',
+    });
+
+    expect(nextState.themeFamily?.themes[0]?.style.players?.length).toEqual(1);
+  });
+
+  it('can remove player', () => {
+    const state = merge(initialState, {
+      themeIndex: 0,
+      themeFamily: createThemeFamily({
+        name: 'new theme',
+        themes: [
+          {
+            name: 'theme 1',
+            style: { players: [{ background: 'red' }, { background: 'green' }, { background: 'blue' }] },
+          },
+        ],
+      }),
+    });
+
+    const nextState = themeReducer(state, {
+      type: 'removePlayer',
+      index: 1,
+    });
+
+    expect(nextState.themeFamily?.themes[0]?.style.players).toEqual([{ background: 'red' }, { background: 'blue' }]);
+  });
+
   it('can addTheme', () => {
     const state = merge(initialState, {
       themeIndex: 0,

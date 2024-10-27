@@ -5,6 +5,7 @@ import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
 import type { PlayerColorContent } from '../../themeFamily';
+import { Button } from '../ui/button';
 import TokenleInput from './TokenleInput';
 
 type PlayerProps = {
@@ -14,9 +15,27 @@ type PlayerProps = {
 };
 
 export function Player({ index, player, edit }: PlayerProps) {
+  const { dispatch } = useTheme();
+
   return (
     <div className="flex flex-col px-3 py-1">
-      <p className="text-zinc-600 dark:text-zinc-200">Player {index + 1}</p>
+      <p className="flex justify-between text-zinc-600 dark:text-zinc-200">
+        <span>Player {index + 1}</span>
+        {edit && (
+          <Button
+            size="xs"
+            variant="outline"
+            onClick={() => {
+              if (window.confirm(`Are you sure you want to remove Player ${index + 1}?`)) {
+                dispatch({ type: 'removePlayer', index });
+              }
+            }}
+            aria-label={`Remove Player ${index + 1}`}
+          >
+            Remove player
+          </Button>
+        )}
+      </p>
       {playerTokens.map((token) => (
         <PlayerToken key={token} index={index} player={player} token={token} edit={edit} />
       ))}
