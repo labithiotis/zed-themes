@@ -1,7 +1,10 @@
+import { Image } from 'lucide-react';
 import { useTheme } from '~/providers/theme';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
 import duneDark from '../../assets/images/dune_dark.jpeg';
 import duneLight from '../../assets/images/dune_light.jpeg';
+import { UploadButton } from '../UploadImage';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { Breadcrumbs } from './components/Breadcrumbs';
 import { Code } from './components/Code';
 import { Dock } from './components/Dock';
@@ -9,6 +12,7 @@ import { Header } from './components/Header';
 import { Status } from './components/Status';
 import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
+
 import './preview.css';
 
 export function Preview() {
@@ -19,7 +23,7 @@ export function Preview() {
   return (
     <div
       id="preview-container"
-      className="flex w-screen flex-1 select-none overflow-auto p-8"
+      className="flex w-screen flex-1 select-none overflow-auto p-8 relative"
       style={{ background: `center / cover no-repeat url(${background})` }}
     >
       <div
@@ -65,6 +69,30 @@ export function Preview() {
           <Status />
         </div>
       </div>
+      <Tooltip>
+        <TooltipTrigger className="absolute top-2 left-2">
+          <UploadButton
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              console.log('Files: ', res);
+            }}
+            onUploadError={(error: Error) => {
+              alert(`ERROR! ${error.message}`);
+            }}
+            appearance={{
+              button: () => 'w-min h-min p-1 rounded-sm bg-opacity-55 bg-neutral-950 text-neutral-400',
+              allowedContent: () => 'hidden',
+              container: ({ ready }) => (!ready ? 'hidden' : ''),
+            }}
+            content={{
+              button: ({ ready }) => (ready ? <Image size={12} /> : null),
+            }}
+          />
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          Upload alternative background image for {theme?.appearance ?? ''} background
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }

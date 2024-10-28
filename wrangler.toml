@@ -10,6 +10,7 @@ enabled = true
 CLERK_SECRET_KEY = "<KEY>"
 CLERK_PUBLISHABLE_KEY = "<KEY>"
 SENTRY_AUTH_TOKEN = "<KEY>"
+UPLOADTHING_TOKEN = "<KEY>"
 
 [[kv_namespaces]]
 binding = "zed_shares"

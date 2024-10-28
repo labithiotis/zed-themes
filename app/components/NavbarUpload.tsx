@@ -54,7 +54,9 @@ export function UploadTheme() {
       }
     });
 
-    fileDropRef.current?.classList.add('hidden');
+    if (fileDropRef.current) {
+      fileDropRef.current.style.display = 'flex';
+    }
 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -75,7 +77,7 @@ export function UploadTheme() {
       >
         <div
           ref={fileDropRef}
-          className="absolute inset-0 isolate z-10 flex hidden select-none items-center justify-center bg-zinc-600/80"
+          className="absolute inset-0 isolate z-10 hidden select-none items-center justify-center bg-zinc-600/80"
         >
           <h4 className="text-2xl font-bold text-white shadow-black drop-shadow-lg">Drop your schema here</h4>
         </div>
