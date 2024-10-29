@@ -5,6 +5,8 @@ import { UploadThingError } from 'uploadthing/server';
 import { z } from 'zod';
 import { setUserPrefs } from '~/utils/userPrefs.server';
 
+let kv: KVNamespace;
+
 const f = createUploadthing();
 
 const uploadRouter = {
@@ -16,7 +18,7 @@ const uploadRouter = {
       return { userId: user.userId, userPrefImageKey: input.userPrefImageKey };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      return setUserPrefs(metadata.userId, globalThis.kv, {
+      return setUserPrefs(metadata.userId, kv, {
         [metadata.userPrefImageKey]: file.url,
       });
     }),
@@ -27,11 +29,8 @@ export type UploadRouter = typeof uploadRouter;
 const handlers = createRouteHandler({ router: uploadRouter, config: {} });
 
 // FIXME: Remove below when `event` is added to onUploadComplete
-declare global {
-  var kv: KVNamespace;
-}
 export const loader = handlers.loader;
 export const action: ActionFunction = async (ctx) => {
-  globalThis.kv = ctx.context.env.zed_data;
+  kv = ctx.context.env.zed_data;
   return handlers.action(ctx);
 };
