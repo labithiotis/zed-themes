@@ -1,8 +1,7 @@
+import { useUser } from '@clerk/remix';
 import { Image } from 'lucide-react';
 import { useTheme } from '~/providers/theme';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
-import duneDark from '../../assets/images/dune_dark.jpeg';
-import duneLight from '../../assets/images/dune_light.jpeg';
 import { UploadButton } from '../UploadImage';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { Breadcrumbs } from './components/Breadcrumbs';
@@ -14,11 +13,24 @@ import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
 
 import './preview.css';
+import { useEffect, useState } from 'react';
+import type { UserPrefs } from '~/types';
 
-export function Preview() {
+const darkDefault = 'https://utfs.io/f/5PidoYyX3mAdMpWHRLXuMKE8rQq9POyied7htCAxTB1N0pkG';
+const lightDefault = 'https://utfs.io/f/5PidoYyX3mAdApxhJE7jS2yVaTKZWG5FQsxd4gHtmfYCnr3w';
+
+export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
+  const user = useUser();
   const { theme } = useTheme();
-  const background = theme?.appearance === 'dark' ? duneDark : duneLight;
+  const isDarkTheme = theme?.appearance === 'dark';
   const cssStyleVars = themeStyleToCssVars(theme?.style);
+  const [background, setBackground] = useState(
+    isDarkTheme ? (userPrefs?.image_dark ?? darkDefault) : (userPrefs?.image_light ?? lightDefault),
+  );
+
+  useEffect(() => {
+    setBackground(isDarkTheme ? (userPrefs?.image_dark ?? darkDefault) : (userPrefs?.image_light ?? lightDefault));
+  }, [isDarkTheme, userPrefs]);
 
   return (
     <div
@@ -30,14 +42,10 @@ export function Preview() {
         id="editor"
         className="flex flex-1 flex-col overflow-hidden rounded-lg border"
         style={{
-          color: cssVarStyleToken('text', theme?.appearance === 'dark' ? '#CCCCCC' : '#21201C'),
+          color: cssVarStyleToken('text', isDarkTheme ? '#CCCCCC' : '#21201C'),
           borderColor: cssVarStyleToken('border'),
           backgroundColor:
-            theme?.style['background.appearance'] === 'opaque'
-              ? theme?.appearance === 'dark'
-                ? '#000'
-                : '#fff'
-              : undefined,
+            theme?.style['background.appearance'] === 'opaque' ? (isDarkTheme ? '#000' : '#fff') : undefined,
           backdropFilter: theme?.style['background.appearance'] === 'blurred' ? 'blur(20px)' : 'none',
           minWidth: 800,
           minHeight: 600,
@@ -69,30 +77,33 @@ export function Preview() {
           <Status />
         </div>
       </div>
-      <Tooltip>
-        <TooltipTrigger className="absolute top-2 left-2">
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              console.log('Files: ', res);
-            }}
-            onUploadError={(error: Error) => {
-              alert(`ERROR! ${error.message}`);
-            }}
-            appearance={{
-              button: () => 'w-min h-min p-1 rounded-sm bg-opacity-55 bg-neutral-950 text-neutral-400',
-              allowedContent: () => 'hidden',
-              container: ({ ready }) => (!ready ? 'hidden' : ''),
-            }}
-            content={{
-              button: ({ ready }) => (ready ? <Image size={12} /> : null),
-            }}
-          />
-        </TooltipTrigger>
-        <TooltipContent side="right">
-          Upload alternative background image for {theme?.appearance ?? ''} background
-        </TooltipContent>
-      </Tooltip>
+      {user.isSignedIn && (
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger className="absolute top-2 left-2">
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={([res]) => {
+                setBackground(res?.url ?? background);
+              }}
+              onUploadError={(error: Error) => {
+                alert(`ERROR! ${error.message}`);
+              }}
+              appearance={{
+                button: () => 'w-min h-min p-1 rounded-sm bg-opacity-55 bg-neutral-950 text-neutral-400',
+                allowedContent: () => 'hidden',
+                container: ({ ready }) => (!ready ? 'hidden' : ''),
+              }}
+              content={{
+                button: ({ ready }) => (ready ? <Image size={12} /> : null),
+              }}
+              input={{ userPrefImageKey: isDarkTheme ? 'image_dark' : 'image_light' }}
+            />
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            Upload alternative background image for {theme?.appearance ?? ''} background
+          </TooltipContent>
+        </Tooltip>
+      )}
     </div>
   );
 }

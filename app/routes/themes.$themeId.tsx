@@ -12,24 +12,29 @@ import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme } from '~/providers/theme';
 import { createThemeFamily } from '~/providers/themeFamily';
+import type { UserPrefs } from '~/types';
 import { themeValidator } from '~/utils/themeValidator';
+import { getUserPrefs } from '~/utils/userPrefs.server';
 import type { ThemeFamilyContent } from '../themeFamily';
 
 type LoaderData = {
   theme: ThemeFamilyContent | null;
   themeId: string | null;
   editable: boolean;
+  userPrefs?: UserPrefs;
 };
 
 export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<LoaderData>> => {
+  const dataKv = args.context.env?.zed_data;
   const sharesKv = args.context.env?.zed_shares;
   const { themeId } = args.params;
-  const { userId } = await getAuth(args);
-
   invariant(themeId);
 
+  const { userId } = await getAuth(args);
+  const userPrefs = await getUserPrefs(userId, dataKv);
+
   if (args.params.themeId === 'new' || args.params.themeId === 'edit') {
-    return json({ themeId: null, theme: null, editable: true });
+    return json({ themeId: null, theme: null, editable: true, userPrefs });
   }
 
   const db = drizzle(args.context.env.db, { schema });
@@ -41,14 +46,14 @@ export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<Lo
   const record = records?.at(0);
 
   if (!record) {
-    return json({ themeId: null, theme: null, editable: args.params.themeId === 'edit' });
+    return json({ themeId: null, theme: null, editable: args.params.themeId === 'edit', userPrefs });
   }
 
   const themeData = record.theme;
   const themeShare = !themeData ? await sharesKv?.get(themeId) : undefined;
   const theme = themeData ?? (themeShare ? json5.parse(themeShare) : undefined);
 
-  return json({ themeId: record.id, theme, editable: !!userId && record.userId === userId });
+  return json({ themeId: record.id, theme, editable: !!userId && record.userId === userId, userPrefs });
 };
 
 export default function ThemeById() {
@@ -97,7 +102,7 @@ export default function ThemeById() {
     <Layout className="h-full flex overflow-hidden mt-14 md:mt-14">
       <div className="flex-1 flex min-w-[1024] overflow-hidden" key={params.themeId}>
         <Side edit={data.editable} />
-        {!!theme && <Preview />}
+        {!!theme && <Preview userPrefs={data.userPrefs} />}
       </div>
     </Layout>
   );

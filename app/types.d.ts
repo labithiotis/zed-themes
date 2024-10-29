@@ -34,3 +34,8 @@ export type ThemesMetaData = {
     backgroundAppearance?: ThemeStyleContent['background.appearance'];
   })[];
 };
+
+export type UserPrefs = {
+  image_light?: string;
+  image_dark?: string;
+};
