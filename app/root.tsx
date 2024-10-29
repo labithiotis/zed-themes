@@ -91,9 +91,6 @@ function Document(props: { children: ReactNode; title?: string; colorScheme?: Co
   );
 }
 
-// Push Clerk HOC lower to avoid issues if clerkApp triggers hydration errors
-const App = ClerkApp(() => <Outlet />);
-
 function Root() {
   const loaderData = useLoaderData<RootData>();
 
@@ -103,7 +100,7 @@ function Root() {
         <LanguageProvider language={loaderData.language}>
           <ThemeProvider>
             <TooltipProvider>
-              <App />
+              <Outlet />
             </TooltipProvider>
           </ThemeProvider>
         </LanguageProvider>
@@ -114,7 +111,7 @@ function Root() {
   );
 }
 
-export default Root;
+export default ClerkApp(Root);
 
 export function ErrorBoundary() {
   const error = useRouteError();

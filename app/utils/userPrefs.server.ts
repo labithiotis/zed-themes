@@ -1,8 +1,9 @@
+import type { UploadedFileData } from 'uploadthing/types';
 import { merge } from './helpers';
 
 export type UserPrefs = {
-  imageDark?: string;
-  imageLight?: string;
+  bgPreviewImageDark?: UploadedFileData;
+  bgPreviewImageLight?: UploadedFileData;
 };
 
 export async function setUserPrefs(userId: string | null, dataKv: KVNamespace, data: Partial<UserPrefs>) {

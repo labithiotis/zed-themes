@@ -1,10 +1,12 @@
 import { useUser } from '@clerk/remix';
+import imageResize, { type typeOptions } from 'image-resize';
 import { Image } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTheme } from '~/providers/theme';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
+import type { UserPrefs } from '~/utils/userPrefs.server';
 import { UploadButton } from '../UploadImage.client';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '../ui/tooltip';
 import { useToast } from '../ui/use-toast';
 import { Breadcrumbs } from './components/Breadcrumbs';
 import { Code } from './components/Code';
@@ -15,7 +17,12 @@ import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
 
 import './preview.css';
-import type { UserPrefs } from '~/utils/userPrefs.server';
+
+const imageResizeConfig: typeOptions = {
+  quality: 0.8,
+  width: 1024,
+  outputType: 'blob',
+};
 
 export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const user = useUser();
@@ -79,6 +86,18 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
           <TooltipTrigger className="absolute top-2 left-2">
             <UploadButton
               endpoint="imageUploader"
+              onBeforeUploadBegin={async (files) => {
+                // The tooltip remains shown because button becomes focused, this just blurs focus away.
+                if (document.activeElement instanceof HTMLElement) {
+                  document.activeElement.blur();
+                }
+                // Resize images to have max width of 1024px
+                return Promise.all(
+                  files.map(
+                    async (file) => new File([(await imageResize(file, imageResizeConfig)) as Blob], file.name),
+                  ),
+                );
+              }}
               onClientUploadComplete={([res]) => {
                 setBackground(res?.url ?? background);
               }}
@@ -96,12 +115,14 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
               content={{
                 button: ({ ready }) => (ready ? <Image size={12} /> : null),
               }}
-              input={{ userPrefImageKey: isDarkTheme ? 'imageDark' : 'imageLight' }}
+              input={{ imageKey: isDarkTheme ? 'bgPreviewImageDark' : 'bgPreviewImageLight' }}
             />
           </TooltipTrigger>
-          <TooltipContent side="right">
-            Upload alternative background image for {theme?.appearance ?? ''} background
-          </TooltipContent>
+          <TooltipPortal>
+            <TooltipContent side="top">
+              Upload alternative background image for {theme?.appearance ?? ''} background
+            </TooltipContent>
+          </TooltipPortal>
         </Tooltip>
       )}
     </div>
@@ -112,5 +133,7 @@ const darkDefault = 'https://utfs.io/f/5PidoYyX3mAdMpWHRLXuMKE8rQq9POyied7htCAxT
 const lightDefault = 'https://utfs.io/f/5PidoYyX3mAdApxhJE7jS2yVaTKZWG5FQsxd4gHtmfYCnr3w';
 
 function getBackgroundImage(isDarkTheme: boolean, userPrefs?: UserPrefs) {
-  return isDarkTheme ? (userPrefs?.imageDark ?? darkDefault) : (userPrefs?.imageLight ?? lightDefault);
+  return isDarkTheme
+    ? (userPrefs?.bgPreviewImageDark?.url ?? darkDefault)
+    : (userPrefs?.bgPreviewImageLight?.url ?? lightDefault);
 }

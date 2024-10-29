@@ -74,6 +74,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.3.0
         version: 8.3.0(react@19.0.0-rc-45804af1-20241021)
+      image-resize:
+        specifier: ^1.4.1
+        version: 1.4.1
       immutability-helper:
         specifier: ^3.1.1
         version: 3.1.1
@@ -3546,6 +3549,9 @@ packages:
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
+
+  image-resize@1.4.1:
+    resolution: {integrity: sha512-2QQkTdMvRGkbcfeKs3OCA7g8CNRqa3ISo+8OHhMTmsHvjfaxBrvGsZ/fNTroAhh8M+9xesU4FMcoJUBMDArYzA==}
 
   immutability-helper@3.1.1:
     resolution: {integrity: sha512-Q0QaXjPjwIju/28TsugCHNEASwoCcJSyJV3uO1sOIQGI0jKgm9f41Lvz0DZj3n46cNCyAZTsEYoY4C2bVRUzyQ==}
@@ -8765,6 +8771,8 @@ snapshots:
       postcss: 8.4.47
 
   ieee754@1.2.1: {}
+
+  image-resize@1.4.1: {}
 
   immutability-helper@3.1.1: {}
 

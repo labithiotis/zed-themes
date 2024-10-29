@@ -1,6 +1,6 @@
 name = "zed-themes"
 compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat", "nodejs_als"]
+compatibility_flags = ["nodejs_compat_v2", "nodejs_als"]
 account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
 
 [observability]
@@ -12,13 +12,27 @@ CLERK_PUBLISHABLE_KEY = ''
 SENTRY_AUTH_TOKEN = ''
 UPLOADTHING_TOKEN = ''
 
+[env.preview.vars]
+CLERK_SECRET_KEY = ''
+CLERK_PUBLISHABLE_KEY = ''
+SENTRY_AUTH_TOKEN = ''
+UPLOADTHING_TOKEN = ''
+
 [[kv_namespaces]]
 binding = "zed_shares"
 id = "39f7d7e6d1994dc19b0e7e1bb9ba5e02"
 
+[[env.preview.kv_namespaces]]
+binding = "zed_shares"
+id = "40ec071715db4dc6b66b71a22d68999a"
+
 [[kv_namespaces]]
 binding = "zed_data"
 id = "2adad0b0528f407197cbc574f9b020db"
+
+[[env.preview.kv_namespaces]]
+binding = "zed_data"
+id = "87e6441a5c2349b2ab6aa27f6a9bc87c"
 
 [[d1_databases]]
 binding = "db"
@@ -34,20 +48,6 @@ binding = "db"
 database_name = "zed_themes_preview"
 database_id = "d302f4f5-e52a-4192-869d-8bd7a746135f"
 migrations_dir = "drizzle"
-
-[[env.preview.kv_namespaces]]
-binding = "zed_shares"
-id = "40ec071715db4dc6b66b71a22d68999a"
-
-[[env.preview.kv_namespaces]]
-binding = "zed_data"
-id = "87e6441a5c2349b2ab6aa27f6a9bc87c"
-
-[env.preview.vars]
-CLERK_SECRET_KEY = ''
-CLERK_PUBLISHABLE_KEY = ''
-SENTRY_AUTH_TOKEN = ''
-UPLOADTHING_TOKEN = ''
 
 [build]
 command = "npm run build"

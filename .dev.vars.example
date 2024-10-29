@@ -1,5 +1,6 @@
 # You will need to get test keys by signing up to Clerk: https://clerk.com
 CLERK_PUBLISHABLE_KEY=<KEY>
 CLERK_SECRET_KEY=<KEY>
+CF_D1_API_KEY=<KEY>
 SENTRY_AUTH_TOKEN=<KEY>
 UPLOADTHING_TOKEN=<KEY>
