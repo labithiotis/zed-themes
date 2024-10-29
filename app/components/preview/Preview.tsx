@@ -3,7 +3,7 @@ import { Image } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTheme } from '~/providers/theme';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
-import { UploadButton } from '../UploadImage';
+import { UploadButton } from '../UploadImage.client';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { useToast } from '../ui/use-toast';
 import { Breadcrumbs } from './components/Breadcrumbs';
