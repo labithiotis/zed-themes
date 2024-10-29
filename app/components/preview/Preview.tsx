@@ -85,7 +85,7 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
               onUploadError={(error: Error) => {
                 toast({
                   variant: 'destructive',
-                  content: `Upload failed: ${error.message}`,
+                  description: `Upload failed: ${error.message}`,
                 });
               }}
               appearance={{
