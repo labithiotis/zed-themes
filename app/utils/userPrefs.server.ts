@@ -1,5 +1,9 @@
-import type { UserPrefs } from '~/types';
 import { merge } from './helpers';
+
+export type UserPrefs = {
+  imageDark?: string;
+  imageLight?: string;
+};
 
 export async function setUserPrefs(userId: string | null, dataKv: KVNamespace, data: Partial<UserPrefs>) {
   const userPrefs = merge(await getUserPrefs(userId, dataKv), data);

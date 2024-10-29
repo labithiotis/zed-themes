@@ -12,9 +12,8 @@ import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme } from '~/providers/theme';
 import { createThemeFamily } from '~/providers/themeFamily';
-import type { UserPrefs } from '~/types';
 import { themeValidator } from '~/utils/themeValidator';
-import { getUserPrefs } from '~/utils/userPrefs.server';
+import { type UserPrefs, getUserPrefs } from '~/utils/userPrefs.server';
 import type { ThemeFamilyContent } from '../themeFamily';
 
 type LoaderData = {

@@ -9,7 +9,7 @@ const f = createUploadthing();
 
 const uploadRouter = {
   imageUploader: f({ image: { maxFileSize: '4MB' } })
-    .input(z.strictObject({ userPrefImageKey: z.enum(['image_light', 'image_dark']) }))
+    .input(z.strictObject({ userPrefImageKey: z.enum(['imageDark', 'imageLight']) }))
     .middleware(async ({ event, input }) => {
       const user = await getAuth(event);
       if (!user) throw new UploadThingError('Unauthorized');
