@@ -3,9 +3,9 @@
 interface Env {
   zed_shares: KVNamespace;
   zed_data: KVNamespace;
-  SENTRY_AUTH_TOKEN: '<KEY>';
-  UPLOADTHING_TOKEN: '<KEY>';
   CLERK_PUBLISHABLE_KEY: string;
   CLERK_SECRET_KEY: string;
+  SENTRY_AUTH_TOKEN: string;
+  UPLOADTHING_TOKEN: string;
   db: D1Database;
 }

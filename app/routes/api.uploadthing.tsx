@@ -16,7 +16,7 @@ const uploadRouter = {
       return { userId: user.userId, userPrefImageKey: input.userPrefImageKey };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      return await setUserPrefs(metadata.userId, globalThis.kv, {
+      return setUserPrefs(metadata.userId, globalThis.kv, {
         [metadata.userPrefImageKey]: file.url,
       });
     }),

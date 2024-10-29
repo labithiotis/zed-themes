@@ -1,9 +1,12 @@
 import { useUser } from '@clerk/remix';
 import { Image } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '~/providers/theme';
+import type { UserPrefs } from '~/types';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
 import { UploadButton } from '../UploadImage';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { useToast } from '../ui/use-toast';
 import { Breadcrumbs } from './components/Breadcrumbs';
 import { Code } from './components/Code';
 import { Dock } from './components/Dock';
@@ -13,23 +16,17 @@ import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
 
 import './preview.css';
-import { useEffect, useState } from 'react';
-import type { UserPrefs } from '~/types';
-
-const darkDefault = 'https://utfs.io/f/5PidoYyX3mAdMpWHRLXuMKE8rQq9POyied7htCAxTB1N0pkG';
-const lightDefault = 'https://utfs.io/f/5PidoYyX3mAdApxhJE7jS2yVaTKZWG5FQsxd4gHtmfYCnr3w';
 
 export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const user = useUser();
+  const { toast } = useToast();
   const { theme } = useTheme();
   const isDarkTheme = theme?.appearance === 'dark';
   const cssStyleVars = themeStyleToCssVars(theme?.style);
-  const [background, setBackground] = useState(
-    isDarkTheme ? (userPrefs?.image_dark ?? darkDefault) : (userPrefs?.image_light ?? lightDefault),
-  );
+  const [background, setBackground] = useState(getBackgroundImage(isDarkTheme, userPrefs));
 
   useEffect(() => {
-    setBackground(isDarkTheme ? (userPrefs?.image_dark ?? darkDefault) : (userPrefs?.image_light ?? lightDefault));
+    setBackground(getBackgroundImage(isDarkTheme, userPrefs));
   }, [isDarkTheme, userPrefs]);
 
   return (
@@ -86,7 +83,10 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
                 setBackground(res?.url ?? background);
               }}
               onUploadError={(error: Error) => {
-                alert(`ERROR! ${error.message}`);
+                toast({
+                  variant: 'destructive',
+                  content: `Upload failed: ${error.message}`,
+                });
               }}
               appearance={{
                 button: () => 'w-min h-min p-1 rounded-sm bg-opacity-55 bg-neutral-950 text-neutral-400',
@@ -106,4 +106,11 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
       )}
     </div>
   );
+}
+
+const darkDefault = 'https://utfs.io/f/5PidoYyX3mAdMpWHRLXuMKE8rQq9POyied7htCAxTB1N0pkG';
+const lightDefault = 'https://utfs.io/f/5PidoYyX3mAdApxhJE7jS2yVaTKZWG5FQsxd4gHtmfYCnr3w';
+
+function getBackgroundImage(isDarkTheme: boolean, userPrefs?: UserPrefs) {
+  return isDarkTheme ? (userPrefs?.image_dark ?? darkDefault) : (userPrefs?.image_light ?? lightDefault);
 }

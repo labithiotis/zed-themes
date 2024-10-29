@@ -7,10 +7,10 @@ account_id = "7bc5bf0e3b7386107e27d74c22b449c0"
 enabled = true
 
 [vars]
-CLERK_SECRET_KEY = "<KEY>"
-CLERK_PUBLISHABLE_KEY = "<KEY>"
-SENTRY_AUTH_TOKEN = "<KEY>"
-UPLOADTHING_TOKEN = "<KEY>"
+CLERK_SECRET_KEY = ''
+CLERK_PUBLISHABLE_KEY = ''
+SENTRY_AUTH_TOKEN = ''
+UPLOADTHING_TOKEN = ''
 
 [[kv_namespaces]]
 binding = "zed_shares"
@@ -44,9 +44,10 @@ binding = "zed_data"
 id = "87e6441a5c2349b2ab6aa27f6a9bc87c"
 
 [env.preview.vars]
-CLERK_SECRET_KEY = "<KEY>"
-CLERK_PUBLISHABLE_KEY = "<KEY>"
-SENTRY_AUTH_TOKEN = "<KEY>"
+CLERK_SECRET_KEY = ''
+CLERK_PUBLISHABLE_KEY = ''
+SENTRY_AUTH_TOKEN = ''
+UPLOADTHING_TOKEN = ''
 
 [build]
 command = "npm run build"
