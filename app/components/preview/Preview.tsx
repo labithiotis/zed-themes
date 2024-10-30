@@ -129,8 +129,8 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   );
 }
 
-const darkDefault = 'https://utfs.io/f/5PidoYyX3mAdMpWHRLXuMKE8rQq9POyied7htCAxTB1N0pkG';
-const lightDefault = 'https://utfs.io/f/5PidoYyX3mAdApxhJE7jS2yVaTKZWG5FQsxd4gHtmfYCnr3w';
+const darkDefault = 'https://utfs.io/f/5PidoYyX3mAddkzncB1jmycHZv26oYRqN3rhe9KtalBAEJfL';
+const lightDefault = 'https://utfs.io/f/5PidoYyX3mAdN89JTyA0mtYuekWvgOGZTfR4zE2Q8cLV5jxX';
 
 function getBackgroundImage(isDarkTheme: boolean, userPrefs?: UserPrefs) {
   return isDarkTheme
