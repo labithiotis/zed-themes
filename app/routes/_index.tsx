@@ -146,8 +146,8 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
           </div>
         </div>
         <div className="flex gap-1 items-center">
-          <div className="flex items-center flex-1 overflow-hidden gap-2 text-xs">
-            <span className="overflow-hidden text-ellipsis text-nowrap opacity-80 flex-1">
+          <div className="flex items-center flex-1 overflow-hidden gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+            <span className="overflow-hidden text-ellipsis text-nowrap flex-1">
               By {theme.author.replace(/<.*>?$/, '').trim()}
             </span>
             {theme.bundled && typeof theme.repoUrl === 'string' ? (
@@ -155,19 +155,21 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
                 href={theme.repoUrl}
                 rel="noreferrer"
                 target="_blank"
-                className="flex items-center gap-0.5 text-neutral-600 hover:text-black dark:hover:text-white"
+                className="flex items-center gap-0.5 hover:text-black dark:hover:text-white"
                 aria-label="Github repository link"
               >
                 <FaGithub size={12} />
                 {theme.bundled && typeof theme.repoStars === 'number' && (
                   <>
-                    <span>{numberFormatter(theme.repoStars)}</span>
+                    <span>{numberFormatter(theme.repoStars).toLowerCase()}</span>
                     <FaStar size={10} />
                   </>
                 )}
               </a>
             ) : null}
-            {theme.installCount && <span className="opacity-80">{numberFormatter(theme.installCount)} installs</span>}
+            {theme.installCount && (
+              <span className="opacity-80">{numberFormatter(theme.installCount).toLowerCase()} installs</span>
+            )}
           </div>
         </div>
       </div>

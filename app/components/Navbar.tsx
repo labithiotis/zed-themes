@@ -128,7 +128,10 @@ export function Navbar() {
                 />
               </div>
               <Select value={order} onValueChange={updateOrder} data-testid="order-select">
-                <SelectTrigger className="border border-transparent bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800">
+                <SelectTrigger
+                  className="border border-transparent bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800"
+                  aria-label="Sort by"
+                >
                   <span className="whitespace-nowrap overflow-hidden text-ellipsis">
                     <span className="text-muted-foreground hidden md:inline-block">Sort by:&nbsp;</span>
                     {orderOptions.get(order)}
