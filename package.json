@@ -20,6 +20,8 @@
     "db:studio:local": "drizzle-kit studio",
     "db:studio:preview": "export $(xargs < .env.drizzle) && DB_ID=d302f4f5-e52a-4192-869d-8bd7a746135f drizzle-kit studio",
     "db:studio:prod": "export $(xargs < .env.drizzle) && DB_ID=28315368-145a-4500-a29a-5e5e3afb344b drizzle-kit studio",
+    "logs:prod": " wrangler pages deployment tail --project-name zed-themes --environment production",
+    "logs:preview": " wrangler pages deployment tail --project-name zed-themes --environment preview",
     "fmt": "biome format --write",
     "test": "vitest ./app",
     "test:lint": "biome check",
