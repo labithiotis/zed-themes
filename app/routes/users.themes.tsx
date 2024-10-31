@@ -103,7 +103,7 @@ function DeleteAction({ theme }: { theme: Pick<ThemesMetaData, 'id' | 'name'> })
 
   const deleteTheme = () => {
     if (canDelete) {
-      fetcher.submit({ themeId: theme.id }, { action: '/action/theme/delete', method: 'POST' });
+      fetcher.submit({ themeId: theme.id }, { action: '/api/theme/delete', method: 'POST' });
     }
   };
 

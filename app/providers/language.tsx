@@ -85,7 +85,7 @@ export const LanguageLoader = (props: React.PropsWithChildren) => {
 
   const persistLanguage = useCallback(
     (language: Language) => {
-      fetcher.submit({ language }, { action: '/action/language', method: 'post' });
+      fetcher.submit({ language }, { action: '/api/language', method: 'post' });
     },
     [fetcher.submit],
   );

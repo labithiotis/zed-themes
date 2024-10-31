@@ -54,7 +54,7 @@ export function SideSaveButton() {
     const id = !themeId || themeId === 'new' || themeId === 'edit' ? '' : themeId;
     fetcher.submit(
       { id, theme: JSON.stringify({ ...themeFamily, author: getAuthor(user) }) },
-      { action: '/action/theme/save', method: 'POST' },
+      { action: '/api/theme/save', method: 'POST' },
     );
   };
 

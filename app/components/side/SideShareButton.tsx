@@ -20,7 +20,7 @@ export function SideShareButton({ edit }: { edit: boolean }) {
 
   const shareTheme = () => {
     if (edit) {
-      fetcher.submit({ theme: JSON.stringify(themeFamily) }, { action: '/action/theme/share', method: 'POST' });
+      fetcher.submit({ theme: JSON.stringify(themeFamily) }, { action: '/api/theme/share', method: 'POST' });
     } else {
       navigator?.clipboard
         .writeText(document.location.href)

@@ -6,15 +6,16 @@ import { UTApi, UploadThingError } from 'uploadthing/server';
 import { z } from 'zod';
 import { getUserPrefs, setUserPrefs } from '~/utils/userPrefs.server';
 
+export const utApi = new UTApi({ logLevel: 'Error' });
+
 const f = createUploadthing();
-const utApi = new UTApi({ logLevel: 'Error' });
 
 const uploadRouter = {
   imageUploader: f({ image: { maxFileSize: '4MB', minFileCount: 1, maxFileCount: 1 } })
     .input(z.strictObject({ imageKey: z.enum(['bgPreviewImageDark', 'bgPreviewImageLight']) }))
     .middleware(async ({ event, input }) => {
       const user = await getAuth(event);
-      if (!user) throw new UploadThingError('Unauthorized');
+      if (!user || !user.userId) throw new UploadThingError('Unauthorized');
       return { userId: user.userId, imageKey: input.imageKey };
     })
     .onUploadComplete(async ({ metadata, file }) => {

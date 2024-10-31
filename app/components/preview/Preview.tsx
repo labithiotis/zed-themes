@@ -17,6 +17,9 @@ import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
 
 import './preview.css';
+import { useFetcher } from '@remix-run/react';
+import { IoMdClose } from 'react-icons/io';
+import { Button } from '../ui/button';
 
 const imageResizeConfig: typeOptions = {
   quality: 0.8,
@@ -28,13 +31,19 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const user = useUser();
   const { toast } = useToast();
   const { theme } = useTheme();
+  const fetcher = useFetcher<null>({ key: 'user-prefs-clear' });
   const isDarkTheme = theme?.appearance === 'dark';
   const cssStyleVars = themeStyleToCssVars(theme?.style);
   const [background, setBackground] = useState(getBackgroundImage(isDarkTheme, userPrefs));
+  const customBg = Boolean(isDarkTheme ? userPrefs?.bgPreviewImageDark?.url : userPrefs?.bgPreviewImageLight?.url);
 
   useEffect(() => {
     setBackground(getBackgroundImage(isDarkTheme, userPrefs));
   }, [isDarkTheme, userPrefs]);
+
+  const clearBg = () => {
+    fetcher.submit({}, { action: '/api/user-prefs/clear', method: 'POST' });
+  };
 
   return (
     <div
@@ -81,50 +90,66 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
           <Status />
         </div>
       </div>
-      {user.isSignedIn && (
-        <Tooltip delayDuration={0}>
-          <TooltipTrigger className="absolute top-2 left-2">
-            <UploadButton
-              endpoint="imageUploader"
-              onBeforeUploadBegin={async (files) => {
-                // The tooltip remains shown because button becomes focused, this just blurs focus away.
-                if (document.activeElement instanceof HTMLElement) {
-                  document.activeElement.blur();
-                }
-                // Resize images to have max width of 1024px
-                return Promise.all(
-                  files.map(
-                    async (file) => new File([(await imageResize(file, imageResizeConfig)) as Blob], file.name),
-                  ),
-                );
-              }}
-              onClientUploadComplete={([res]) => {
-                setBackground(res?.url ?? background);
-              }}
-              onUploadError={(error: Error) => {
-                toast({
-                  variant: 'destructive',
-                  description: `Upload failed: ${error.message}`,
-                });
-              }}
-              appearance={{
-                button: () => 'w-min h-min p-1 rounded-sm bg-opacity-55 bg-neutral-950 text-neutral-400',
-                allowedContent: () => 'hidden',
-                container: ({ ready }) => (!ready ? 'hidden' : ''),
-              }}
-              content={{
-                button: ({ ready }) => (ready ? <Image size={12} /> : null),
-              }}
-              input={{ imageKey: isDarkTheme ? 'bgPreviewImageDark' : 'bgPreviewImageLight' }}
-            />
-          </TooltipTrigger>
-          <TooltipPortal>
-            <TooltipContent side="top">
-              Upload alternative background image for {theme?.appearance ?? ''} background
-            </TooltipContent>
-          </TooltipPortal>
-        </Tooltip>
-      )}
+      {user.isSignedIn &&
+        (customBg ? (
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger className="absolute top-2 left-2" asChild>
+              <Button
+                size="xs"
+                variant="ghost"
+                className="p-1 h-min w-min bg-white bg-opacity-10"
+                onClick={clearBg}
+                loading={fetcher.state === 'submitting'}
+              >
+                <IoMdClose />
+              </Button>
+            </TooltipTrigger>
+            <TooltipPortal>
+              <TooltipContent side="top">Reset custom background image</TooltipContent>
+            </TooltipPortal>
+          </Tooltip>
+        ) : (
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger className="absolute top-2 left-2">
+              <UploadButton
+                endpoint="imageUploader"
+                onBeforeUploadBegin={async (files) => {
+                  // The tooltip remains shown because button becomes focused, this just blurs focus away.
+                  if (document.activeElement instanceof HTMLElement) {
+                    document.activeElement.blur();
+                  }
+                  // Resize images to have max width of 1024px
+                  return Promise.all(
+                    files.map(
+                      async (file) => new File([(await imageResize(file, imageResizeConfig)) as Blob], file.name),
+                    ),
+                  );
+                }}
+                onClientUploadComplete={([res]) => {
+                  setBackground(res?.url ?? background);
+                }}
+                onUploadError={(error: Error) => {
+                  toast({
+                    variant: 'destructive',
+                    description: `Upload failed: ${error.message}`,
+                  });
+                }}
+                appearance={{
+                  button: () => 'w-min h-min p-1 rounded-sm bg-opacity-55 bg-neutral-950 text-neutral-400',
+                  allowedContent: () => 'hidden',
+                  container: ({ ready }) => (!ready ? 'hidden' : ''),
+                }}
+                content={{
+                  button: ({ ready }) => (ready ? <Image size={12} /> : null),
+                }}
+                input={{ imageKey: isDarkTheme ? 'bgPreviewImageDark' : 'bgPreviewImageLight' }}
+              />
+            </TooltipTrigger>
+            <TooltipPortal>
+              <TooltipContent side="top">Set custom background image for {theme?.appearance ?? ''} mode</TooltipContent>
+            </TooltipPortal>
+          </Tooltip>
+        ))}
     </div>
   );
 }

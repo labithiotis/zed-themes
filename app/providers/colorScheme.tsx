@@ -58,7 +58,7 @@ const ColorSchemeLoader = (props: React.PropsWithChildren) => {
 
   const persistColorScheme = useCallback(
     (colorScheme: ColorScheme) => {
-      fetcher.submit({ colorScheme }, { action: '/action/color-scheme', method: 'post' });
+      fetcher.submit({ colorScheme }, { action: '/api/color-scheme', method: 'post' });
     },
     [fetcher.submit],
   );

@@ -6,15 +6,19 @@ export type UserPrefs = {
   bgPreviewImageLight?: UploadedFileData;
 };
 
+export const userPrefsKey = (userId: string) => `user_prefs_${userId}`;
+
 export async function setUserPrefs(userId: string | null, dataKv: KVNamespace, data: Partial<UserPrefs>) {
+  if (!userId) return undefined;
   const userPrefs = merge(await getUserPrefs(userId, dataKv), data);
 
-  await dataKv.put(`user_prefs_${userId}`, JSON.stringify(userPrefs));
+  await dataKv.put(userPrefsKey(userId), JSON.stringify(userPrefs));
 
   return userPrefs;
 }
 
 export async function getUserPrefs(userId: string | null, dataKv: KVNamespace): Promise<UserPrefs | undefined> {
-  const data = await dataKv.get(`user_prefs_${userId}`);
+  if (!userId) return undefined;
+  const data = await dataKv.get(userPrefsKey(userId));
   return data ? JSON.parse(data) : undefined;
 }
