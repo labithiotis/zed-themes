@@ -167,7 +167,7 @@ const ThemeFamilyPreview = memo(({ theme, index }: { theme: ThemesMetaData; inde
                 )}
               </a>
             ) : null}
-            {theme.installCount && (
+            {!!theme.installCount && (
               <span className="opacity-80">{numberFormatter(theme.installCount).toLowerCase()} installs</span>
             )}
           </div>
