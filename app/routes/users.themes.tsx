@@ -30,6 +30,8 @@ export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
   const db = drizzle(args.context.env.db, { schema });
 
+  console.log('Fetching themes for user', userId);
+
   const records = await db.select().from(schema.themes).where(sql`${schema.themes.userId} = ${userId}`).all();
   const themes: ThemesMetaData[] = records.map((record) => ({
     id: record.id,
