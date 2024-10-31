@@ -1,9 +1,10 @@
 import { getAuth } from '@clerk/remix/ssr.server';
-import { type LoaderFunction, json } from '@remix-run/cloudflare';
+import { type LoaderFunction, type LoaderFunctionArgs, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import { type SQL, asc, desc, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
+import type { DBTheme } from 'drizzle/schema';
 import { Search } from 'lucide-react';
 import { memo } from 'react';
 import { FaGithub, FaStar } from 'react-icons/fa';
@@ -13,39 +14,41 @@ import { Layout } from '~/components/Layout';
 import { Badge } from '~/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '~/components/ui/carousel';
 import type { AppearanceContent } from '~/themeFamily';
+import { numberFormatter } from '~/utils/numberFormatter';
+import { useCache } from '~/utils/useCache';
 import type { ThemesMetaData } from '../types';
 
 type LoaderData = {
   themes: ThemesMetaData[];
 };
 
-const numberFormatter = Intl.NumberFormat('en', { notation: 'compact' }).format;
-
 export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
-  const db = drizzle(args.context.env.db, { schema });
-  const url = new URL(args.request.url);
-  const search = url.searchParams.get('search');
-  const order = url.searchParams.get('order');
-  const searchQuery = search ? `%${search}%` : undefined;
-  const orderByColumn = getOrderByColumn(order);
+  const records = await useCache('themes', args.request.url, undefined, async () => {
+    const url = new URL(args.request.url);
+    const search = url.searchParams.get('search');
+    const order = url.searchParams.get('order');
+    const searchQuery = search ? `%${search}%` : undefined;
+    const orderByColumn = getOrderByColumn(order);
 
-  const records = await db
-    .select()
-    .from(schema.themes)
-    .where(
-      searchQuery
-        ? sql`LOWER(${schema.themes.name}) LIKE LOWER(${searchQuery}) OR LOWER(${schema.themes.author}) LIKE LOWER(${searchQuery})`
-        : undefined,
-    )
-    .orderBy(orderByColumn, asc(schema.themes.name))
-    .all();
+    const db = drizzle(args.context.env.db, { schema });
+    return db
+      .select()
+      .from(schema.themes)
+      .where(
+        searchQuery
+          ? sql`LOWER(${schema.themes.name}) LIKE LOWER(${searchQuery}) OR LOWER(${schema.themes.author}) LIKE LOWER(${searchQuery})`
+          : undefined,
+      )
+      .orderBy(orderByColumn, asc(schema.themes.name))
+      .all();
+  });
 
   const themes: ThemesMetaData[] = records.map((record) => ({
     id: record.id,
     name: record.name,
     author: record.author,
-    updatedDate: record.updatedDate.getTime(),
+    updatedDate: new Date(record.updatedDate).getTime(),
     versionHash: record.versionHash,
     bundled: record.bundled,
     repoUrl: record.repoUrl,
