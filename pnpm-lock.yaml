@@ -59,6 +59,9 @@ importers:
       '@sentry/vite-plugin':
         specifier: ^2.22.5
         version: 2.22.5
+      '@uploadthing/react':
+        specifier: ^7.1.0
+        version: 7.1.0(react@19.0.0-rc-45804af1-20241021)(uploadthing@7.2.0(express@4.21.1)(tailwindcss@3.4.14))
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -71,6 +74,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.3.0
         version: 8.3.0(react@19.0.0-rc-45804af1-20241021)
+      image-resize:
+        specifier: ^1.4.1
+        version: 1.4.1
       immutability-helper:
         specifier: ^3.1.1
         version: 3.1.1
@@ -110,6 +116,12 @@ importers:
       tiny-invariant:
         specifier: ^1.3.3
         version: 1.3.3
+      uploadthing:
+        specifier: ^7.2.0
+        version: 7.2.0(express@4.21.1)(tailwindcss@3.4.14)
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
       zustand:
         specifier: 5.0.0-rc.2
         version: 5.0.0-rc.2(@types/react@18.3.11)(react@19.0.0-rc-45804af1-20241021)(use-sync-external-store@1.2.2(react@19.0.0-rc-45804af1-20241021))
@@ -511,6 +523,11 @@ packages:
 
   '@drizzle-team/brocli@0.10.1':
     resolution: {integrity: sha512-AHy0vjc+n/4w/8Mif+w86qpppHuF3AyXbcWW+R/W7GNA3F5/p2nuhlkCJaTXSLZheB4l1rtHzOfr9A7NwoR/Zg==}
+
+  '@effect/platform@0.69.8':
+    resolution: {integrity: sha512-zhBhg0c1MHMMo+grOc/6wC2/3UETLroruwrYNZ89uDtXl6EOcP5alFP+vW3NToKDA2o0hRh22KNqq4aixA7xXg==}
+    peerDependencies:
+      effect: ^3.10.3
 
   '@emotion/hash@0.9.2':
     resolution: {integrity: sha512-MyqliTZGuOm3+5ZRSaaBGP3USLw6+EGykkwZns2EPC5g8jJ4z9OrdZY9apkl3+UP9+sdz76YYkwCKP5gh8iY3g==}
@@ -2483,6 +2500,22 @@ packages:
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
+  '@uploadthing/mime-types@0.3.1':
+    resolution: {integrity: sha512-CaEadjn33CzPSLRaU8uL8IRv8MpW9xU5Rg/R45T5In8608dzovDDk0uQ9jzmmLYU5hHt+4v2qugcG/jirm/KEA==}
+
+  '@uploadthing/react@7.1.0':
+    resolution: {integrity: sha512-xySIeTkX0/nYoBA+zC4ze7ickq6TB9LB6793J00iK5ELnfIILjUtR2Uyx17dMyxMkP9lmw4wIjLCwjW4dU1GIw==}
+    peerDependencies:
+      next: '*'
+      react: ^17.0.2 || ^18.0.0
+      uploadthing: 7.2.0
+    peerDependenciesMeta:
+      next:
+        optional: true
+
+  '@uploadthing/shared@7.1.0':
+    resolution: {integrity: sha512-6cdS2hq9jUJFU/tqRKHs5XsDIwc6HdaVI4ka0vRy+IwjPnQBR0iXHwqyCtNNssCCAq4zQxrZr3iNEDPNqc0dqw==}
+
   '@vanilla-extract/babel-plugin-debug-ids@1.1.0':
     resolution: {integrity: sha512-Zy9bKjaL2P5zsrFYQJ8IjWGlFODmZrpvFmjFE0Zv8om55Pz1JtpJtL6DvlxlWUxbVaP1HKCqsmEfFOZN8fX/ZQ==}
 
@@ -3106,6 +3139,9 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
+  effect@3.10.3:
+    resolution: {integrity: sha512-+Z5bUhzTeqYlfoPsfXMZG1pYadqLBKARD3xwMIoEAESsOhKFOrUsHHNCy2ZZW3/6oa4wokgT01k1zavA4BAQ4w==}
+
   electron-to-chromium@1.5.41:
     resolution: {integrity: sha512-dfdv/2xNjX0P8Vzme4cfzHqnPm5xsZXwsolTYr0eyW18IUmNyG08vL+fttvinTfhKfIKdRoqkDIC9e9iWQCNYQ==}
 
@@ -3282,6 +3318,10 @@ packages:
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
 
+  fast-check@3.22.0:
+    resolution: {integrity: sha512-8HKz3qXqnHYp/VCNn2qfjHdAdcI8zcSqOyX64GOMukp7SL2bfzfeDKjSd+UyECtejccaZv3LcvZTm9YDD22iCQ==}
+    engines: {node: '>=8.0.0'}
+
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
@@ -3298,6 +3338,10 @@ packages:
   fault@2.0.1:
     resolution: {integrity: sha512-WtySTkS4OKev5JtpHXnib4Gxiurzh5NCGvWrFaZ34m6JehfTUhKZvn9njTfw48t6JumVQOmrKqpmGcdwxnhqBQ==}
 
+  file-selector@0.6.0:
+    resolution: {integrity: sha512-QlZ5yJC0VxHxQQsQhXvBaC7VRJ2uaxTf+Tfpu4Z/OcVQJVpZO+DGU0rkoVW5ce2SccxugvpBJoMvUs59iILYdw==}
+    engines: {node: '>= 12'}
+
   file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
 
@@ -3308,6 +3352,9 @@ packages:
   finalhandler@1.3.1:
     resolution: {integrity: sha512-6BN9trH7bp3qvnrRyzsBz+g3lZxTNZTbVO2EV1CS0WIcDbawYVdYvGflME/9QP0h0pYlCDBCTjYa9nZzMDpyxQ==}
     engines: {node: '>= 0.8'}
+
+  find-my-way-ts@0.1.5:
+    resolution: {integrity: sha512-4GOTMrpGQVzsCH2ruUn2vmwzV/02zF4q+ybhCIrw/Rkt3L8KWcycdC6aJMctJzwN4fXD4SD5F/4B9Sksh5rE0A==}
 
   find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
@@ -3502,6 +3549,9 @@ packages:
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
+
+  image-resize@1.4.1:
+    resolution: {integrity: sha512-2QQkTdMvRGkbcfeKs3OCA7g8CNRqa3ISo+8OHhMTmsHvjfaxBrvGsZ/fNTroAhh8M+9xesU4FMcoJUBMDArYzA==}
 
   immutability-helper@3.1.1:
     resolution: {integrity: sha512-Q0QaXjPjwIju/28TsugCHNEASwoCcJSyJV3uO1sOIQGI0jKgm9f41Lvz0DZj3n46cNCyAZTsEYoY4C2bVRUzyQ==}
@@ -4083,6 +4133,9 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
+  multipasta@0.2.5:
+    resolution: {integrity: sha512-c8eMDb1WwZcE02WVjHoOmUVk7fnKU/RmUcosHACglrWAuPQsEJv+E8430sXj6jNc1jHw0zrS16aCjQh4BcEb4A==}
+
   mustache@4.2.0:
     resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
     hasBin: true
@@ -4482,6 +4535,9 @@ packages:
   pumpify@1.5.1:
     resolution: {integrity: sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==}
 
+  pure-rand@6.1.0:
+    resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
+
   qs@6.13.0:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
@@ -4786,6 +4842,9 @@ packages:
   spdx-license-ids@3.0.20:
     resolution: {integrity: sha512-jg25NiDV/1fLtSgEgyvVyDunvaNHbuwF9lfNV17gSmPFAlYzdfNBlLtLzXTevwkPj7DhGbmN9VnmJIgLnhvaBw==}
 
+  sqids@0.3.0:
+    resolution: {integrity: sha512-lOQK1ucVg+W6n3FhRwwSeUijxe93b51Bfz5PMRMihVf1iVkl82ePQG7V5vwrhzB11v0NtsR25PSZRGiSomJaJw==}
+
   ssri@10.0.6:
     resolution: {integrity: sha512-MGrFH9Z4NP9Iyhqn16sDtBpRRNJ0Y2hNa6D65h736fVSaPCHr4DM4sWUNvVaSuC+0OBGhwsrydQwmgfg5LncqQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -5073,6 +5132,27 @@ packages:
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
+
+  uploadthing@7.2.0:
+    resolution: {integrity: sha512-x7UAumRF/o+zAkHDP8Re7Qzi3pQF44BZkpsDdubjOE5lNcLw5RQD8WzUPwXKR0hsWEZcR4uoB8LNEDIHT7lAHw==}
+    engines: {node: '>=18.13.0'}
+    peerDependencies:
+      express: '*'
+      fastify: '*'
+      h3: '*'
+      next: '*'
+      tailwindcss: '*'
+    peerDependenciesMeta:
+      express:
+        optional: true
+      fastify:
+        optional: true
+      h3:
+        optional: true
+      next:
+        optional: true
+      tailwindcss:
+        optional: true
 
   use-callback-ref@1.3.2:
     resolution: {integrity: sha512-elOQwe6Q8gqZgDA8mrh44qRTQqpIHDcZ3hXTLjBe1i4ph8XpNJnO+aQf3NaG+lriLopI4HMx9VjQLfPQ6vhnoA==}
@@ -5723,6 +5803,12 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.9
 
   '@drizzle-team/brocli@0.10.1': {}
+
+  '@effect/platform@0.69.8(effect@3.10.3)':
+    dependencies:
+      effect: 3.10.3
+      find-my-way-ts: 0.1.5
+      multipasta: 0.2.5
 
   '@emotion/hash@0.9.2': {}
 
@@ -7533,6 +7619,21 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
+  '@uploadthing/mime-types@0.3.1': {}
+
+  '@uploadthing/react@7.1.0(react@19.0.0-rc-45804af1-20241021)(uploadthing@7.2.0(express@4.21.1)(tailwindcss@3.4.14))':
+    dependencies:
+      '@uploadthing/shared': 7.1.0
+      file-selector: 0.6.0
+      react: 19.0.0-rc-45804af1-20241021
+      uploadthing: 7.2.0(express@4.21.1)(tailwindcss@3.4.14)
+
+  '@uploadthing/shared@7.1.0':
+    dependencies:
+      '@uploadthing/mime-types': 0.3.1
+      effect: 3.10.3
+      sqids: 0.3.0
+
   '@vanilla-extract/babel-plugin-debug-ids@1.1.0':
     dependencies:
       '@babel/core': 7.25.8
@@ -8093,6 +8194,10 @@ snapshots:
 
   ee-first@1.1.1: {}
 
+  effect@3.10.3:
+    dependencies:
+      fast-check: 3.22.0
+
   electron-to-chromium@1.5.41: {}
 
   embla-carousel-react@8.3.0(react@19.0.0-rc-45804af1-20241021):
@@ -8416,6 +8521,10 @@ snapshots:
 
   extend@3.0.2: {}
 
+  fast-check@3.22.0:
+    dependencies:
+      pure-rand: 6.1.0
+
   fast-deep-equal@3.1.3: {}
 
   fast-glob@3.3.2:
@@ -8436,6 +8545,10 @@ snapshots:
     dependencies:
       format: 0.2.2
 
+  file-selector@0.6.0:
+    dependencies:
+      tslib: 2.8.0
+
   file-uri-to-path@1.0.0: {}
 
   fill-range@7.1.1:
@@ -8453,6 +8566,8 @@ snapshots:
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
+
+  find-my-way-ts@0.1.5: {}
 
   find-up@5.0.0:
     dependencies:
@@ -8656,6 +8771,8 @@ snapshots:
       postcss: 8.4.47
 
   ieee754@1.2.1: {}
+
+  image-resize@1.4.1: {}
 
   immutability-helper@3.1.1: {}
 
@@ -9359,6 +9476,8 @@ snapshots:
 
   ms@2.1.3: {}
 
+  multipasta@0.2.5: {}
+
   mustache@4.2.0: {}
 
   mz@2.7.0:
@@ -9735,6 +9854,8 @@ snapshots:
       inherits: 2.0.4
       pump: 2.0.1
 
+  pure-rand@6.1.0: {}
+
   qs@6.13.0:
     dependencies:
       side-channel: 1.0.6
@@ -10088,6 +10209,8 @@ snapshots:
 
   spdx-license-ids@3.0.20: {}
 
+  sqids@0.3.0: {}
+
   ssri@10.0.6:
     dependencies:
       minipass: 7.1.2
@@ -10398,6 +10521,16 @@ snapshots:
       browserslist: 4.24.0
       escalade: 3.2.0
       picocolors: 1.1.1
+
+  uploadthing@7.2.0(express@4.21.1)(tailwindcss@3.4.14):
+    dependencies:
+      '@effect/platform': 0.69.8(effect@3.10.3)
+      '@uploadthing/mime-types': 0.3.1
+      '@uploadthing/shared': 7.1.0
+      effect: 3.10.3
+    optionalDependencies:
+      express: 4.21.1
+      tailwindcss: 3.4.14
 
   use-callback-ref@1.3.2(@types/react@18.3.11)(react@19.0.0-rc-45804af1-20241021):
     dependencies:
