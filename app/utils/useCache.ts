@@ -7,12 +7,16 @@ export async function useCache<T>(
   let cache: Cache | undefined;
 
   if (globalThis.caches) {
-    cache = await globalThis.caches.open(group);
-    const cachedRecords = await cache.match(key);
+    try {
+      cache = await globalThis.caches.open(group);
+      const cachedRecords = await cache.match(key);
 
-    if (cachedRecords) {
-      console.debug(`Cache HIT for ${group} ${key}`);
-      return cachedRecords.json();
+      if (cachedRecords) {
+        console.debug(`Cache HIT for ${group} ${key}`);
+        return cachedRecords.json();
+      }
+    } catch (e) {
+      console.warn(`Cache error for ${group} ${key}`, e);
     }
   }
 
