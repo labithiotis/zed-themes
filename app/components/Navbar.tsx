@@ -55,16 +55,19 @@ export function Navbar() {
   }, [location.search]);
 
   const copyInstallDir = () => {
-    navigator?.clipboard?.writeText('~/.config/zed/themes').then(() =>
-      toast({
-        variant: 'success',
-        description: (
-          <p>
-            <strong>~/.config/zed/themes</strong> is copied to your clipboard
-          </p>
-        ),
-      }),
-    );
+    navigator?.clipboard
+      ?.writeText('~/.config/zed/themes')
+      .then(() =>
+        toast({
+          variant: 'success',
+          description: (
+            <p>
+              <strong>~/.config/zed/themes</strong> is copied to your clipboard
+            </p>
+          ),
+        }),
+      )
+      .catch(() => toast({ description: 'Permission is disallowed to copy to clipboard.', variant: 'destructive' }));
   };
 
   const updateUrlParam = (key: string, value?: string) => {

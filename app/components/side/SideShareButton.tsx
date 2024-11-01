@@ -12,9 +12,14 @@ export function SideShareButton({ edit }: { edit: boolean }) {
 
   useEffect(() => {
     if (fetcher.data) {
-      navigator?.clipboard
-        .writeText(fetcher.data.shareUrl)
-        .then(() => toast({ description: 'A shareable url has been copied to your clipboard.' }));
+      try {
+        navigator?.clipboard
+          .writeText(fetcher.data.shareUrl)
+          .then(() => toast({ description: 'A shareable url has been copied to your clipboard.' }))
+          .catch(() => toast({ description: 'Permission disallowed to copy to clipboard.', variant: 'destructive' }));
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [fetcher.data, toast]);
 
@@ -24,7 +29,8 @@ export function SideShareButton({ edit }: { edit: boolean }) {
     } else {
       navigator?.clipboard
         .writeText(document.location.href)
-        .then(() => toast({ description: 'Link has been copied to your clipboard.' }));
+        .then(() => toast({ description: 'Link has been copied to your clipboard.' }))
+        .catch(() => toast({ description: 'Permission is disallowed to copy to clipboard.', variant: 'destructive' }));
     }
   };
 
