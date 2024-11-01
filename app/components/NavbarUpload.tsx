@@ -4,14 +4,14 @@ import type { ChangeEvent, MouseEventHandler } from 'react';
 import { useCallback, useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
 import { RxUpload } from 'react-icons/rx';
-import { useTheme } from '~/providers/theme';
+import { useThemeStore } from '~/providers/theme';
 import { themeValidator } from '../utils/themeValidator';
 
 export function UploadTheme() {
-  const { dispatch } = useTheme();
   const navigate = useNavigate();
   const fileDropRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const setThemeFamily = useThemeStore((s) => s.set);
 
   const onFileInput = (event: ChangeEvent<HTMLInputElement>) => {
     onFiles(event.currentTarget.files);
@@ -41,7 +41,7 @@ export function UploadTheme() {
 
         if (themeValidator(themeFamily)) {
           console.debug('Theme schema is valid navigate to edit page');
-          dispatch({ type: 'set', themeFamily, themeId: null });
+          setThemeFamily(null, themeFamily);
           navigate('/themes/edit');
         } else {
           console.warn(themeValidator.errors);
