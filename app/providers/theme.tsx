@@ -215,7 +215,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
 
 // Subscribe to changes and persist to localStorage
 useThemeStore.subscribe((state) => {
-  if (state.themeFamily) {
+  if (typeof window !== 'undefined' && window.localStorage && state.themeFamily) {
     localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
   }
 });
