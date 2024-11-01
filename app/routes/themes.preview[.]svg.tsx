@@ -3,6 +3,7 @@ import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema.js';
 import type { SyntaxTokens } from '~/providers/tokens.js';
+import { useCache } from '~/utils/useCache.js';
 import type { ThemeContent } from '../themeFamily.js';
 
 export const loader: LoaderFunction = async (args) => {
@@ -12,14 +13,16 @@ export const loader: LoaderFunction = async (args) => {
 
   if (!themeId) throw new Response('Missing theme id', { status: 400 });
 
-  const db = drizzle(args.context.env.db, { schema });
-  const themeFamily = await db
-    .select({ theme: schema.themes.theme })
-    .from(schema.themes)
-    .where(sql`${schema.themes.id} = ${themeId}`);
+  const theme = await useCache('theme-preview', args.request.url, undefined, async () => {
+    const db = drizzle(args.context.env.db, { schema });
+    const themeFamily = await db
+      .select({ theme: schema.themes.theme })
+      .from(schema.themes)
+      .where(sql`${schema.themes.id} = ${themeId}`);
 
-  const themes = themeFamily.at(0)?.theme?.themes;
-  const theme = themes?.find((t) => t.name === themeName) ?? themes?.at(0);
+    const themes = themeFamily.at(0)?.theme?.themes;
+    return themes?.find((t) => t.name === themeName) ?? themes?.at(0);
+  });
 
   if (!theme) throw new Response('Unable to find a theme', { status: 400 });
 
