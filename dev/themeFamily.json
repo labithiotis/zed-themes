@@ -30,7 +30,6 @@
     },
     "HighlightStyleContent": {
       "type": "object",
-      "required": ["color", "font_style", "font_weight"],
       "properties": {
         "color": {
           "default": null,
@@ -78,7 +77,6 @@
       "description": "The content of a serialized theme.",
       "type": "object",
       "required": ["appearance", "name", "style"],
-      "additionalProperties": false,
       "properties": {
         "appearance": {
           "$ref": "#/definitions/AppearanceContent"

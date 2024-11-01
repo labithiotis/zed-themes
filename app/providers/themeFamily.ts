@@ -4,11 +4,11 @@ import { type PartialRecursive, merge } from '~/utils/helpers';
 export function createThemeFamily(theme?: PartialRecursive<ThemeFamilyContent>): ThemeFamilyContent {
   return merge(
     {
-      name: 'default',
+      name: '',
       author: '',
       themes: [
         {
-          name: 'default',
+          name: '',
           appearance: 'light',
           style: {
             background: '#7e7e7e',

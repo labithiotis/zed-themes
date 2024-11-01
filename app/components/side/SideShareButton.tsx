@@ -1,13 +1,13 @@
 import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
 import { RxShare1 } from 'react-icons/rx';
-import { useTheme } from '~/providers/theme';
+import { useThemeStore } from '~/providers/theme';
 import { Button } from '../ui/button';
 import { useToast } from '../ui/use-toast';
 
 export function SideShareButton({ edit }: { edit: boolean }) {
   const { toast } = useToast();
-  const { themeFamily } = useTheme();
+  const themeFamily = useThemeStore((s) => s.themeFamily);
   const fetcher = useFetcher<{ shareUrl: string }>({ key: 'theme-share' });
 
   useEffect(() => {

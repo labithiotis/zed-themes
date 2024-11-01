@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
-import { useTheme } from '~/providers/theme';
+import { useThemeStore } from '~/providers/theme';
 import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
@@ -15,7 +15,7 @@ type PlayerProps = {
 };
 
 export function Player({ index, player, edit }: PlayerProps) {
-  const { dispatch } = useTheme();
+  const removePlayer = useThemeStore((s) => s.removePlayer);
 
   return (
     <div className="flex flex-col px-3 py-1">
@@ -27,7 +27,7 @@ export function Player({ index, player, edit }: PlayerProps) {
             variant="outline"
             onClick={() => {
               if (window.confirm(`Are you sure you want to remove Player ${index + 1}?`)) {
-                dispatch({ type: 'removePlayer', index });
+                removePlayer(index);
               }
             }}
             aria-label={`Remove Player ${index + 1}`}
@@ -51,12 +51,13 @@ function PlayerToken({
 }: PlayerProps & {
   token: keyof PlayerColorContent;
 }) {
-  const { dispatch } = useTheme();
+  const setPlayerToken = useThemeStore((s) => s.setPlayerToken);
+
   const [showColor, setShowColor] = useState(false);
 
-  const setPlayerToken = useCallback(
+  const setPlayerTokenHandler = useCallback(
     debounce((index: number, token: keyof PlayerColorContent, color: unknown) => {
-      dispatch({ type: 'setPlayerToken', index, token, color });
+      setPlayerToken(index, token, color);
     }, 25),
     [],
   );
@@ -77,7 +78,7 @@ function PlayerToken({
             borderColor: player[token] ? `color-mix(in xyz, ${player[token]} 70%, black)` : '#808080',
           }}
           onClick={() => setShowColor(!showColor)}
-          aria-label="Player token color preivew toggle color picker"
+          aria-label="Player token color preview toggle color picker"
           disabled={!edit}
         />
         <div className="flex w-full flex-col text-sm text-zinc-800 dark:text-zinc-300">
@@ -105,8 +106,8 @@ function PlayerToken({
                 )}
                 type="text"
                 placeholder="unset"
-                onChange={(e) => setPlayerToken(index, token, e.currentTarget.value?.trim())}
-                onClear={() => setPlayerToken(index, token, null)}
+                onChange={(e) => setPlayerTokenHandler(index, token, e.currentTarget.value?.trim())}
+                onClear={() => setPlayerTokenHandler(index, token, null)}
                 disabled={!edit}
               />
             </div>
@@ -115,7 +116,10 @@ function PlayerToken({
       </div>
       {showColor && (
         <div className="flex flex-1 flex-col py-2">
-          <HexAlphaColorPicker color={player[token] ?? ''} onChange={(color) => setPlayerToken(index, token, color)} />
+          <HexAlphaColorPicker
+            color={player[token] ?? ''}
+            onChange={(color) => setPlayerTokenHandler(index, token, color)}
+          />
         </div>
       )}
     </div>

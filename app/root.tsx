@@ -25,7 +25,6 @@ import { Toaster } from './components/ui/toaster';
 import { TooltipProvider } from './components/ui/tooltip';
 import { type ColorScheme, ColorSchemeProvider } from './providers/colorScheme';
 import { type Language, LanguageProvider } from './providers/language';
-import { ThemeProvider } from './providers/theme';
 import tailwindStylesheet from './tailwind.css?url';
 import { colorSchemeSession } from './utils/colorScheme.server';
 import { languageSession } from './utils/language.server';
@@ -98,11 +97,9 @@ function Root() {
     <Document colorScheme={loaderData.colorScheme}>
       <ColorSchemeProvider colorScheme={loaderData.colorScheme}>
         <LanguageProvider language={loaderData.language}>
-          <ThemeProvider>
-            <TooltipProvider>
-              <Outlet />
-            </TooltipProvider>
-          </ThemeProvider>
+          <TooltipProvider>
+            <Outlet />
+          </TooltipProvider>
         </LanguageProvider>
       </ColorSchemeProvider>
       <ScrollRestoration />

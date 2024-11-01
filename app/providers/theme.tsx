@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import { type Dispatch, type PropsWithChildren, createContext, useContext, useEffect, useReducer } from 'react';
+import { create } from 'zustand';
 import type {
   AppearanceContent,
   HighlightStyleContent,
@@ -19,226 +19,149 @@ export type State = {
   themeFamily: ThemeFamilyContent | null;
 };
 
-type Set = {
-  type: 'set';
-  themeId: string | null;
-  themeFamily: ThemeFamilyContent;
-  themeName?: string | null;
-};
-
-type SetIndex = {
-  type: 'setIndex';
-  index: number;
-};
-
-type SetFamilyName = {
-  type: 'setFamilyName';
-  name: string;
-};
-
-type SetThemeName = {
-  type: 'setThemeName';
-  name: string;
-};
-
-type SetThemeAppearance = {
-  type: 'setThemeAppearance';
-  appearance: AppearanceContent;
-};
-
-type SetBackgroundAppearance = {
-  type: 'setBackgroundAppearance';
-  appearance: 'opaque' | 'transparent' | 'blurred';
-};
-
-type SetStyleToken = {
-  type: 'setStyleToken';
-  token: StyleTokens;
-  color: unknown;
-};
-
-type SetSyntaxToken = {
-  type: 'setSyntaxToken';
-  token: SyntaxTokens;
-  content: Partial<HighlightStyleContent>;
-};
-
-type SetPlayerToken = {
-  type: 'setPlayerToken';
-  index: number;
-  token: keyof PlayerColorContent;
-  color: unknown;
-};
-
-type AddPlayer = {
-  type: 'addPlayer';
-};
-
-type RemovePlayer = {
-  type: 'removePlayer';
-  index: number;
-};
-
-type AddTheme = {
-  type: 'addTheme';
-};
-
-type Actions =
-  | Set
-  | SetIndex
-  | SetFamilyName
-  | SetThemeName
-  | SetThemeAppearance
-  | SetBackgroundAppearance
-  | SetStyleToken
-  | SetSyntaxToken
-  | SetPlayerToken
-  | AddPlayer
-  | RemovePlayer
-  | AddTheme;
-
-function activeTheme(state: State) {
-  if (state.themeIndex === null || state.themeFamily === null) return undefined;
-  return state.themeFamily.themes[state.themeIndex];
+interface ThemeStore extends State {
+  set: (themeId: string | null, themeFamily: ThemeFamilyContent, themeName?: string | null) => void;
+  setIndex: (index: number) => void;
+  setFamilyName: (name: string) => void;
+  setThemeName: (name: string) => void;
+  setThemeAppearance: (appearance: AppearanceContent) => void;
+  setBackgroundAppearance: (appearance: 'opaque' | 'transparent' | 'blurred') => void;
+  setStyleToken: (token: StyleTokens, color: unknown) => void;
+  setSyntaxToken: (token: SyntaxTokens, content: Partial<HighlightStyleContent>) => void;
+  setPlayerToken: (index: number, token: keyof PlayerColorContent, color: unknown) => void;
+  addPlayer: () => void;
+  removePlayer: (index: number) => void;
+  addTheme: () => void;
 }
 
-export const themeReducer = (state: State, action: Actions): State => {
-  switch (action.type) {
-    case 'set': {
-      const themeIndex = action.themeName ? action.themeFamily.themes.findIndex((t) => t.name === action.themeName) : 0;
-      return update(state, {
-        $set: {
-          themeId: action.themeId,
-          themeIndex: themeIndex === -1 ? 0 : themeIndex,
-          themeFamily: action.themeFamily,
-        },
-      });
-    }
-    case 'setIndex': {
-      return update(state, {
-        themeIndex: { $set: action.index },
-      });
-    }
-    case 'setFamilyName': {
-      if (state.themeFamily === null) {
-        return state;
-      }
+export const useThemeStore = create<ThemeStore>((set) => ({
+  themeId: null,
+  themeIndex: null,
+  themeFamily: null,
 
-      return update(state, {
-        themeFamily: {
-          name: { $set: action.name },
-        },
-      });
-    }
-    case 'setThemeName': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+  set: (themeId, themeFamily, themeName) => {
+    const themeIndex = themeName ? themeFamily.themes.findIndex((t) => t.name === themeName) : 0;
+    set({
+      themeId,
+      themeIndex: themeIndex === -1 ? 0 : themeIndex,
+      themeFamily,
+    });
+  },
 
-      return update(state, {
-        themeFamily: {
+  setIndex: (index) => set({ themeIndex: index }),
+
+  setFamilyName: (name) =>
+    set((state) => {
+      if (state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
+          name: { $set: name },
+        }),
+      };
+    }),
+
+  setThemeName: (name) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
-            [state.themeIndex]: { name: { $set: action.name } },
+            [state.themeIndex]: { name: { $set: name } },
           },
-        },
-      });
-    }
-    case 'setThemeAppearance': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeFamily: {
+  setThemeAppearance: (appearance) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
-            [state.themeIndex]: { appearance: { $set: action.appearance } },
+            [state.themeIndex]: { appearance: { $set: appearance } },
           },
-        },
-      });
-    }
-    case 'setBackgroundAppearance': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeFamily: {
+  setBackgroundAppearance: (appearance) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
             [state.themeIndex]: {
-              style: { 'background.appearance': { $set: action.appearance } },
+              style: { 'background.appearance': { $set: appearance } },
             },
           },
-        },
-      });
-    }
-    case 'setStyleToken': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeFamily: {
+  setStyleToken: (token, color) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
             [state.themeIndex]: {
               style: {
-                [action.token]: { $set: action.color },
+                [token]: { $set: color },
               },
             },
           },
-        },
-      });
-    }
-    case 'setSyntaxToken': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
+
+  setSyntaxToken: (token, content) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
 
       let syntax = {};
       const currentSyntax = state.themeFamily.themes[state.themeIndex]?.style.syntax;
-      const syntaxPresent = !!currentSyntax && Object.hasOwn(currentSyntax, action.token);
+      const syntaxPresent = !!currentSyntax && Object.hasOwn(currentSyntax, token);
 
       if (syntaxPresent) {
-        syntax = { [action.token]: { $merge: action.content } };
+        syntax = { [token]: { $merge: content } };
       } else {
         syntax = {
-          $merge: { [action.token]: { color: null, font_style: null, font_weight: null, ...action.content } },
+          $merge: { [token]: { color: null, font_style: null, font_weight: null, ...content } },
         };
       }
 
-      return update(state, {
-        themeFamily: {
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
             [state.themeIndex]: { style: { syntax } },
           },
-        },
-      });
-    }
-    case 'setPlayerToken': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeFamily: {
+  setPlayerToken: (index, token, color) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
             [state.themeIndex]: {
               style: {
                 players: {
-                  [action.index]: { [action.token]: { $set: action.color } },
+                  [index]: { [token]: { $set: color } },
                 },
               },
             },
           },
-        },
-      });
-    }
-    case 'addPlayer': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeFamily: {
+  addPlayer: () =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
             [state.themeIndex]: {
               style: {
@@ -248,38 +171,34 @@ export const themeReducer = (state: State, action: Actions): State => {
               },
             },
           },
-        },
-      });
-    }
-    case 'removePlayer': {
-      if (state.themeIndex == null || state.themeFamily === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeFamily: {
+  removePlayer: (index) =>
+    set((state) => {
+      if (state.themeIndex == null || state.themeFamily === null) return state;
+      return {
+        themeFamily: update(state.themeFamily, {
           themes: {
             [state.themeIndex]: {
               style: {
                 players: {
-                  $splice: [[action.index, 1]],
+                  $splice: [[index, 1]],
                 },
               },
             },
           },
-        },
-      });
-    }
-    case 'addTheme': {
-      if (state.themeFamily === null || state.themeIndex === null) {
-        return state;
-      }
+        }),
+      };
+    }),
 
-      return update(state, {
-        themeIndex: {
-          $set: state.themeFamily.themes.length,
-        },
-        themeFamily: {
+  addTheme: () =>
+    set((state) => {
+      if (state.themeFamily === null || state.themeIndex === null) return state;
+      return {
+        themeIndex: state.themeFamily.themes.length,
+        themeFamily: update(state.themeFamily, {
           themes: {
             $push: [
               {
@@ -289,49 +208,27 @@ export const themeReducer = (state: State, action: Actions): State => {
               } as ThemeContent,
             ],
           },
-        },
-      });
-    }
-    default: {
-      return state;
-    }
+        }),
+      };
+    }),
+}));
+
+// Subscribe to changes and persist to localStorage
+useThemeStore.subscribe((state) => {
+  if (state.themeFamily) {
+    localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
   }
-};
-
-export const initialState: State = {
-  themeId: null,
-  themeIndex: null,
-  themeFamily: null,
-};
-
-const ThemeCtx = createContext<{ state: State; dispatch: Dispatch<Actions> }>({
-  state: initialState,
-  dispatch: () => undefined,
 });
 
-export const ThemeProvider = (props: PropsWithChildren) => {
-  const [state, dispatch] = useReducer(themeReducer, initialState);
-
-  useEffect(() => {
-    if (state.themeFamily) {
-      localStorage.setItem(LOCAL_STORAGE_THEME_SYNC_KEY, JSON.stringify(state.themeFamily));
-    }
-  }, [state.themeFamily]);
-
-  return <ThemeCtx.Provider value={{ state, dispatch }}>{props.children}</ThemeCtx.Provider>;
-};
-
 export const useTheme = () => {
-  const ctx = useContext(ThemeCtx);
-  const theme = activeTheme(ctx.state);
+  const themeIndex = useThemeStore((s) => s.themeIndex);
+  const themeFamily = useThemeStore((s) => s.themeFamily);
 
-  return {
-    theme,
-    themeId: ctx.state.themeId,
-    index: ctx.state.themeIndex,
-    themeFamily: ctx.state.themeFamily,
-    dispatch: ctx.dispatch,
-  };
+  if (themeIndex === null || themeFamily === null) {
+    return undefined;
+  }
+
+  return themeFamily.themes[themeIndex];
 };
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;

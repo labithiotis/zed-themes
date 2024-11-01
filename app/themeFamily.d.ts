@@ -427,7 +427,7 @@ export interface PlayerColorContent {
   selection?: string | null;
 }
 export interface HighlightStyleContent {
-  color: string | null;
-  font_style: FontStyleContent | null;
-  font_weight: (100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900) | null;
+  color?: string | null;
+  font_style?: FontStyleContent | null;
+  font_weight?: (100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900) | null;
 }

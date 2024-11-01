@@ -3,7 +3,7 @@ import { useFetcher, useNavigate, useParams, useRouteLoaderData } from '@remix-r
 import type { ErrorObject } from 'ajv';
 import { useEffect } from 'react';
 import { RxUpload } from 'react-icons/rx';
-import { useTheme } from '~/providers/theme';
+import { useThemeStore } from '~/providers/theme';
 import type { RootData } from '~/root';
 import { getAuthor } from '~/utils/getAuthor';
 import { Button } from '../ui/button';
@@ -16,7 +16,7 @@ export function SideSaveButton() {
   const { themeId } = useParams();
   const navigate = useNavigate();
   const { userId } = useRouteLoaderData<RootData>('root') ?? {};
-  const { themeFamily } = useTheme();
+  const themeFamily = useThemeStore((s) => s.themeFamily);
   const fetcher = useFetcher<{ success: boolean; id: string; error?: string; errors?: ErrorObject[] }>({
     key: themeId,
   });

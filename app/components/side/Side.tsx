@@ -2,10 +2,10 @@ import * as Sentry from '@sentry/remix';
 import { useCallback, useEffect, useState } from 'react';
 import { IoBug } from 'react-icons/io5';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '~/components/ui/select';
-import { useTheme } from '~/providers/theme';
+import { useTheme, useThemeStore } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { type StyleTokens, type SyntaxTokens, syntaxTokens } from '../../providers/tokens';
-import type { AppearanceContent, HighlightStyleContent } from '../../themeFamily';
+import type { HighlightStyleContent } from '../../themeFamily';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -23,41 +23,31 @@ export const btnStyles =
 
 export function Side({ edit }: { edit: boolean }) {
   const [feedback, setFeedback] = useState<ReturnType<typeof Sentry.getFeedback> | undefined>(undefined);
-  const { index, theme, themeFamily, dispatch } = useTheme();
+  const theme = useTheme();
+  const themeIndex = useThemeStore((s) => s.themeIndex);
+  const themeFamily = useThemeStore((s) => s.themeFamily);
+  const setIndex = useThemeStore((s) => s.setIndex);
+  const addTheme = useThemeStore((s) => s.addTheme);
+  const addPlayer = useThemeStore((s) => s.addPlayer);
+  const setFamilyName = useThemeStore((s) => s.setFamilyName);
+  const setThemeName = useThemeStore((s) => s.setThemeName);
+  const setThemeAppearance = useThemeStore((s) => s.setThemeAppearance);
+  const setBackgroundAppearance = useThemeStore((s) => s.setBackgroundAppearance);
+  const setStyleToken = useThemeStore((s) => s.setStyleToken);
+  const setSyntaxToken = useThemeStore((s) => s.setSyntaxToken);
 
-  const setFamilyName = (name: string) => {
-    dispatch({ type: 'setFamilyName', name });
-  };
-  const setThemeName = (name: string) => {
-    dispatch({ type: 'setThemeName', name });
-  };
-  const setAppearance = (appearance: AppearanceContent) => {
-    dispatch({ type: 'setThemeAppearance', appearance });
-  };
-  const setBackgroundAppearance = (appearance: 'opaque' | 'transparent' | 'blurred') => {
-    dispatch({ type: 'setBackgroundAppearance', appearance });
-  };
-  const setIndex = (index: string) => {
-    dispatch({ type: 'setIndex', index: Number(index) });
-  };
-  const setStyleToken = useCallback(
+  const setStyleTokenHandler = useCallback(
     debounce((token: StyleTokens, color: unknown) => {
-      dispatch({ type: 'setStyleToken', token, color });
+      setStyleToken(token, color);
     }, 25),
     [],
   );
-  const setSyntaxToken = useCallback(
+  const setSyntaxTokenHandler = useCallback(
     debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
-      dispatch({ type: 'setSyntaxToken', token, content });
+      setSyntaxToken(token, content);
     }, 25),
     [],
   );
-  const addPlayer = () => {
-    dispatch({ type: 'addPlayer' });
-  };
-  const addTheme = () => {
-    dispatch({ type: 'addTheme' });
-  };
 
   useEffect(() => {
     if (Sentry.getFeedback) {
@@ -84,7 +74,7 @@ export function Side({ edit }: { edit: boolean }) {
                 autoComplete="off"
                 data-1p-ignore
               />
-              <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
+              <Select onValueChange={(n) => setIndex(Number(n))} value={themeIndex?.toString() ?? ''}>
                 <SelectTrigger className="flex-1 overflow-hidden" aria-label="Select theme">
                   <span className="truncate">{theme?.name ?? 'Select theme'}</span>
                 </SelectTrigger>
@@ -122,7 +112,7 @@ export function Side({ edit }: { edit: boolean }) {
               <Label htmlFor="appearance" className="opacity-60 font-light">
                 Appearance
               </Label>
-              <Select onValueChange={setAppearance} value={theme?.appearance ?? 'light'}>
+              <Select onValueChange={setThemeAppearance} value={theme?.appearance ?? 'light'}>
                 <SelectTrigger
                   id="appearance"
                   title="Set theme appearance is for dark or light mode"
@@ -160,7 +150,7 @@ export function Side({ edit }: { edit: boolean }) {
       ) : (
         <div className="flex flex-col gap-1.5 p-2">
           <Label className="truncate">{themeFamily?.name}</Label>
-          <Select onValueChange={setIndex} value={index?.toString() ?? ''}>
+          <Select onValueChange={(s) => setIndex(Number(s))} value={themeIndex?.toString() ?? ''}>
             <SelectTrigger className="w-full">
               <span className="truncate">{theme?.name ?? 'Select theme'}</span>
             </SelectTrigger>
@@ -185,8 +175,8 @@ export function Side({ edit }: { edit: boolean }) {
                   name={token.name}
                   color={theme?.style[token.token]}
                   description={token.description}
-                  onChange={(color) => setStyleToken(token.token, color)}
-                  onClear={() => setStyleToken(token.token, null)}
+                  onChange={(color) => setStyleTokenHandler(token.token, color)}
+                  onClear={() => setStyleTokenHandler(token.token, null)}
                   edit={edit}
                 />
               )}
@@ -201,8 +191,8 @@ export function Side({ edit }: { edit: boolean }) {
               syntax={token}
               color={theme?.style.syntax?.[token]?.color}
               description=""
-              onChange={(color) => setSyntaxToken(token, { color })}
-              onClear={() => setSyntaxToken(token, { color: null })}
+              onChange={(color) => setSyntaxTokenHandler(token, { color })}
+              onClear={() => setSyntaxTokenHandler(token, { color: null })}
               edit={edit}
             />
           )}

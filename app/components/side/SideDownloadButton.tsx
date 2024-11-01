@@ -1,9 +1,10 @@
 import { RxDownload } from 'react-icons/rx';
-import { useTheme } from '~/providers/theme';
+import { useThemeStore } from '~/providers/theme';
 import { Button } from '../ui/button';
 
 export function SideDownloadButton() {
-  const { themeFamily } = useTheme();
+  const themeFamily = useThemeStore((s) => s.themeFamily);
+
   const downloadTheme = () => {
     const fileName = `${themeFamily?.name ?? 'schema'}.json`;
     const json = JSON.stringify(themeFamily, null, 2);

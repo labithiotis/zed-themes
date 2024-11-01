@@ -30,7 +30,7 @@ const imageResizeConfig: typeOptions = {
 export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const user = useUser();
   const { toast } = useToast();
-  const { theme } = useTheme();
+  const theme = useTheme();
   const fetcher = useFetcher<null>({ key: 'user-prefs-clear' });
   const isDarkTheme = theme?.appearance === 'dark';
   const cssStyleVars = themeStyleToCssVars(theme?.style);
