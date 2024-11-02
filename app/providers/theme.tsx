@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
-import { create } from 'zustand';
+import { temporal } from 'zundo';
+import { type StateCreator, create } from 'zustand';
 import type {
   AppearanceContent,
   HighlightStyleContent,
@@ -19,27 +20,27 @@ export type State = {
   themeFamily: ThemeFamilyContent | null;
 };
 
-interface ThemeStore extends State {
-  set: (themeId: string | null, themeFamily: ThemeFamilyContent, themeName?: string | null) => void;
-  setIndex: (index: number) => void;
-  setFamilyName: (name: string) => void;
+export interface ThemeStore extends State {
+  setThemeFamily: (themeId: string | null, themeFamily: ThemeFamilyContent, themeName?: string | null) => void;
+  setThemeFamilyName: (name: string) => void;
+  setThemeIndex: (index: number) => void;
   setThemeName: (name: string) => void;
   setThemeAppearance: (appearance: AppearanceContent) => void;
-  setBackgroundAppearance: (appearance: 'opaque' | 'transparent' | 'blurred') => void;
-  setStyleToken: (token: StyleTokens, color: unknown) => void;
-  setSyntaxToken: (token: SyntaxTokens, content: Partial<HighlightStyleContent>) => void;
-  setPlayerToken: (index: number, token: keyof PlayerColorContent, color: unknown) => void;
+  setThemeBackgroundAppearance: (appearance: 'opaque' | 'transparent' | 'blurred') => void;
+  setThemeStyleToken: (token: StyleTokens, color: unknown) => void;
+  setThemeSyntaxToken: (token: SyntaxTokens, content: Partial<HighlightStyleContent>) => void;
+  setThemePlayerToken: (index: number, token: keyof PlayerColorContent, color: unknown) => void;
   addPlayer: () => void;
   removePlayer: (index: number) => void;
   addTheme: () => void;
 }
 
-export const useThemeStore = create<ThemeStore>((set) => ({
+export const stateCreator: StateCreator<ThemeStore> = (set) => ({
   themeId: null,
   themeIndex: null,
   themeFamily: null,
 
-  set: (themeId, themeFamily, themeName) => {
+  setThemeFamily: (themeId, themeFamily, themeName) => {
     const themeIndex = themeName ? themeFamily.themes.findIndex((t) => t.name === themeName) : 0;
     set({
       themeId,
@@ -48,11 +49,11 @@ export const useThemeStore = create<ThemeStore>((set) => ({
     });
   },
 
-  setIndex: (index) => set({ themeIndex: index }),
+  setThemeIndex: (index) => set({ themeIndex: index }),
 
-  setFamilyName: (name) =>
+  setThemeFamilyName: (name) =>
     set((state) => {
-      if (state.themeFamily === null) return state;
+      if (state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           name: { $set: name },
@@ -62,7 +63,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
 
   setThemeName: (name) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -74,7 +75,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
 
   setThemeAppearance: (appearance) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -84,9 +85,9 @@ export const useThemeStore = create<ThemeStore>((set) => ({
       };
     }),
 
-  setBackgroundAppearance: (appearance) =>
+  setThemeBackgroundAppearance: (appearance) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -98,9 +99,10 @@ export const useThemeStore = create<ThemeStore>((set) => ({
       };
     }),
 
-  setStyleToken: (token, color) =>
+  setThemeStyleToken: (token, color) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
+
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -114,9 +116,9 @@ export const useThemeStore = create<ThemeStore>((set) => ({
       };
     }),
 
-  setSyntaxToken: (token, content) =>
+  setThemeSyntaxToken: (token, content) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
 
       let syntax = {};
       const currentSyntax = state.themeFamily.themes[state.themeIndex]?.style.syntax;
@@ -139,9 +141,9 @@ export const useThemeStore = create<ThemeStore>((set) => ({
       };
     }),
 
-  setPlayerToken: (index, token, color) =>
+  setThemePlayerToken: (index, token, color) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -159,7 +161,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
 
   addPlayer: () =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -177,7 +179,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
 
   removePlayer: (index) =>
     set((state) => {
-      if (state.themeIndex == null || state.themeFamily === null) return state;
+      if (state.themeIndex == null || state.themeFamily === null) return {};
       return {
         themeFamily: update(state.themeFamily, {
           themes: {
@@ -195,7 +197,7 @@ export const useThemeStore = create<ThemeStore>((set) => ({
 
   addTheme: () =>
     set((state) => {
-      if (state.themeFamily === null || state.themeIndex === null) return state;
+      if (state.themeFamily === null || state.themeIndex === null) return {};
       return {
         themeIndex: state.themeFamily.themes.length,
         themeFamily: update(state.themeFamily, {
@@ -211,7 +213,9 @@ export const useThemeStore = create<ThemeStore>((set) => ({
         }),
       };
     }),
-}));
+});
+
+export const useThemeStore = create<ThemeStore>()(temporal(stateCreator, { limit: 500 }));
 
 // Subscribe to changes and persist to localStorage
 useThemeStore.subscribe((state) => {
@@ -230,6 +234,9 @@ export const useTheme = () => {
 
   return themeFamily.themes[themeIndex];
 };
+
+export const currentTheme = (s: State) =>
+  typeof s.themeIndex === 'number' ? s.themeFamily?.themes?.[s.themeIndex] : undefined;
 
 const validateColor = /^#(?:[0-9a-fA-F]{3,4}){1,2}$/;
 export const isValidColor = (color: unknown): color is ColorHex =>

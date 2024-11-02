@@ -1,34 +1,47 @@
 import { useCallback, useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
-import { type ColorHex, useTheme, useThemeStore } from '~/providers/theme';
+import { currentTheme, useThemeStore } from '~/providers/theme';
 import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
-import type { SyntaxTokens } from '../../providers/tokens';
+import type { StyleTokens, SyntaxTokens } from '../../providers/tokens';
 import type { FontStyleContent, HighlightStyleContent } from '../../themeFamily';
-import TokenleInput from './TokenleInput';
+import { TokenInput } from './TokenInput';
+import type { TokenInfo } from './sections';
+
+function useColor(token?: StyleTokens, syntaxToken?: SyntaxTokens) {
+  if (syntaxToken) {
+    return useThemeStore((s) => currentTheme(s)?.style?.syntax?.[syntaxToken]?.color);
+  }
+  if (!token) return undefined;
+  return useThemeStore((s) => currentTheme(s)?.style?.[token]);
+}
+
+function useSyntax(token?: SyntaxTokens) {
+  if (!token) return undefined;
+  return useThemeStore((s) => currentTheme(s)?.style?.syntax?.[token]);
+}
 
 export function Token({
-  name,
-  color,
-  description,
+  token,
+  syntaxToken,
   onChange,
   onClear,
-  syntax,
   edit,
 }: {
-  name: string;
-  color?: ColorHex | string | null;
-  description?: string | null;
+  token?: TokenInfo;
+  syntaxToken?: SyntaxTokens;
   onChange(color: string): void;
   onClear(): void;
-  syntax?: SyntaxTokens;
   onSyntaxStyleChange?(fontStyle: string): void;
   onSyntaxFontChange?(fontStyle: number): void;
   edit?: boolean;
 }) {
-  const theme = useTheme();
+  const name = token?.name ?? syntaxToken ?? '';
+  const description = token?.description ?? null;
   const [showColor, setShowColor] = useState(false);
-  const setSyntaxToken = useThemeStore((s) => s.setSyntaxToken);
+  const color = useColor(token?.token, syntaxToken);
+  const syntax = useSyntax(syntaxToken);
+  const setSyntaxToken = useThemeStore((s) => s.setThemeSyntaxToken);
 
   const setSyntaxTokenHandler = useCallback(
     debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
@@ -69,7 +82,7 @@ export function Token({
             {name}
           </button>
           <div className="flex items-center gap-2">
-            <TokenleInput
+            <TokenInput
               value={color ?? ''}
               className={cn(
                 'border-1 h-[22px] flex-1 rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500  dark:focus:border-zinc-500 dark:focus:text-white',
@@ -84,15 +97,15 @@ export function Token({
               onChange={(e) => onChange(e.currentTarget.value?.trim())}
               onClear={onClear}
             />
-            {!!syntax && (
+            {!!syntaxToken && (
               <>
                 <select
                   name="font-style"
                   disabled={!edit}
                   className="w-16 h-[22px] rounded-md border border-neutral-300 bg-transparent text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  value={theme?.style.syntax?.[syntax]?.font_style ?? ''}
+                  value={syntax?.font_style ?? ''}
                   onChange={(e) =>
-                    setSyntaxTokenHandler(syntax, {
+                    setSyntaxTokenHandler(syntaxToken, {
                       font_style: e.target.value === 'unset' ? null : (e.target.value as FontStyleContent),
                     })
                   }
@@ -106,9 +119,9 @@ export function Token({
                   name="font-weight"
                   disabled={!edit}
                   className="w-16 h-[22px] rounded-md border border-neutral-300 bg-transparent text-sm text-neutral-900 outline-none focus:border-blue-500 focus:ring-blue-500 dark:border-neutral-600 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                  value={theme?.style.syntax?.[syntax]?.font_weight?.toString() ?? ''}
+                  value={syntax?.font_weight?.toString() ?? ''}
                   onChange={(e) =>
-                    setSyntaxTokenHandler(syntax, {
+                    setSyntaxTokenHandler(syntaxToken, {
                       font_weight:
                         e.target.value === 'unset' ? null : (+e.target.value as HighlightStyleContent['font_weight']),
                     })

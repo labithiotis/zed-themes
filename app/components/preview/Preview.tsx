@@ -2,7 +2,7 @@ import { useUser } from '@clerk/remix';
 import imageResize, { type typeOptions } from 'image-resize';
 import { Image } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useTheme } from '~/providers/theme';
+import { useTheme, useThemeStore } from '~/providers/theme';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
 import type { UserPrefs } from '~/utils/userPrefs.server';
 import { UploadButton } from '../UploadImage.client';
@@ -34,8 +34,30 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const fetcher = useFetcher<null>({ key: 'user-prefs-clear' });
   const isDarkTheme = theme?.appearance === 'dark';
   const cssStyleVars = themeStyleToCssVars(theme?.style);
+  const { undo, redo } = useThemeStore.temporal.getState();
   const [background, setBackground] = useState(getBackgroundImage(isDarkTheme, userPrefs));
   const customBg = Boolean(isDarkTheme ? userPrefs?.bgPreviewImageDark?.url : userPrefs?.bgPreviewImageLight?.url);
+
+  useEffect(() => {
+    const keydownHandler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault();
+        if (e.shiftKey) {
+          redo();
+        } else {
+          undo();
+        }
+        return false;
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+        e.preventDefault();
+        redo();
+        return false;
+      }
+    };
+    document.addEventListener('keydown', keydownHandler);
+    return () => document.removeEventListener('keydown', keydownHandler);
+  }, [undo, redo]);
 
   useEffect(() => {
     setBackground(getBackgroundImage(isDarkTheme, userPrefs));

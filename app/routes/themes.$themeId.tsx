@@ -62,7 +62,7 @@ export default function ThemeById() {
   const data = useLoaderData<typeof loader>();
   const theme = useTheme();
   const themeId = useThemeStore((s) => s.themeId);
-  const setTheme = useThemeStore((s) => s.set);
+  const setThemeFamily = useThemeStore((s) => s.setThemeFamily);
   const hasTheme = !!theme;
 
   // Load theme from loader data
@@ -70,14 +70,14 @@ export default function ThemeById() {
     if (themeId && data.themeId === themeId) return;
     if (data.theme) {
       console.debug('Load theme from remote data');
-      setTheme(data.themeId, data?.theme, searchParams.get('name'));
+      setThemeFamily(data.themeId, data?.theme, searchParams.get('name'));
     }
-  }, [data, themeId, setTheme, searchParams]);
+  }, [data, themeId, setThemeFamily, searchParams]);
 
   // Load theme from localstorage
   useEffect(() => {
     if (params.themeId === 'new') {
-      setTheme(null, createThemeFamily());
+      setThemeFamily(null, createThemeFamily());
       navigate('/themes/edit');
     }
 
@@ -86,13 +86,13 @@ export default function ThemeById() {
       const localTheme = json5.parse(localStorage.getItem(LOCAL_STORAGE_THEME_SYNC_KEY) ?? '{}');
       if (themeValidator(localTheme)) {
         console.debug('Localstorage theme is valid, load it');
-        setTheme(null, localTheme);
+        setThemeFamily(null, localTheme);
       } else {
         console.warn('Unable to load theme from local storage as its invalid theme:', themeValidator.errors);
-        setTheme(null, createThemeFamily());
+        setThemeFamily(null, createThemeFamily());
       }
     }
-  }, [hasTheme, params.themeId, setTheme, navigate]);
+  }, [hasTheme, params.themeId, setThemeFamily, navigate]);
 
   return (
     <Layout className="h-full flex overflow-hidden mt-14 md:mt-14">
