@@ -11,7 +11,7 @@ export function UploadTheme() {
   const navigate = useNavigate();
   const fileDropRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const setThemeFamily = useThemeStore((s) => s.set);
+  const setThemeFamily = useThemeStore((s) => s.setThemeFamily);
 
   const onFileInput = (event: ChangeEvent<HTMLInputElement>) => {
     onFiles(event.currentTarget.files);

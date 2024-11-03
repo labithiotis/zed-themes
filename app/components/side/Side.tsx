@@ -26,15 +26,15 @@ export function Side({ edit }: { edit: boolean }) {
   const theme = useTheme();
   const themeIndex = useThemeStore((s) => s.themeIndex);
   const themeFamily = useThemeStore((s) => s.themeFamily);
-  const setIndex = useThemeStore((s) => s.setIndex);
+  const setIndex = useThemeStore((s) => s.setThemeIndex);
   const addTheme = useThemeStore((s) => s.addTheme);
   const addPlayer = useThemeStore((s) => s.addPlayer);
-  const setFamilyName = useThemeStore((s) => s.setFamilyName);
+  const setFamilyName = useThemeStore((s) => s.setThemeFamilyName);
   const setThemeName = useThemeStore((s) => s.setThemeName);
   const setThemeAppearance = useThemeStore((s) => s.setThemeAppearance);
-  const setBackgroundAppearance = useThemeStore((s) => s.setBackgroundAppearance);
-  const setStyleToken = useThemeStore((s) => s.setStyleToken);
-  const setSyntaxToken = useThemeStore((s) => s.setSyntaxToken);
+  const setBackgroundAppearance = useThemeStore((s) => s.setThemeBackgroundAppearance);
+  const setStyleToken = useThemeStore((s) => s.setThemeStyleToken);
+  const setSyntaxToken = useThemeStore((s) => s.setThemeSyntaxToken);
 
   const setStyleTokenHandler = useCallback(
     debounce((token: StyleTokens, color: unknown) => {
@@ -42,6 +42,7 @@ export function Side({ edit }: { edit: boolean }) {
     }, 25),
     [],
   );
+
   const setSyntaxTokenHandler = useCallback(
     debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
       setSyntaxToken(token, content);
@@ -172,9 +173,7 @@ export function Side({ edit }: { edit: boolean }) {
               {(token) => (
                 <Token
                   key={token.token}
-                  name={token.name}
-                  color={theme?.style[token.token]}
-                  description={token.description}
+                  token={token}
                   onChange={(color) => setStyleTokenHandler(token.token, color)}
                   onClear={() => setStyleTokenHandler(token.token, null)}
                   edit={edit}
@@ -187,10 +186,7 @@ export function Side({ edit }: { edit: boolean }) {
           {(token) => (
             <Token
               key={token}
-              name={token}
-              syntax={token}
-              color={theme?.style.syntax?.[token]?.color}
-              description=""
+              syntaxToken={token}
               onChange={(color) => setSyntaxTokenHandler(token, { color })}
               onClear={() => setSyntaxTokenHandler(token, { color: null })}
               edit={edit}

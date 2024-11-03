@@ -2,11 +2,11 @@ import type { MouseEventHandler } from 'react';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { cn } from '~/utils';
 
-interface TokenleInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TokenInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onClear?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function TokenleInput({ onClear, ...props }: TokenleInputProps) {
+export function TokenInput({ onClear, ...props }: TokenInputProps) {
   return (
     <div className="group/token-input relative w-full">
       <input {...props} className={cn('pr-10 w-full peer', props.className)} />

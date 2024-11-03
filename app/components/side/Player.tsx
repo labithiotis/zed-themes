@@ -6,7 +6,7 @@ import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
 import type { PlayerColorContent } from '../../themeFamily';
 import { Button } from '../ui/button';
-import TokenleInput from './TokenleInput';
+import { TokenInput } from './TokenInput';
 
 type PlayerProps = {
   index: number;
@@ -51,7 +51,7 @@ function PlayerToken({
 }: PlayerProps & {
   token: keyof PlayerColorContent;
 }) {
-  const setPlayerToken = useThemeStore((s) => s.setPlayerToken);
+  const setPlayerToken = useThemeStore((s) => s.setThemePlayerToken);
 
   const [showColor, setShowColor] = useState(false);
 
@@ -95,7 +95,7 @@ function PlayerToken({
           </button>
           <div className="flex items-center gap-2 pr-2">
             <div className="flex-1">
-              <TokenleInput
+              <TokenInput
                 value={player[token] ?? ''}
                 className={cn(
                   'border-1 h-[22px] w-full rounded border border-solid border-transparent bg-transparent px-1 text-zinc-600 outline-none focus:border-zinc-400 focus:text-black dark:text-zinc-500 dark:focus:border-zinc-500 dark:focus:text-white',

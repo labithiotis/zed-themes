@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest';
-import { useThemeStore } from './theme';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { create } from 'zustand';
+import { type ThemeStore, stateCreator } from './theme';
 import { createThemeFamily } from './themeFamily';
 import {
   borderTokens,
@@ -17,16 +18,21 @@ import {
 } from './tokens';
 
 describe('Theme Store', () => {
+  let getState: () => ThemeStore;
+
+  beforeEach(() => {
+    getState = create(stateCreator).getState;
+  });
+
   it('can set theme', () => {
     const newTheme = createThemeFamily({
       name: 'new theme',
       themes: [{ name: 'new theme', style: { background: 'blue' } }],
     });
 
-    const store = useThemeStore.getState();
-    store.set(null, newTheme);
+    getState().setThemeFamily(null, newTheme);
 
-    expect(useThemeStore.getState()).toMatchObject({
+    expect(getState()).toMatchObject({
       themeId: null,
       themeIndex: 0,
       themeFamily: newTheme,
@@ -34,8 +40,8 @@ describe('Theme Store', () => {
   });
 
   it('can setThemeIndex', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -46,14 +52,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setIndex(1);
+    state.setThemeIndex(1);
 
-    expect(useThemeStore.getState().themeIndex).toEqual(1);
+    expect(getState().themeIndex).toEqual(1);
   });
 
   it('can setFamilyName', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -61,14 +67,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setFamilyName('name1');
+    state.setThemeFamilyName('name1');
 
-    expect(useThemeStore.getState().themeFamily?.name).toEqual('name1');
+    expect(getState().themeFamily?.name).toEqual('name1');
   });
 
   it('can setThemeName', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -76,14 +82,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setThemeName('name1');
+    state.setThemeName('name1');
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.name).toEqual('name1');
+    expect(getState().themeFamily?.themes[0]?.name).toEqual('name1');
   });
 
   it('can setThemeAppearance', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -91,14 +97,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setThemeAppearance('dark');
+    state.setThemeAppearance('dark');
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.appearance).toEqual('dark');
+    expect(getState().themeFamily?.themes[0]?.appearance).toEqual('dark');
   });
 
   it('can setBackgroundAppearance', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -106,9 +112,9 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setBackgroundAppearance('opaque');
+    state.setThemeBackgroundAppearance('opaque');
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.style['background.appearance']).toEqual('opaque');
+    expect(getState().themeFamily?.themes[0]?.style['background.appearance']).toEqual('opaque');
   });
 
   for (const token of [
@@ -125,19 +131,19 @@ describe('Theme Store', () => {
     ...miscTokens,
   ]) {
     it(`can setStyleToken ${token}`, () => {
-      const store = useThemeStore.getState();
-      store.set(null, createThemeFamily({ name: 'new theme' }));
+      const state = getState();
+      state.setThemeFamily(null, createThemeFamily({ name: 'new theme' }));
 
-      store.setStyleToken(token, 'red');
+      state.setThemeStyleToken(token, 'red');
 
-      expect(useThemeStore.getState().themeFamily?.themes[0]?.style[token]).toEqual('red');
+      expect(getState().themeFamily?.themes[0]?.style[token]).toEqual('red');
     });
   }
 
   for (const token of syntaxTokens) {
     it(`can setSyntaxToken ${token} if not preset`, () => {
-      const store = useThemeStore.getState();
-      store.set(
+      const state = getState();
+      state.setThemeFamily(
         null,
         createThemeFamily({
           name: 'new theme',
@@ -145,9 +151,9 @@ describe('Theme Store', () => {
         }),
       );
 
-      store.setSyntaxToken(token, { color: 'red' });
+      state.setThemeSyntaxToken(token, { color: 'red' });
 
-      expect(useThemeStore.getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
+      expect(getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'red',
         font_weight: null,
         font_style: null,
@@ -155,8 +161,8 @@ describe('Theme Store', () => {
     });
 
     it(`can setSyntaxToken ${token} color`, () => {
-      const store = useThemeStore.getState();
-      store.set(
+      const state = getState();
+      state.setThemeFamily(
         null,
         createThemeFamily({
           name: 'new theme',
@@ -169,9 +175,9 @@ describe('Theme Store', () => {
         }),
       );
 
-      store.setSyntaxToken(token, { color: 'red' });
+      state.setThemeSyntaxToken(token, { color: 'red' });
 
-      expect(useThemeStore.getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
+      expect(getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'red',
         font_weight: 500,
         font_style: 'italic',
@@ -179,8 +185,8 @@ describe('Theme Store', () => {
     });
 
     it(`can setSyntaxToken ${token} font_weight`, () => {
-      const store = useThemeStore.getState();
-      store.set(
+      const state = getState();
+      state.setThemeFamily(
         null,
         createThemeFamily({
           name: 'new theme',
@@ -193,9 +199,9 @@ describe('Theme Store', () => {
         }),
       );
 
-      store.setSyntaxToken(token, { font_weight: 700 });
+      state.setThemeSyntaxToken(token, { font_weight: 700 });
 
-      expect(useThemeStore.getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
+      expect(getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'blue',
         font_weight: 700,
         font_style: 'italic',
@@ -203,8 +209,8 @@ describe('Theme Store', () => {
     });
 
     it(`can setSyntaxToken ${token} font_style`, () => {
-      const store = useThemeStore.getState();
-      store.set(
+      const state = getState();
+      state.setThemeFamily(
         null,
         createThemeFamily({
           name: 'new theme',
@@ -217,9 +223,9 @@ describe('Theme Store', () => {
         }),
       );
 
-      store.setSyntaxToken(token, { font_style: 'normal' });
+      state.setThemeSyntaxToken(token, { font_style: 'normal' });
 
-      expect(useThemeStore.getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
+      expect(getState().themeFamily?.themes[0]?.style.syntax?.[token]).toEqual({
         color: 'blue',
         font_weight: 500,
         font_style: 'normal',
@@ -228,8 +234,8 @@ describe('Theme Store', () => {
   }
 
   it('can setPlayerToken background', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -237,14 +243,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setPlayerToken(0, 'background', 'red');
+    state.setThemePlayerToken(0, 'background', 'red');
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.style.players?.[0]?.background).toEqual('red');
+    expect(getState().themeFamily?.themes[0]?.style.players?.[0]?.background).toEqual('red');
   });
 
   it('can setPlayerToken cursor', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -252,14 +258,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setPlayerToken(0, 'cursor', 'red');
+    state.setThemePlayerToken(0, 'cursor', 'red');
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.style.players?.[0]?.cursor).toEqual('red');
+    expect(getState().themeFamily?.themes[0]?.style.players?.[0]?.cursor).toEqual('red');
   });
 
   it('can setPlayerToken selection', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -267,14 +273,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.setPlayerToken(0, 'selection', 'red');
+    state.setThemePlayerToken(0, 'selection', 'red');
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.style.players?.[0]?.selection).toEqual('red');
+    expect(getState().themeFamily?.themes[0]?.style.players?.[0]?.selection).toEqual('red');
   });
 
   it('can add player', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -282,14 +288,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.addPlayer();
+    state.addPlayer();
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.style.players?.length).toEqual(1);
+    expect(getState().themeFamily?.themes[0]?.style.players?.length).toEqual(1);
   });
 
   it('can remove player', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -302,17 +308,14 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.removePlayer(1);
+    state.removePlayer(1);
 
-    expect(useThemeStore.getState().themeFamily?.themes[0]?.style.players).toEqual([
-      { background: 'red' },
-      { background: 'blue' },
-    ]);
+    expect(getState().themeFamily?.themes[0]?.style.players).toEqual([{ background: 'red' }, { background: 'blue' }]);
   });
 
   it('can addTheme', () => {
-    const store = useThemeStore.getState();
-    store.set(
+    const state = getState();
+    state.setThemeFamily(
       null,
       createThemeFamily({
         name: 'new theme',
@@ -320,9 +323,9 @@ describe('Theme Store', () => {
       }),
     );
 
-    store.addTheme();
+    state.addTheme();
 
-    expect(useThemeStore.getState().themeFamily?.themes.length).toEqual(2);
-    expect(useThemeStore.getState().themeFamily?.themes.at(1)?.name).toEqual('New Theme');
+    expect(getState().themeFamily?.themes.length).toEqual(2);
+    expect(getState().themeFamily?.themes.at(1)?.name).toEqual('New Theme');
   });
 });

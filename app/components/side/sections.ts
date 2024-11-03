@@ -17,7 +17,7 @@ import {
 
 const tokens = Object.entries(themeSchema.definitions.ThemeStyleContent.properties).sort();
 
-type TokenInfo = {
+export type TokenInfo = {
   name: string;
   token: StyleTokens;
   description: string | null;
