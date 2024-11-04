@@ -81,6 +81,11 @@ function Document(props: { children: ReactNode; title?: string; colorScheme?: Co
         <Links />
         <meta name="theme-color" content={colorScheme} />
         <meta name="color-scheme" content={colorScheme} />
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "5346b56c8fb54653a3a63c2a4ffc1668"}'
+        />
       </head>
       <body className="bg-stone-300 dark:bg-stone-900">
         {props.children}
