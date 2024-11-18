@@ -195,7 +195,7 @@ export function Side({ edit }: { edit: boolean }) {
         </Section>
         <Section
           name="Players"
-          items={theme?.style.players ?? new Array(8).fill({})}
+          items={theme?.style.players ?? []}
           action={
             edit && (
               <Button className="mr-2" size="xs" variant="outline" onClick={addPlayer}>

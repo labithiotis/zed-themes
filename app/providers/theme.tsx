@@ -120,8 +120,15 @@ export const stateCreator: StateCreator<ThemeStore> = (set) => ({
     set((state) => {
       if (state.themeIndex == null || state.themeFamily === null) return {};
 
+      // If the theme doesn't have syntax, create it
+      let themeFamily = state.themeFamily;
+      if (!themeFamily.themes[state.themeIndex]?.style.syntax) {
+        themeFamily = update(themeFamily, { themes: { [state.themeIndex]: { style: { syntax: { $set: {} } } } } });
+      }
+
+      // If the syntax token doesn't exist, create it
       let syntax = {};
-      const currentSyntax = state.themeFamily.themes[state.themeIndex]?.style.syntax;
+      const currentSyntax = themeFamily.themes[state.themeIndex]?.style.syntax;
       const syntaxPresent = !!currentSyntax && Object.hasOwn(currentSyntax, token);
 
       if (syntaxPresent) {
@@ -133,7 +140,7 @@ export const stateCreator: StateCreator<ThemeStore> = (set) => ({
       }
 
       return {
-        themeFamily: update(state.themeFamily, {
+        themeFamily: update(themeFamily, {
           themes: {
             [state.themeIndex]: { style: { syntax } },
           },
@@ -162,8 +169,15 @@ export const stateCreator: StateCreator<ThemeStore> = (set) => ({
   addPlayer: () =>
     set((state) => {
       if (state.themeIndex == null || state.themeFamily === null) return {};
+
+      // If the theme doesn't have players, create it
+      let themeFamily = state.themeFamily;
+      if (!themeFamily.themes[state.themeIndex]?.style.players) {
+        themeFamily = update(themeFamily, { themes: { [state.themeIndex]: { style: { players: { $set: [] } } } } });
+      }
+
       return {
-        themeFamily: update(state.themeFamily, {
+        themeFamily: update(themeFamily, {
           themes: {
             [state.themeIndex]: {
               style: {

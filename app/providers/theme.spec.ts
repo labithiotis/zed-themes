@@ -233,6 +233,25 @@ describe('Theme Store', () => {
     });
   }
 
+  it('can syntax token if not syntax is not defined', () => {
+    const state = getState();
+    state.setThemeFamily(
+      null,
+      createThemeFamily({
+        name: 'new theme',
+        themes: [{ name: 'theme 1', style: { syntax: undefined } }],
+      }),
+    );
+
+    state.setThemeSyntaxToken('string', { color: 'red' });
+
+    expect(getState().themeFamily?.themes[0]?.style.syntax?.string).toEqual({
+      color: 'red',
+      font_weight: null,
+      font_style: null,
+    });
+  });
+
   it('can setPlayerToken background', () => {
     const state = getState();
     state.setThemeFamily(
@@ -276,6 +295,21 @@ describe('Theme Store', () => {
     state.setThemePlayerToken(0, 'selection', 'red');
 
     expect(getState().themeFamily?.themes[0]?.style.players?.[0]?.selection).toEqual('red');
+  });
+
+  it('can add player when no players', () => {
+    const state = getState();
+    state.setThemeFamily(
+      null,
+      createThemeFamily({
+        name: 'new theme',
+        themes: [{ name: 'theme 1', style: { players: undefined } }],
+      }),
+    );
+
+    state.addPlayer();
+
+    expect(getState().themeFamily?.themes[0]?.style.players?.length).toEqual(1);
   });
 
   it('can add player', () => {
