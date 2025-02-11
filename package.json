@@ -48,7 +48,7 @@
     "@remix-run/cloudflare-pages": "^2.13.1",
     "@remix-run/react": "^2.13.1",
     "@sentry/cloudflare": "^8.36.0",
-    "@sentry/remix": "^8.36.0",
+    "@sentry/remix": "^9.0.0",
     "@sentry/vite-plugin": "^2.22.6",
     "@uploadthing/react": "^7.1.0",
     "class-variance-authority": "^0.7.0",
