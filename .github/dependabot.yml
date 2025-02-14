@@ -10,7 +10,7 @@ updates:
     directory: '/' # Location of package manifests
     versioning-strategy: increase-if-necessary
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     groups:
       dependencies:
         update-types:
