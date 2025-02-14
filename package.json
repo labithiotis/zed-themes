@@ -89,7 +89,7 @@
     "better-sqlite3": "^11.5.0",
     "cloudflare-workers-kv-viewer": "^1.0.3",
     "drizzle-kit": "^0.27.1",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.0",
     "json-schema-to-typescript": "^15.0.2",
     "lefthook": "^1.8.2",
     "miniflare": "^3.20241022.0",
