@@ -1,12 +1,9 @@
-type User = {
-  fullName?: string | null;
-  primaryEmailAddress?: {
-    emailAddress: string;
-  } | null;
-};
+import type { useUser } from '@clerk/remix';
 
-export function getAuthor(user?: User | null): string {
-  if (user?.fullName) return user.fullName;
-  if (user?.primaryEmailAddress?.emailAddress) return user.primaryEmailAddress.emailAddress;
-  return 'Anonymous';
+type User = ReturnType<typeof useUser>['user'];
+
+export function getAuthor(user: User): string {
+  const username = user?.username;
+  const fullname = user?.fullName || `${user?.firstName} ${user?.lastName}`.trim();
+  return username || fullname || 'Zed themes user';
 }
