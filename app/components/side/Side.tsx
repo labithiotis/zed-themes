@@ -15,6 +15,7 @@ import { SideDownloadButton } from './SideDownloadButton';
 import { SideEditButton } from './SideEditButton';
 import { SideSaveButton } from './SideSaveButton';
 import { SideShareButton } from './SideShareButton';
+import { SideUndoRedoButtons } from './SideUndoRedoButtons';
 import { Token } from './Token';
 import { sections } from './sections';
 
@@ -210,6 +211,7 @@ export function Side({ edit }: { edit: boolean }) {
       <div className="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
         {edit ? (
           <>
+            <SideUndoRedoButtons />
             <div className="flex justify-stretch items-center p-2 gap-2">
               <SideSaveButton />
             </div>

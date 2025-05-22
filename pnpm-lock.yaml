@@ -208,7 +208,7 @@ importers:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@22.8.7)
       wrangler:
-        specifier: ^3.84.1
+        specifier: '*'
         version: 3.84.1(@cloudflare/workers-types@4.20241022.0)
       zx:
         specifier: ^8.2.0
