@@ -8,6 +8,8 @@ on:
 jobs:
   sync:
     name: sync
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
