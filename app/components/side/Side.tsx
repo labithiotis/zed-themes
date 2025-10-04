@@ -6,6 +6,7 @@ import { useTheme, useThemeStore } from '~/providers/theme';
 import { debounce } from '~/utils/debounce';
 import { type StyleTokens, type SyntaxTokens, syntaxTokens } from '../../providers/tokens';
 import type { HighlightStyleContent } from '../../themeFamily';
+import { CarbonAds } from '../CarbonAds';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -167,7 +168,7 @@ export function Side({ edit }: { edit: boolean }) {
         </div>
       )}
 
-      <div className="flex-1 divide-y divide-neutral-300 overflow-y-auto dark:divide-neutral-700">
+      <div className="flex flex-col flex-1 divide-y divide-neutral-300 overflow-y-auto dark:divide-neutral-700">
         {sections.map((section) =>
           section.tokens.length ? (
             <Section key={section.name} name={section.name} items={section.tokens}>
@@ -207,6 +208,9 @@ export function Side({ edit }: { edit: boolean }) {
         >
           {(player, index) => <Player key={index} player={player} index={index} edit={edit} />}
         </Section>
+        <div className="flex flex-col flex-1 justify-end pt-6 pb-1">
+          <CarbonAds />
+        </div>
       </div>
       <div className="border-t-1 flex select-none flex-col items-stretch divide-y divide-neutral-300 border-t-neutral-300 shadow-2xl shadow-black/60 dark:divide-neutral-700 dark:border-t-neutral-700 dark:shadow-white/75">
         {edit ? (

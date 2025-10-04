@@ -10,6 +10,7 @@ import { memo } from 'react';
 import { FaGithub, FaStar } from 'react-icons/fa';
 import themePreviewBackgroundDark from '~/assets/images/dune_dark_sm.jpeg';
 import themePreviewBackgroundLight from '~/assets/images/dune_light_sm.jpeg';
+import { CarbonAds } from '~/components/CarbonAds';
 import { Layout } from '~/components/Layout';
 import { Badge } from '~/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '~/components/ui/carousel';
@@ -85,6 +86,9 @@ export default function Home() {
 
   return (
     <Layout>
+      <div className="fixed bottom-0 left-0 p-2 hidden min-[1920px]:block max-w-60 max-h-40">
+        <CarbonAds />
+      </div>
       {themes.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-10" data-testid="no-results-message">
           <Search className="h-16 w-16 text-gray-400" />
