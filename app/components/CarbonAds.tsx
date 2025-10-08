@@ -9,7 +9,7 @@ export function CarbonAds() {
 
     const s = document.createElement('script');
     s.id = '_carbonads_js';
-    s.src = '//cdn.carbonads.com/carbon.js?serve=CWBDT27N&placement=zed-themescom&format=cover';
+    s.src = 'https://cdn.carbonads.com/carbon.js?serve=CWBDT27N&placement=zed-themescom&format=cover';
     s.async = true;
     document.getElementById('carbon-container')?.appendChild(s);
 

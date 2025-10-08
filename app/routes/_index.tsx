@@ -86,7 +86,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="fixed bottom-0 left-0 p-2 hidden min-[1920px]:block max-w-60 max-h-40">
+      <div className="fixed bottom-2 right-2 hidden min-[1920px]:block max-w-64 min-[2048px]:max-w-96">
         <CarbonAds />
       </div>
       {themes.length === 0 ? (
