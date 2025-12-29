@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { useThemeStore } from '~/providers/theme';
+import { useTokenHighlight } from '~/providers/tokenHighlight';
 import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import { playerTokens } from '../../providers/tokens';
@@ -52,6 +53,7 @@ function PlayerToken({
   token: keyof PlayerColorContent;
 }) {
   const setPlayerToken = useThemeStore((s) => s.setThemePlayerToken);
+  const { setHighlightedToken, clearHighlightedToken } = useTokenHighlight();
 
   const [showColor, setShowColor] = useState(false);
 
@@ -62,8 +64,16 @@ function PlayerToken({
     [],
   );
 
+  const handleMouseEnter = useCallback(() => {
+    setHighlightedToken({ type: 'player', index, token });
+  }, [index, token, setHighlightedToken]);
+
+  const handleMouseLeave = useCallback(() => {
+    clearHighlightedToken();
+  }, [clearHighlightedToken]);
+
   return (
-    <div className="flex flex-col px-2 py-1">
+    <div className="flex flex-col px-2 py-1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="flex flex-row items-center gap-2">
         <button
           type="button"

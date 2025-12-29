@@ -35,21 +35,37 @@ export const csharpPack: LanguagePack = {
     { Icon: ReadmeIcon, name: 'README.md', indent: 2 },
   ],
   breadcrumbs: [
-    <div className="text-md" key={key()} style={{ color: cssVarStyleToken('text.muted') }}>
+    <div
+      className="text-md"
+      key={key()}
+      data-token="style.text.muted"
+      style={{ color: cssVarStyleToken('text.muted') }}
+    >
       src/Identity.API/Services/UserService.cs
     </div>,
-    <span className="text-xs" key={key()} style={{ color: cssVarStyleToken('text.muted') }}>
+    <span
+      className="text-xs"
+      key={key()}
+      data-token="style.text.muted"
+      style={{ color: cssVarStyleToken('text.muted') }}
+    >
       &gt;
     </span>,
-    <span className="text-md pr-1" key={key()} style={{ color: cssVarSyntaxColorToken('keyword') }}>
+    <span
+      className="text-md pr-1"
+      key={key()}
+      data-token="syntax.keyword"
+      style={{ color: cssVarSyntaxColorToken('keyword') }}
+    >
       class
     </span>,
     <span key={key()}>
-      <span className="text-md" style={{ color: cssVarSyntaxColorToken('type') }}>
+      <span className="text-md" data-token="syntax.type" style={{ color: cssVarSyntaxColorToken('type') }}>
         UserService
       </span>
       <span
         className="text-md"
+        data-token="syntax.punctuation.bracket"
         style={{
           color: cssVarSyntaxColorToken('punctuation.bracket'),
         }}
@@ -59,6 +75,7 @@ export const csharpPack: LanguagePack = {
   lines: [
     <div key={key()}>
       <span
+        data-token="style.error"
         style={{
           textDecorationColor: cssVarStyleToken('error'),
         }}
@@ -189,6 +206,7 @@ export const csharpPack: LanguagePack = {
       <SN s="punctuation">;</SN>
       <span
         className="blink h-full"
+        data-token="style.text.accent"
         style={{
           backgroundColor: cssVarStyleToken('text.accent'),
           width: '2px',

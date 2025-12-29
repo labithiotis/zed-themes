@@ -5,6 +5,7 @@ export function Header() {
     <div
       id="editor-header"
       className="flex items-center gap-2 border-b px-2"
+      data-token="style.title_bar.background"
       style={{
         borderColor: cssVarStyleToken('border'),
         backgroundColor: cssVarStyleToken('title_bar.background'),
@@ -13,10 +14,14 @@ export function Header() {
       <span className="h-[10px] w-[10px] rounded-full" style={{ backgroundColor: 'grey' }} />
       <span className="h-[10px] w-[10px] rounded-full" style={{ backgroundColor: 'grey' }} />
       <span className="h-[10px] w-[10px] rounded-full" style={{ backgroundColor: 'grey' }} />
-      <span className="rounded-md p-1 text-sm" style={{ color: cssVarStyleToken('text') }}>
+      <span className="rounded-md p-1 text-sm" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
         zed
       </span>
-      <span className="rounded-md p-1  text-sm" style={{ color: cssVarStyleToken('text.muted') }}>
+      <span
+        className="rounded-md p-1 text-sm"
+        data-token="style.text.muted"
+        style={{ color: cssVarStyleToken('text.muted') }}
+      >
         main
       </span>
     </div>

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { HexAlphaColorPicker } from 'react-colorful';
 import { currentTheme, useThemeStore } from '~/providers/theme';
+import { useTokenHighlight } from '~/providers/tokenHighlight';
 import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
 import type { StyleTokens, SyntaxTokens } from '../../providers/tokens';
@@ -42,6 +43,19 @@ export function Token({
   const color = useColor(token?.token, syntaxToken);
   const syntax = useSyntax(syntaxToken);
   const setSyntaxToken = useThemeStore((s) => s.setThemeSyntaxToken);
+  const { setHighlightedToken, clearHighlightedToken } = useTokenHighlight();
+
+  const handleMouseEnter = useCallback(() => {
+    if (syntaxToken) {
+      setHighlightedToken({ type: 'syntax', token: syntaxToken });
+    } else if (token?.token) {
+      setHighlightedToken({ type: 'style', token: token.token });
+    }
+  }, [syntaxToken, token?.token, setHighlightedToken]);
+
+  const handleMouseLeave = useCallback(() => {
+    clearHighlightedToken();
+  }, [clearHighlightedToken]);
 
   const setSyntaxTokenHandler = useCallback(
     debounce((token: SyntaxTokens, content: Partial<HighlightStyleContent>) => {
@@ -51,7 +65,7 @@ export function Token({
   );
 
   return (
-    <div className="flex flex-col px-4 py-1">
+    <div className="flex flex-col px-4 py-1" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="flex flex-row items-center gap-2" title={!showColor && !!description ? description : undefined}>
         <button
           type="button"
