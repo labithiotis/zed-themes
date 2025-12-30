@@ -5,6 +5,10 @@ import { $, argv } from 'zx';
 
 $.verbose = false;
 
+const syncStartTime = Date.now();
+let syncedThemesCount = 0;
+let syncError: string | undefined;
+
 if (!process.env.GITHUB_TOKEN) {
   throw new Error('GITHUB_TOKEN environment variable is not defined (https://github.com/settings/tokens)');
 }
@@ -48,9 +52,17 @@ const chunks = Array.from({ length: Math.ceil(extInfo.length / chunkSize) }, (_,
   extInfo.slice(i * chunkSize, i * chunkSize + chunkSize),
 );
 
-for (const chunk of chunks) {
-  await Promise.all(chunk.map(processExtension));
+try {
+  for (const chunk of chunks) {
+    await Promise.all(chunk.map(processExtension));
+  }
+} catch (e) {
+  syncError = e instanceof Error ? e.message : String(e);
+  console.error(`Sync failed: ${syncError}`);
 }
+
+// Record sync stats
+await recordSyncStats(extInfo.length);
 
 async function processExtension(ext: ExtInfo) {
   if (argv.limit && ++count >= argv.limit) return;
@@ -90,8 +102,16 @@ async function processExtension(ext: ExtInfo) {
 
     const addInstallCount = typeof installCount === 'number';
     const sqlCmd = `
-      INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, repoUrl, repoStars, userId, theme ${addInstallCount ? ', installCount' : ''})
-      VALUES ('${theme.id}', '${sqlSafe(theme.name)}', '${theme.author}', ${theme.updatedDate.getTime()}, '${theme.versionHash}', ${theme.bundled}, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(theme.theme)}' ${addInstallCount ? `, ${theme.installCount}` : ''})
+      INSERT INTO themes (id, name, author, updatedDate, versionHash, bundled, repoUrl, repoStars, userId, theme ${
+        addInstallCount ? ', installCount' : ''
+      })
+      VALUES ('${theme.id}', '${sqlSafe(theme.name)}', '${
+        theme.author
+      }', ${theme.updatedDate.getTime()}, '${theme.versionHash}', ${
+        theme.bundled
+      }, '${theme.repoUrl}', ${theme.repoStars}, NULL, '${JSON.stringify(
+        theme.theme,
+      )}' ${addInstallCount ? `, ${theme.installCount}` : ''})
       ON CONFLICT (id) DO UPDATE
       SET name = EXCLUDED.name,
           author = EXCLUDED.author,
@@ -112,6 +132,7 @@ async function processExtension(ext: ExtInfo) {
         await $`pnpm wrangler d1 execute zed_themes --command=${sqlCmd} --remote`;
         await $`pnpm wrangler d1 execute --env preview zed_themes_preview --command=${sqlCmd} --remote`;
       }
+      syncedThemesCount++;
       console.log(
         `✅ [${ext.id}] Added theme [install=${theme.installCount}][stars=${theme.repoStars}][author=${theme.author}][name=${theme.name}]`,
       );
@@ -319,4 +340,33 @@ function sqlSafe(str: string) {
         return char;
     }
   });
+}
+
+async function recordSyncStats(extensionsCount: number) {
+  const durationMs = Date.now() - syncStartTime;
+  const status = syncError ? 'failed' : 'success';
+  const syncedAt = new Date().getTime();
+
+  const sqlCmd = `
+    INSERT INTO sync_stats (syncedAt, themesCount, extensionsCount, durationMs, status, errorMessage)
+    VALUES (${syncedAt}, ${syncedThemesCount}, ${extensionsCount}, ${durationMs}, '${status}', ${
+      syncError ? `'${sqlSafe(syncError)}'` : 'NULL'
+    });
+  `;
+
+  try {
+    if (argv.local) {
+      await $`pnpm wrangler d1 execute zed_themes --command=${sqlCmd} --local`;
+    } else {
+      await $`pnpm wrangler d1 execute zed_themes --command=${sqlCmd} --remote`;
+      await $`pnpm wrangler d1 execute --env preview zed_themes_preview --command=${sqlCmd} --remote`;
+    }
+    console.log(
+      `📊 Sync stats recorded: ${syncedThemesCount} themes synced from ${extensionsCount} extensions in ${(
+        durationMs / 1000
+      ).toFixed(1)}s [${status}]`,
+    );
+  } catch (e) {
+    console.error(`❌ Failed to record sync stats: ${e instanceof Error ? e.message : e}`);
+  }
 }

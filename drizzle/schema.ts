@@ -28,3 +28,15 @@ export const themes = sqliteTable(
 );
 
 export type DBTheme = typeof themes.$inferSelect;
+
+export const syncStats = sqliteTable('sync_stats', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  syncedAt: integer('syncedAt').notNull(),
+  themesCount: integer('themesCount').notNull(),
+  extensionsCount: integer('extensionsCount').notNull(),
+  durationMs: integer('durationMs'),
+  status: text('status', { enum: ['success', 'failed'] }).notNull(),
+  errorMessage: text('errorMessage'),
+});
+
+export type DBSyncStats = typeof syncStats.$inferSelect;
