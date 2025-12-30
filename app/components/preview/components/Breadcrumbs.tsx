@@ -19,6 +19,7 @@ export function Breadcrumbs() {
   return (
     <div
       className="flex flex-col border-b"
+      data-token="style.toolbar.background"
       style={{
         borderColor: cssVarStyleToken('border.variant'),
         backgroundColor: cssVarStyleToken('toolbar.background'),
@@ -32,17 +33,17 @@ export function Breadcrumbs() {
         </div>
         <div className="flex items-center gap-2">
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text') }}>
+            <div className="p-1" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
               <InlayHintIcon width={14} height={14} />
             </div>
           </GhostButton>
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text.accent') }}>
+            <div className="p-1" data-token="style.text.accent" style={{ color: cssVarStyleToken('text.accent') }}>
               <MagnifyingGlassIcon width={14} height={14} />
             </div>
           </GhostButton>
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text') }}>
+            <div className="p-1" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
               <MagicWandIcon width={14} height={14} />
             </div>
           </GhostButton>
@@ -52,9 +53,12 @@ export function Breadcrumbs() {
         <div className="flex flex-1 items-center gap-2">
           <div
             className="flex items-center gap-2 rounded-lg border px-2 py-1"
+            data-token="style.border"
             style={{ borderColor: cssVarStyleToken('border') }}
           >
-            <MagnifyingGlassIcon style={{ color: cssVarStyleToken('text') }} />
+            <span data-token="style.text">
+              <MagnifyingGlassIcon style={{ color: cssVarStyleToken('text') }} />
+            </span>
             <input
               className="placeholder-color bg-transparent text-sm outline-none"
               placeholder="Search (↑/↓ for previous/next query)"
@@ -62,20 +66,22 @@ export function Breadcrumbs() {
                 '--placeholder-color': cssVarStyleToken('text.muted'),
                 color: cssVarStyleToken('text'),
               }}
+              data-token="style.text"
             />
             <GhostButton>
-              <div className="p-1" style={{ color: cssVarStyleToken('text') }}>
+              <div className="p-1" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
                 <CaseInsensitiveIcon width={14} height={14} />
               </div>
             </GhostButton>
             <GhostButton>
-              <div className="p-1" style={{ color: cssVarStyleToken('text') }}>
+              <div className="p-1" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
                 <WordSearchIcon width={14} height={14} />
               </div>
             </GhostButton>
           </div>
           <div
             className="border-md flex h-full items-stretch overflow-hidden rounded-lg"
+            data-token="style.element.background"
             style={{
               backgroundColor: cssVarStyleToken('element.background'),
               '--bg-color': cssVarStyleToken('element.background'),
@@ -84,36 +90,38 @@ export function Breadcrumbs() {
           >
             <span
               className="bg-hover text-md flex cursor-pointer items-center px-2"
+              data-token="style.text.accent"
               style={{ color: cssVarStyleToken('text.accent') }}
             >
               Text
             </span>
             <span
               className="bg-hover text-md flex cursor-pointer items-center px-2"
+              data-token="style.text"
               style={{ color: cssVarStyleToken('text') }}
             >
               Regex
             </span>
           </div>
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text') }}>
+            <div className="p-1" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
               <ReplaceIcon width={16} height={16} />
             </div>
           </GhostButton>
         </div>
         <div className="flex items-center gap-2 px-1">
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text') }}>
+            <div className="p-1" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
               <SelectAllIcon width={14} height={14} />
             </div>
           </GhostButton>
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text.muted') }}>
+            <div className="p-1" data-token="style.text.muted" style={{ color: cssVarStyleToken('text.muted') }}>
               <ChevronLeftIcon width={14} height={14} />
             </div>
           </GhostButton>
           <GhostButton>
-            <div className="p-1" style={{ color: cssVarStyleToken('text.muted') }}>
+            <div className="p-1" data-token="style.text.muted" style={{ color: cssVarStyleToken('text.muted') }}>
               <ChevronRightIcon width={14} height={14} />
             </div>
           </GhostButton>

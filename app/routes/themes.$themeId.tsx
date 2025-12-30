@@ -12,6 +12,7 @@ import { Preview } from '~/components/preview/Preview';
 import { Side } from '~/components/side/Side';
 import { LOCAL_STORAGE_THEME_SYNC_KEY, useTheme, useThemeStore } from '~/providers/theme';
 import { createThemeFamily } from '~/providers/themeFamily';
+import { TokenHighlightProvider } from '~/providers/tokenHighlight';
 import { themeValidator } from '~/utils/themeValidator';
 import { type UserPrefs, getUserPrefs } from '~/utils/userPrefs.server';
 import type { ThemeFamilyContent } from '../themeFamily';
@@ -38,21 +39,35 @@ export const loader = async (args: LoaderFunctionArgs): Promise<TypedResponse<Lo
 
   const db = drizzle(args.context.env.db, { schema });
   const records = await db
-    .select({ id: schema.themes.id, userId: schema.themes.userId, theme: schema.themes.theme })
+    .select({
+      id: schema.themes.id,
+      userId: schema.themes.userId,
+      theme: schema.themes.theme,
+    })
     .from(schema.themes)
     .where(sql`${schema.themes.id} = ${themeId}`);
 
   const record = records?.at(0);
 
   if (!record) {
-    return json({ themeId: null, theme: null, editable: args.params.themeId === 'edit', userPrefs });
+    return json({
+      themeId: null,
+      theme: null,
+      editable: args.params.themeId === 'edit',
+      userPrefs,
+    });
   }
 
   const themeData = record.theme;
   const themeShare = !themeData ? await sharesKv?.get(themeId) : undefined;
   const theme = themeData ?? (themeShare ? json5.parse(themeShare) : undefined);
 
-  return json({ themeId: record.id, theme, editable: !!userId && record.userId === userId, userPrefs });
+  return json({
+    themeId: record.id,
+    theme,
+    editable: !!userId && record.userId === userId,
+    userPrefs,
+  });
 };
 
 export default function ThemeById() {
@@ -96,10 +111,12 @@ export default function ThemeById() {
 
   return (
     <Layout className="h-full flex overflow-hidden mt-14 md:mt-14">
-      <div className="flex-1 flex min-w-[1024] overflow-hidden" key={params.themeId}>
-        <Side edit={data.editable} />
-        {!!theme && <Preview userPrefs={data.userPrefs} />}
-      </div>
+      <TokenHighlightProvider>
+        <div className="flex-1 flex min-w-[1024] overflow-hidden" key={params.themeId}>
+          <Side edit={data.editable} />
+          {!!theme && <Preview userPrefs={data.userPrefs} />}
+        </div>
+      </TokenHighlightProvider>
     </Layout>
   );
 }

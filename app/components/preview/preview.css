@@ -72,3 +72,25 @@
 .blink {
   animation: blink 1s step-start 0s infinite;
 }
+
+/* Token highlight styles - outline elements when hovering on sidebar tokens */
+/* Uses outline instead of border to avoid layout shifts */
+[data-token] {
+  outline: 2px dotted transparent;
+  outline-offset: -5px;
+  transition: all 0.15s ease-in-out;
+}
+
+/* Want to have a slower fade out */
+[data-token]:not(.token-highlighted) {
+  transition: all 0.3s ease-in-out;
+}
+
+/*
+ * Token highlighting is done via JavaScript which adds the .token-highlighted
+ * class to elements whose data-token matches the currently hovered token.
+ */
+.token-highlighted {
+  outline-color: #ef4444 !important;
+  outline-offset: -1px;
+}

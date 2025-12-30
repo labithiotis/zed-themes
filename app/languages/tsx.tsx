@@ -38,21 +38,37 @@ export const tsxPack: LanguagePack = {
     { Icon: FileIcon, name: 'tsconfig.json', indent: 2 },
   ],
   breadcrumbs: [
-    <div className="text-md" key={key()} style={{ color: cssVarStyleToken('text.muted') }}>
+    <div
+      className="text-md"
+      key={key()}
+      data-token="style.text.muted"
+      style={{ color: cssVarStyleToken('text.muted') }}
+    >
       src/pages/Home.tsx
     </div>,
-    <span className="text-xs" key={key()} style={{ color: cssVarStyleToken('text.muted') }}>
+    <span
+      className="text-xs"
+      key={key()}
+      data-token="style.text.muted"
+      style={{ color: cssVarStyleToken('text.muted') }}
+    >
       &gt;
     </span>,
-    <span className="text-md pr-1" key={key()} style={{ color: cssVarSyntaxColorToken('keyword') }}>
+    <span
+      className="text-md pr-1"
+      key={key()}
+      data-token="syntax.keyword"
+      style={{ color: cssVarSyntaxColorToken('keyword') }}
+    >
       function
     </span>,
     <span key={key()}>
-      <span className="text-md" style={{ color: cssVarSyntaxColorToken('type') }}>
+      <span className="text-md" data-token="syntax.type" style={{ color: cssVarSyntaxColorToken('type') }}>
         App
       </span>
       <span
         className="text-md"
+        data-token="syntax.bracket"
         style={{
           color: cssVarSyntaxColorToken('punctuation.bracket'),
         }}
@@ -64,6 +80,7 @@ export const tsxPack: LanguagePack = {
   lines: [
     <div key="line1">
       <span
+        data-token="style.error"
         style={{
           textDecorationLine: 'underline',
           textDecorationStyle: 'wavy',
@@ -81,6 +98,7 @@ export const tsxPack: LanguagePack = {
       </span>
       <br />
       <span
+        data-token="style.error"
         style={{
           color: cssVarStyleToken('error'),
         }}
@@ -128,6 +146,7 @@ export const tsxPack: LanguagePack = {
       <SP />
       <SN s="type">
         <Popup
+          data-token="style.error"
           style={{
             color: cssVarStyleToken('error'),
             backgroundColor: cssVarStyleToken('error.background'),
@@ -136,6 +155,7 @@ export const tsxPack: LanguagePack = {
           content="'Enum' is declared but never used."
         >
           <span
+            data-token="style.error"
             style={{
               textDecorationLine: 'underline',
               textDecorationStyle: 'wavy',
@@ -175,6 +195,7 @@ export const tsxPack: LanguagePack = {
       <SN s="operator">=</SN>
       <SP />
       <Popup
+        data-token="style.warning"
         style={{
           color: cssVarStyleToken('warning'),
           backgroundColor: cssVarStyleToken('warning.background'),
@@ -183,6 +204,7 @@ export const tsxPack: LanguagePack = {
         content={'Typo in the word "strig"'}
       >
         <span
+          data-token="style.warning"
           style={{
             textDecorationLine: 'underline',
             textDecorationStyle: 'wavy',
@@ -278,6 +300,7 @@ export const tsxPack: LanguagePack = {
       <SP />
       <span
         className="blink h-full"
+        data-token="style.text.accent"
         style={{
           backgroundColor: cssVarStyleToken('text.accent'),
           width: '2px',
@@ -364,6 +387,7 @@ export const tsxPack: LanguagePack = {
       <SP />
       <SN s="type">
         <Popup
+          data-token="style.error"
           style={{
             color: cssVarStyleToken('error'),
             backgroundColor: cssVarStyleToken('error.background'),
@@ -372,6 +396,7 @@ export const tsxPack: LanguagePack = {
           content="'Test' is declared but never used."
         >
           <span
+            data-token="style.error"
             style={{
               textDecorationLine: 'underline',
               textDecorationStyle: 'wavy',

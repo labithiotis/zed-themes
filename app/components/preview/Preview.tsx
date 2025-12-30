@@ -1,11 +1,15 @@
 import { useUser } from '@clerk/remix';
+import { useFetcher } from '@remix-run/react';
 import imageResize, { type typeOptions } from 'image-resize';
 import { Image } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 import { useTheme, useThemeStore } from '~/providers/theme';
+import { getTokenDataAttribute, useTokenHighlight } from '~/providers/tokenHighlight';
 import { cssVarStyleToken, themeStyleToCssVars } from '~/utils/cssVarTokens';
 import type { UserPrefs } from '~/utils/userPrefs.server';
 import { UploadButton } from '../UploadImage.client';
+import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from '../ui/tooltip';
 import { useToast } from '../ui/use-toast';
 import { Breadcrumbs } from './components/Breadcrumbs';
@@ -17,15 +21,14 @@ import { Tabs } from './components/Tabs';
 import { Terminal } from './components/Terminal';
 
 import './preview.css';
-import { useFetcher } from '@remix-run/react';
-import { IoMdClose } from 'react-icons/io';
-import { Button } from '../ui/button';
 
 const imageResizeConfig: typeOptions = {
   quality: 0.8,
   width: 1024,
   outputType: 'blob',
 };
+
+const HIGHLIGHT_CLASS = 'token-highlighted';
 
 export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const user = useUser();
@@ -34,10 +37,14 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
   const fetcher = useFetcher<null>({ key: 'user-prefs-clear' });
   const isDarkTheme = theme?.appearance === 'dark';
   const cssStyleVars = themeStyleToCssVars(theme?.style);
+  const { highlightedToken } = useTokenHighlight();
+  const highlightedDataAttr = getTokenDataAttribute(highlightedToken);
   const { undo, redo } = useThemeStore.temporal.getState();
   const [background, setBackground] = useState(getBackgroundImage(isDarkTheme, userPrefs));
   const customBg = Boolean(isDarkTheme ? userPrefs?.bgPreviewImageDark?.url : userPrefs?.bgPreviewImageLight?.url);
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  // Handle keyboard shortcuts for undo/redo
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
@@ -59,9 +66,28 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
     return () => document.removeEventListener('keydown', keydownHandler);
   }, [undo, redo]);
 
+  // Update background when theme changes
   useEffect(() => {
     setBackground(getBackgroundImage(isDarkTheme, userPrefs));
   }, [isDarkTheme, userPrefs]);
+
+  // Highlight matching elements when token is hovered in sidebar
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Remove highlight from all previously highlighted elements
+    const previouslyHighlighted = container.querySelectorAll(`.${HIGHLIGHT_CLASS}`);
+    // biome-ignore lint/complexity/noForEach: prefer oneliner
+    previouslyHighlighted.forEach((el) => el.classList.remove(HIGHLIGHT_CLASS));
+
+    // If there's a highlighted token, find and highlight matching elements
+    if (highlightedDataAttr) {
+      const matchingElements = container.querySelectorAll(`[data-token="${highlightedDataAttr}"]`);
+      // biome-ignore lint/complexity/noForEach: prefer oneliner
+      matchingElements.forEach((el) => el.classList.add(HIGHLIGHT_CLASS));
+    }
+  }, [highlightedDataAttr]);
 
   const clearBg = () => {
     fetcher.submit({}, { action: '/api/user-prefs/clear', method: 'POST' });
@@ -69,6 +95,7 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
 
   return (
     <div
+      ref={containerRef}
       id="preview-container"
       className="flex w-screen flex-1 select-none overflow-auto p-8 relative"
       style={{ background: `center / cover no-repeat url(${background})` }}
@@ -101,6 +128,7 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
             <div
               id="editor-main"
               className="flex flex-1 flex-col overflow-hidden border-l"
+              data-token="style.border"
               style={{ borderColor: cssVarStyleToken('border') }}
             >
               <Tabs />
@@ -164,7 +192,9 @@ export function Preview({ userPrefs }: { userPrefs?: UserPrefs }) {
                 content={{
                   button: ({ ready }) => (ready ? <Image size={12} /> : null),
                 }}
-                input={{ imageKey: isDarkTheme ? 'bgPreviewImageDark' : 'bgPreviewImageLight' }}
+                input={{
+                  imageKey: isDarkTheme ? 'bgPreviewImageDark' : 'bgPreviewImageLight',
+                }}
               />
             </TooltipTrigger>
             <TooltipPortal>

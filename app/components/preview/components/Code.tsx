@@ -15,7 +15,7 @@ type SNProps = PropsWithChildren<{ s: SyntaxTokens }>;
 export const SN = (props: SNProps) => {
   return (
     <span
-      data-attribute={`syntax.${props.s}`}
+      data-token={`syntax.${props.s}`}
       style={{
         color: cssVarSyntaxColorToken(props.s),
         fontStyle: cssVarSyntaxStyleToken(props.s),
@@ -79,6 +79,7 @@ export function Code() {
     <div
       id="editor-code"
       className="flex-1 overflow-hidden"
+      data-token="style.editor.background"
       style={{
         fontFamily: '"Roboto Mono", "Source Code Pro", monospace',
         '--scrollbar-top': `${top}px`,
@@ -97,11 +98,12 @@ export function Code() {
         onScroll={onScroll}
       >
         <ScrollbarMakers lineCount={data.lines.length} />
-        <div id="scrollbar" />
+        <div id="scrollbar" data-token="style.scrollbar_thumb.background" />
         {data.lines.map((code, line) => (
           <div
             key={`code-${line.toString()}`}
             className="relative mr-[14px] flex items-start"
+            data-token={line === data.activeRow ? 'style.editor.active_line.background' : undefined}
             style={{
               backgroundColor: line === data.activeRow ? cssVarStyleToken('editor.active_line.background') : undefined,
             }}
@@ -112,6 +114,7 @@ export function Code() {
             <div className="gutter min-w-[10px]" />
             <div
               className="line-number min-w-[25px] text-right"
+              data-token={line === data.activeRow ? 'style.editor.active_line_number' : 'style.editor.line_number'}
               style={{
                 color: cssVarStyleToken(line === data.activeRow ? 'editor.active_line_number' : 'editor.line_number'),
               }}

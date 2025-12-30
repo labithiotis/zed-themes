@@ -7,6 +7,7 @@ export function Terminal() {
     <div
       id="editor-terminal"
       className="flex flex-col border-t"
+      data-token="style.border"
       style={{
         borderColor: cssVarStyleToken('border'),
       }}

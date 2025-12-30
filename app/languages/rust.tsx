@@ -24,20 +24,39 @@ export const rustPack: LanguagePack = {
     { Icon: FileIcon, name: 'README.md', indent: 2 },
   ],
   breadcrumbs: [
-    <div className="text-md" key={key()} style={{ color: cssVarStyleToken('text.muted') }}>
+    <div
+      className="text-md"
+      key={key()}
+      data-token="style.text.muted"
+      style={{ color: cssVarStyleToken('text.muted') }}
+    >
       src/main.rs
     </div>,
-    <span className="text-xs" key={key()} style={{ color: cssVarStyleToken('text.muted') }}>
+    <span
+      className="text-xs"
+      key={key()}
+      data-token="style.text.muted"
+      style={{ color: cssVarStyleToken('text.muted') }}
+    >
       &gt;
     </span>,
-    <span className="text-md pr-1" key={key()} style={{ color: cssVarSyntaxColorToken('keyword') }}>
+    <span
+      className="text-md pr-1"
+      key={key()}
+      data-token="syntax.keyword"
+      style={{ color: cssVarSyntaxColorToken('keyword') }}
+    >
       fn
     </span>,
     <span key={key()}>
-      <span className="text-md" style={{ color: cssVarSyntaxColorToken('function') }}>
+      <span className="text-md" data-token="syntax.function" style={{ color: cssVarSyntaxColorToken('function') }}>
         main
       </span>
-      <span className="text-md" style={{ color: cssVarSyntaxColorToken('punctuation.bracket') }}>
+      <span
+        className="text-md"
+        data-token="syntax.punctuation.bracket"
+        style={{ color: cssVarSyntaxColorToken('punctuation.bracket') }}
+      >
         ()
       </span>
     </span>,

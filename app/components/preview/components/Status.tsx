@@ -15,51 +15,56 @@ export function Status() {
     <div
       id="editor-status"
       className="flex items-center justify-between px-1"
+      data-token="style.status_bar.background"
       style={{ backgroundColor: cssVarStyleToken('status_bar.background') }}
     >
       <div className="flex items-center">
-        <span className="p-1">
+        <span className="p-1" data-token="style.text">
           <UserIcon style={{ color: cssVarStyleToken('text') }} width={14} />
         </span>
         <span className="flex items-center gap-1 p-1">
-          <ErrorIcon style={{ color: cssVarStyleToken('error') }} width={14} />
-          <span className="text-xs" style={{ color: cssVarStyleToken('text') }}>
+          <span data-token="style.error">
+            <ErrorIcon style={{ color: cssVarStyleToken('error') }} width={14} />
+          </span>
+          <span className="text-xs" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
             2
           </span>
         </span>
         <span className="flex items-center gap-1 p-1">
-          <WarningIcon style={{ color: cssVarStyleToken('warning') }} width={14} />
-          <span className="text-xs" style={{ color: cssVarStyleToken('text') }}>
+          <span data-token="style.warning">
+            <WarningIcon style={{ color: cssVarStyleToken('warning') }} width={14} />
+          </span>
+          <span className="text-xs" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
             2
           </span>
         </span>
       </div>
       <div className="flex items-center">
-        <span className="p-1 text-xs" style={{ color: cssVarStyleToken('text') }}>
+        <span className="p-1 text-xs" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
           23:5
         </span>
-        <span className="p-1 text-xs" style={{ color: cssVarStyleToken('text') }}>
+        <span className="p-1 text-xs" data-token="style.text" style={{ color: cssVarStyleToken('text') }}>
           TSX
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text">
           <CopilotIcon style={{ color: cssVarStyleToken('text') }} width={14} />
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text">
           <MailIcon style={{ color: cssVarStyleToken('text') }} width={14} />
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text.accent">
           <TerminalIcon style={{ color: cssVarStyleToken('text.accent') }} width={14} />
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text.accent">
           <ProjectIcon style={{ color: cssVarStyleToken('text.accent') }} width={14} />
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text">
           <AIIcon style={{ color: cssVarStyleToken('text') }} width={14} />
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text">
           <ConversationsIcon style={{ color: cssVarStyleToken('text') }} width={14} />
         </span>
-        <span className="p-1">
+        <span className="p-1" data-token="style.text">
           <BellIcon style={{ color: cssVarStyleToken('text') }} width={14} />
         </span>
       </div>
