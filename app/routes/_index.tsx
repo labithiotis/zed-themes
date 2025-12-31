@@ -1,10 +1,9 @@
 import { getAuth } from '@clerk/remix/ssr.server';
-import { type LoaderFunction, type LoaderFunctionArgs, json } from '@remix-run/cloudflare';
+import { type LoaderFunction, json } from '@remix-run/cloudflare';
 import { useLoaderData } from '@remix-run/react';
 import { type SQL, asc, desc, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
-import type { DBTheme } from 'drizzle/schema';
 import { Search } from 'lucide-react';
 import { memo } from 'react';
 import { FaGithub, FaStar } from 'react-icons/fa';
@@ -21,10 +20,13 @@ import type { ThemesMetaData } from '../types';
 
 type LoaderData = {
   themes: ThemesMetaData[];
+  lastSynced: number | null;
 };
 
 export const loader: LoaderFunction = async (args) => {
   const { userId } = await getAuth(args);
+  const db = drizzle(args.context.env.db, { schema });
+
   const records = await useCache('themes', args.request.url, undefined, async () => {
     const url = new URL(args.request.url);
     const search = url.searchParams.get('search');
@@ -32,7 +34,6 @@ export const loader: LoaderFunction = async (args) => {
     const searchQuery = search ? `%${search}%` : undefined;
     const orderByColumn = getOrderByColumn(order);
 
-    const db = drizzle(args.context.env.db, { schema });
     return db
       .select()
       .from(schema.themes)
@@ -43,6 +44,10 @@ export const loader: LoaderFunction = async (args) => {
       )
       .orderBy(orderByColumn, asc(schema.themes.name))
       .all();
+  });
+
+  const lastSyncStats = await useCache('sync_stats', 'https://zed-themes.com', undefined, async () => {
+    return db.select().from(schema.syncStats).orderBy(desc(schema.syncStats.syncedAt)).limit(1).get();
   });
 
   const themes: ThemesMetaData[] = records.map((record) => ({
@@ -65,7 +70,9 @@ export const loader: LoaderFunction = async (args) => {
       })) ?? [],
   }));
 
-  return json({ themes, userId });
+  const lastSynced = lastSyncStats?.syncedAt ? lastSyncStats.syncedAt : null;
+
+  return json({ themes, userId, lastSynced });
 };
 
 function getOrderByColumn(filter: string | null): SQL {

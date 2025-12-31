@@ -1,6 +1,14 @@
 import { ClerkLoading, SignInButton, UserButton } from '@clerk/remix';
 import { dark } from '@clerk/themes';
-import { Link, useLocation, useNavigate, useNavigation, useParams, useRouteLoaderData } from '@remix-run/react';
+import {
+  Link,
+  useLocation,
+  useMatches,
+  useNavigate,
+  useNavigation,
+  useParams,
+  useRouteLoaderData,
+} from '@remix-run/react';
 import { LoaderCircle, Search } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { RxPerson } from 'react-icons/rx';
@@ -26,6 +34,14 @@ const orderOptions = new Map([
   ['bundled', 'Not Included'],
 ]);
 
+const shortDate = new Intl.DateTimeFormat('en-gb', {
+  dateStyle: 'short',
+});
+const longDateAndTime = new Intl.DateTimeFormat('en-gb', {
+  timeStyle: 'short',
+  dateStyle: 'short',
+});
+
 export function Navbar() {
   const params = useParams();
   const { toast } = useToast();
@@ -39,6 +55,10 @@ export function Navbar() {
   const searchParams = new URLSearchParams(location.search);
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
   const [order, setOrder] = useState(searchParams.get('order') ?? 'relative');
+  const matches = useMatches();
+  const indexRouteData = matches.find((m) => m.id === 'routes/_index')?.data as { lastSynced?: string } | undefined;
+  const lastSynced = indexRouteData?.lastSynced ? shortDate.format(new Date(indexRouteData.lastSynced)) : '';
+  const lastSyncedLong = indexRouteData?.lastSynced ? longDateAndTime.format(new Date(indexRouteData.lastSynced)) : '';
 
   const isRoot = location.pathname === '/';
 
@@ -67,7 +87,12 @@ export function Navbar() {
           ),
         }),
       )
-      .catch(() => toast({ description: 'Permission is disallowed to copy to clipboard.', variant: 'destructive' }));
+      .catch(() =>
+        toast({
+          description: 'Permission is disallowed to copy to clipboard.',
+          variant: 'destructive',
+        }),
+      );
   };
 
   const updateUrlParam = (key: string, value?: string) => {
@@ -148,6 +173,14 @@ export function Navbar() {
                   ))}
                 </SelectContent>
               </Select>
+              {lastSynced && (
+                <span
+                  className="hidden lg:inline-block text-xs text-muted-foreground whitespace-nowrap"
+                  title={`Last synced official Zed Themes on ${lastSyncedLong}`}
+                >
+                  Synced on {lastSynced}
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -210,7 +243,11 @@ export function Navbar() {
           )}
           {userId ? (
             <div className="w-[28px] h-[28px] bg-gray-300 rounded-full">
-              <UserButton appearance={{ baseTheme: colorScheme === 'dark' ? dark : undefined }}>
+              <UserButton
+                appearance={{
+                  baseTheme: colorScheme === 'dark' ? dark : undefined,
+                }}
+              >
                 <UserButton.MenuItems>
                   <UserButton.Action
                     label="My themes"
