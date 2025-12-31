@@ -42,6 +42,16 @@ const longDateAndTime = new Intl.DateTimeFormat('en-gb', {
   dateStyle: 'short',
 });
 
+/**
+ * Renders the top navigation bar for the Zed Themes application.
+ *
+ * The bar includes site branding, a search input with debounced URL syncing, sort controls, an optional
+ * "Synced on" indicator, a dialog explaining how to install themes (with a copy-to-clipboard action),
+ * color-scheme toggle, optional language preview selector when viewing a theme, create/upload controls,
+ * and user authentication or account actions.
+ *
+ * @returns The Navbar React element to display at the top of the page.
+ */
 export function Navbar() {
   const params = useParams();
   const { toast } = useToast();

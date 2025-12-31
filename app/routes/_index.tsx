@@ -75,6 +75,16 @@ export const loader: LoaderFunction = async (args) => {
   return json({ themes, userId, lastSynced });
 };
 
+/**
+ * Map a sort filter string to the corresponding SQL ORDER BY expression.
+ *
+ * @param filter - Sort key to apply; recognized values are `'recent'`, `'bundled'`, and `'installs'`. Any other value yields the default ordering.
+ * @returns An SQL ordering expression:
+ *   - `'recent'` → `desc(updatedDate)`
+ *   - `'bundled'` → `asc(bundled)`
+ *   - `'installs'` → `desc(installCount)`
+ *   - default → `asc(id)`
+ */
 function getOrderByColumn(filter: string | null): SQL {
   switch (filter) {
     case 'recent':

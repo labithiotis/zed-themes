@@ -64,6 +64,15 @@ try {
 // Record sync stats
 await recordSyncStats(extInfo.length);
 
+/**
+ * Process a single extension: fetch its theme and repository metadata and upsert a theme record into the database.
+ *
+ * If the extension has no theme file, the function skips it. The function respects a global processing limit (argv.limit),
+ * chooses a local or remote database target based on argv.local, increments the global `syncedThemesCount` after a successful
+ * upsert, and logs success or error information.
+ *
+ * @param ext - Extension metadata from the Zed API (includes at least `id`, `name`, `version`, `authors`, `repository`, `published_at`, and `download_count`)
+ */
 async function processExtension(ext: ExtInfo) {
   if (argv.limit && ++count >= argv.limit) return;
 
@@ -315,6 +324,12 @@ async function getRepoInfo(repoPath: string): Promise<GHRepoInfo | undefined> {
   }
 }
 
+/**
+ * Escapes control characters and SQL-sensitive characters so a string can be safely embedded in SQL statements.
+ *
+ * @param str - The input string to sanitize for SQL insertion
+ * @returns The sanitized string with control characters, quotes, backslashes, and percent signs escaped
+ */
 function sqlSafe(str: string) {
   // biome-ignore lint/suspicious/noControlCharactersInRegex: required for sqlSafe
   return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, (char) => {
@@ -342,6 +357,15 @@ function sqlSafe(str: string) {
   });
 }
 
+/**
+ * Inserts a sync_stats record summarizing the most recent sync (counts, duration, status, and error if any).
+ *
+ * Writes a row to the D1 `sync_stats` table (local or remote depending on argv.local) containing:
+ * syncedAt timestamp, number of themes successfully synced, the provided extensions count, duration in ms,
+ * a `success` or `failed` status, and a sanitized error message when a sync error occurred.
+ *
+ * @param extensionsCount - Total number of extensions that were processed during this sync
+ */
 async function recordSyncStats(extensionsCount: number) {
   const durationMs = Date.now() - syncStartTime;
   const status = syncError ? 'failed' : 'success';
