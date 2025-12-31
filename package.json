@@ -101,7 +101,7 @@
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.4",
-    "wrangler": "*",
+    "wrangler": "^4.54.0",
     "zx": "^8.2.0"
   },
   "overrides": {
