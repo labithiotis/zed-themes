@@ -110,7 +110,7 @@ export default function ThemeById() {
   }, [hasTheme, params.themeId, setThemeFamily, navigate]);
 
   return (
-    <Layout className="h-full flex overflow-hidden mt-14 md:mt-14">
+    <Layout className="h-full flex overflow-hidden">
       <TokenHighlightProvider>
         <div className="flex-1 flex min-w-[1024] overflow-hidden" key={params.themeId}>
           <Side edit={data.editable} />
