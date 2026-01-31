@@ -9,5 +9,6 @@ type Build = Parameters<typeof createPagesFunctionHandler>['0']['build'];
 
 export const onRequest = createPagesFunctionHandler({
   build: build as unknown as Build,
+  // @ts-ignore
   getLoadContext: getLoadContext as GetLoadContextFunction<Env>,
 });

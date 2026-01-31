@@ -61,6 +61,7 @@ export function Navbar() {
   const lastSyncedLong = indexRouteData?.lastSynced ? longDateAndTime.format(new Date(indexRouteData.lastSynced)) : '';
 
   const isRoot = location.pathname === '/';
+  const showBanner = !isRoot;
 
   useEffect(() => {
     setTimeout(() => {
@@ -121,7 +122,10 @@ export function Navbar() {
 
   return (
     <header
-      className="fixed w-screen top-0 border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className={cn(
+        'fixed w-screen border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        showBanner ? 'top-10' : 'top-0',
+      )}
       style={{ zIndex: 25 }}
     >
       <nav
