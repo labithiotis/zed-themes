@@ -28,7 +28,10 @@ export function UploadTheme() {
       return;
     }
 
-    if (file.type !== 'application/json') {
+    // JSONC gives empty string for content type, so we check file.type has contents before checking if value is json.
+    const hasSupportedExt = /\.jsonc?$/i.test(file.name);
+    const hasSupportedMime = !file.type || file.type === 'application/json';
+    if (!hasSupportedExt && !hasSupportedMime) {
       alert('Please upload a JSON file');
       return;
     }
@@ -82,7 +85,14 @@ export function UploadTheme() {
           <h4 className="text-2xl font-bold text-white shadow-black drop-shadow-lg">Drop your schema here</h4>
         </div>
       </FileDrop>
-      <input ref={fileInputRef} type="file" accept=".json" className="hidden" multiple={false} onChange={onFileInput} />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json,.jsonc"
+        className="hidden"
+        multiple={false}
+        onChange={onFileInput}
+      />
       <button type="button" className="flex items-center gap-2" onClick={onClick}>
         <RxUpload />
         <span>Upload theme</span>
