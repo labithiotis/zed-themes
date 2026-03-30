@@ -10,13 +10,14 @@ import {
   useRouteLoaderData,
 } from '@remix-run/react';
 import { LoaderCircle, Search } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RxPerson } from 'react-icons/rx';
 import { useColorScheme } from '~/providers/colorScheme';
 import { languages, useLanguage } from '~/providers/language';
 import type { RootData } from '~/root';
 import { cn } from '~/utils';
 import { debounce } from '~/utils/debounce';
+import { getZedMachine, zedThemeInstallPaths } from '~/utils/zedInstallPath';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { UploadTheme } from './NavbarUpload';
 import { Button } from './ui/button';
@@ -56,6 +57,7 @@ export function Navbar() {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') ?? '');
   const [order, setOrder] = useState(searchParams.get('order') ?? 'relative');
   const matches = useMatches();
+  const machine = useMemo(getZedMachine, []);
   const indexRouteData = matches.find((m) => m.id === 'routes/_index')?.data as { lastSynced?: string } | undefined;
   const lastSynced = indexRouteData?.lastSynced ? shortDate.format(new Date(indexRouteData.lastSynced)) : '';
   const lastSyncedLong = indexRouteData?.lastSynced ? longDateAndTime.format(new Date(indexRouteData.lastSynced)) : '';
@@ -75,15 +77,15 @@ export function Navbar() {
     }, 50);
   }, [location.search]);
 
-  const copyInstallDir = () => {
+  const copyInstallDir = (installDir: string) => {
     navigator?.clipboard
-      ?.writeText('~/.config/zed/themes')
+      ?.writeText(installDir)
       .then(() =>
         toast({
           variant: 'success',
           description: (
             <p>
-              <strong>~/.config/zed/themes</strong> is copied to your clipboard
+              <strong>{installDir}</strong> is copied to your clipboard
             </p>
           ),
         }),
@@ -207,11 +209,15 @@ export function Navbar() {
                 <p>
                   Community themes, which are ones hosted here can be downloaded and installed by placing the theme in
                   the following directory on your system:
-                  <br />
-                  <Button onClick={copyInstallDir} variant="ghost" size="sm" className="-ml-1">
-                    <code>~/.config/zed/themes</code>
-                  </Button>
                 </p>
+                <Button
+                  onClick={() => copyInstallDir(zedThemeInstallPaths[machine])}
+                  variant="ghost"
+                  size="sm"
+                  className="-ml-1"
+                >
+                  <code>{zedThemeInstallPaths[machine]}</code>
+                </Button>
               </div>
             </DialogContent>
           </Dialog>
