@@ -1,10 +1,10 @@
 import { getAuth } from '@clerk/remix/ssr.server';
 import { type ActionFunction, json, redirect } from '@remix-run/cloudflare';
-import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import * as schema from 'drizzle/schema';
 import invariant from 'tiny-invariant';
 import { NotFoundResponse } from '~/utils/helpers';
+import { deleteTheme } from '~/utils/themeMutations.server';
 
 export const action: ActionFunction = async (args) => {
   const url = new URL(args.request.url);
@@ -22,7 +22,14 @@ export const action: ActionFunction = async (args) => {
   const db = drizzle(args.context.env.db, { schema });
 
   try {
-    await db.delete(schema.themes).where(sql`${schema.themes.id} = ${themeId} AND ${schema.themes.userId} = ${userId}`);
+    const result = await deleteTheme(db, { actorId: userId, targetId: themeId });
+
+    if (result.status === 'forbidden') {
+      return json({ error: 'You do not have permission to delete this theme.' }, { status: 403 });
+    }
+    if (result.status === 'notFound') {
+      return json({ error: 'Theme not found.' }, { status: 404 });
+    }
 
     // Redirect to themes page if user is deleting theme their currently on
     if (url.pathname === `/themes/${themeId}`) {
