@@ -19,6 +19,7 @@ If you have any ideas or suggestions, please feel free to open an issue or pull 
 ## Running the project locally
 
 Prerequisites:
+
 - Node.js 20+
 - pnpm
 - [Clerk](https://github.com/clerkinc/clerk) dev keys
@@ -29,9 +30,3 @@ Prerequisites:
 4. Run `pnpm dev`
 5. Run `pnpm db:seed` that will create the database and seed it with some data
 6. Open `http://localhost:3000` in your browser
-
-#### Todo
-
-- [ ] Add social links for sharing a theme
-- [ ] Share on twitter/linkedin
-- [ ] Highlight each part of the IDE as you hover over token?
